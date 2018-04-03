@@ -2,7 +2,7 @@ using System;
 
 namespace WiredPlayers.globals
 {
-    public class Messages
+    public class Messages_ptBR
     {
         // General messages
         public const String GEN_WEAPON_CRATE = "caixa de arma";
@@ -1117,7 +1117,7 @@ namespace WiredPlayers.globals
         public const String ARG_GLASSES = "oculos";
         public const String ARG_EARRINGS = "brincos";
 
-        public Messages()
+        public Messages_ptBR()
         {
         }
     }
