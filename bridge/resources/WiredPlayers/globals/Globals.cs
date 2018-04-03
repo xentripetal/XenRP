@@ -1965,13 +1965,15 @@ namespace WiredPlayers.globals
         [Command(Messages.COM_HELP)]
         public void HelpCommand(Client player)
         {
-            NAPI.ClientEvent.TriggerClientEvent(player, "helptext");
+            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + "Command not implemented.");
+            //NAPI.ClientEvent.TriggerClientEvent(player, "helptext");
         }
 
         [Command(Messages.COM_WELCOME)]
         public void WelcomeCommand(Client player)
         {
-            NAPI.ClientEvent.TriggerClientEvent(player, "welcomeHelp");
+            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + "Command not implemented.");
+            //NAPI.ClientEvent.TriggerClientEvent(player, "welcomeHelp");
         }
 
         [Command(Messages.COM_SHOW, Messages.GEN_SHOW_DOC_COMMAND)]
