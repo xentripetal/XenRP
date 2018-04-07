@@ -2,11 +2,16 @@
 let vehicleArray = null;
 let catalogSelectedOption = 0;
 
-function registerAccount() {
-    var forumName = document.getElementById('forum').value;
-    var password = document.getElementById('pass').value;
-    mp.trigger('checkCredentials', forumName, password, "register");
-};
+$(document).ready(function() {
+	i18next.use(window.i18nextXHRBackend).init({
+		backend: {
+			loadPath: '../i18n/en.json'
+		}
+	}, function(err, t) {
+        jqueryI18next.init(i18next, $);
+		$(document).localize();
+	});
+});
 
 function loginAccount() {
 	// Hacemos que el servidor valide las credenciales

@@ -1,52 +1,49 @@
-﻿let targetType = null;
+﻿let targetType = undefined;
 
 mp.events.add('showPlayerInventory', (inventoryJson, target) => {
-	// Guardamos los datos del inventario
+	// Store all the inventory data
 	targetType = target;
 	
-	// Mostramos la ventana con los objetos del inventario
+	// Show player's inventory
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/inventory.html', 'populateInventory', inventoryJson, 'a']);
 });
 
 mp.events.add('getInventoryOptions', (itemType, itemHash) => {
-	// Inicializamos el array de opciones
 	let optionsArray = [];
 	let dropable = false;
 	
-	// Miramos el tipo de objeto y la entidad destino
 	switch(targetType) {
 		case 0:
-			// Inventario del jugador
+			// Player's inventory
 			if(itemType === 0) {
-				// Es un consumible
-				optionsArray.push("Consumir");
+				// Consumable item
+				optionsArray.push('general.consume');
 			} else if(itemType === 2) {
-				// Es un contenedor
-				optionsArray.push("Abrir");
+				// Container item
+				optionsArray.push('general.open');
 			}
 			
 			if(isNaN(itemHash) === false) {
-				// Es equipable
-				optionsArray.push("Equipar");
+				// Equipable
+				optionsArray.push('general.equip');
 			}
 			
-			// Desde el inventario se pueden tirar los objetos
 			dropable = true;
 			break;
 		case 1:
-			// Cacheo a un jugador
-			optionsArray.push("Requisar");
+			// Player frisk
+			optionsArray.push('general.confiscate');
 			break;
 		case 2:
-			// Maletero de un vehículo
-			optionsArray.push("Sacar");
+			// Vehicle trunk
+			optionsArray.push('general.withdraw');
 			break;
 		case 3:
-			// Inventario al maletero
-			optionsArray.push("Guardar");
+			// Inventory store into the trunk
+			optionsArray.push('general.store');
 			break;
 	}
 	
-	// Mostramos las opciones en el navegador
+	// Show the options into the inventory
 	mp.events.call('executeFunction', [optionsArray, dropable]);
 });

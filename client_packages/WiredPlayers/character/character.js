@@ -1,5 +1,4 @@
-﻿// Variables del personaje
-let faceModel = {
+﻿let faceModel = {
 	'firstHeadShape': 0, 'secondHeadShape': 0, 'firstSkinTone': 0, 'secondSkinTone': 0, 'headMix': 0.5, 'skinMix': 0.5, 'hairModel': 0, 'firstHairColor': 0, 'secondHairColor': 0,
 	'beardModel': 0, 'bearColor': 0, 'chestModel': 0, 'chestColor': 0, 'blemishesModel': -1, 'ageingModel': -1, 'complexionModel': -1, 'sundamageModel': -1, 'frecklesModel': -1,
 	'eyesColor': 0, 'eyebrowsModel': 0, 'eyebrowsColor': 0, 'makeupModel': -1, 'blushModel': -1, 'blushColor': 0, 'lipstickModel': -1, 'lipstickColor': 0, 'noseWidth': 0.0,
@@ -7,140 +6,137 @@ let faceModel = {
 	'cheeksWidth': 0.0, 'eyes': 0.0, 'lips': 0.0, 'jawWidth': 0.0, 'jawHeight': 0.0, 'chinLength': 0.0, 'chinPosition': 0.0, 'chinWidth': 0.0, 'chinShape': 0.0, 'neckWidth': 0.0
 };
 
-// Variables genéricas
-let camera = null;
-let characters = null;
+let camera = undefined;
+let characters = undefined;
 
 mp.events.add('showPlayerCharacters', (charactersJson) => {
-	// Almacenamos los personajes del jugador
+	// Store account characters
 	characters = charactersJson;
 	
-	// Mostramos la ventana con la lista de jugadores
+	// Show character list
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateCharacterList', charactersJson]);
 });
 
 mp.events.add('loadCharacter', (characterName) => {
-	// Destruímos el menú de personajes
+	// Destroy the menu
 	mp.events.call('destroyBrowser');
 	
-	// Cargamos el personaje
+	// Load the character
 	mp.events.callRemote('loadCharacter', characterName);
 });
 
 mp.events.add('showCharacterCreationMenu', () => {
-	// Eliminamos el navegador
+	// Destroy the menu
 	mp.events.call('destroyBrowser');
 	
-	// Inicializamos las variables del personaje
+	// Initialize the character creation
 	mp.events.callRemote('setCharacterIntoCreator');
 	initializeCharacterCreation(mp.players.local);
 	
-	// Ponemos la cámara enfocando al personaje
+	// Make the camera focus the player
 	camera = mp.cameras.new('default', new mp.Vector3(152.6008, -1003.25, -98), new mp.Vector3(-20.0, 0.0, 0.0), 90);
     camera.setActive(true);
 	mp.game.cam.renderScriptCams(true, false, 0, true, false);
 	
-	// Deshabilitamos la interfaz
+	// Disable the interface
 	mp.game.ui.displayHud(false);
 	mp.gui.chat.activate(false);
 	mp.gui.chat.show(false);
 	
-	// Cargamos el menú de creación de personajes
+	// Load the character creation menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/characterCreator.html']);	
 });
 
 mp.events.add('updatePlayerSex', (sex) => {
-	// Cambiamos el sexo del personaje
+	// Change player's sex
 	initializeCharacterCreation(mp.players.local);
 	mp.events.callRemote('changeCharacterSex', sex);
 });
 
 mp.events.add('updatePlayerCreation', (partName, value, isPercentage) => {	
 	if(isPercentage) {
-		// Es un porcentaje, calculamos el valor
+		// Calculate the value
 		value = parseFloat(value / 100);
 	}
 	
-	// Actualizamos la apariencia del personaje
+	// Update character's head
 	faceModel[`${partName}`] = value;
 	updatePlayerFace(mp.players.local, faceModel);
 });
 
 mp.events.add('cameraPointTo', (bodyPart) => {
 	if(bodyPart == 0) {
-		// Enfocamos la cámara al cuerpo
+		// Make the camera point to the body
 		camera.setCoord(152.6008, -1003.25, -98);
 	} else {
-		// Enfocamos la cámara a la cara
+		// Make the camera point to the face
 		camera.setCoord(152.3708, -1001.75, -98.45);
 	}
 });
 
 mp.events.add('rotateCharacter', (rotation) => {
-	// Rotamos al personaje
+	// Rotate the character
 	mp.players.local.setHeading(rotation);
 });
 
 mp.events.add('characterNameDuplicated', () => {
-	// Avisamos del error de que el nombre existe
+	// Duplicated name
 	mp.events.call('executeFunction', ['showPlayerDuplicatedWarn']);
 });
 
 mp.events.add('acceptCharacterCreation', (name, age) => {
-	// Llamamos a la función para crear el personaje
+	// Create the new character
 	let skinJson = JSON.stringify(faceModel);
 	mp.events.callRemote('createCharacter', name, age, skinJson);
 });
 
 mp.events.add('cancelCharacterCreation', () => {
-	// Ponemos la cámara por defecto
+	// Get the default camera
 	mp.game.cam.renderScriptCams(false, false, 0, true, false);
 	camera.destroy();
-	camera = null;
+	camera = undefined;
 
-	// Habilitamos la interfaz
+	// Enable the interface
 	mp.game.ui.displayHud(true);
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
 
-	// Eliminamos el menú de creación
+	// Destroy character creation menu
 	mp.events.call('destroyBrowser');
 	
-	// Añadimos la ropa y tatuajes que tiene el personaje
+	// Add clothes and tattoos
 	mp.events.callRemote('loadCharacter', mp.players.local.name);
 	
-	// Mostramos la ventana con la lista de jugadores
+	// Show the character list
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateCharacterList', characters]);
 });
 
 mp.events.add('characterCreatedSuccessfully', () => {
-	// Ponemos la cámara por defecto
+	// Get the default camera
 	mp.game.cam.renderScriptCams(false, false, 0, true, false);
 	camera.destroy();
-	camera = null;
+	camera = undefined;
 
-	// Habilitamos la interfaz
+	// Enable the interface
 	mp.game.ui.displayHud(true);
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
 
-	// Eliminamos el menú de creación
+	// Destroy character creation menu
 	mp.events.call('destroyBrowser');
 });
 
 mp.events.add('entityStreamIn', (entity) => {
-	// Comprobamos que sea una persona
+	// Check if it's a player
 	if(entity.getType() === 4) {
-		// Miramos el modelo
 		let model = entity.getModel();
         if (mp.game.joaat('mp_m_freemode_01') == model || mp.game.joaat('mp_f_freemode_01') == model) {
-			// Obtenemos la cara y tatuajes del jugador
+			// Get player's custom data
 			mp.events.callRemote('getPlayerCustomSkin', entity);
 			
-			// Miramos si el jugador está borracho
 			let walkingStyle = entity.getVariable('PLAYER_WALKING_STYLE');
 			if(walkingStyle !== undefined) {
-				// Añadimos el estilo de caminar
+				// Add drunk walking style
 				entity.setMovementClipset(walkingStyle, 0.1);
 			}
 		}
@@ -148,17 +144,16 @@ mp.events.add('entityStreamIn', (entity) => {
 });
 
 mp.events.add('updatePlayerCustomSkin', (player, tattooJsonArray) => {
-	// Obtenemos los objetos recibidos
+	// Get custom data
 	let face = initializeCharacterCreation(player);
 	let tattooArray = JSON.parse(tattooJsonArray);
 	
-	// Actualizamos la apariencia del personaje
+	// Update character's appearance
 	updatePlayerFace(player, face);
 	updatePlayerTattoos(player, tattooArray);
 });
 
 function initializeCharacterCreation(player) {
-	// Rasgos básicos
 	faceModel.firstHeadShape = player === 'undefined' ? 0 : player.getVariable('FIRST_HEAD_SHAPE');
 	faceModel.secondHeadShape = player === 'undefined' ? 0 : player.getVariable('SECOND_HEAD_SHAPE');
 	faceModel.firstSkinTone = player === 'undefined' ? 0 : player.getVariable('FIRST_SKIN_TONE');
@@ -210,7 +205,6 @@ function initializeCharacterCreation(player) {
 }
 
 function updatePlayerFace(player, face) {
-	// Actualizamos la apariencia del personaje
 	player.setHeadBlendData(face.firstHeadShape, face.secondHeadShape, 0, face.firstSkinTone, face.secondSkinTone, 0, face.headMix, face.skinMix, 0, false);
 	player.setComponentVariation(2, face.hairModel, 0, 0);
 	player.setHairColor(face.firstHairColor, face.secondHairColor);
@@ -249,9 +243,8 @@ function updatePlayerFace(player, face) {
 }
 
 function updatePlayerTattoos(player, tattooArray) {
-	// Cargamos todos los tatuajes
+	// Load all the tattoos
 	for (let i = 0; i < tattooArray.length; i++) {
-		// Añadimos el tatuaje al jugador
 		let library = mp.game.joaat(tattooArray[i].library);
 		let hash = mp.game.joaat(tattooArray[i].hash);
 		player.setDecoration(library, hash);

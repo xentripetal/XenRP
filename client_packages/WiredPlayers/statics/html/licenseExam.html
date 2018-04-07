@@ -2,7 +2,6 @@
 <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Panel de acceso a la cuenta</title>
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/scrollbar.css" />
         <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -13,8 +12,13 @@
         <form id="testForm" class="col-lg-6 center-block panel vertical-center">
             <h3 id="license-question"></h3>
             <div id="license-answers"></div>
-            <div class="col-lg-2 col-lg-offset-5"><button id="license-button" class="btn btn-primary form-control center-block" onclick="submitAnswer();">Responder</button></div>
+            <div class="col-lg-2 col-lg-offset-5">
+				<button id="license-button" class="btn btn-primary form-control center-block" onclick="submitAnswer();" data-i18n="driving.answer"></button>
+			</div>
         </form>
     </body>
+	<script src="../lib/i18next.min.js"></script>
+	<script src="../lib/jquery-i18next.min.js"></script>
+	<script src="../lib/i18nextXHRBackend.min.js"></script>
     <script src="../js/functions.js"></script>
 </html>

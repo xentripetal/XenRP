@@ -1,86 +1,81 @@
-﻿const tattooZoneArray = ['Torso', 'Cabeza', 'Brazo izquierdo', 'Brazo derecho', 'Pierna izquierda', 'Pierna derecha'];
+﻿const tattooZoneArray = ['tattoo.torso', 'tattoo.head', 'tattoo.left-arm', 'tattoo.right-arm', 'tattoo.left-leg', 'tattoo.right-leg'];
 
 let playerTattooArray = [];
 let tattooList = [];
 let zoneTattoos = [];
 
 mp.events.add('showTattooMenu', (playerTattoos, tattoosJson, business, price) => {
-	// Guardamos las variables
+	// Store the variables
 	playerTattooArray = JSON.parse(playerTattoos);
 	tattooList = JSON.parse(tattoosJson);
 	
-	// Mostramos el menú de tatuajes
+	// Show tattoos menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateTattooMenu', JSON.stringify(tattooZoneArray), business, price]);
 });
 
 mp.events.add('getZoneTattoos', (zone) => {
-	// Obtenemos la lista de tatuajes de la zona
 	zoneTattoos = [];
 	
 	for(let i = 0; i < tattooList.length; i++) {
 		if(tattooList[i].slot === zone) {
-			// Añadimos el tatuaje
+			// Add the tattoo to the list
 			zoneTattoos.push(tattooList[i]);
 		}
 	}
 	
-	// Mostramos la lista de tatuajes en el menú
+	// Show the tattoos for the selected zone
 	mp.events.call('executeFunction', ['populateZoneTattoos', JSON.stringify(zoneTattoos).replace(/'/g, "\\'")]);
 });
 
 mp.events.add('addPlayerTattoo', (index) => {
-	// Obtenemos el jugador
+	// Get the player
 	let player = mp.players.local;
 
-	// Cargamos los tatuajes que lleva
+	// Load the player's tattoos
 	loadPlayerTattoos();
 	
-	// Cambiamos el tatuaje del jugador
+	// Add the tattoo to the player
 	let playerSex = player.getVariable('PLAYER_SEX');
 	player.setDecoration(mp.game.joaat(zoneTattoos[index].library), playerSex === 0 ? mp.game.joaat(zoneTattoos[index].maleHash) : mp.game.joaat(zoneTattoos[index].femaleHash));
 });
 
 mp.events.add('clearTattoos', () => {
-	// Restablecemos los tatuajes del jugador
+	// Restore player's tattoos
 	loadPlayerTattoos();
 });
 
 mp.events.add('purchaseTattoo', (slot, index) => {
-	// Obtenemos el sexo del jugador
+	// Get the player's sex
 	let playerSex = mp.players.local.getVariable('PLAYER_SEX');
 	
-	// Añadimos al array el nuevo tatuaje
+	// Add the new tattoo to the list
 	let tattoo = {};
 	tattoo.slot = slot;
 	tattoo.library = zoneTattoos[index].library;
 	tattoo.hash = playerSex === 0 ? zoneTattoos[index].maleHash : zoneTattoos[index].femaleHash;
-	
-	// Añadimos el tatuaje a la lista
 	playerTattooArray.push(tattoo);
 	
-	// Mandamos la acción de compra de tatuaje
+	// Purchase the tattoo
 	mp.events.callRemote('purchaseTattoo', slot, index);
 });
 
 mp.events.add('exitTattooShop', () => {
-	// Cerramos la ventana de compra
+	// Close the purchase menu
 	mp.events.call('destroyBrowser');
 	
-	// Vestimos al personaje
+	// Dress the character
 	mp.events.callRemote('loadCharacterClothes');
 });
 
 function loadPlayerTattoos() {
-	// Obtenemos los datos del jugador
+	// Get player's data
 	let player = mp.players.local;
 	let playerSex = player.getVariable('PLAYER_SEX');
 
-	// Limpiamos todos los tatuajes
+	// Clear all the tattoos
 	player.clearDecorations();
 
-	// Cargamos todos los tatuajes
 	for (let i = 0; i < playerTattooArray.length; i++) {
-		// Añadimos el tatuaje al jugador
 		let tattoo = playerTattooArray[i];
 		player.setDecoration(mp.game.joaat(tattoo.library), mp.game.joaat(tattoo.hash));
 	}

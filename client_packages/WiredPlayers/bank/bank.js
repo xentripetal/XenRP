@@ -1,27 +1,27 @@
 ﻿mp.events.add('showATM', () => {
-	// Desactivamos el chat
+	// Disable the chat
 	mp.gui.chat.activate(false);
 	mp.gui.chat.show(false);
 	
-	// Creamos la ventana del banco
+	// Bank menu creation
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/bankMenu.html']);
 });
 
 mp.events.add('updateBankAccountMoney', () => {
-	// Obtenemos el dinero en el banco del jugador
+	// Get player's bank balance
 	let money = mp.players.local.getVariable('PLAYER_BANK');
 	
-	// Actualizamos el valor del dinero
+	// Update the balance on the screen
 	mp.events.call('executeFunction', ['updateAccountMoney', money]);	
 });
 
 mp.events.add('executeBankOperation', (operation, amount, target) => {
-	// Ejecutamos una operación bancaria
+	// Execute a bank operation
 	mp.events.callRemote('executeBankOperation', operation, amount, target);
 });
 
 mp.events.add('bankOperationResponse', (response) => {
-	// Miramos la acción del cajero
+	// Check the action taken
 	if (response == '') {
 		mp.events.call('executeFunction', ['bankBack']);
 	} else {
@@ -30,20 +30,20 @@ mp.events.add('bankOperationResponse', (response) => {
 });
 
 mp.events.add('loadPlayerBankBalance', () => {
-	// Cargamos el balance bancario del jugador
+	// Load player's bank balance
 	mp.events.callRemote('loadPlayerBankBalance');
 });
 
 mp.events.add('showPlayerBankBalance', (operationJson, playerName) => {
-	// Mostramos las operaciones del jugador
+	// Show the player's bank operations
 	mp.events.call('executeFunction', ['showBankOperations', operationJson, playerName]);
 });
 
 mp.events.add('closeATM', () => {
-	// Borramos el menú del cajero
+	// Destroy the browser
 	mp.events.call('destroyBrowser');
 	
-	// Reactivamos el chat
+	// Enable the chat
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
 });

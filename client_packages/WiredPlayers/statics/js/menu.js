@@ -11,6 +11,16 @@ let multiplier = 0.0;
 let selected = null;
 let drawable = null;
 
+$(document).ready(function() {
+	i18next.use(window.i18nextXHRBackend).init({
+		backend: {
+			loadPath: '../i18n/en.json'
+		}
+	}, function(err, t) {
+        jqueryI18next.init(i18next, $);
+	});
+});
+
 function populateBusinessItems(businessItemsJson, businessName, multiplier) {
 	// Inicializamos los valores
 	purchasedAmount = 1;
@@ -181,7 +191,7 @@ function populateBusinessItems(businessItemsJson, businessName, multiplier) {
 	
 	cancelButton.onclick = (function() {
 		// Cerramos la ventana de compra
-		mp.trigger('cancelBusinessPurchase');
+		mp.trigger('destroyBrowser');
 	});
 		
 	// Ordenamos la jerarquía de elementos
@@ -733,7 +743,7 @@ function populateClothesShopHome() {
 		itemDescription.classList.add('item-description');
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = type.desc;
+		itemDescription.textContent = i18next.t(type.desc);
 		
 		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
@@ -1012,7 +1022,7 @@ function populateTattooHome() {
 		itemDescription.classList.add('item-description');
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = zone;
+		itemDescription.textContent = i18n.t(zone);
 		
 		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
@@ -1206,7 +1216,7 @@ function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName
 		}		
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = face.desc;
+		itemDescription.textContent = i18n.t(face.desc);
 		itemAmount.innerHTML = '<b>Tipo: </b>' + selectedOptions[i];
 		itemAdd.textContent = '+';
 		itemSubstract.textContent = '-';

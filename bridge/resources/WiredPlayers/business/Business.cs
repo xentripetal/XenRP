@@ -205,90 +205,98 @@ namespace WiredPlayers.business
                 int hash = 0;
                 int price = (int)Math.Round(businessItem.products * business.multiplier) * amount;
                 int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-                String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
 
-                // We look for the item in the inventory
-                ItemModel itemModel = Globals.GetPlayerItemModelFromHash(playerId, businessItem.hash);
-                if (itemModel == null)
+                if(money < price)
                 {
-                    // We create the purchased item
-                    itemModel = new ItemModel();
-                    itemModel.hash = businessItem.hash;
-                    if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
-                    {
-                        itemModel.ownerEntity = Constants.ITEM_ENTITY_WHEEL;
-                    }
-                    else
-                    {
-                        itemModel.ownerEntity = Int32.TryParse(itemModel.hash, out hash) ? Constants.ITEM_ENTITY_RIGHT_HAND : Constants.ITEM_ENTITY_PLAYER;
-                    }
-                    itemModel.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
-                    itemModel.amount = businessItem.uses * amount;
-                    itemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
-                    itemModel.dimension = 0;
-
-                    // Adding the item to the list and database
-                    itemModel.id = Database.AddNewItem(itemModel);
-                    Globals.itemList.Add(itemModel);
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
                 }
                 else
                 {
-                    if (Int32.TryParse(itemModel.hash, out hash) == true)
+                    String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+
+                    // We look for the item in the inventory
+                    ItemModel itemModel = Globals.GetPlayerItemModelFromHash(playerId, businessItem.hash);
+                    if (itemModel == null)
                     {
-                        itemModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
+                        // We create the purchased item
+                        itemModel = new ItemModel();
+                        itemModel.hash = businessItem.hash;
+                        if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
+                        {
+                            itemModel.ownerEntity = Constants.ITEM_ENTITY_WHEEL;
+                        }
+                        else
+                        {
+                            itemModel.ownerEntity = Int32.TryParse(itemModel.hash, out hash) ? Constants.ITEM_ENTITY_RIGHT_HAND : Constants.ITEM_ENTITY_PLAYER;
+                        }
+                        itemModel.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                        itemModel.amount = businessItem.uses * amount;
+                        itemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
+                        itemModel.dimension = 0;
+
+                        // Adding the item to the list and database
+                        itemModel.id = Database.AddNewItem(itemModel);
+                        Globals.itemList.Add(itemModel);
                     }
-                    itemModel.amount += (businessItem.uses * amount);
-                    Database.UpdateItem(itemModel);
-                }
-
-                // If the item has a valid hash, we give it in hand
-                if (itemModel.ownerEntity == Constants.ITEM_ENTITY_RIGHT_HAND)
-                {
-                    itemModel.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(itemModel.hash), itemModel.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
-                    NAPI.Entity.AttachEntityToEntity(itemModel.objectHandle, player, "PH_R_Hand", businessItem.position, businessItem.rotation);
-                }
-                else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
-                {
-                    // We give the weapon to the player
-                    WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(itemModel.hash);
-                    NAPI.Player.GivePlayerWeapon(player, weaponHash, itemModel.amount);
-
-                    // Checking if it's been bought in the Ammu-Nation
-                    if (business.type == Constants.BUSINESS_TYPE_AMMUNATION)
+                    else
                     {
-                        Database.AddLicensedWeapon(itemModel.id, player.Name);
+                        if (Int32.TryParse(itemModel.hash, out hash) == true)
+                        {
+                            itemModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
+                        }
+                        itemModel.amount += (businessItem.uses * amount);
+                        Database.UpdateItem(itemModel);
                     }
-                }
 
-                // We set the item into the hand variable
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, itemModel.id);
-
-                // If it's a phone, we create a new number
-                if (itemModel.hash == Constants.ITEM_HASH_TELEPHONE)
-                {
-                    if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE) == 0)
+                    // If the item has a valid hash, we give it in hand
+                    if (itemModel.ownerEntity == Constants.ITEM_ENTITY_RIGHT_HAND)
                     {
-                        Random random = new Random();
-                        int phone = random.Next(100000, 999999);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE, phone);
-
-                        // Sending the message with the new number to the player
-                        String message = String.Format(Messages.INF_PLAYER_PHONE, phone);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        itemModel.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(itemModel.hash), itemModel.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
+                        NAPI.Entity.AttachEntityToEntity(itemModel.objectHandle, player, "PH_R_Hand", businessItem.position, businessItem.rotation);
                     }
-                }
+                    else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
+                    {
+                        // We give the weapon to the player
+                        WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(itemModel.hash);
+                        NAPI.Player.GivePlayerWeapon(player, weaponHash, itemModel.amount);
 
-                // We substract the product and add funds to the business
-                if (business.owner != String.Empty)
-                {
-                    business.funds += price;
-                    business.products -= businessItem.products;
-                    Database.UpdateBusiness(business);
-                }
+                        // Checking if it's been bought in the Ammu-Nation
+                        if (business.type == Constants.BUSINESS_TYPE_AMMUNATION)
+                        {
+                            Database.AddLicensedWeapon(itemModel.id, player.Name);
+                        }
+                    }
 
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - price);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                    // We set the item into the hand variable
+                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, itemModel.id);
+
+                    // If it's a phone, we create a new number
+                    if (itemModel.hash == Constants.ITEM_HASH_TELEPHONE)
+                    {
+                        if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE) == 0)
+                        {
+                            Random random = new Random();
+                            int phone = random.Next(100000, 999999);
+                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE, phone);
+
+                            // Sending the message with the new number to the player
+                            String message = String.Format(Messages.INF_PLAYER_PHONE, phone);
+                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        }
+                    }
+
+                    // We substract the product and add funds to the business
+                    if (business.owner != String.Empty)
+                    {
+                        business.funds += price;
+                        business.products -= businessItem.products;
+                        Database.UpdateBusiness(business);
+                    }
+
+                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - price);
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                }
             }
         }
 
