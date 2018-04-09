@@ -1,12 +1,12 @@
-﻿let factionWarningBlip = null;
+﻿let factionWarningBlip = undefined;
 
 mp.events.add('showFactionWarning', (position) => {
-	// Creamos una marca con la posición del punto
+	// Create the blip on the map
 	factionWarningBlip = mp.blips.new(1, position, {color: 1});
 });
 
 mp.events.add('deleteFactionWarning', () => {
-	// Borramos la marca del mapa
+	// Destroy the blip on the map
 	factionWarningBlip.destroy();
-	factionWarningBlip = null;
+	factionWarningBlip = undefined;
 });

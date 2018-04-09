@@ -1,12 +1,12 @@
-﻿let garbageBlip = null; 
+﻿let garbageBlip = undefined; 
 
 mp.events.add('showGarbageCheckPoint', (position) => {
-	// Creamos una marca con la posición del vehículo
+	// Create the blip on the map
 	garbageBlip = mp.blips.new(1, position, {color: 1});
 });
 
 mp.events.add('deleteGarbageCheckPoint', () => {
-	// Borramos la marca del mapa
+	// Destroy the blip on the map
 	garbageBlip.destroy();
-	garbageBlip = null;
+	garbageBlip = undefined;
 });

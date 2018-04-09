@@ -24,6 +24,17 @@ let currentBlushColor = 0;
 let currentLipstickModel = -1;
 let currentLipstickColor = 0;
 
+$(document).ready(function() {
+	i18next.use(window.i18nextXHRBackend).init({
+		backend: {
+			loadPath: '../i18n/en.json'
+		}
+	}, function(err, t) {
+        jqueryI18next.init(i18next, $);
+		$(document).localize();
+	});
+});
+
 function hideError() {
 	$('#error').addClass('no-display');
 }
@@ -66,14 +77,14 @@ $("div#sex").on("click", "img", function() {
 });
 
 $("nav#slider ul").on("click", "li", function() {
-	// Miramos qué indice tiene la opción pulsada
+	// check the active index
 	let position = $(this).index();
 	let text = $(this).text();
 
-	// Ocultamos el menú
+	// Hide the menu
 	$('#slider').slideToggle('fast');
 
-	// Miramos qué opción se ha pulsado
+	// Check the option pressed
 	$.each($("#option-panels > div"), function(index, value) {
 		if(index == position) {
 			$(this).removeClass("no-display");
@@ -86,10 +97,10 @@ $("nav#slider ul").on("click", "li", function() {
 
 function createCharacter() {
 	if($.trim($('#character-name').val()).length == 0) {
-		$('#error-message').html('Falta por rellenar el nombre del personaje');
+		$('#error-message').html(i18n.t('character.name-missing'));
 		$('#error').removeClass('no-display');
 	} else if($.trim($('#character-surname').val()).length == 0) {
-		$('#error-message').html('Falta por rellenar el apellido del personaje');
+		$('#error-message').html(i18n.t('character.surname-missing'));
 		$('#error').removeClass('no-display');
 	} else {
 		let characterAge = $('#age').val();
@@ -100,17 +111,17 @@ function createCharacter() {
 }
 
 function cancelCreation() {
-	// Cancelamos la creación del personaje
+	// Cancel character's creation
 	mp.trigger('cancelCharacterCreation');
 }
 
 function showPlayerDuplicatedWarn() {
-	$('#error-message').html("Ya hay un personaje registrado con ese nombre");
+	$('#error-message').html(i18n.t('character.name-duplicated'));
 	$('#error').removeClass('no-display');
 }
 
 function cameraPointTo(part) {
-	// Cambiamos la zona a la que apunta la cámara
+	// Change the camera pointing zone
 	mp.trigger('cameraPointTo', part);
 }
 
@@ -125,7 +136,7 @@ function showPrevFatherFace() {
 	} else {
 		currentFatherFace--;
 	}
-	$("#face-father-shape").text("Tipo " + (currentFatherFace + 1));
+	$("#face-father-shape").text(i18n.t('general.type', {value: currentFatherFace + 1}));
 	mp.trigger('updatePlayerCreation', 'firstHeadShape', currentFatherFace, false);	
 }
 
@@ -135,7 +146,7 @@ function showNextFatherFace() {
 	} else {
 		currentFatherFace++;
 	}
-	$("#face-father-shape").text("Tipo " + (currentFatherFace + 1));
+	$("#face-father-shape").text(i18n.t('general.type', {value: currentFatherFace + 1}));
 	mp.trigger('updatePlayerCreation', 'firstHeadShape', currentFatherFace, false);	
 }
 
@@ -145,7 +156,7 @@ function showPrevMotherFace() {
 	} else {
 		currentMotherFace--;
 	}
-	$("#face-mother-shape").text("Tipo " + (currentMotherFace - 1));
+	$("#face-mother-shape").text(i18n.t('general.type', {value: currentMotherFace + 1}));
 	mp.trigger('updatePlayerCreation', 'secondHeadShape', currentMotherFace, false);	
 }
 
@@ -155,7 +166,7 @@ function showNextMotherFace() {
 	} else {
 		currentMotherFace++;
 	}
-	$("#face-mother-shape").text("Tipo " + (currentMotherFace - 1));
+	$("#face-mother-shape").text(i18n.t('general.type', {value: currentMotherFace + 1}));
 	mp.trigger('updatePlayerCreation', 'secondHeadShape', currentMotherFace, false);
 }
 
@@ -165,7 +176,7 @@ function showPrevFatherSkin() {
 	} else {
 		currentFatherSkin--;
 	}
-	$("#father-skin").text("Tipo " + (currentFatherSkin + 1));
+	$("#father-skin").text(i18n.t('general.type', {value: currentFatherSkin + 1}));
 	mp.trigger('updatePlayerCreation', 'firstSkinTone', currentFatherSkin, false);
 }
 
@@ -175,7 +186,7 @@ function showNextFatherSkin() {
 	} else {
 		currentFatherSkin++;
 	}
-	$("#father-skin").text("Tipo " + (currentFatherSkin + 1));
+	$("#father-skin").text(i18n.t('general.type', {value: currentFatherSkin + 1}));
 	mp.trigger('updatePlayerCreation', 'firstSkinTone', currentFatherSkin, false);
 }
 
@@ -185,7 +196,7 @@ function showPrevMotherSkin() {
 	} else {
 		currentMotherSkin--;
 	}
-	$("#mother-skin").text("Tipo " + (currentMotherSkin + 1));
+	$("#mother-skin").text(i18n.t('general.type', {value: currentMotherSkin + 1}));
 	mp.trigger('updatePlayerCreation', 'secondSkinTone', currentMotherSkin, false);
 }
 
@@ -195,7 +206,7 @@ function showNextMotherSkin() {
 	} else {
 		currentMotherSkin++;
 	}
-	$("#mother-skin").text("Tipo " + (currentMotherSkin + 1));
+	$("#mother-skin").text(i18n.t('general.type', {value: currentMotherSkin + 1}));
 	mp.trigger('updatePlayerCreation', 'secondSkinTone', currentMotherSkin, false);
 }
 
@@ -217,7 +228,7 @@ function showPrevHairModel() {
 	} else {
 	    currentHairModel--;
     }
-	$("#hair-model").text("Tipo " + (currentHairModel + 1));
+	$("#hair-model").text(i18n.t('general.type', {value: currentHairModel + 1}));
 	mp.trigger('updatePlayerCreation', 'hairModel', currentHairModel, false);
 }
 
@@ -229,8 +240,7 @@ function showNextHairModel() {
 	} else {
 		currentHairModel++;
 	}
-	$("#hair-model").text("Tipo " + (currentHairModel + 1));
-  
+	$("#hair-model").text(i18n.t('general.type', {value: currentHairModel + 1}));
 	mp.trigger('updatePlayerCreation', 'hairModel', currentHairModel, false);
 }
 
@@ -240,7 +250,7 @@ function showPrevHairFirstColor() {
 	} else {
 		currentHairFirstColor--;
 	}
-	$("#hair-first-color").text("Tipo " + (currentHairFirstColor + 1));
+	$("#hair-first-color").text(i18n.t('general.type', {value: currentHairFirstColor + 1}));
 	mp.trigger('updatePlayerCreation', 'firstHairColor', currentHairFirstColor, false);
 }
 
@@ -250,7 +260,7 @@ function showNextHairFirstColor() {
 	} else {
 		currentHairFirstColor++;
 	}
-	$("#hair-first-color").text("Tipo " + (currentHairFirstColor + 1));
+	$("#hair-first-color").text(i18n.t('general.type', {value: currentHairFirstColor + 1}));
 	mp.trigger('updatePlayerCreation', 'firstHairColor', currentHairFirstColor, false);
 }
 
@@ -260,7 +270,7 @@ function showPrevHairSecondColor() {
 	} else {
 		currentHairSecondColor--;
 	}
-	$("#hair-second-color").text("Tipo " + (currentHairSecondColor + 1));
+	$("#hair-second-color").text(i18n.t('general.type', {value: currentHairSecondColor + 1}));
 	mp.trigger('updatePlayerCreation', 'secondHairColor', currentHairSecondColor, false);
 }
 
@@ -270,7 +280,7 @@ function showNextHairSecondColor() {
 	} else {
 		currentHairSecondColor++;
 	}
-	$("#hair-second-color").text("Tipo " + (currentHairSecondColor + 1));
+	$("#hair-second-color").text(i18n.t('general.type', {value: currentHairSecondColor + 1}));
 	mp.trigger('updatePlayerCreation', 'secondHairColor', currentHairSecondColor, false);
 }
 
@@ -281,9 +291,9 @@ function showPrevBeardModel() {
 		currentBeardModel--;
 	}
 	if(currentBeardModel == -1) {
-		$("#beard-model").text("Sin barba");
+		$("#beard-model").text(i18n.t('character.no-beard'));
 	} else {
-		$("#beard-model").text("Tipo " + (currentBeardModel + 1));
+		$("#beard-model").text(i18n.t('general.type', {value: currentBeardModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'beardModel', currentBeardModel, false);
 }
@@ -295,9 +305,9 @@ function showNextBeardModel() {
 		currentBeardModel++;
 	}
 	if(currentBeardModel == -1) {
-		$("#beard-model").text("Sin barba");
+		$("#beard-model").text(i18n.t('character.no-beard'));
 	} else {
-		$("#beard-model").text("Tipo " + (currentBeardModel + 1));
+		$("#beard-model").text(i18n.t('general.type', {value: currentBeardModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'beardModel', currentBeardModel, false);
 }
@@ -308,7 +318,7 @@ function showPrevBeardColor() {
 	} else {
 		currentBeardColor--;
 	}
-	$("#beard-color").text("Tipo " + (currentBeardColor + 1));
+	$("#beard-color").text(i18n.t('general.type', {value: currentBeardColor + 1}));
 	mp.trigger('updatePlayerCreation', 'bearColor', currentBeardColor, false);
 }
 
@@ -318,7 +328,7 @@ function showNextBeardColor() {
 	} else {
 		currentBeardColor++;
 	}
-	$("#beard-color").text("Tipo " + (currentBeardColor + 1));
+	$("#beard-color").text(i18n.t('general.type', {value: currentBeardColor + 1}));
 	mp.trigger('updatePlayerCreation', 'bearColor', currentBeardColor, false);
 }
 
@@ -329,9 +339,9 @@ function showPrevChestModel() {
 		currentChestModel--;
 	}
 	if(currentChestModel == -1) {
-		$("#chest-model").text("Sin vello");
+		$("#chest-model").text(i18n.t('character.no-hair'));
 	} else {
-		$("#chest-model").text("Tipo " + (currentChestModel + 1));
+		$("#chest-model").text(i18n.t('general.type', {value: currentChestModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'chestModel', currentChestModel, false);
 }
@@ -343,9 +353,9 @@ function showNextChestModel() {
 		currentChestModel++;
 	}
 	if(currentChestModel == -1) {
-		$("#chest-model").text("Sin vello");
+		$("#chest-model").text(i18n.t('character.no-hair'));
 	} else {
-		$("#chest-model").text("Tipo " + (currentChestModel + 1));
+		$("#chest-model").text(i18n.t('general.type', {value: currentChestModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'chestModel', currentChestModel, false);
 }
@@ -356,7 +366,7 @@ function showPrevChestColor() {
 	} else {
 		currentChestColor--;
 	}
-	$("#chest-color").text("Tipo " + (currentChestColor + 1));
+	$("#chest-color").text(i18n.t('general.type', {value: currentChestColor + 1}));
 	mp.trigger('updatePlayerCreation', 'chestColor', currentChestColor, false);
 }
 
@@ -366,7 +376,7 @@ function showNextChestColor() {
 	} else {
 		currentChestColor++;
 	}
-	$("#chest-color").text("Tipo " + (currentChestColor + 1));
+	$("#chest-color").text(i18n.t('general.type', {value: currentChestColor + 1}));
 	mp.trigger('updatePlayerCreation', 'chestColor', currentChestColor, false);
 }
 
@@ -377,9 +387,9 @@ function showPrevBlemishesModel() {
 		currentBlemishesModel--;
 	}
 	if(currentBlemishesModel == -1) {
-		$("#blemishes-model").text("Sin manchas");
+		$("#blemishes-model").text(i18n.t('character.no-blemishes'));
 	} else {
-		$("#blemishes-model").text("Tipo " + (currentBlemishesModel + 1));
+		$("#blemishes-model").text(i18n.t('general.type', {value: currentBlemishesModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'blemishesModel', currentBlemishesModel, false);
 }
@@ -391,9 +401,9 @@ function showNextBlemishesModel() {
 		currentBlemishesModel++;
 	}
 	if(currentBlemishesModel == -1) {
-		$("#blemishes-model").text("Sin manchas");
+		$("#blemishes-model").text(i18n.t('character.no-blemishes'));
 	} else {
-		$("#blemishes-model").text("Tipo " + (currentBlemishesModel + 1));
+		$("#blemishes-model").text(i18n.t('general.type', {value: currentBlemishesModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'blemishesModel', currentBlemishesModel, false);
 }
@@ -405,9 +415,9 @@ function showPrevAgeingModel() {
 		currentAgeingModel--;
 	}
 	if(currentAgeingModel == -1) {
-		$("#ageing-model").text("Sin marcas");
+		$("#ageing-model").text(i18n.t('character.no-ageing'));
 	} else {
-		$("#ageing-model").text("Tipo " + (currentAgeingModel + 1));
+		$("#ageing-model").text(i18n.t('general.type', {value: currentAgeingModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'ageingModel', currentAgeingModel, false);
 }
@@ -419,9 +429,9 @@ function showNextAgeingModel() {
 		currentAgeingModel++;
 	}
 	if(currentAgeingModel == -1) {
-		$("#ageing-model").text("Sin marcas");
+		$("#ageing-model").text(i18n.t('character.no-ageing'));
 	} else {
-		$("#ageing-model").text("Tipo " + (currentAgeingModel + 1));
+		$("#ageing-model").text(i18n.t('general.type', {value: currentAgeingModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'ageingModel', currentAgeingModel, false);
 }
@@ -433,9 +443,9 @@ function showPrevComplexionModel() {
 		currentComplexionModel--;
 	}
 	if(currentComplexionModel == -1) {
-		$("#complexion-model").text("Sin complexión");
+		$("#complexion-model").text(i18n.t('character.no-complexion'));
 	} else {
-		$("#complexion-model").text("Tipo " + (currentComplexionModel + 1));
+		$("#complexion-model").text(i18n.t('general.type', {value: currentComplexionModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'complexionModel', currentComplexionModel, false);
 }
@@ -447,9 +457,9 @@ function showNextComplexionModel() {
 		currentComplexionModel++;
 	}
 	if(currentComplexionModel == -1) {
-		$("#complexion-model").text("Sin complexión");
+		$("#complexion-model").text(i18n.t('character.no-complexion'));
 	} else {
-		$("#complexion-model").text("Tipo " + (currentComplexionModel + 1));
+		$("#complexion-model").text(i18n.t('general.type', {value: currentComplexionModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'complexionModel', currentComplexionModel, false);
 }
@@ -461,9 +471,9 @@ function showPrevSundamageModel() {
 		currentSundamageModel--;
 	}
 	if(currentSundamageModel == -1) {
-		$("#sundamage-model").text("Sin quemaduras solares");
+		$("#sundamage-model").text(i18n.t('character.no-sundamage'));
 	} else {
-		$("#sundamage-model").text("Tipo " + (currentSundamageModel + 1));
+		$("#sundamage-model").text(i18n.t('general.type', {value: currentSundamageModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'sundamageModel', currentSundamageModel, false);
 }
@@ -475,9 +485,9 @@ function showNextSundamageModel() {
 		currentSundamageModel++;
 	}
 	if(currentSundamageModel == -1) {
-		$("#sundamage-model").text("Sin quemaduras solares");
+		$("#sundamage-model").text(i18n.t('character.no-sundamage'));
 	} else {
-		$("#sundamage-model").text("Tipo " + (currentSundamageModel + 1));
+		$("#sundamage-model").text(i18n.t('general.type', {value: currentSundamageModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'sundamageModel', currentSundamageModel, false);
 }
@@ -489,9 +499,9 @@ function showPrevFrecklesModel() {
 		currentFrecklesModel--;
 	}
 	if(currentFrecklesModel == -1) {
-		$("#freckles-model").text("Sin pecas");
+		$("#freckles-model").text(i18n.t('character.no-freckles'));
 	} else {
-		$("#freckles-model").text("Tipo " + (currentFrecklesModel + 1));
+		$("#freckles-model").text(i18n.t('general.type', {value: currentFrecklesModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'frecklesModel', currentFrecklesModel, false);
 }
@@ -503,9 +513,9 @@ function showNextFrecklesModel() {
 		currentFrecklesModel++;
 	}
 	if(currentFrecklesModel == -1) {
-		$("#freckles-model").text("Sin pecas");
+		$("#freckles-model").text(i18n.t('character.no-freckles'));
 	} else {
-		$("#freckles-model").text("Tipo " + (currentFrecklesModel + 1));
+		$("#freckles-model").text(i18n.t('general.type', {value: currentFrecklesModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'frecklesModel', currentFrecklesModel, false);
 }
@@ -516,7 +526,7 @@ function showPrevEyesColor() {
 	} else {
 		currentEyesColor--;
 	}
-	$("#eyes-color").text("Tipo " + (currentEyesColor + 1));
+	$("#eyes-color").text(i18n.t('general.type', {value: currentEyesColor + 1}));
 	mp.trigger('updatePlayerCreation', 'eyesColor', currentEyesColor, false);
 }
 
@@ -526,7 +536,7 @@ function showNextEyesColor() {
 	} else {
 		currentEyesColor++;
 	}
-	$("#eyes-color").text("Tipo " + (currentEyesColor + 1));
+	$("#eyes-color").text(i18n.t('general.type', {value: currentEyesColor + 1}));
 	mp.trigger('updatePlayerCreation', 'eyesColor', currentEyesColor, false);
 }
 
@@ -536,7 +546,7 @@ function showPrevEyebrowsModel() {
 	} else {
 		currentEyebrowsModel--;
 	}
-	$("#eyebrows-model").text("Tipo " + (currentEyebrowsModel + 1));
+	$("#eyebrows-model").text(i18n.t('general.type', {value: currentEyebrowsModel + 1}));
 	mp.trigger('updatePlayerCreation', 'eyebrowsModel', currentEyebrowsModel, false);
 }
 
@@ -546,7 +556,7 @@ function showNextEyebrowsModel() {
 	} else {
 		currentEyebrowsModel++;
 	}
-	$("#eyebrows-model").text("Tipo " + (currentEyebrowsModel + 1));
+	$("#eyebrows-model").text(i18n.t('general.type', {value: currentEyebrowsModel + 1}));
 	mp.trigger('updatePlayerCreation', 'eyebrowsModel', currentEyebrowsModel, false);
 }
 
@@ -556,7 +566,7 @@ function showPrevEyebrowsColor() {
 	} else {
 		currentEyebrowsColor--;
 	}
-	$("#eyebrows-color").text("Tipo " + (currentEyebrowsColor + 1));
+	$("#eyebrows-color").text(i18n.t('general.type', {value: currentEyebrowsColor + 1}));
 	mp.trigger('updatePlayerCreation', 'eyebrowsColor', currentEyebrowsColor, false);
 }
 
@@ -566,108 +576,13 @@ function showNextEyebrowsColor() {
 	} else {
 		currentEyebrowsColor++;
 	}
-	$("#eyebrows-color").text("Tipo " + (currentEyebrowsColor + 1));
+	$("#eyebrows-color").text(i18n.t('general.type', {value: currentEyebrowsColor + 1}));
 	mp.trigger('updatePlayerCreation', 'eyebrowsColor', currentEyebrowsColor, false);
 }
 
-function updateA() {
-	let aValue = document.getElementById('a').value;
-	mp.trigger('updatePlayerCreation', 'noseWidth', aValue, true);
-}
-
-function updateB() {
-	let bValue = document.getElementById('b').value;
-	mp.trigger('updatePlayerCreation', 'noseHeight', bValue, true);
-}
-
-function updateC() {
-	let bValue = document.getElementById('c').value;
-	mp.trigger('updatePlayerCreation', 'noseLength', bValue, true);
-}
-
-function updateD() {
-	let bValue = document.getElementById('d').value;
-	mp.trigger('updatePlayerCreation', 'noseBridge', bValue, true);
-}
-
-function updateE() {
-	let bValue = document.getElementById('e').value;
-	mp.trigger('updatePlayerCreation', 'noseTip', bValue, true);
-}
-
-function updateF() {
-	let bValue = document.getElementById('f').value;
-	mp.trigger('updatePlayerCreation', 'noseShift', bValue, true);
-}
-
-function updateG() {
-	let bValue = document.getElementById('g').value;
-	mp.trigger('updatePlayerCreation', 'browHeight', bValue, true);
-}
-
-function updateH() {
-	let bValue = document.getElementById('h').value;
-	mp.trigger('updatePlayerCreation', 'browWidth', bValue, true);
-}
-
-function updateI() {
-	let bValue = document.getElementById('i').value;
-	mp.trigger('updatePlayerCreation', 'cheekboneHeight', bValue, true);
-}
-
-function updateJ() {
-	let bValue = document.getElementById('j').value;
-	mp.trigger('updatePlayerCreation', 'cheekboneWidth', bValue, true);
-}
-
-function updateK() {
-	let bValue = document.getElementById('k').value;
-	mp.trigger('updatePlayerCreation', 'cheeksWidth', bValue, true);
-}
-
-function updateL() {
-	let bValue = document.getElementById('l').value;
-	mp.trigger('updatePlayerCreation', 'eyes', bValue, true);
-}
-
-function updateM() {
-	let bValue = document.getElementById('m').value;
-	mp.trigger('updatePlayerCreation', 'lips', bValue, true);
-}
-
-function updateN() {
-	let bValue = document.getElementById('n').value;
-	mp.trigger('updatePlayerCreation', 'jawWidth', bValue, true);
-}
-
-function updateO() {
-	let bValue = document.getElementById('o').value;
-	mp.trigger('updatePlayerCreation', 'jawHeight', bValue, true);
-}
-
-function updateP() {
-	let bValue = document.getElementById('p').value;
-	mp.trigger('updatePlayerCreation', 'chinLength', bValue, true);
-}
-
-function updateQ() {
-	let bValue = document.getElementById('q').value;
-	mp.trigger('updatePlayerCreation', 'chinPosition', bValue, true);
-}
-
-function updateR() {
-	let bValue = document.getElementById('r').value;
-	mp.trigger('updatePlayerCreation', 'chinWidth', bValue, true);
-}
-
-function updateS() {
-	let bValue = document.getElementById('s').value;
-	mp.trigger('updatePlayerCreation', 'chinShape', bValue, true);
-}
-
-function updateT() {
-	let bValue = document.getElementById('t').value;
-	mp.trigger('updatePlayerCreation', 'neckWidth', bValue, true);
+function updateFaceFeature(feature) {
+	let faceValue = document.getElementById(feature).value;
+	mp.trigger('updatePlayerCreation', feature, faceValue, true);
 }
 
 function showPrevMakeupModel() {
@@ -677,9 +592,9 @@ function showPrevMakeupModel() {
 		currentMakeupModel--;
 	}
 	if(currentMakeupModel == -1) {
-		$("#makeup-model").text("Sin maquillaje");
+		$("#makeup-model").text(i18n.t('character.no-makeup'));
 	} else {
-		$("#makeup-model").text("Tipo " + (currentMakeupModel + 1));
+		$("#makeup-model").text(i18n.t('general.type', {value: currentMakeupModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'makeupModel', currentMakeupModel, false);
 }
@@ -691,9 +606,9 @@ function showNextMakeupModel() {
 		currentMakeupModel++;
 	}
 	if(currentMakeupModel == -1) {
-		$("#makeup-model").text("Sin maquillaje");
+		$("#makeup-model").text(i18n.t('character.no-makeup'));
 	} else {
-		$("#makeup-model").text("Tipo " + (currentMakeupModel + 1));
+		$("#makeup-model").text(i18n.t('general.type', {value: currentMakeupModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'makeupModel', currentMakeupModel, false);
 }
@@ -705,9 +620,9 @@ function showPrevBlushModel() {
 		currentBlushModel--;
 	}
 	if(currentBlushModel == -1) {
-		$("#blush-model").text("Sin colorete");
+		$("#blush-model").text(i18n.t('character.no-blush'));
 	} else {
-		$("#blush-model").text("Tipo " + (currentBlushModel + 1));
+		$("#blush-model").text(i18n.t('general.type', {value: currentBlushModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'blushModel', currentBlushModel, false);
 }
@@ -719,9 +634,9 @@ function showNextBlushModel() {
 		currentBlushModel++;
 	}
 	if(currentBlushModel == -1) {
-		$("#blush-model").text("Sin colorete");
+		$("#blush-model").text(i18n.t('character.no-blush'));
 	} else {
-		$("#blush-model").text("Tipo " + (currentBlushModel + 1));
+		$("#blush-model").text(i18n.t('general.type', {value: currentBlushModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'blushModel', currentBlushModel, false);
 }
@@ -732,7 +647,7 @@ function showPrevBlushColor() {
 	} else {
 		currentBlushColor--;
 	}
-	$("#blush-color").text("Tipo " + (currentBlushColor + 1));
+	$("#blush-color").text(i18n.t('general.type', {value: currentBlushColor + 1}));
 	mp.trigger('updatePlayerCreation', 'blushColor', currentBlushColor, false);
 }
 
@@ -742,7 +657,7 @@ function showNextBlushColor() {
 	} else {
 		currentBlushColor++;
 	}
-	$("#blush-color").text("Tipo " + (currentBlushColor + 1));
+	$("#blush-color").text(i18n.t('general.type', {value: currentBlushColor + 1}));
 	mp.trigger('updatePlayerCreation', 'blushColor', currentBlushColor, false);
 }
 
@@ -753,9 +668,9 @@ function showPrevLipstickModel() {
 		currentLipstickModel--;
 	}
 	if(currentLipstickModel == -1) {
-		$("#lipstick-model").text("Sin pintalabios");
+		$("#lipstick-model").text(i18n.t('character.no-lipstick'));
 	} else {
-		$("#lipstick-model").text("Tipo " + (currentLipstickModel + 1));
+		$("#lipstick-model").text(i18n.t('general.type', {value: currentLipstickModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'lipstickModel', currentLipstickModel, false);
 }
@@ -767,9 +682,9 @@ function showNextLipstickModel() {
 		currentLipstickModel++;
 	}
 	if(currentLipstickModel == -1) {
-		$("#lipstick-model").text("Sin pintalabios");
+		$("#lipstick-model").text(i18n.t('character.no-lipstick'));
 	} else {
-		$("#lipstick-model").text("Tipo " + (currentLipstickModel + 1));
+		$("#lipstick-model").text(i18n.t('general.type', {value: currentLipstickModel + 1}));
 	}
 	mp.trigger('updatePlayerCreation', 'lipstickModel', currentLipstickModel, false);
 }
@@ -780,7 +695,7 @@ function showPrevLipstickColor() {
 	} else {
 		currentLipstickColor--;
 	}
-	$("#lipstick-color").text("Tipo " + (currentLipstickColor + 1));
+	$("#lipstick-color").text(i18n.t('general.type', {value: currentLipstickColor + 1}));
 	mp.trigger('updatePlayerCreation', 'lipstickColor', currentLipstickColor, false);
 }
 
@@ -790,7 +705,7 @@ function showNextLipstickColor() {
 	} else {
 		currentLipstickColor++;
 	}
-	$("#lipstick-color").text("Tipo " + (currentLipstickColor + 1));
+	$("#lipstick-color").text(i18n.t('general.type', {value: currentLipstickColor + 1}));
 	mp.trigger('updatePlayerCreation', 'lipstickColor', currentLipstickColor, false);
 }
 
@@ -838,13 +753,11 @@ $('.input-number').change(function() {
     if(valueCurrent >= minValue) {
         $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
     } else {
-        alert('Sorry, the minimum value was reached');
         $(this).val($(this).data('oldValue'));
     }
     if(valueCurrent <= maxValue) {
         $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
     } else {
-        alert('Sorry, the maximum value was reached');
         $(this).val($(this).data('oldValue'));
     }
     

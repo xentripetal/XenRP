@@ -1,14 +1,24 @@
-﻿function populateCrimesConfirmMenu(crimesJson) {
-	// Obtenemos la lista de delitos a aplicar
+﻿$(document).ready(function() {
+	i18next.use(window.i18nextXHRBackend).init({
+		backend: {
+			loadPath: '../i18n/en.json'
+		}
+	}, function(err, t) {
+        jqueryI18next.init(i18next, $);
+		$(document).localize();
+	});
+});
+
+function populateCrimesConfirmMenu(crimesJson) {
+	// Get the crimes list
 	let crimesArray = JSON.parse(crimesJson);
 	let content = document.getElementById('content');
 	
-	// Declaramos las variables de condena
 	let money = 0;
 	let jail = 0;
 	
 	for(let i = 0; i < crimesArray.length; i++) {
-		// Obtenemos el elemento en curso
+		// Get the current element
 		let crime = crimesArray[i];
 		
 		let crimeDescription = document.createElement('li');
@@ -16,21 +26,21 @@
 		money += crime.fine;
 		jail += crime.jail;
 		
-		// Añadimos el elemento a la jerarquía
+		// Add the element
 		content.appendChild(crimeDescription);
 	}
 	
-	// Creamos la información de condena
-	document.getElementById('jail').innerHTML = '<b>Tiempo de condena: </b>' + jail + ' minutos';
-	document.getElementById('fine').innerHTML = '<b>Multa a pagar: </b>' + money + '$';
+	// Create jail info
+	document.getElementById('jail').innerHTML = '<b>' + i18n.t('crimes.jail') + '</b>' + jail + i18n.t('crimes.minutes');
+	document.getElementById('fine').innerHTML = '<b>' + i18n.t('crimes.fine') + '</b>' + money + '$';
 }
 
 function applyCrimesToPlayer() {
-	// Aplicamos los delitos al jugador
+	// Apply the crimes to the player
 	mp.trigger('executePlayerCrimes');
 }
 
 function showCrimesMenu() {
-	// Mostramos el menú de delitos
+	// Back to the crimes menu
 	mp.trigger('backCrimesMenu');
 }

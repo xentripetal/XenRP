@@ -1,67 +1,66 @@
-﻿let licenseBlip = null;
+﻿let licenseBlip = undefined;
 let questionsArray = [];
 let answersArray = [];
 
 mp.events.add('startLicenseExam', (questionsJson, answersJson) => {
-	// Recogemos el tipo de examen
+	// Get the exam questions and answers
 	questionsArray = JSON.parse(questionsJson);
 	answersArray = JSON.parse(answersJson);
 
-	// Desactivamos el chat
+	// Disable the chat
 	mp.gui.chat.activate(false);
 	mp.gui.chat.show(false);
 	
-	// Mostramos la ventana del examen
+	// Show the question
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/licenseExam.html']);
 });
 
 mp.events.add('getNextTestQuestion', () => {
-	// Buscamos la posición de la pregunta a cargar
+	// Get the current question number
 	let index = mp.players.local.getVariable('PLAYER_LICENSE_QUESTION');
 
-	// Cargamos la pregunta e inicializamos las respuestas
+	// Load the question and initialize the answers
 	let questionText = questionsArray[index].text;
 	let answers = [];
 
-	// Insertamos todas las respuestas a la pregunta
 	for(let i = 0; i < answersArray.length; i++) {
-		// Comprobamos si corresponde a la pregunta
+		// Check if the answer and question match
 		if(answersArray[i].question == questionsArray[index].id) {
 			answers.push(answersArray[i]);
 		}
 	}
 
-	// Rellenamos los datos en el navegador
+	// Show the question into the browser
 	let answersJson = JSON.stringify(answers);
 	mp.events.call('executeFunction', ['populateQuestionAnswers', questionText, answersJson]);
 });
 
 mp.events.add('submitAnswer', (answerId) => {
-	// Comprobamos si la respuesta es correcta
+	// Check if the answer is correct
 	mp.events.callRemote('checkAnswer', answerId);
 });
 
 mp.events.add('finishLicenseExam', () => {
-	// Borramos la pantalla de examen
+	// Destroy the exam's window
 	mp.events.call('destroyBrowser');
 	
-	// Reactivamos el chat
+	// Enable the chat
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
 });
 
 mp.events.add('showLicenseCheckpoint', (position) => {
-	if(licenseBlip == null) {
-		// Creamos una marca en el mapa
+	if(licenseBlip === undefined) {
+		// Create a blip on the map
 		licenseBlip = mp.blips.new(1, position, {color: 1});
 	} else {
-		// Cambiamos la posición de la marca
+		// Update blip's position
 		licenseBlip.setCoords(position);
 	}
 });
 
 mp.events.add('deleteLicenseCheckpoint', () => {
-	// Borramos la marca del mapa
+	// Destroy the blip on the map
 	licenseBlip.destroy();
-	licenseBlip = null;
+	licenseBlip = undefined;
 });

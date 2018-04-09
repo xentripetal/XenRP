@@ -1356,7 +1356,7 @@ function populateTownHallMenu(townHallOptionsJson) {
 		itemPrice.classList.add('item-price');
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = townHall.desc;
+		itemDescription.textContent = i18n.t(townHall.desc);
 		
 		if(townHall.price > 0) {
 			// Si tiene precio, lo mostramos

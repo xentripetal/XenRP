@@ -1,13 +1,13 @@
 ﻿mp.events.add('accountLoginForm', (hours, minutes, seconds) => {
-	// Establecemos el tiempo del servidor
+	// Set the hour from the server
 	mp.game.time.setClockTime(hours, minutes, seconds);
 	
-	// Creamos la ventana de login
+	// Create login window
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/accountLogin.html']);
 });
 
 mp.events.add('requestPlayerLogin', (password) => {
-	// Hacemos que el servidor valide las credenciales
+	// Check for the credentials
 	mp.events.callRemote('loginAccount', password);
 });
 
@@ -15,9 +15,9 @@ mp.events.add('showLoginError', () => {
 });
 
 mp.events.add('clearLoginWindow', () => {
-	// Descongelamos al jugador
+	// Unfreeze the player
 	mp.players.local.freezePosition(false);
 	
-	// Borramos la pantalla de login
+	// Destroy the login window
 	mp.events.call('destroyBrowser');
 });

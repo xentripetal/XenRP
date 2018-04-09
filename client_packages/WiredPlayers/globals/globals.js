@@ -1,46 +1,46 @@
-﻿var playerList = null;
+﻿let playerList = undefined;
 
 mp.events.add('guiReady', () => {
-	// Eliminamos la regeneración de vida
+	// Remove health regeneration
     mp.game.player.setHealthRechargeMultiplier(0.0);
 	
-	// Deshabilitamos los beneficios al entrar en vehículos
+	// Remove weapons from the vehicles
 	mp.game.player.disableVehicleRewards();
 	
-	// Inicializamos al jugador
+	// Freeze the player until he logs in
 	mp.players.local.freezePosition(true);
 	
 	mp.keys.bind(0x45, false, function() {
-		// Se ha pulsado la tecla 'E'
+		// Key 'E' pressed
 		if(!mp.players.local.vehicle || mp.players.local.seat > 0) {
 			mp.events.callRemote('checkPlayerEventKeyStopAnim');
 		}
 	});
 
 	mp.keys.bind(0x46, false, function() {
-		// Se ha pulsado la tecla 'F'
+		// Key 'F' pressed
 		if(!mp.players.local.vehicle) {
-			// Miramos si puede entrar en algún sitio
+			// Check if player can enter any place
 			mp.events.callRemote('checkPlayerEventKey');
 		}
 	});
 
 	mp.keys.bind(0x4B, false, function() {
-		// Se ha pulsado la tecla 'K'	
+		// Key 'K' pressed	
 		if(mp.players.local.vehicle && mp.players.local.seat == 0) {
-			// Cambiamos el estado del motor
+			// Toggle vehicle's engine
 			mp.events.callRemote('engineOnEventKey');
 		}
 	});
 });
 
 mp.events.add('changePlayerWalkingStyle', (player, clipSet) => {
-	// Cambiamos el estilo de caminar del personaje
+	// Change player's walking style
 	player.setMovementClipset(clipSet, 0.1);
 });
 
 mp.events.add('resetPlayerWalkingStyle', (player) => {
-	// Eliminamos la regeneración de vida
+	// Reset player's walking style
 	player.resetMovementClipset(0.0);
 });
 

@@ -1,35 +1,34 @@
-﻿let customBrowser = null;
+﻿let customBrowser = undefined;
 let parameters = [];
 
 mp.events.add('createBrowser', (arguments) => {
-	// Comprobamos que no haya ninguna ventana abierta
-	if(customBrowser == null) {
-		// Guardamos los parámetros
+	// Check if there's a browser already opened
+	if(customBrowser === undefined) {
+		// Save the parameters
 		parameters = arguments.slice(1, arguments.length);
 		
-		// Creamos el navegador
+		// Create the browser
 		customBrowser = mp.browsers.new(arguments[0]);
 	}
 });
 
 mp.events.add('browserDomReady', (browser) => {
 	if(customBrowser === browser) {
-		// Activamos el cursor
+		// Enable the cursor
 		mp.gui.cursor.visible = true;
 		
 		if(parameters.length > 0) {
-			// Llamamos a la función de inicialización
+			// Call the function passed as parameter
 			mp.events.call('executeFunction', parameters);
 		}
 	}
 });
 
 mp.events.add('executeFunction', (arguments) => {
-	// Declaramos los parametros en modo lista
+	// Check for the parameters
 	let input = '';
 	
 	for(let i = 1; i < arguments.length; i++) {
-		// Miramos si hay algún parámetro añadido
 		if(input.length > 0) {
 			input += ', \'' + arguments[i] + '\'';
 		} else {
@@ -37,15 +36,15 @@ mp.events.add('executeFunction', (arguments) => {
 		}
 	}
 	
-	// Llamamos a la funcion
+	// Call the function with the parameters
 	customBrowser.execute(`${arguments[0]}(${input});`);
 });
 
 mp.events.add('destroyBrowser', () => {
-	// Deshabilitamos el cursor
+	// Disable the cursor
 	mp.gui.cursor.visible = false;
 	
-	// Eliminamos el navegador
+	// Destroy the browser
 	customBrowser.destroy();
-	customBrowser = null;
+	customBrowser = undefined;
 });

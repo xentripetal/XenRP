@@ -1,29 +1,29 @@
 ﻿const townHallOptions = [
-	{'desc': 'Documentación', 'price': 500}, {'desc': 'Seguro médico', 'price': 2000}, 
-	{'desc': 'Licencia de taxista', 'price': 5000}, {'desc': 'Multas', 'price': 0}
+	{'desc': 'townhall.identification', 'price': 500}, {'desc': 'townhall.insurance', 'price': 2000}, 
+	{'desc': 'townhall.taxi', 'price': 5000}, {'desc': 'townhall.fines', 'price': 0}
 ];
 
 mp.events.add('showTownHallMenu', () => {
-	// Mostramos el menú del ayuntamiento
+	// Show the Town Hall's menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateTownHallMenu', JSON.stringify(townHallOptions)]);
 });
 
 mp.events.add('executeTownHallOperation', (selectedOption) => {
-	// Ejecutamos la opción seleccionada
+	// Execute the selected operation
 	mp.events.callRemote('documentOptionSelected', selectedOption);
 });
 
 mp.events.add('showPlayerFineList', (playerFines) => {
-	// Mostramos el menú de multas
+	// Show fines menu
 	mp.events.call('executeFunction', ['populateFinesMenu', playerFines]);
 });
 
 mp.events.add('payPlayerFines', (finesArrayJson) => {
-	// Pagamos las multas seleccionadas
+	// Pay the selected fines
 	mp.events.callRemote('payPlayerFines', finesArrayJson);
 });
 
 mp.events.add('backTownHallIndex', () => {
-	// Mostramos el menú del ayuntamiento
+	// Show the Town Hall's menu
 	mp.events.call('executeFunction', ['populateTownHallMenu', JSON.stringify(townHallOptions)]);
 });

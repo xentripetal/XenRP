@@ -10,6 +10,7 @@
 		"name": "Nombre",
 		"purchase": "Comprar",
 		"type-one": "Tipo 1",
+		"type": "Tipo {{value}}",
 		"consume": "Consumir",
 		"open": "Abrir",
 		"equip": "Equipar",
@@ -111,11 +112,17 @@
 		"no-blush": "Sin colorete",
 		"no-lipstick": "Sin pintalabios",
 		"focus-face": "Enfocar cara",
-		"focus-body": "Enfocar cuerpo"
+		"focus-body": "Enfocar cuerpo",
+		"name-missing": "Falta por rellenar el nombre del personaje",
+		"surname-missing": "Falta por rellenar el apellido del personaje",
+		"name-duplicated": "Ya hay un personaje registrado con ese nombre"
 	},
 	"crimes": {
 		"header": "Confirmación de delitos a aplicar",
-		"incriminate": "Inculpar"
+		"incriminate": "Inculpar",
+		"jail": "Tiempo de condena: ",
+		"fine": "Multa a pagar: ",
+		"minutes": " minutos"
 	},
 	"driving": {
 		"answer": "Responder"
@@ -176,5 +183,11 @@
 		"right-arm": "Brazo derecho",
 		"left-leg": "Pierna izquierda",
 		"right-leg": "Pierna derecha"
+	},
+	"townhall": {
+		"identification": "Documentación",
+		"insurance": "Seguro médico",
+		"taxi": "Licencia de taxista",
+		"fines": "Multas"
 	}
 }

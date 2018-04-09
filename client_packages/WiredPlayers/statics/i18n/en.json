@@ -10,6 +10,7 @@
 		"name": "Name",
 		"purchase": "Purchase",
 		"type-one": "Type 1",
+		"type": "Type {{value}}",
 		"consume": "COnsume",
 		"open": "Open",
 		"equip": "Equip",
@@ -111,11 +112,17 @@
 		"no-blush": "No blush",
 		"no-lipstick": "No lipstick",
 		"focus-face": "Focus face",
-		"focus-body": "Focus body"
+		"focus-body": "Focus body",
+		"name-missing": "You must fill the character's name",
+		"surname-missing": "You must fill the character's surname",
+		"name-duplicated": "A character with that name is already registered"
 	},
 	"crimes": {
 		"header": "Confirmation for the crimes to apply",
-		"incriminate": "Incriminate"
+		"incriminate": "Incriminate",
+		"jail": "Jail time: ",
+		"fine": "Fine: ",
+		"minutes": " minutes"
 	},
 	"driving": {
 		"answer": "Answer"
@@ -176,5 +183,11 @@
 		"right-arm": "Right arm",
 		"left-leg": "Left leg",
 		"right-leg": "Right leg"
+	},
+	"townhall": {
+		"identification": "Identification card",
+		"insurance": "Medical insurance",
+		"taxi": "Taxi license",
+		"fines": "Fines"
 	}
 }

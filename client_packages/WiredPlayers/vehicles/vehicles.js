@@ -1,12 +1,12 @@
-﻿let vehicleLocationBlip = null; 
+﻿let vehicleLocationBlip = undefined; 
 
 mp.events.add('locateVehicle', (position) => {
-	// Creamos una marca con la posición del vehículo
+	// Create the blip on the map
 	vehicleLocationBlip = mp.blips.new(1, position, {color: 1});
 });
 
 mp.events.add('deleteVehicleLocation', () => {
-	// Borramos la marca del mapa
+	// Destroy the blip on the map
 	vehicleLocationBlip.destroy();
-	vehicleLocationBlip = null;
+	vehicleLocationBlip = undefined;
 });

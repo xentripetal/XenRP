@@ -7,25 +7,19 @@ let supermarketDoors = undefined;
 let clubhouseDoor = undefined;
 
 mp.events.add('guiReady', () => {
-	// Zona de las puertas principales de comisaría
+	// Police station's doors
 	policeMainDoors = mp.colshapes.newSphere(468.535, -1014.098, 26.386, 5.0);
-	
-	// Zona de las puertas traseras de comisaría
 	policeBackDoors = mp.colshapes.newSphere(435.131, -981.9197, 30.689, 5.0);
-	
-	// Zona de las celdas de comisaría
 	policeCellDoors = mp.colshapes.newSphere(461.7501, -998.361, 24.915, 5.0);
 	
-	// Zona de la puerta principal del concesionario
+	// Car dealer's doors
 	motorsportMain = mp.colshapes.newSphere(-59.893, -1092.952, 26.8836, 5.0);
-	
-	// Zona de la puerta del parking del concesionario
 	motorsportParking = mp.colshapes.newSphere(-39.134, -1108.22, 26.72, 5.0);
 	
-	// Zona de la puerta del supermercado de la gasolinera
+	// Supermarket's doors
 	supermarketDoors = mp.colshapes.newSphere(-711.545, -915.54, 19.216, 5.0);
 	
-	// Zona de la puerta del club de moteros
+	// Club house's doors
 	clubhouseDoor = mp.colshapes.newSphere(981.7533, -102.7987, 74.8487, 5.0);
 });
 
