@@ -143,6 +143,9 @@
 		"repaint": "Repintar"
 	},
 	"cardealer": {
+		"model": "Modelo: ",
+		"speed": "Velocidad: ",
+		"price": "Precio: ",
 		"category": "Categoría",
 		"compacts": "Compactos",
 		"coupes": "Coupés",

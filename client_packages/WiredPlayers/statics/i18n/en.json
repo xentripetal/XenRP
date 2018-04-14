@@ -143,6 +143,9 @@
 		"repaint": "Repaint"
 	},
 	"cardealer": {
+		"model": "Model: ",
+		"speed": "Speed: ",
+		"price": "Price: ",
 		"category": "Category",
 		"compacts": "Compacts",
 		"coupes": "Coupes",

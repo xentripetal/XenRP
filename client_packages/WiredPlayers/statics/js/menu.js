@@ -8,8 +8,8 @@ let clothesTypes = [];
 let selectedOptions = [];
 let purchasedAmount = 1;
 let multiplier = 0.0;
-let selected = null;
-let drawable = null;
+let selected = undefined;
+let drawable = undefined;
 
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
@@ -24,7 +24,7 @@ $(document).ready(function() {
 function populateBusinessItems(businessItemsJson, businessName, multiplier) {
 	// Inicializamos los valores
 	purchasedAmount = 1;
-	selected = null;
+	selected = undefined;
 
 	// Obtenemos la lista de objetos a mostrar
 	let businessItemsArray = JSON.parse(businessItemsJson);
@@ -85,7 +85,7 @@ function populateBusinessItems(businessItemsJson, businessName, multiplier) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(selected != null) {
+				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					let previousAmountNode = findFirstChildByClass(previousSelected, 'item-amount-container');
 					previousSelected.classList.remove('active-item');
@@ -184,7 +184,7 @@ function populateBusinessItems(businessItemsJson, businessName, multiplier) {
 	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
 		// Mandamos la acción de compra si ha seleccionado algo
-		if(selected != null) {
+		if(selected != undefined) {
 			mp.trigger('purchaseItem', selected, purchasedAmount);
 		}
 	});
@@ -217,8 +217,8 @@ function populateTunningHome() {
 	let options = document.getElementById('options');
 	
 	// Inicializamos las opciones
-	selected = null;
-	drawable = null;
+	selected = undefined;
+	drawable = undefined;
 	
 	// Limpiamos el contenido
 	while(content.firstChild) {
@@ -329,7 +329,7 @@ function populateTunningComponents() {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(drawable != null) {
+				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					previousSelected.classList.remove('active-item');
 				}
@@ -371,7 +371,7 @@ function populateTunningComponents() {
 	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
 		// Mandamos la acción de compra si ha seleccionado algo
-		if(selected != null) {
+		if(selected != undefined) {
 			//mp.trigger('purchaseItem', selected, purchasedAmount);
 		}
 	});
@@ -438,7 +438,7 @@ function populateFastfoodOrders(ordersJson, distancesJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(selected != null) {
+				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
@@ -480,7 +480,7 @@ function populateFastfoodOrders(ordersJson, distancesJson) {
 	// Ponemos la función para cada elemento
 	deliverButton.onclick = (function() {
 		// Entregamos el pedido seleccionado
-		if(selected != null) {
+		if(selected != undefined) {
 			mp.trigger('deliverFastfoodOrder', fastfoodOrders[selected].id);
 		}
 	});
@@ -713,8 +713,8 @@ function populateClothesShopHome() {
 	let options = document.getElementById('options');
 	
 	// Inicializamos las opciones
-	selected = null;
-	drawable = null;
+	selected = undefined;
+	drawable = undefined;
 	
 	// Limpiamos el contenido
 	while(content.firstChild) {
@@ -842,7 +842,7 @@ function populateTypeClothes(typeClothesJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(drawable != null) {
+				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					let previousAmountNode = findFirstChildByClass(previousSelected, 'item-amount-container');
 					previousSelected.classList.remove('active-item');
@@ -955,7 +955,7 @@ function populateTypeClothes(typeClothesJson) {
 	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
 		// Mandamos la acción de compra si ha seleccionado algo
-		if(selected != null) {
+		if(selected != undefined) {
 			mp.trigger('purchaseClothes', selected, drawable, purchasedAmount);
 		}
 	});
@@ -992,8 +992,8 @@ function populateTattooHome() {
 	let options = document.getElementById('options');
 	
 	// Inicializamos las opciones
-	selected = null;
-	drawable = null;
+	selected = undefined;
+	drawable = undefined;
 	
 	// Limpiamos el contenido
 	while(content.firstChild) {
@@ -1022,7 +1022,7 @@ function populateTattooHome() {
 		itemDescription.classList.add('item-description');
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = i18n.t(zone);
+		itemDescription.textContent = i18next.t(zone);
 		
 		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
@@ -1107,7 +1107,7 @@ function populateZoneTattoos(zoneTattooJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(drawable != null) {
+				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					previousSelected.classList.remove('active-item');
 				}
@@ -1149,7 +1149,7 @@ function populateZoneTattoos(zoneTattooJson) {
 	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
 		// Mandamos la acción de compra si ha seleccionado algo
-		if(selected != null) {
+		if(selected != undefined) {
 			mp.trigger('purchaseTattoo', selected, drawable);
 		}
 	});
@@ -1216,7 +1216,7 @@ function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName
 		}		
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = i18n.t(face.desc);
+		itemDescription.textContent = i18next.t(face.desc);
 		itemAmount.innerHTML = '<b>Tipo: </b>' + selectedOptions[i];
 		itemAdd.textContent = '+';
 		itemSubstract.textContent = '-';
@@ -1321,7 +1321,7 @@ function populateTownHallMenu(townHallOptionsJson) {
 	
 	// Añadimos la cabecera del menú
 	header.textContent = 'Trámites del ayuntamiento';
-	selected = null;
+	selected = undefined;
 	
 	// Limpiamos el contenido
 	while(content.firstChild) {
@@ -1356,7 +1356,7 @@ function populateTownHallMenu(townHallOptionsJson) {
 		itemPrice.classList.add('item-price');
 		
 		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = i18n.t(townHall.desc);
+		itemDescription.textContent = i18next.t(townHall.desc);
 		
 		if(townHall.price > 0) {
 			// Si tiene precio, lo mostramos
@@ -1368,7 +1368,7 @@ function populateTownHallMenu(townHallOptionsJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(selected != null) {
+				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
@@ -1410,7 +1410,7 @@ function populateTownHallMenu(townHallOptionsJson) {
 	
 	// Ponemos la función para cada elemento
 	acceptButton.onclick = (function() {
-		if(selected != null) {
+		if(selected != undefined) {
 			// Ejecutamos la acción seleccionada
 			mp.trigger('executeTownHallOperation', selected);
 		}
@@ -1573,7 +1573,7 @@ function populatePoliceControlsMenu(policeControlJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(selected != null) {
+				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
@@ -1641,8 +1641,8 @@ function populateWardrobeHome() {
 	let options = document.getElementById('options');
 	
 	// Inicializamos las opciones
-	selected = null;
-	drawable = null;
+	selected = undefined;
+	drawable = undefined;
 	
 	// Limpiamos el contenido
 	while(content.firstChild) {
@@ -1758,7 +1758,7 @@ function populateWardrobeClothes(typeClothesJson) {
 			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
 				// Miramos si había algún elemento seleccionado
-				if(drawable != null) {
+				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					previousSelected.classList.remove('active-item');
 				}
@@ -1806,7 +1806,7 @@ function populateWardrobeClothes(typeClothesJson) {
 	// Ponemos la función para cada elemento
 	dressButton.onclick = (function() {
 		// Mandamos la acción de vestirse si ha seleccionado algo
-		if(selected != null) {
+		if(selected != undefined) {
 			mp.trigger('changePlayerClothes', selected, drawable);
 		}
 	});
@@ -1825,7 +1825,7 @@ function populateWardrobeClothes(typeClothesJson) {
 }
 
 function findFirstChildByClass(element, className) {
-	let foundElement = null, found;
+	let foundElement = undefined, found;
 	function recurse(element, className, found) {
 		for (let i = 0; i < element.childNodes.length && !found; i++) {
 			let el = element.childNodes[i];

@@ -1,56 +1,53 @@
-﻿let selected = null;
+﻿let selected = undefined;
 
 function populateInventory(inventoryJson, title) {
-	// Inicializamos la selección
-	selected = null;
+	// Initialize the selection
+	selected = undefined;
 	
-	// Obtenemos el array de objetos
+	// Get the items in the inventory
 	let inventory = JSON.parse(inventoryJson);
 	
-	// Obtenemos los contenedores de elementos
+	// Get the item containers
 	let titleContainer = document.getElementById('identifier');
 	let inventoryContainer = document.getElementById('inventory');
 	
 	for(let i = 0; i < inventory.length; i++) {
-		// Obtenemos el objeto del inventario
+		// Get each item
 		let item = inventory[i];
 		
-		// Creamos los elementos para mostrar cada objeto
+		// Create the elements to show the items
 		let itemContainer = document.createElement('div');
 		let amountContainer = document.createElement('div');
 		let itemImage = document.createElement('img');
 		
-		// Añadimos las clases a cada elemento
+		// Get the needed classes
 		itemContainer.classList.add('inventory-item');
 		amountContainer.classList.add('inventory-amount');
 		
-		// Añadimos el contenido de cada elemento
+		// Get the content of each item
 		itemImage.src = '../img/inventory/' + item.hash + '.png';
 		amountContainer.textContent = item.amount;
 		
-		// Añadimos la función de click sobre el elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
+			// Check if a new item has been selected
 			if(selected !== i) {
-				// Miramos si había algún elemento seleccionado
-				if(selected != null) {
+				// Get the previous selection
+				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('inventory-item')[selected];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
+				// Select the clicked element
 				let currentSelected = document.getElementsByClassName('inventory-item')[i];
 				currentSelected.classList.add('active-item');
-				
-				// Guardamos el nuevo índice seleccionado
 				selected = i;
 				
-				// Obtenemos las opciones a mostrar
+				// Show the options
 				mp.trigger('getInventoryOptions', item.type, item.hash);
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos		
+		// Create the item hierarchy	
 		inventoryContainer.appendChild(itemContainer);
 		itemContainer.appendChild(amountContainer);
 		itemContainer.appendChild(itemImage);		
@@ -58,11 +55,11 @@ function populateInventory(inventoryJson, title) {
 }
 
 function showInventoryOptions(optionsArray, dropable) {
-	// Añadimos las opciones
+	// Add the options
 	for(let i = 0; i < optionsArray; i++) {
 	}
 	
 	if(dropable) {
-		// Añadimos la opción de tirar
+		// Add drop option
 	}
 }

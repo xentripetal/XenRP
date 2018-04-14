@@ -11,10 +11,15 @@ $(document).ready(function() {
         jqueryI18next.init(i18next, $);
 		$(document).localize();
 	});
+	
+    $('#colorpicker').farbtastic(function (color) {
+        var colorMain = document.getElementById('color-main').checked;
+        mp.trigger('previewVehicleChangeColor', color, colorMain);
+    });
 });
 
 function loginAccount() {
-	// Hacemos que el servidor valide las credenciales
+	// Validate the password
     let pass = document.getElementById('pass').value;
 	mp.trigger('requestPlayerLogin', pass);
 };
@@ -37,7 +42,7 @@ function populatePlayerList(playerJSON) {
         tableBody.removeChild(tableBody.firstChild);
     }    
     for (var i = 0; i < playerArray.length; i++) {
-        if (playerArray[i].playerName != "") {
+        if (playerArray[i].playerName.length > 0) {
             var tableRow = document.createElement("TR");
             var playerIdColumn = document.createElement("TD");
             var playerNameColumn = document.createElement("TD");
@@ -65,7 +70,7 @@ function withdrawMoney() {
     $('#bank-menu').addClass('hidden');
     $('#bank-withdraw').removeClass('hidden');
     $('#bank-accept').removeClass('hidden');
-    $('#bank-exit').html('Cancelar');
+    $('#bank-exit').html(i18next.t('general.cancel'));
 	mp.trigger('updateBankAccountMoney');
 }
 
@@ -74,7 +79,7 @@ function depositMoney() {
     $('#bank-menu').addClass('hidden');
     $('#bank-deposit').removeClass('hidden');
     $('#bank-accept').removeClass('hidden');
-    $('#bank-exit').html('Cancelar');
+    $('#bank-exit').html(i18next.t('general.cancel'));
 	mp.trigger('updateBankAccountMoney');
 }
 
@@ -83,12 +88,12 @@ function transferMoney() {
     $('#bank-menu').addClass('hidden');
     $('#bank-transfer').removeClass('hidden');
     $('#bank-accept').removeClass('hidden');
-    $('#bank-exit').html('Cancelar');
+    $('#bank-exit').html(i18next.t('general.cancel'));
 	mp.trigger('updateBankAccountMoney');
 }
 
 function updateAccountMoney(money) {
-	// Actualizamos la etiqueta con el dinero
+	// Update the label with the money
 	switch(bankSelectedOption) {
 		case 1:
 			$('#bank-withdraw-balance').html(money + '$');
@@ -106,7 +111,7 @@ function showBalance() {
     bankSelectedOption = 4;
     $('#bank-menu').addClass('hidden');
     $('#bank-balance').removeClass('hidden');
-    $('#bank-exit').html('Cancelar');
+    $('#bank-exit').html(i18next.t('general.cancel'));
 	mp.trigger("loadPlayerBankBalance");
 }
 
@@ -117,18 +122,18 @@ function showBankOperations(bankOperationsJson, playerName) {
         tableBody.removeChild(tableBody.firstChild);
     }    
     for (var i = 0; i < bankOperationsArray.length; i++) {
-		// Creamos los elementos de fila
+		// Create row elements
 		var tableRow = document.createElement("TR");
 		var dateColumn = document.createElement("TD");
 		var operationColumn = document.createElement("TD");
 		var involvedColumn = document.createElement("TD");
 		var amountColumn = document.createElement("TD");
 
-		// Añadimos los datos del array
+		// Add array data
 		dateColumn.innerHTML = bankOperationsArray[i].day + " " + bankOperationsArray[i].time;
 		operationColumn.innerHTML = bankOperationsArray[i].type;
 		switch(bankOperationsArray[i].type) {
-			case "Transferencia":
+			case i18next.t('bank.transfer'):
 				if(bankOperationsArray[i].source === playerName) {
 					amountColumn.innerHTML = "-" + bankOperationsArray[i].amount + "$";
 					involvedColumn.innerHTML = bankOperationsArray[i].receiver;
@@ -137,7 +142,7 @@ function showBankOperations(bankOperationsJson, playerName) {
 					involvedColumn.innerHTML = bankOperationsArray[i].source;
 				}
 				break;
-			case "Retiro":
+			case i18next.t('bank.withdraw'):
 				amountColumn.innerHTML = "-" + bankOperationsArray[i].amount + "$";
 				break;
 			default:
@@ -145,13 +150,13 @@ function showBankOperations(bankOperationsJson, playerName) {
 				break;
 		}
 
-		// Añadimos las columnas a la fila
+		// Add the columns to the row
 		tableRow.appendChild(dateColumn);
 		tableRow.appendChild(operationColumn);
 		tableRow.appendChild(involvedColumn);
 		tableRow.appendChild(amountColumn);
 
-		// Insertamos la fila en la tabla
+		// Insert the new row
 		tableBody.appendChild(tableRow);
     }
 }
@@ -203,7 +208,7 @@ function bankBack() {
             break;
     }
     $('#bank-accept').addClass('hidden');
-    $('#bank-exit').html('Salir');
+    $('#bank-exit').html(i18next.t('general.exit'));
     bankSelectedOption = 0;
 }
 
@@ -213,8 +218,8 @@ function catalogBack() {
             $('#vehicle-container').removeClass('hidden');
             break;
     }
-    mp.trigger("closeCatalog");
-    $('#catalog-exit').html('Salir');
+    mp.trigger('closeCatalog');
+    $('#catalog-exit').html(i18next.t('general.exit'));
     catalogSelectedOption = 0;
 }
 
@@ -242,7 +247,7 @@ function getVehicleList() {
 }
 
 function populateVehicleList(dealership, vehicleJSON) {
-    // Mostramos el menú de filtros en función del concesionario
+    // Show the vehicle list
     switch (dealership) {
         case 0:
             $('#vehicle-list-cars').removeClass('hidden');
@@ -264,9 +269,9 @@ function populateVehicleList(dealership, vehicleJSON) {
         image.className = vehicleArray[i].model + ' center-block';
         image.style.width = '120px';
         image.style.height = '90px';
-        model.textContent = 'Modelo: ' + vehicleArray[i].model;
-        speed.textContent = 'Velocidad: ' + vehicleArray[i].speed +'km/h';
-        price.textContent = 'Precio: ' + vehicleArray[i].price +'$';
+        model.textContent = i18next.t('cardealer.model') + vehicleArray[i].model;
+        speed.textContent = i18next.t('cardealer.speed') + vehicleArray[i].speed + 'km/h';
+        price.textContent = i18next.t('cardealer.price') + vehicleArray[i].price + '$';
         container.className = 'col-lg-2';
         container.onclick = function () {
             mp.trigger('previewCarShopVehicle', this.firstChild.id);
@@ -296,26 +301,19 @@ $("input[type='checkbox']").change(function () {
     }
 });
 
-$(document).ready(function () {
-    $('#colorpicker').farbtastic(function (color) {
-        var colorMain = document.getElementById('color-main').checked;
-        mp.trigger("previewVehicleChangeColor", color, colorMain);
-    });
-});
-
 function checkVehiclePayable() {
-	// Comprobamos si el jugador tiene el dinero para el vehículo
+	// Check if the player can pay the vehicle
 	mp.trigger('checkVehiclePayable');
 }
 
 function showVehiclePurchaseButton() {
-	// Activamos el botón de compra
+	// Enable purchase button
 	$('#catalog-purchase').removeClass('hidden');
 }
 
 function rotatePreviewVehicle() {
     var rotation = parseFloat(document.getElementById('vehicle-slider').value);
-    mp.trigger("rotatePreviewVehicle", rotation);
+    mp.trigger('rotatePreviewVehicle', rotation);
 }
 
 function goBackToCatalog() {
@@ -337,7 +335,7 @@ function namePoliceControl() {
 }
 
 function preloadContact() {
-	// Cargamos los datos del contacto seleccionado
+	// Load selected contact's data
     mp.trigger('preloadContactData');
 }
 
@@ -347,66 +345,65 @@ function populateContactData(number, name) {
 }
 
 function setContactData() {
-	// Cogemos el número y nombre
+	// Get the number and the name
     let number = document.getElementById('number').value;
     let name = document.getElementById('name').value;
 
-	// Llamamos al cliente para que dé de alta
+	// Update the contact
     mp.trigger('setContactData', number, name);
 }
 
 function sendPhoneMessage() {
-	// Recogemos y enviamos el mensaje
+	// Get the message
 	let message = document.getElementById('message').value;
     mp.trigger('sendPhoneMessage', message);
 }
 
 function cancelMessage() {
-	// Cancelamos el envío del SMS
+	// Cancel SMS sending
     mp.trigger('cancelPhoneMessage');
 }
 
 function getFirstTestQuestion() {
-	// Cogemos la primera pregunta y sus respuestas
+	// Get first question and answers
 	mp.trigger('getNextTestQuestion');
 }
 
 function populateQuestionAnswers(question, answersJSON) {
-	// Obtenemos el array del objeto JSON
+	// Create an array from the JSON
 	let answers = JSON.parse(answersJSON);
 
-	// Ponemos el texto de la pregunta en la cabecera
+	// Create the question
 	$('#license-question').text(question);
 
-	// Eliminamos las opciones anteriores
+	// Delete the previous answers
 	$('#license-answers').empty();
 
-	// Rellenamos la lista de respuestas
 	for(let i = 0; i < answers.length; i++) {
-		// Creamos los objetos a dibujar
+		// Create the row elements
 		let div = document.createElement("div");
 		let label = document.createElement("label");
 		let radio = document.createElement("input");
 
-		// Añadimos las propiedades
+		// Add some properties
 		radio.type = "radio";
 		radio.name = "answer";
 		radio.value = answers[i].id;
 
-		// Ponemos el texto de la respuesta
+		// Add the text from the answers
 		label.innerHTML = answers[i].text;
 
-		// Insertamos los elementos en el div
+		// Insert the new elements
 		div.appendChild(radio);
 		div.appendChild(label);
 
-		// Añadimos el radio a la lista
+		// Add the row to the list
 		document.getElementById('license-answers').appendChild(div);
 	}
 }
 
 function submitAnswer() {
-	// Recogemos la respuesta y la enviamos
+	// Get the answer and submit it
 	let answer = $('input[name=answer]:checked', '#testForm').val();
 	mp.trigger('submitAnswer', answer);
 }

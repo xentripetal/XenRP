@@ -31,8 +31,8 @@ function populateCrimesConfirmMenu(crimesJson) {
 	}
 	
 	// Create jail info
-	document.getElementById('jail').innerHTML = '<b>' + i18n.t('crimes.jail') + '</b>' + jail + i18n.t('crimes.minutes');
-	document.getElementById('fine').innerHTML = '<b>' + i18n.t('crimes.fine') + '</b>' + money + '$';
+	document.getElementById('jail').innerHTML = '<b>' + i18next.t('crimes.jail') + '</b>' + jail + i18next.t('crimes.minutes');
+	document.getElementById('fine').innerHTML = '<b>' + i18next.t('crimes.fine') + '</b>' + money + '$';
 }
 
 function applyCrimesToPlayer() {

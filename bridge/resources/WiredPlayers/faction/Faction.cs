@@ -767,7 +767,7 @@ namespace WiredPlayers.faction
         }
 
         [Command(Messages.COM_RANK, Messages.GEN_RANK_COMMAND)]
-        public void RangoCommand(Client player, String arguments)
+        public void RankCommand(Client player, String arguments)
         {
             int faction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
 
@@ -981,7 +981,7 @@ namespace WiredPlayers.faction
         }
 
         [Command(Messages.COM_CLEAR_REPORTS, Messages.GEN_CLEAR_REPORTS_COMMAND)]
-        public void BorraravisoCommand(Client player, int warning)
+        public void ClearReportsCommand(Client player, int warning)
         {
             int faction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
 
@@ -1018,7 +1018,7 @@ namespace WiredPlayers.faction
         }
 
         [Command(Messages.COM_MEMBERS)]
-        public void MiembrosCommand(Client player)
+        public void MembersCommand(Client player)
         {
             int faction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
             if (faction > 0)
