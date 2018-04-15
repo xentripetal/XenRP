@@ -8,7 +8,7 @@ namespace WiredPlayers.globals
     public class Constants
     {
         // Versión del gamemode
-        public const String GM_VERSION = "v1.0";
+        public const String GM_VERSION = "v1.0.0.1";
 
         public const String DEFAULT_PED_MODEL = "StrPerf01SMM";
         public const String MALE_PED_MODEL = "mp_m_freemode_01";
