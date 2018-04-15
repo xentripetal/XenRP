@@ -11,8 +11,6 @@ namespace WiredPlayers.globals
         public const String GM_VERSION = "v1.0.0.1";
 
         public const String DEFAULT_PED_MODEL = "StrPerf01SMM";
-        public const String MALE_PED_MODEL = "mp_m_freemode_01";
-        public const String FEMALE_PED_MODEL = "mp_f_freemode_01";
         public const int MALE_PED_HASH = 1885233650;
         public const int FEMALE_PED_HASH = -1667301416;
         public const int ENVIRONMENT_KILL = 65535;

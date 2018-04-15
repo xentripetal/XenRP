@@ -294,10 +294,8 @@ namespace WiredPlayers.login
                         PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
                         SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
                         
-                        String pedModel = character.sex == 0 ? Constants.MALE_PED_MODEL : Constants.FEMALE_PED_MODEL;
-                        PedHash pedHash = NAPI.Util.PedNameToModel(pedModel);
                         NAPI.Player.SetPlayerName(player, character.realName);
-                        NAPI.Player.SetPlayerSkin(player, pedHash);
+                        NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
                         
                         LoadCharacterData(player, character);
                         
@@ -331,9 +329,8 @@ namespace WiredPlayers.login
         [RemoteEvent("changeCharacterSex")]
         public void ChangeCharacterSexEvent(Client player, int sex)
         {
-            String pedModel = sex == 1 ? Constants.FEMALE_PED_MODEL : Constants.MALE_PED_MODEL;
-            PedHash pedHash = NAPI.Util.PedNameToModel(pedModel);
-            NAPI.Player.SetPlayerSkin(player, pedHash);
+            // Set the model of the player
+            NAPI.Player.SetPlayerSkin(player, sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
             // Remove player's clothes
             NAPI.Player.SetPlayerClothes(player, 11, 15, 0);
@@ -399,10 +396,8 @@ namespace WiredPlayers.login
             SkinModel skinModel = Database.GetCharacterSkin(playerModel.id);
 
             // Load player's model
-            String pedModel = playerModel.sex == 0 ? Constants.MALE_PED_MODEL : Constants.FEMALE_PED_MODEL;
-            PedHash pedHash = NAPI.Util.PedNameToModel(pedModel);
             NAPI.Player.SetPlayerName(player, playerModel.realName);
-            NAPI.Player.SetPlayerSkin(player, pedHash);
+            NAPI.Player.SetPlayerSkin(player, playerModel.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
             
             LoadCharacterData(player, playerModel);
             PopulateCharacterSkin(player, skinModel);

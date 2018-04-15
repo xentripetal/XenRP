@@ -952,7 +952,7 @@ namespace WiredPlayers.globals
         [RemoteEvent("checkPlayerEventKeyStopAnim")]
         public void CheckPlayerEventKeyStopAnimEvent(Client player)
         {
-            if (!NAPI.Data.HasEntityData(player, EntityData.PLAYER_ANIMATION) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (!NAPI.Data.HasEntityData(player, EntityData.PLAYER_ANIMATION) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) == 0)
             {
                 NAPI.Player.StopPlayerAnimation(player);
             }

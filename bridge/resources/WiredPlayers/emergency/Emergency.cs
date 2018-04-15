@@ -103,51 +103,54 @@ namespace WiredPlayers.emergency
         [ServerEvent(Event.PlayerDeath)]
         public void OnPlayerDeath(Client player, Client killer, uint weapon)
         {
-            DeathModel death = new DeathModel(player, killer, weapon);
-            
-            Vector3 deathPosition = null;
-            String deathPlace = String.Empty;
-            String deathHour = DateTime.Now.ToString("h:mm:ss tt");
-
-            // Checking if player died into a house or business
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED) > 0)
+            if(deathTimerList.TryGetValue(player.Value, out Timer timer) == false)
             {
-                int houseId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED);
-                HouseModel house = House.GetHouseById(houseId);
-                deathPosition = house.position;
-                deathPlace = house.name;
-            }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED) > 0)
-            {
-                int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
-                BusinessModel business = Business.GetBusinessById(businessId);
-                deathPosition = business.position;
-                deathPlace = business.name;
-            }
-            else
-            {
-                deathPosition = NAPI.Entity.GetEntityPosition(player);
-            }
+                DeathModel death = new DeathModel(player, killer, weapon);
 
-            // We add the report to the list
-            FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace, deathPosition, -1, deathHour);
-            Faction.factionWarningList.Add(factionWarning);
+                Vector3 deathPosition = null;
+                String deathPlace = String.Empty;
+                String deathHour = DateTime.Now.ToString("h:mm:ss tt");
 
-            // Report message
-            String warnMessage = String.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
-
-            // Sending the report to all the emergency department's members
-            foreach (Client target in NAPI.Pools.GetAllPlayers())
-            {
-                if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY && NAPI.Data.GetEntityData(target, EntityData.PLAYER_ON_DUTY) > 0)
+                // Checking if player died into a house or business
+                if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED) > 0)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + warnMessage);
+                    int houseId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED);
+                    HouseModel house = House.GetHouseById(houseId);
+                    deathPosition = house.position;
+                    deathPlace = house.name;
                 }
-            }
+                else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED) > 0)
+                {
+                    int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
+                    BusinessModel business = Business.GetBusinessById(businessId);
+                    deathPosition = business.position;
+                    deathPlace = business.name;
+                }
+                else
+                {
+                    deathPosition = NAPI.Entity.GetEntityPosition(player);
+                }
 
-            // Timer to process player's death
-            Timer deathTimer = new Timer(OnDeathTimer, death, 2500, Timeout.Infinite);
-            deathTimerList.Add(player.Value, deathTimer);
+                // We add the report to the list
+                FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace, deathPosition, -1, deathHour);
+                Faction.factionWarningList.Add(factionWarning);
+
+                // Report message
+                String warnMessage = String.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
+
+                // Sending the report to all the emergency department's members
+                foreach (Client target in NAPI.Pools.GetAllPlayers())
+                {
+                    if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY && NAPI.Data.GetEntityData(target, EntityData.PLAYER_ON_DUTY) > 0)
+                    {
+                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + warnMessage);
+                    }
+                }
+
+                // Timer to process player's death
+                Timer deathTimer = new Timer(OnDeathTimer, death, 2500, Timeout.Infinite);
+                deathTimerList.Add(player.Value, deathTimer);
+            }
         }
 
         [Command(Messages.COM_HEAL, Messages.GEN_HEAL_COMMAND)]
