@@ -16,7 +16,9 @@
 		"equip": "Equipar",
 		"confiscate": "Requisar",
 		"withdraw": "Sacar",
-		"store": "Guardar"
+		"store": "Guardar",
+		"unit-price": "Precio unitario: ",
+		"amount": "Cantidad: "		
 	},
 	"login": {
 		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña"
@@ -127,11 +129,15 @@
 	"driving": {
 		"answer": "Responder"
 	},
+	"fastfood": {
+		"title": "Pedidos de comida rápida"
+	},
 	"police": {
 		"title": "Control policial",
 		"description": "Introduce el nombre del control policial:"
 	},
 	"tunning": {
+		"title": "Menú de modificaciones",
 		"regular-colors": "Colores predefinidos",
 		"custom-colors": "Colores personalizados",
 		"primary-color": "Color primario",

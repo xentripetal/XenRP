@@ -11,12 +11,14 @@
 		"purchase": "Purchase",
 		"type-one": "Type 1",
 		"type": "Type {{value}}",
-		"consume": "COnsume",
+		"consume": "Consume",
 		"open": "Open",
 		"equip": "Equip",
 		"confiscate": "Confiscate",
 		"withdraw": "Withdraw",
-		"store": "Store"
+		"store": "Store",
+		"unit-price": "Unit price: ",
+		"amount": "Amount: "
 	},
 	"login": {
 		"message": "Welcome back to WiredPlayers. You need to insert your password below in order to log in"
@@ -127,11 +129,15 @@
 	"driving": {
 		"answer": "Answer"
 	},
+	"fastfood": {
+		"title": "Fastfood delivery orders"
+	},
 	"police": {
 		"title": "Police control",
 		"description": "Add a name to the police control:"
 	},
 	"tunning": {
+		"title": "Tunning menu",
 		"regular-colors": "Regular colors",
 		"custom-colors": "Custom colors",
 		"primary-color": "Primary color",
