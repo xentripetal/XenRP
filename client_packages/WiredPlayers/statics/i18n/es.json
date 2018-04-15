@@ -18,6 +18,7 @@
 		"withdraw": "Sacar",
 		"store": "Guardar",
 		"unit-price": "Precio unitario: ",
+		"price": "Precio: ",
 		"amount": "Cantidad: "		
 	},
 	"login": {
@@ -46,6 +47,8 @@
 		"amount": "Cuantía"
 	},
 	"character": {
+		"title": "Lista de personajes",
+		"create": "Crear nuevo",
 		"surname": "Apellido",
 		"age": "Edad: ",
 		"sexual-orientation": "Orientación sexual",
@@ -117,9 +120,11 @@
 		"focus-body": "Enfocar cuerpo",
 		"name-missing": "Falta por rellenar el nombre del personaje",
 		"surname-missing": "Falta por rellenar el apellido del personaje",
-		"name-duplicated": "Ya hay un personaje registrado con ese nombre"
+		"name-duplicated": "Ya hay un personaje registrado con ese nombre",
+		"type": "Tipo: "
 	},
 	"crimes": {
+		"title": "Lista de delitos",
 		"header": "Confirmación de delitos a aplicar",
 		"incriminate": "Inculpar",
 		"jail": "Tiempo de condena: ",
@@ -130,11 +135,16 @@
 		"answer": "Responder"
 	},
 	"fastfood": {
-		"title": "Pedidos de comida rápida"
+		"title": "Pedidos de comida rápida",
+		"order-number": "Pedido #{{value}}",
+		"order": "Pedido: ",
+		"distance": "Distancia: ",
+		"deliver": "Entregar"
 	},
 	"police": {
 		"title": "Control policial",
-		"description": "Introduce el nombre del control policial:"
+		"description": "Introduce el nombre del control policial:",
+		"load": "Cargar"
 	},
 	"tunning": {
 		"title": "Menú de modificaciones",
@@ -144,14 +154,12 @@
 		"secondary-color": "Color secundario",
 		"metallic": "Metalizado",
 		"black": "Negro",
-		"products": "Productos:",
-		"price": "Precio:",
+		"products": "Productos: ",
 		"repaint": "Repintar"
 	},
 	"cardealer": {
 		"model": "Modelo: ",
 		"speed": "Velocidad: ",
-		"price": "Precio: ",
 		"category": "Categoría",
 		"compacts": "Compactos",
 		"coupes": "Coupés",
@@ -174,7 +182,9 @@
 		"tops": "Chaquetas",
 		"hats": "Gorras y sombreros",
 		"glasses": "Gafas",
-		"earrings": "Pendientes"
+		"earrings": "Pendientes",
+		"variation": "Variante: ",
+		"dress": "Vestir"
 	},
 	"hairdresser": {
 		"hair": "Peinado",
@@ -194,9 +204,16 @@
 		"right-leg": "Pierna derecha"
 	},
 	"townhall": {
+		"title": "Trámites del ayuntamiento",
 		"identification": "Documentación",
 		"insurance": "Seguro médico",
 		"taxi": "Licencia de taxista",
-		"fines": "Multas"
+		"fines": "Multas",
+		"pay": "Pagar",
+		"check": "Comprobar",
+		"date": "Fecha: "
+	},
+	"house": {
+		"title": "Armario"
 	}
 }

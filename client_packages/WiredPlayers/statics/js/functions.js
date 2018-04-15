@@ -271,7 +271,7 @@ function populateVehicleList(dealership, vehicleJSON) {
         image.style.height = '90px';
         model.textContent = i18next.t('cardealer.model') + vehicleArray[i].model;
         speed.textContent = i18next.t('cardealer.speed') + vehicleArray[i].speed + 'km/h';
-        price.textContent = i18next.t('cardealer.price') + vehicleArray[i].price + '$';
+        price.textContent = i18next.t('general.price') + vehicleArray[i].price + '$';
         container.className = 'col-lg-2';
         container.onclick = function () {
             mp.trigger('previewCarShopVehicle', this.firstChild.id);

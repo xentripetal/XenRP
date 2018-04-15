@@ -388,31 +388,26 @@ function populateFastfoodOrders(ordersJson, distancesJson) {
 		itemPrice.classList.add('item-price');
 		itemAmount.classList.add('item-amount-description');
 		
-		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = 'Pedido #' + order.id;
-		itemPrice.innerHTML = '<b>Pedido: </b>' + amount + '$';
-		itemAmount.innerHTML = '<b>Distancia: </b>' + parseFloat(distances[i] / 1000).toFixed(2) + 'km';
+		// Add the text for each element
+		itemDescription.textContent = i18next.t('fastfood.order-number', {value: order.id});
+		itemPrice.innerHTML = '<b>' + i18next.t('fastfood.order') + '</b>' + amount + '$';
+		itemAmount.innerHTML = '<b>' + i18next.t('fastfood.distance') + '</b>' + parseFloat(distances[i] / 1000).toFixed(2) + 'km';
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
-				// Miramos si había algún elemento seleccionado
+				// Check if there was any item selected
 				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
+				// Select the clicked element
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
-				
-				// Guardamos el nuevo índice seleccionado
 				selected = i;
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -425,62 +420,53 @@ function populateFastfoodOrders(ordersJson, distancesJson) {
 		amountTextContainer.appendChild(itemAmount);
 	}
 	
-	// Añadimos los botones
 	let deliverButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	deliverButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	deliverButton.textContent = 'Entregar';
-	cancelButton.textContent = 'Salir';
+	deliverButton.textContent = i18next.t('fastfood.deliver');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	deliverButton.onclick = (function() {
-		// Entregamos el pedido seleccionado
+		// Deliver the selected order
 		if(selected != undefined) {
 			mp.trigger('deliverFastfoodOrder', fastfoodOrders[selected].id);
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cerramos la ventana de pedidos
+		// Close the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(deliverButton);
 	options.appendChild(cancelButton);
 }
 
 function populateCrimesMenu(crimesJson, selectedCrimes) {
-	// Obtenemos el nodo contenedor
+	// Get the container nodes
 	let header = document.getElementById('header');
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Añadimos el texto de cabecera y obtenemos la lista de delitos
 	let crimesArray = JSON.parse(crimesJson);
-	header.textContent = 'Lista de delitos';
+	header.textContent = i18next.t('crimes.title');
 	selectedOptions = [];
 	
 	if(selectedCrimes.length > 0) {
-		// Obtenemos los delitos
 		let crimes = JSON.parse(selectedCrimes);
 		
 		for(let i = 0; i < crimes.length; i++) {
-			// Añadimos el delito
 			selectedOptions.push(crimes[i]);
 		}
 	}
 	
 	for(let i = 0; i < crimesArray.length; i++) {
-		// Obtenemos el componente
+		// Get the crime
 		let crime = crimesArray[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -492,7 +478,6 @@ function populateCrimesMenu(crimesJson, selectedCrimes) {
 		let itemPrice = document.createElement('span');
 		let itemAmount = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -506,40 +491,36 @@ function populateCrimesMenu(crimesJson, selectedCrimes) {
 		
 		for(let c = 0; c < selectedOptions.length; c++) {
 			if(JSON.stringify(crime) === JSON.stringify(selectedOptions[c])) {
-				// Marcamos el delito como aplicable
+				// Mark the crime as applied
 				itemContainer.classList.add('active-item');
 				selectedOptions.splice(c, 1);
 				selectedOptions.push(crime);
-				break;
 			}
 		}
 		
-		// Añadimos el contenido de cada elemento
+		// Add the text for each element
 		itemDescription.textContent = crime.crime;
-		itemPrice.innerHTML = '<b>Multa: </b>' + crime.fine + '$';
-		itemAmount.innerHTML = '<b>Tiempo: </b>' + crime.jail + 'min.';
+		itemPrice.innerHTML = '<b>' + i18next.t('crimes.fine') + '</b>' + crime.fine + '$';
+		itemAmount.innerHTML = '<b>' + i18next.t('crimes.jail') + '</b>' + crime.jail + 'min.';
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selectedOptions.indexOf(crime) === -1) {
-				// Seleccionamos el elemento pulsado
+				// Select the clicked element
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el índice seleccionado
+				// Save the selected index
 				selectedOptions.push(crime);
 			} else {
-				// Eliminamos la selección del elemento pulsado
+				// Delete the selection
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.remove('active-item');
 				
-				// Eliminamos el índice seleccionado
+				// Remove the element from the array
 				selectedOptions.splice(selectedOptions.indexOf(crime), 1);
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -552,216 +533,184 @@ function populateCrimesMenu(crimesJson, selectedCrimes) {
 		amountTextContainer.appendChild(itemAmount);
 	}
 	
-	// Añadimos los botones
 	let applyButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	applyButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	applyButton.textContent = 'Inculpar';
-	cancelButton.textContent = 'Salir';
+	applyButton.textContent = i18next.t('crimes.incriminate');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	applyButton.onclick = (function() {
-		// Entregamos el pedido seleccionado
+		// Apply the selected crimes
 		if(selectedOptions.length > 0) {
 			mp.trigger('applyCrimes', JSON.stringify(selectedOptions));
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cerramos la ventana de pedidos
+		// Close crimes menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(applyButton);
 	options.appendChild(cancelButton);
 }
 
 function populateCharacterList(charactersJson) {
-	// Obtenemos el nodo contenedor
+	// Get the container nodes
 	let header = document.getElementById('header');
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Obtenemos la lista de jugadores
+	// Get the players list
 	let characters = JSON.parse(charactersJson);
 	
-	// Añadimos el texto de cabecera
-	header.textContent = 'Lista de personajes';
+	// Add the heading text
+	header.textContent = i18next.t('character.title');
 	
 	for(let i = 0; i < characters.length; i++) {
-		// Obtenemos el componente
+		// Get the current character
 		let character = characters[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
 		let itemDescription = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
 		itemDescription.classList.add('item-description');
 		
-		// Añadimos el contenido de cada elemento
+		// Add the name
 		itemDescription.textContent = character;
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Cargamos el personaje
+			// Load the selected character
 			mp.trigger('loadCharacter', character);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
 		descContainer.appendChild(itemDescription);
 	}
 	
-	// Añadimos los botones
 	let createButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	createButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	createButton.textContent = 'Crear nuevo';
-	cancelButton.textContent = 'Salir';
+	createButton.textContent = i18next.t('character.create');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	createButton.onclick = (function() {
-		// Mostramos el menú de creación de personaje
+		// Show the character creation menu
 		mp.trigger('showCharacterCreationMenu');
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cerramos la ventana de personajes
+		// Close the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(createButton);
 	options.appendChild(cancelButton);
 }
 
 function populateClothesShopMenu(clothesTypeArray, businessName, priceMultiplier) {
-	// Añadimos el título al menú
+	// Add the business name to the header
 	let header = document.getElementById('header');
 	header.textContent = businessName;
 	
-	// Obtenemos las listas de prendas
+	// Load the clothes list
 	clothesTypes = JSON.parse(clothesTypeArray);
 	multiplier = priceMultiplier;
 	
-	// Mostramos el menú principal
+	// Show the main menu
 	populateClothesShopHome();
 }
 
 function populateClothesShopHome() {
-	// Obtenemos el nodo contenedor
+	// Get the container node
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Inicializamos las opciones
 	selected = undefined;
 	drawable = undefined;
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < clothesTypes.length; i++) {
-		// Obtenemos la zona en curso
+		// Get the current zone
 		let type = clothesTypes[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
 		let itemDescription = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
 		itemDescription.classList.add('item-description');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = i18next.t(type.desc);
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Seleccionamos el elemento pulsado
 			selected = i;
 			
-			// Cargamos la lista de ropa de la zona
+			// Load the clothes from the zone
 			mp.trigger('getClothesByType', i);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
 		descContainer.appendChild(itemDescription);
 	}
 	
-	// Añadimos el botón
 	let exitButton = document.createElement('div');
 	
-	// Añadimos las clases al botón
 	exitButton.classList.add('single-button', 'cancel-button');
-	
-	// Añadimos el texto de los botones
-	exitButton.textContent = 'Salir';
+	exitButton.textContent = i18next.t('general.exit');
 	
 	exitButton.onclick = (function() {
-		// Salimos del menú
+		// Exit the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(exitButton);
 }
 
 function populateTypeClothes(typeClothesJson) {
-	// Obtenemos el nodo contenedor
+	// Get the container node
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Parseamos el JSON
+	// Get the clothes in the JSON object
 	let typeClothesArray = JSON.parse(typeClothesJson);
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < typeClothesArray.length; i++) {
-		// Obtenemos el componente
 		let clothes = typeClothesArray[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -776,7 +725,6 @@ function populateTypeClothes(typeClothesJson) {
 		let itemAdd = document.createElement('span');
 		let itemSubstract = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -791,17 +739,14 @@ function populateTypeClothes(typeClothesJson) {
 		itemAdd.classList.add('item-adder');
 		itemSubstract.classList.add('item-substract', 'hidden');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = clothes.description;
-		itemPrice.innerHTML = '<b>Precio: </b>' + Math.round(clothes.products * multiplier) + '$';
+		itemPrice.innerHTML = '<b>' + i18next.t('general.price') + '</b>' + Math.round(clothes.products * multiplier) + '$';
 		itemAdd.textContent = '+';
 		itemSubstract.textContent = '-';
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
-				// Miramos si había algún elemento seleccionado
+				
 				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					let previousAmountNode = findFirstChildByClass(previousSelected, 'item-amount-container');
@@ -809,82 +754,74 @@ function populateTypeClothes(typeClothesJson) {
 					previousAmountNode.classList.add('hidden');
 				}
 				
-				// Seleccionamos el elemento pulsado
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				let currentAmountNode = findFirstChildByClass(currentSelected, 'item-amount-container');
 				currentSelected.classList.add('active-item');
 				currentAmountNode.classList.remove('hidden');
 				
-				// Guardamos el nuevo índice seleccionado
 				purchasedAmount = 0;
 				drawable = i;
 				
-				// Actualizamos el mensaje de la textura
-				itemAmount.innerHTML = '<b>Variante: </b>' + purchasedAmount;
+				itemAmount.innerHTML = '<b>' + i18next.t('clothes.variation') + '</b>' + purchasedAmount;
 			
 				if(purchasedAmount < clothes.textures - 1) {
-					// Mostramos el botón de añadir
+					// Show add button
 					document.getElementsByClassName('item-adder')[drawable].classList.remove('hidden');
 				} else {
-					// Ocultamos el botón de añadir
+					// Hide add button
 					document.getElementsByClassName('item-adder')[drawable].classList.add('hidden');
 				}
 				document.getElementsByClassName('item-substract')[drawable].classList.add('hidden');
 				
-				// Actualizamos la prenda
+				// Replace the clothes on the character
 				mp.trigger('replacePlayerClothes', drawable, purchasedAmount);
 			}
 		});
 		
 		itemAdd.onclick = (function() {
-			// Sumamos una unidad
+			// Get next variation
 			purchasedAmount++;
 			
-			// Obtenemos ambos botones
 			let adderButton = document.getElementsByClassName('item-adder')[drawable];
 			let substractButton = document.getElementsByClassName('item-substract')[drawable];
 			
 			if(purchasedAmount == clothes.textures - 1) {
-				// Ha llegado al máximo
+				// Maximum reached
 				adderButton.classList.add('hidden');
 			} else if(substractButton.classList.contains('hidden') === true) {
-				// Volvemos el elemento visible
+				// Show the button
 				substractButton.classList.remove('hidden');
 			}
 			
-			// Actualizamos la textura
 			let amountSpan = document.getElementsByClassName('item-amount-description')[drawable];
-			amountSpan.innerHTML = '<b>Variante: </b>' + purchasedAmount;
-				
-			// Actualizamos la prenda
+			amountSpan.innerHTML = '<b>' + i18next.t('clothes.variation') + '</b>' + purchasedAmount;
+			
+			// Replace the clothes on the character
 			mp.trigger('replacePlayerClothes', drawable, purchasedAmount);
 		});
 		
 		itemSubstract.onclick = (function() {
-			// Restamos una unidad
+			// Get previous variation
 			purchasedAmount--;
 			
-			// Obtenemos ambos botones
 			let adderButton = document.getElementsByClassName('item-adder')[drawable];
 			let substractButton = document.getElementsByClassName('item-substract')[drawable];
 			
 			if(purchasedAmount == 0) {
-				// Ha llegado al mínimo
+				// Minimum reached
 				substractButton.classList.add('hidden');
 			} else if(adderButton.classList.contains('hidden') === true) {
-				// Volvemos el elemento visible
+				// Show the button
 				adderButton.classList.remove('hidden');
 			}
 			
-			// Actualizamos la textura
 			let amountSpan = document.getElementsByClassName('item-amount-description')[drawable];
-			amountSpan.innerHTML = '<b>Variante: </b>' + purchasedAmount;
-				
-			// Actualizamos la prenda
+			amountSpan.innerHTML = '<b>' + i18next.t('clothes.variation') + '</b>' + purchasedAmount;
+			
+			// Replace the clothes on the character
 			mp.trigger('replacePlayerClothes', drawable, purchasedAmount);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -900,147 +837,124 @@ function populateTypeClothes(typeClothesJson) {
 		addSubstractContainer.appendChild(itemSubstract);
 	}
 	
-	// Añadimos los botones
 	let purchaseButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	purchaseButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	purchaseButton.textContent = 'Comprar';
-	cancelButton.textContent = 'Atrás';
+	purchaseButton.textContent = i18next.t('general.purchase');
+	cancelButton.textContent = i18next.t('general.back');
 	
-	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
-		// Mandamos la acción de compra si ha seleccionado algo
 		if(selected != undefined) {
 			mp.trigger('purchaseClothes', selected, drawable, purchasedAmount);
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Volvemos al inicio
+		// Back to the home menu
 		populateClothesShopHome();
 		
-		// Limpiamos la ropa no comprada
+		// Clear player's clothes
 		mp.trigger('clearClothes');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(purchaseButton);
 	options.appendChild(cancelButton);
 }
 
 function populateTattooMenu(tattooZoneArray, businessName, priceMultiplier) {
-	// Añadimos el título al menú
+	// Set the business name as header
 	let header = document.getElementById('header');
 	header.textContent = businessName;
 	
-	// Obtenemos las listas de tatuajes
+	// Get tattoo zones
 	tattooZones = JSON.parse(tattooZoneArray);
 	multiplier = priceMultiplier;
 	
-	// Mostramos el menú principal
+	// Show main menu
 	populateTattooHome();
 }
 
 function populateTattooHome() {
-	// Obtenemos el nodo contenedor
+	// Get the container nodes
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Inicializamos las opciones
 	selected = undefined;
 	drawable = undefined;
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < tattooZones.length; i++) {
-		// Obtenemos la zona en curso
+		// Get the zone
 		let zone = tattooZones[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
 		let itemDescription = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
 		itemDescription.classList.add('item-description');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = i18next.t(zone);
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Seleccionamos el elemento pulsado
 			selected = i;
 			
-			// Cargamos la lista de tatuajes de la zona
+			// Load the tattoos for the zone
 			mp.trigger('getZoneTattoos', i);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
 		descContainer.appendChild(itemDescription);
 	}
 	
-	// Añadimos el botón
 	let exitButton = document.createElement('div');
 	
-	// Añadimos las clases al botón
 	exitButton.classList.add('single-button', 'cancel-button');
-	
-	// Añadimos el texto de los botones
-	exitButton.textContent = 'Salir';
+	exitButton.textContent = i18next.t('general.exit');
 	
 	exitButton.onclick = (function() {
-		// Salimos del menú
+		// Exit the menu
 		mp.trigger('exitTattooShop');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(exitButton);
 }
 
 function populateZoneTattoos(zoneTattooJson) {
-	// Obtenemos el nodo contenedor
+	// Get the container nodes
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Parseamos el JSON
+	// Get the tattoos from the zone
 	let zoneTattooArray = JSON.parse(zoneTattooJson);
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < zoneTattooArray.length; i++) {
-		// Obtenemos el componente
+		// Get the tattoo
 		let tattoo = zoneTattooArray[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -1049,7 +963,6 @@ function populateZoneTattoos(zoneTattooJson) {
 		let itemDescription = document.createElement('span');
 		let itemPrice = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -1058,33 +971,27 @@ function populateZoneTattoos(zoneTattooJson) {
 		itemDescription.classList.add('item-description');
 		itemPrice.classList.add('item-price');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = tattoo.name;
-		itemPrice.innerHTML = '<b>Precio: </b>' + Math.round(tattoo.price * multiplier) + '$';
+		itemPrice.innerHTML = '<b>' + i18next.t('general.price') + '</b>' + Math.round(tattoo.price * multiplier) + '$';
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
-				// Miramos si había algún elemento seleccionado
+				
 				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el nuevo índice seleccionado
 				drawable = i;
 				
-				// Actualizamos los tatuajes
+				// Update the tattoos
 				mp.trigger('addPlayerTattoo', drawable);
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -1094,55 +1001,46 @@ function populateZoneTattoos(zoneTattooJson) {
 		priceContainer.appendChild(itemPrice);
 	}
 	
-	// Añadimos los botones
 	let purchaseButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	purchaseButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	purchaseButton.textContent = 'Comprar';
-	cancelButton.textContent = 'Atrás';
+	purchaseButton.textContent = i18next.t('general.purchase');
+	cancelButton.textContent = i18next.t('general.back');
 	
-	// Ponemos la función para cada elemento
 	purchaseButton.onclick = (function() {
-		// Mandamos la acción de compra si ha seleccionado algo
 		if(selected != undefined) {
 			mp.trigger('purchaseTattoo', selected, drawable);
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Volvemos al inicio
+		//  Back to the main menu
 		populateTattooHome();
 		
-		// Limpiamos los tatuajes no comprados
+		// Clear the tattoos on the player
 		mp.trigger('clearTattoos');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(purchaseButton);
 	options.appendChild(cancelButton);
 }
 
 function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName) {
-	// Obtenemos la lista de opciones
+	// Get the container nodes
 	let faceOptions = JSON.parse(faceOptionsJson);
 	let header = document.getElementById('header');
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Añadimos la cabecera del menú
 	header.textContent = businessName;
 	selectedOptions = JSON.parse(selectedFaceJson);
 	
 	for(let i = 0; i < faceOptions.length; i++) {
-		// Obtenemos el objeto en curso
 		let face = faceOptions[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -1155,7 +1053,6 @@ function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName
 		let itemAdd = document.createElement('span');
 		let itemSubstract = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -1168,68 +1065,59 @@ function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName
 		itemAdd.classList.add('item-adder');
 		itemSubstract.classList.add('item-substract');
 		
-		// Miramos si hay que ocultar los controles
 		if(selectedOptions[i] == face.minValue) {
 			itemSubstract.classList.add('hidden');
 		} else if(selectedOptions[i] == face.maxValue) {
 			itemAdd.classList.add('hidden');
 		}		
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = i18next.t(face.desc);
-		itemAmount.innerHTML = '<b>Tipo: </b>' + selectedOptions[i];
+		itemAmount.innerHTML = '<b>' + i18next.t('character.type') + '</b>' + selectedOptions[i];
 		itemAdd.textContent = '+';
 		itemSubstract.textContent = '-';
 		
 		itemAdd.onclick = (function() {
-			// Sumamos una unidad
 			selectedOptions[i]++;
 			
-			// Obtenemos ambos botones
 			let adderButton = document.getElementsByClassName('item-adder')[i];
 			let substractButton = document.getElementsByClassName('item-substract')[i];
 			
 			if(selectedOptions[i] == face.maxValue) {
-				// Ha llegado al máximo
+				// Maximum reached
 				adderButton.classList.add('hidden');
 			} else if(substractButton.classList.contains('hidden') === true) {
-				// Volvemos el elemento visible
+				// Show the button
 				substractButton.classList.remove('hidden');
 			}
 			
-			// Actualizamos el tipo
 			let amountSpan = document.getElementsByClassName('item-amount-description')[i];
-			amountSpan.innerHTML = '<b>Tipo: </b>' + selectedOptions[i];
+			amountSpan.innerHTML = '<b>' + i18next.t('character.type') + '</b>' + selectedOptions[i];
 			
-			// Actualizamos la apariencia
+			// Update the hair
 			mp.trigger('updateFacialHair', i, selectedOptions[i]);
 		});
 		
 		itemSubstract.onclick = (function() {
-			// Restamos una unidad
 			selectedOptions[i]--;
 			
-			// Obtenemos ambos botones
 			let adderButton = document.getElementsByClassName('item-adder')[i];
 			let substractButton = document.getElementsByClassName('item-substract')[i];
 			
 			if(selectedOptions[i] == face.minValue) {
-				// Ha llegado al mínimo
+				// Minimum reached
 				substractButton.classList.add('hidden');
 			} else if(adderButton.classList.contains('hidden') === true) {
-				// Volvemos el elemento visible
+				// Show the button
 				adderButton.classList.remove('hidden');
 			}
 			
-			// Actualizamos el tipo
 			let amountSpan = document.getElementsByClassName('item-amount-description')[i];
-			amountSpan.innerHTML = '<b>Tipo: </b>' + selectedOptions[i];
+			amountSpan.innerHTML = '<b>' + i18next.t('character.type') + '</b>' + selectedOptions[i];
 			
-			// Actualizamos la apariencia
+			// Update the hair
 			mp.trigger('updateFacialHair', i, selectedOptions[i]);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -1243,61 +1131,50 @@ function populateHairdresserMenu(faceOptionsJson, selectedFaceJson, businessName
 		addSubstractContainer.appendChild(itemSubstract);
 	}
 	
-	// Añadimos los botones
 	let acceptButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	acceptButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	acceptButton.textContent = 'Aceptar';
-	cancelButton.textContent = 'Salir';
+	acceptButton.textContent = i18next.t('general.accept');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	acceptButton.onclick = (function() {
-		// Guardamos los cambios
+		// Save the changes
 		mp.trigger('applyHairdresserChanges');
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cancelamos el peinado y cerramos la ventana de pedidos
+		// Cancel the changes
 		mp.trigger('cancelHairdresserChanges');
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(acceptButton);
 	options.appendChild(cancelButton);
 }
 
 function populateTownHallMenu(townHallOptionsJson) {
-	// Obtenemos la lista de opciones
 	let townHallOptions = JSON.parse(townHallOptionsJson);
 	let header = document.getElementById('header');
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Añadimos la cabecera del menú
-	header.textContent = 'Trámites del ayuntamiento';
+	header.textContent = i18next.t('townhall.title');
 	selected = undefined;
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < townHallOptions.length; i++) {
-		// Obtenemos el objeto en curso
 		let townHall = townHallOptions[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -1306,7 +1183,6 @@ function populateTownHallMenu(townHallOptionsJson) {
 		let itemDescription = document.createElement('span');
 		let itemPrice = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -1315,38 +1191,32 @@ function populateTownHallMenu(townHallOptionsJson) {
 		itemDescription.classList.add('item-description');
 		itemPrice.classList.add('item-price');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = i18next.t(townHall.desc);
 		
 		if(townHall.price > 0) {
-			// Si tiene precio, lo mostramos
-			itemPrice.innerHTML = '<b>Precio: </b>' + townHall.price + '$';
+			// If there's any price, show it
+			itemPrice.innerHTML = '<b>' + i18next.t('general.price') + '</b>' + townHall.price + '$';
 		}
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
-				// Miramos si había algún elemento seleccionado
+				
 				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el nuevo índice seleccionado
 				selected = i;
 				
-				// Cambiamos el texto del botón
+				// Change the text in the button
 				let leftButton = document.getElementsByClassName('accept-button')[0];
-				leftButton.textContent = townHall.price > 0 ? 'Pagar' : 'Comprobar';
+				leftButton.textContent = townHall.price > 0 ? i18next.t('townhall.pay') : i18next.t('townhall.check');
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -1356,58 +1226,49 @@ function populateTownHallMenu(townHallOptionsJson) {
 		priceContainer.appendChild(itemPrice);
 	}
 	
-	// Añadimos los botones
 	let acceptButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	acceptButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
 	// Añadimos el texto de los botones
-	acceptButton.textContent = 'Pagar';
-	cancelButton.textContent = 'Salir';
+	acceptButton.textContent = i18next.t('townhall.pay');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	acceptButton.onclick = (function() {
 		if(selected != undefined) {
-			// Ejecutamos la acción seleccionada
+			// Execute the selected operation
 			mp.trigger('executeTownHallOperation', selected);
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cerramos la ventana del ayuntamiento
+		// Close the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(acceptButton);
 	options.appendChild(cancelButton);
 }
 
 function populateFinesMenu(finesJson) {
-	// Obtenemos la lista de opciones
 	let finesList = JSON.parse(finesJson);
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	selectedOptions = [];
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < finesList.length; i++) {
-		// Obtenemos el objeto en curso
 		let fine = finesList[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -1419,7 +1280,6 @@ function populateFinesMenu(finesJson) {
 		let itemPrice = document.createElement('span');
 		let itemAmount = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -1431,32 +1291,28 @@ function populateFinesMenu(finesJson) {
 		itemPrice.classList.add('item-price');
 		itemAmount.classList.add('item-amount-description');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = fine.reason;
-		itemPrice.innerHTML = '<b>Cantidad: </b>' + fine.amount + '$';
-		itemAmount.innerHTML = '<b>Fecha: </b>' + fine.date.split(' ')[0];
+		itemPrice.innerHTML = '<b>' + i18next.t('general.amount') + '</b>' + fine.amount + '$';
+		itemAmount.innerHTML = '<b>' + i18next.t('townhall.date') + '</b>' + fine.date.split(' ')[0];
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selectedOptions.indexOf(fine) === -1) {
-				// Seleccionamos el elemento pulsado
+				// Mark the selected item
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el índice seleccionado
+				// Save the index
 				selectedOptions.push(fine);
 			} else {
-				// Eliminamos la selección del elemento pulsado
+				// Unmark the selected item
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.remove('active-item');
 				
-				// Eliminamos el índice seleccionado
+				// Remove the index
 				selectedOptions.splice(selectedOptions.indexOf(fine), 1);
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -1469,227 +1325,182 @@ function populateFinesMenu(finesJson) {
 		amountTextContainer.appendChild(itemAmount);
 	}
 	
-	// Añadimos los botones
 	let acceptButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	acceptButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	acceptButton.textContent = 'Pagar';
-	cancelButton.textContent = 'Atrás';
+	acceptButton.textContent = i18next.t('townhall.pay');
+	cancelButton.textContent = i18next.t('general.back');
 	
-	// Ponemos la función para cada elemento
 	acceptButton.onclick = (function() {
 		if(selectedOptions.length > 0) {
-			// Pagamos las multas del jugador
+			// Pay the selected fines
 			mp.trigger('payPlayerFines', JSON.stringify(selectedOptions));
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Volvemos al índice del ayuntamiento
+		// Back to the main menu
 		mp.trigger('backTownHallIndex');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(acceptButton);
 	options.appendChild(cancelButton);
 }
 
 function populatePoliceControlsMenu(policeControlJson) {
-	// Obtenemos la lista de opciones
 	let policeControls = JSON.parse(policeControlJson);
 	let header = document.getElementById('header');
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Añadimos la cabecera del menú
-	header.textContent = 'Controles policiales';
+	// Add the header text
+	header.textContent = i18next.t('police.title');
 	
 	for(let i = 0; i < policeControls.length; i++) {
-		// Obtenemos el objeto en curso
 		let control = policeControls[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
 		let itemDescription = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
 		itemDescription.classList.add('item-description');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = control;
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(selected !== i) {
-				// Miramos si había algún elemento seleccionado
+				
 				if(selected != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[selected];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el nuevo índice seleccionado
 				selected = i;
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
 		descContainer.appendChild(itemDescription);
 	}
 	
-	// Añadimos los botones
 	let acceptButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	acceptButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	acceptButton.textContent = 'Cargar';
-	cancelButton.textContent = 'Salir';
+	acceptButton.textContent = i18next.t('police.load');
+	cancelButton.textContent = i18next.t('general.exit');
 	
-	// Ponemos la función para cada elemento
 	acceptButton.onclick = (function() {
-		// Procesamos la opción y borramos el navegador
+		// Process the option and close the menu
 		mp.trigger('proccessPoliceControlAction');
 		mp.trigger('destroyBrowser');
 	});
 	
 	cancelButton.onclick = (function() {
-		// Cerramos la ventana de controles
+		// Close the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(acceptButton);
 	options.appendChild(cancelButton);
 }
 
 function populateWardrobeMenu(clothesTypeArray) {
-	// Añadimos el título al menú
 	let header = document.getElementById('header');
-	header.textContent = 'Armario';
+	header.textContent = i18next.t('house.title');
 	
-	// Obtenemos las listas de prendas
 	clothesTypes = JSON.parse(clothesTypeArray);
 	
-	// Mostramos el menú principal
 	populateWardrobeHome();
 }
 
 function populateWardrobeHome() {
-	// Obtenemos el nodo contenedor
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Inicializamos las opciones
 	selected = undefined;
 	drawable = undefined;
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < clothesTypes.length; i++) {
-		// Obtenemos la zona en curso
 		let type = clothesTypes[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
 		let itemDescription = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
 		itemDescription.classList.add('item-description');
 		
-		// Añadimos el contenido de cada elemento
-		itemDescription.textContent = type.desc;
+		itemDescription.textContent = i18next.t(type.desc);
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Seleccionamos el elemento pulsado
 			selected = i;
 			
-			// Cargamos la lista de ropa de la zona
+			// Load the purchased clothes
 			mp.trigger('getPlayedPurchasedClothes', i);
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
 		descContainer.appendChild(itemDescription);
 	}
 	
-	// Añadimos el botón
 	let exitButton = document.createElement('div');
 	
-	// Añadimos las clases al botón
 	exitButton.classList.add('single-button', 'cancel-button');
-	
-	// Añadimos el texto de los botones
-	exitButton.textContent = 'Salir';
+	exitButton.textContent = i18next.t('general.exit');
 	
 	exitButton.onclick = (function() {
-		// Salimos del menú
+		// Exit the menu
 		mp.trigger('destroyBrowser');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(exitButton);
 }
 
 function populateWardrobeClothes(typeClothesJson) {
-	// Obtenemos el nodo contenedor
 	let content = document.getElementById('content');
 	let options = document.getElementById('options');
 	
-	// Parseamos el JSON
 	let typeClothesArray = JSON.parse(typeClothesJson);
 	
-	// Limpiamos el contenido
 	while(content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
 	
-	// Limpiamos las opciones
 	while(options.firstChild) {
 		options.removeChild(options.firstChild);
 	}
 	
 	for(let i = 0; i < typeClothesArray.length; i++) {
-		// Obtenemos el componente
 		let clothes = typeClothesArray[i];
 		
-		// Creamos los elementos para mostrar cada objeto
 		let itemContainer = document.createElement('div');
 		let infoContainer = document.createElement('div');
 		let descContainer = document.createElement('div');
@@ -1698,7 +1509,6 @@ function populateWardrobeClothes(typeClothesJson) {
 		let itemDescription = document.createElement('span');
 		let itemPrice = document.createElement('span');
 		
-		// Añadimos las clases a cada elemento
 		itemContainer.classList.add('item-row');
 		infoContainer.classList.add('item-content');
 		descContainer.classList.add('item-header');
@@ -1707,35 +1517,29 @@ function populateWardrobeClothes(typeClothesJson) {
 		itemDescription.classList.add('item-description');
 		itemPrice.classList.add('item-price');
 		
-		// Añadimos el contenido de cada elemento
 		itemDescription.textContent = clothes.description;
-		itemPrice.innerHTML = '<b>Variante: </b>' + clothes.texture;
+		itemPrice.innerHTML = '<b>' + i18next.t('clothes.variation') + '</b>' + clothes.texture;
 		itemAdd.textContent = '+';
 		itemSubstract.textContent = '-';
 		
-		// Ponemos la función para cada elemento
 		itemContainer.onclick = (function() {
-			// Comprobamos que se ha pulsado en un elemento no seleccionado
 			if(drawable !== i) {
-				// Miramos si había algún elemento seleccionado
+				
 				if(drawable != undefined) {
 					let previousSelected = document.getElementsByClassName('item-row')[drawable];
 					previousSelected.classList.remove('active-item');
 				}
 				
-				// Seleccionamos el elemento pulsado
 				let currentSelected = document.getElementsByClassName('item-row')[i];
 				currentSelected.classList.add('active-item');
 				
-				// Guardamos el nuevo índice seleccionado
 				drawable = i;
 				
-				// Actualizamos la prenda
+				// Update the player's clothes
 				mp.trigger('previewPlayerClothes', drawable);
 			}
 		});
 		
-		// Ordenamos la jerarquía de elementos
 		content.appendChild(itemContainer);
 		itemContainer.appendChild(infoContainer);
 		infoContainer.appendChild(descContainer);
@@ -1751,35 +1555,29 @@ function populateWardrobeClothes(typeClothesJson) {
 		addSubstractContainer.appendChild(itemSubstract);
 	}
 	
-	// Añadimos los botones
 	let dressButton = document.createElement('div');
 	let cancelButton = document.createElement('div');
 	
-	// Añadimos las clases a cada botón
 	dressButton.classList.add('double-button', 'accept-button');
 	cancelButton.classList.add('double-button', 'cancel-button');
 	
-	// Añadimos el texto de los botones
-	dressButton.textContent = 'Vestir';
-	cancelButton.textContent = 'Atrás';
+	dressButton.textContent = i18next.t('clothes.dress');
+	cancelButton.textContent = i18next.t('general.back');
 	
-	// Ponemos la función para cada elemento
 	dressButton.onclick = (function() {
-		// Mandamos la acción de vestirse si ha seleccionado algo
 		if(selected != undefined) {
 			mp.trigger('changePlayerClothes', selected, drawable);
 		}
 	});
 	
 	cancelButton.onclick = (function() {
-		// Volvemos al inicio
+		// Back to the main menu
 		populateWardrobeHome();
 		
-		// Limpiamos la ropa no vestida
+		// Clear not dressed clothes
 		mp.trigger('clearClothes');
 	});
-		
-	// Ordenamos la jerarquía de elementos
+	
 	options.appendChild(dressButton);
 	options.appendChild(cancelButton);
 }
