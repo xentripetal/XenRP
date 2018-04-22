@@ -1,6 +1,8 @@
 ﻿let bankSelectedOption = 0;
-let vehicleArray = null;
+let vehicleArray = undefined;
 let catalogSelectedOption = 0;
+let messagesLoaded = false;
+let timeout = undefined;
 
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
@@ -10,6 +12,7 @@ $(document).ready(function() {
 	}, function(err, t) {
         jqueryI18next.init(i18next, $);
 		$(document).localize();
+		messagesLoaded = true;
 	});
 	
     $('#colorpicker').farbtastic(function (color) {
@@ -247,41 +250,48 @@ function getVehicleList() {
 }
 
 function populateVehicleList(dealership, vehicleJSON) {
-    // Show the vehicle list
-    switch (dealership) {
-        case 0:
-            $('#vehicle-list-cars').removeClass('hidden');
-            break;
-        case 1:
-            $('#vehicle-list-motorbikes').removeClass('hidden');
-            break;
-    }
+	if(messagesLoaded) {
+		// Show the vehicle list
+		switch (dealership) {
+			case 0:
+				$('#vehicle-list-cars').removeClass('hidden');
+				break;
+			case 1:
+				$('#vehicle-list-motorbikes').removeClass('hidden');
+				break;
+		}
 
-    vehicleArray = JSON.parse(vehicleJSON);
-    var mainContainer = document.getElementById('vehicle-container');
-    for (var i = 0; i < vehicleArray.length; i++) {
-        var container = document.createElement('div');
-        var image = document.createElement('div');
-        var model = document.createElement('div');
-        var speed = document.createElement('div');
-        var price = document.createElement('div');
-        image.id = vehicleArray[i].model;
-        image.className = vehicleArray[i].model + ' center-block';
-        image.style.width = '120px';
-        image.style.height = '90px';
-        model.textContent = i18next.t('cardealer.model') + vehicleArray[i].model;
-        speed.textContent = i18next.t('cardealer.speed') + vehicleArray[i].speed + 'km/h';
-        price.textContent = i18next.t('general.price') + vehicleArray[i].price + '$';
-        container.className = 'col-lg-2';
-        container.onclick = function () {
-            mp.trigger('previewCarShopVehicle', this.firstChild.id);
-        };
-        container.appendChild(image);
-        container.appendChild(model);
-        container.appendChild(speed);
-        container.appendChild(price);
-        mainContainer.appendChild(container);
-    }
+		vehicleArray = JSON.parse(vehicleJSON);
+		var mainContainer = document.getElementById('vehicle-container');
+		for (var i = 0; i < vehicleArray.length; i++) {
+			var container = document.createElement('div');
+			var image = document.createElement('div');
+			var model = document.createElement('div');
+			var speed = document.createElement('div');
+			var price = document.createElement('div');
+			image.id = vehicleArray[i].model;
+			image.className = vehicleArray[i].model + ' center-block';
+			image.style.width = '120px';
+			image.style.height = '90px';
+			model.textContent = i18next.t('cardealer.model') + vehicleArray[i].model;
+			speed.textContent = i18next.t('cardealer.speed') + vehicleArray[i].speed + 'km/h';
+			price.textContent = i18next.t('general.price') + vehicleArray[i].price + '$';
+			container.className = 'col-lg-2';
+			container.onclick = function () {
+				mp.trigger('previewCarShopVehicle', this.firstChild.id);
+			};
+			container.appendChild(image);
+			container.appendChild(model);
+			container.appendChild(speed);
+			container.appendChild(price);
+			mainContainer.appendChild(container);
+			
+			clearTimeout(timeout);
+		}
+	} else {
+		clearTimeout(timeout);
+		timeout = setTimeout(function() { populateVehicleList(dealership, vehicleJSON); }, 100);
+	}
 }
 
 $("input[type='checkbox']").change(function () {

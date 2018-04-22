@@ -23,6 +23,8 @@ let currentBlushModel = -1;
 let currentBlushColor = 0;
 let currentLipstickModel = -1;
 let currentLipstickColor = 0;
+let messagesLoaded = false;
+let timeout = undefined;
 
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
@@ -32,6 +34,7 @@ $(document).ready(function() {
 	}, function(err, t) {
         jqueryI18next.init(i18next, $);
 		$(document).localize();
+		messagesLoaded = true;
 	});
 });
 
@@ -96,17 +99,22 @@ $("nav#slider ul").on("click", "li", function() {
 });
 
 function createCharacter() {
-	if($.trim($('#character-name').val()).length == 0) {
-		$('#error-message').html(i18next.t('character.name-missing'));
-		$('#error').removeClass('no-display');
-	} else if($.trim($('#character-surname').val()).length == 0) {
-		$('#error-message').html(i18next.t('character.surname-missing'));
-		$('#error').removeClass('no-display');
+	if(messagesLoaded) {
+		if($.trim($('#character-name').val()).length == 0) {
+			$('#error-message').html(i18next.t('character.name-missing'));
+			$('#error').removeClass('no-display');
+		} else if($.trim($('#character-surname').val()).length == 0) {
+			$('#error-message').html(i18next.t('character.surname-missing'));
+			$('#error').removeClass('no-display');
+		} else {
+			let characterAge = $('#age').val();
+			let characterName = $('#character-name').val()[0].toUpperCase() + $('#character-name').val().substr(1);
+			let characterSurname = $('#character-surname').val()[0].toUpperCase() + $('#character-surname').val().substr(1);
+			mp.trigger('acceptCharacterCreation', characterName.trim() + " " + characterSurname.trim(), characterAge);
+		}
 	} else {
-		let characterAge = $('#age').val();
-		let characterName = $('#character-name').val()[0].toUpperCase() + $('#character-name').val().substr(1);
-		let characterSurname = $('#character-surname').val()[0].toUpperCase() + $('#character-surname').val().substr(1);
-		mp.trigger('acceptCharacterCreation', characterName.trim() + " " + characterSurname.trim(), characterAge);
+		clearTimeout(timeout);
+		timeout = setTimeout(function() { createCharacter(); }, 100);
 	}
 }
 
@@ -116,8 +124,13 @@ function cancelCreation() {
 }
 
 function showPlayerDuplicatedWarn() {
-	$('#error-message').html(i18next.t('character.name-duplicated'));
-	$('#error').removeClass('no-display');
+	if(messagesLoaded) {
+		$('#error-message').html(i18next.t('character.name-duplicated'));
+		$('#error').removeClass('no-display');
+	} else {
+		clearTimeout(timeout);
+		timeout = setTimeout(function() { showPlayerDuplicatedWarn(); }, 100);
+	}
 }
 
 function cameraPointTo(part) {
