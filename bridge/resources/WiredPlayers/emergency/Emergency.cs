@@ -8,6 +8,7 @@ using WiredPlayers.faction;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.emergency
 {
@@ -225,14 +226,18 @@ namespace WiredPlayers.emergency
                             bloodModel.type = String.Empty;
                             bloodModel.used = true;
 
-                            // Add the blood consumption to the database
-                            bloodModel.id = Database.AddBloodTransaction(bloodModel);
-                            bloodList.Add(bloodModel);
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Add the blood consumption to the database
+                                bloodModel.id = Database.AddBloodTransaction(bloodModel);
+                                bloodList.Add(bloodModel);
 
-                            String playerMessage = String.Format(Messages.INF_PLAYER_REANIMATED, target.Name);
-                            String targetMessage = String.Format(Messages.SUC_TARGET_REANIMATED, player.Name);
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + playerMessage);
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_SUCCESS + targetMessage);
+                                // Send the confirmation message to both players
+                                String playerMessage = String.Format(Messages.INF_PLAYER_REANIMATED, target.Name);
+                                String targetMessage = String.Format(Messages.SUC_TARGET_REANIMATED, player.Name);
+                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + playerMessage);
+                                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_SUCCESS + targetMessage);
+                            });
                         }
                         else
                         {
@@ -278,16 +283,19 @@ namespace WiredPlayers.emergency
                         blood.type = String.Empty;
                         blood.used = false;
 
-                        // We add the blood unit to the database
-                        blood.id = Database.AddBloodTransaction(blood);
-                        bloodList.Add(blood);
-                        
-                        NAPI.Player.SetPlayerHealth(target, NAPI.Player.GetPlayerHealth(target) - 15);
+                        Task.Factory.StartNew(() =>
+                        {
+                            // We add the blood unit to the database
+                            blood.id = Database.AddBloodTransaction(blood);
+                            bloodList.Add(blood);
 
-                        String playerMessage = String.Format(Messages.INF_BLOOD_EXTRACTED, target.Name);
-                        String targetMessage = String.Format(Messages.INF_BLOOD_EXTRACTED, player.Name);
-                        NAPI.Chat.SendChatMessageToPlayer(player, playerMessage);
-                        NAPI.Chat.SendChatMessageToPlayer(target, targetMessage);
+                            NAPI.Player.SetPlayerHealth(target, NAPI.Player.GetPlayerHealth(target) - 15);
+
+                            String playerMessage = String.Format(Messages.INF_BLOOD_EXTRACTED, target.Name);
+                            String targetMessage = String.Format(Messages.INF_BLOOD_EXTRACTED, player.Name);
+                            NAPI.Chat.SendChatMessageToPlayer(player, playerMessage);
+                            NAPI.Chat.SendChatMessageToPlayer(target, targetMessage);
+                        });
                     }
                     else
                     {

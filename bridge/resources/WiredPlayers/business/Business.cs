@@ -5,6 +5,7 @@ using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.business
 {
@@ -235,9 +236,11 @@ namespace WiredPlayers.business
                         itemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
                         itemModel.dimension = 0;
 
-                        // Adding the item to the list and database
-                        itemModel.id = Database.AddNewItem(itemModel);
-                        Globals.itemList.Add(itemModel);
+                        Task.Factory.StartNew(() => {
+                            // Adding the item to the list and database
+                            itemModel.id = Database.AddNewItem(itemModel);
+                            Globals.itemList.Add(itemModel);
+                        });
                     }
                     else
                     {
@@ -246,7 +249,11 @@ namespace WiredPlayers.business
                             itemModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
                         }
                         itemModel.amount += (businessItem.uses * amount);
-                        Database.UpdateItem(itemModel);
+
+                        Task.Factory.StartNew(() => {
+                            // Update the item's amount
+                            Database.UpdateItem(itemModel);
+                        });
                     }
 
                     // If the item has a valid hash, we give it in hand
@@ -264,7 +271,10 @@ namespace WiredPlayers.business
                         // Checking if it's been bought in the Ammu-Nation
                         if (business.type == Constants.BUSINESS_TYPE_AMMUNATION)
                         {
-                            Database.AddLicensedWeapon(itemModel.id, player.Name);
+                            Task.Factory.StartNew(() => {
+                                // Add a registered weapon
+                                Database.AddLicensedWeapon(itemModel.id, player.Name);
+                            });
                         }
                     }
 
@@ -291,7 +301,11 @@ namespace WiredPlayers.business
                     {
                         business.funds += price;
                         business.products -= businessItem.products;
-                        Database.UpdateBusiness(business);
+
+                        Task.Factory.StartNew(() => {
+                            // Update the business
+                            Database.UpdateBusiness(business);
+                        });
                     }
 
                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - price);
@@ -370,7 +384,11 @@ namespace WiredPlayers.business
                 {
                     business.funds += price;
                     business.products -= products;
-                    Database.UpdateBusiness(business);
+
+                    Task.Factory.StartNew(() => {
+                        // Update the business
+                        Database.UpdateBusiness(business);
+                    });
                 }
 
                 // Undress previous clothes
@@ -384,13 +402,15 @@ namespace WiredPlayers.business
                 clothesModel.drawable = clothesId;
                 clothesModel.dressed = true;
 
-                // Storing the clothes into database
-                clothesModel.id = Database.AddClothes(clothesModel);
-                Globals.clothesList.Add(clothesModel);
+                Task.Factory.StartNew(() => {
+                    // Storing the clothes into database
+                    clothesModel.id = Database.AddClothes(clothesModel);
+                    Globals.clothesList.Add(clothesModel);
 
-                // Confirmation message sent to the player
-                String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                    // Confirmation message sent to the player
+                    String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                });
             }
             else
             {
@@ -422,9 +442,6 @@ namespace WiredPlayers.business
                 skin.eyebrowsModel = skinModel.eyebrowsModel;
                 skin.eyebrowsColor = skinModel.eyebrowsColor;
 
-                // We update values in the database
-                Database.UpdateCharacterHair(playerId, skin);
-
                 // Saving new entity data
                 NAPI.Data.SetEntitySharedData(player, EntityData.HAIR_MODEL, skin.hairModel);
                 NAPI.Data.SetEntitySharedData(player, EntityData.FIRST_HAIR_COLOR, skin.firstHairColor);
@@ -437,17 +454,22 @@ namespace WiredPlayers.business
                 // Substract money to the player
                 NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
 
-                // We substract the product and add funds to the business
-                if (business.owner != String.Empty)
-                {
-                    business.funds += price;
-                    business.products -= Constants.PRICE_BARBER_SHOP;
-                    Database.UpdateBusiness(business);
-                }
+                Task.Factory.StartNew(() => {
+                    // We update values in the database
+                    Database.UpdateCharacterHair(playerId, skin);
 
-                // Confirmation message sent to the player
-                String playerMessage = String.Format(Messages.INF_HAIRCUT_PURCHASED, price);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                    // We substract the product and add funds to the business
+                    if (business.owner != String.Empty)
+                    {
+                        business.funds += price;
+                        business.products -= Constants.PRICE_BARBER_SHOP;
+                        Database.UpdateBusiness(business);
+                    }
+
+                    // Confirmation message sent to the player
+                    String playerMessage = String.Format(Messages.INF_HAIRCUT_PURCHASED, price);
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                });
             }
             else
             {
@@ -489,34 +511,36 @@ namespace WiredPlayers.business
                 tattoo.library = businessTattoo.library;
                 tattoo.hash = sex == Constants.SEX_MALE ? businessTattoo.maleHash : businessTattoo.femaleHash;
 
-                if (Database.AddTattoo(tattoo) == true)
-                {
-                    // We add the tattoo to the list
-                    Globals.tattooList.Add(tattoo);
-
-                    // Substract player money
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
-
-                    // We substract the product and add funds to the business
-                    if (business.owner != String.Empty)
+                Task.Factory.StartNew(() => {
+                    if (Database.AddTattoo(tattoo) == true)
                     {
-                        business.funds += price;
-                        business.products -= businessTattoo.price;
-                        Database.UpdateBusiness(business);
+                        // We add the tattoo to the list
+                        Globals.tattooList.Add(tattoo);
+
+                        // Substract player money
+                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
+
+                        // We substract the product and add funds to the business
+                        if (business.owner != String.Empty)
+                        {
+                            business.funds += price;
+                            business.products -= businessTattoo.price;
+                            Database.UpdateBusiness(business);
+                        }
+
+                        // Confirmation message sent to the player
+                        String playerMessage = String.Format(Messages.INF_TATTOO_PURCHASED, price);
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+
+                        // Reload client tattoo list
+                        NAPI.ClientEvent.TriggerClientEvent(player, "addPurchasedTattoo", NAPI.Util.ToJson(tattoo));
                     }
-
-                    // Confirmation message sent to the player
-                    String playerMessage = String.Format(Messages.INF_TATTOO_PURCHASED, price);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-
-                    // Reload client tattoo list
-                    NAPI.ClientEvent.TriggerClientEvent(player, "addPurchasedTattoo", NAPI.Util.ToJson(tattoo));
-                }
-                else
-                {
-                    // Player already had that tattoo
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_TATTOO_DUPLICATED);
-                }
+                    else
+                    {
+                        // Player already had that tattoo
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_TATTOO_DUPLICATED);
+                    }
+                });
             }
             else
             {

@@ -5,6 +5,7 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.house
 {
@@ -103,7 +104,12 @@ namespace WiredPlayers.house
                     NAPI.TextLabel.SetTextLabelText(house.houseLabel, GetHouseLabelText(house));
                     house.owner = player.Name;
                     house.locked = true;
-                    Database.UpdateHouse(house);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the house
+                        Database.UpdateHouse(house);
+                    });
                 }
                 else
                 {
@@ -157,15 +163,21 @@ namespace WiredPlayers.house
                         NAPI.Player.SetPlayerAccessory(player, clothes.slot, clothes.drawable, clothes.texture);
                     }
 
-                    // Update dressed clothes into database
-                    Database.UpdateClothes(clothes);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update dressed clothes into database
+                        Database.UpdateClothes(clothes);
+                    });
                 }
                 else if (clothes.id != clothesId && clothes.dressed)
                 {
                     clothes.dressed = false;
 
-                    // Update dressed clothes into database
-                    Database.UpdateClothes(clothes);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update dressed clothes into database
+                        Database.UpdateClothes(clothes);
+                    });
                 }
             }
         }
@@ -190,11 +202,16 @@ namespace WiredPlayers.house
                     house.rental = amount;
                     house.status = Constants.HOUSE_STATE_RENTABLE;
                     house.tenants = 2;
-                    Database.UpdateHouse(house);
 
                     // Update house's textlabel
                     String labelText = GetHouseLabelText(house);
                     NAPI.TextLabel.SetTextLabelText(house.houseLabel, labelText);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the house
+                        Database.UpdateHouse(house);
+                    });
 
                     // Message sent to the player
                     String message = String.Format(Messages.INF_HOUSE_STATE_RENT, amount);
@@ -203,18 +220,21 @@ namespace WiredPlayers.house
                 else if (house.status == Constants.HOUSE_STATE_RENTABLE)
                 {
                     house.status = Constants.HOUSE_STATE_NONE;
-                    Database.UpdateHouse(house);
+                    house.tenants = 2;
 
                     // Update house's textlabel
                     String labelText = GetHouseLabelText(house);
                     NAPI.TextLabel.SetTextLabelText(house.houseLabel, labelText);
 
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the house
+                        Database.KickTenantsOut(house.id);
+                        Database.UpdateHouse(house);
+                    });
+
                     // Message sent to the player
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_HOUSE_RENT_CANCEL);
-
-                    Database.KickTenantsOut(house.id);
-                    house.tenants = 2;
-                    Database.UpdateHouse(house);
                 }
                 else
                 {
@@ -244,10 +264,11 @@ namespace WiredPlayers.house
                         {
                             int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY) - house.rental;
                             String message = String.Format(Messages.INF_HOUSE_RENT, house.name, house.rental);
+
                             NAPI.Data.SetEntityData(player, EntityData.PLAYER_RENT_HOUSE, house.id);
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money);
                             house.tenants--;
+
                             if (house.tenants == 0)
                             {
                                 house.status = Constants.HOUSE_STATE_NONE;
@@ -255,8 +276,14 @@ namespace WiredPlayers.house
                                 NAPI.TextLabel.SetTextLabelText(house.houseLabel, labelText);
                             }
 
-                            // Update house's tenants
-                            Database.UpdateHouse(house);
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Update house's tenants
+                                Database.UpdateHouse(house);
+                            });
+
+                            // Send the message to the player
+                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                         }
                         break;
                     }
@@ -264,9 +291,16 @@ namespace WiredPlayers.house
                     {
                         // Remove player's rental
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_RENT_HOUSE, 0);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + String.Format(Messages.INF_HOUSE_RENT_STOP, house.name));
                         house.tenants++;
-                        Database.UpdateHouse(house);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update house's tenants
+                            Database.UpdateHouse(house);
+                        });
+
+                        // Send the message to the player
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + String.Format(Messages.INF_HOUSE_RENT_STOP, house.name));
                     }
                     else
                     {

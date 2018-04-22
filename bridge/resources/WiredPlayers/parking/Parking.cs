@@ -7,6 +7,7 @@ using WiredPlayers.mechanic;
 using WiredPlayers.house;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.parking
 {
@@ -140,7 +141,12 @@ namespace WiredPlayers.parking
             // Save the vehicle and delete it from the game
             NAPI.Player.WarpPlayerOutOfVehicle(player);
             NAPI.Entity.DeleteEntity(vehicle);
-            Database.SaveVehicle(vehicleModel);
+
+            Task.Factory.StartNew(() =>
+            {
+                // Save the vehicle
+                Database.SaveVehicle(vehicleModel);
+            });
         }
 
         [Command(Messages.COM_PARK)]

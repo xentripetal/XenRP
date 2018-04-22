@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.login
 {
@@ -268,62 +269,71 @@ namespace WiredPlayers.login
             InitializePlayerData(player);
             InitializePlayerSkin(player);
 
-            AccountModel account = Database.GetAccount(player.SocialClubName);
-
-            switch (account.status)
+            Task.Factory.StartNew(() =>
             {
-                case -1:
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ACCOUNT_DISABLED);
-                    NAPI.Player.KickPlayer(player, Messages.INF_ACCOUNT_DISABLED);
-                    break;
-                case 0:
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ACCOUNT_NEW);
-                    NAPI.Player.KickPlayer(player, Messages.INF_ACCOUNT_NEW);
-                    break;
-                default:
-                    // Welcome message
-                    String welcomeMessage = String.Format(Messages.GEN_WELCOME_MESSAGE, player.SocialClubName);
-                    NAPI.Chat.SendChatMessageToPlayer(player, welcomeMessage);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_WELCOME_HINT);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_HELP_HINT);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_TICKET_HINT);
-                    
-                    if (account.lastCharacter > 0)
-                    {
-                        // Load selected character
-                        PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
-                        SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
-                        
-                        NAPI.Player.SetPlayerName(player, character.realName);
-                        NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
-                        
-                        LoadCharacterData(player, character);
-                        
-                        PopulateCharacterSkin(player, skin);
-                        
-                        Globals.PopulateCharacterClothes(player);
-                    }
-                    else
-                    {
-                        PedHash pedHash = NAPI.Util.PedNameToModel(Constants.DEFAULT_PED_MODEL);
-                        NAPI.Player.SetPlayerSkin(player, pedHash);
-                    }
+                AccountModel account = Database.GetAccount(player.SocialClubName);
 
-                    // Make the player invisible
-                    NAPI.Entity.SetEntityTransparency(player, 255);
+                switch (account.status)
+                {
+                    case -1:
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ACCOUNT_DISABLED);
+                        NAPI.Player.KickPlayer(player, Messages.INF_ACCOUNT_DISABLED);
+                        break;
+                    case 0:
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ACCOUNT_NEW);
+                        NAPI.Player.KickPlayer(player, Messages.INF_ACCOUNT_NEW);
+                        break;
+                    default:
+                        // Welcome message
+                        String welcomeMessage = String.Format(Messages.GEN_WELCOME_MESSAGE, player.SocialClubName);
+                        NAPI.Chat.SendChatMessageToPlayer(player, welcomeMessage);
+                        NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_WELCOME_HINT);
+                        NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_HELP_HINT);
+                        NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_TICKET_HINT);
 
-                    // Show login window and synchronize the time
-                    TimeSpan currentTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
-                    NAPI.ClientEvent.TriggerClientEvent(player, "accountLoginForm", currentTime.Hours, currentTime.Minutes, currentTime.Seconds);
-                    break;
-            }
+                        if (account.lastCharacter > 0)
+                        {
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Load selected character
+                                PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
+                                SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
+
+                                NAPI.Player.SetPlayerName(player, character.realName);
+                                NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
+
+                                LoadCharacterData(player, character);
+
+                                PopulateCharacterSkin(player, skin);
+
+                                Globals.PopulateCharacterClothes(player);
+                            });
+                        }
+                        else
+                        {
+                            PedHash pedHash = NAPI.Util.PedNameToModel(Constants.DEFAULT_PED_MODEL);
+                            NAPI.Player.SetPlayerSkin(player, pedHash);
+                        }
+
+                        // Make the player invisible
+                        NAPI.Entity.SetEntityTransparency(player, 255);
+
+                        // Show login window and synchronize the time
+                        TimeSpan currentTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
+                        NAPI.ClientEvent.TriggerClientEvent(player, "accountLoginForm", currentTime.Hours, currentTime.Minutes, currentTime.Seconds);
+                        break;
+                }
+            });
         }
 
         [RemoteEvent("loginAccount")]
         public void LoginAccountEvent(Client player, String password)
         {
-            bool login = Database.LoginAccount(player.SocialClubName, password);
-            NAPI.ClientEvent.TriggerClientEvent(player, login ? "clearLoginWindow" : "showLoginError");
+            Task.Factory.StartNew(() =>
+            {
+                bool login = Database.LoginAccount(player.SocialClubName, password);
+                NAPI.ClientEvent.TriggerClientEvent(player, login ? "clearLoginWindow" : "showLoginError");
+            });
         }
 
         [RemoteEvent("changeCharacterSex")]
@@ -353,20 +363,25 @@ namespace WiredPlayers.login
             
             PopulateCharacterSkin(player, skinModel);
 
-            int playerId = Database.CreateCharacter(player, playerModel, skinModel);
-
-            if (playerId > 0)
+            Task.Factory.StartNew(() =>
             {
-                InitializePlayerData(player);
-                NAPI.Entity.SetEntityTransparency(player, 255);
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_SQL_ID, playerId);
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, playerName);
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, playerAge);
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_POS, new Vector3(200.6641f, -932.0939f, 30.6868f));
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 0.0f));
-                Database.UpdateLastCharacter(player.SocialClubName, playerId);
-                NAPI.ClientEvent.TriggerClientEvent(player, "characterCreatedSuccessfully");
-            }
+                int playerId = Database.CreateCharacter(player, playerModel, skinModel);
+
+                if (playerId > 0)
+                {
+                    InitializePlayerData(player);
+                    NAPI.Entity.SetEntityTransparency(player, 255);
+                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_SQL_ID, playerId);
+                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, playerName);
+                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, playerAge);
+                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_POS, new Vector3(200.6641f, -932.0939f, 30.6868f));
+                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 0.0f));
+
+                    Database.UpdateLastCharacter(player.SocialClubName, playerId);
+
+                    NAPI.ClientEvent.TriggerClientEvent(player, "characterCreatedSuccessfully");
+                }
+            });
         }
 
         [RemoteEvent("setCharacterIntoCreator")]
@@ -392,19 +407,22 @@ namespace WiredPlayers.login
         [RemoteEvent("loadCharacter")]
         public void LoadCharacterEvent(Client player, String name)
         {
-            PlayerModel playerModel = Database.LoadCharacterInformationByName(name);
-            SkinModel skinModel = Database.GetCharacterSkin(playerModel.id);
+            Task.Factory.StartNew(() =>
+            {
+                PlayerModel playerModel = Database.LoadCharacterInformationByName(name);
+                SkinModel skinModel = Database.GetCharacterSkin(playerModel.id);
 
-            // Load player's model
-            NAPI.Player.SetPlayerName(player, playerModel.realName);
-            NAPI.Player.SetPlayerSkin(player, playerModel.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
-            
-            LoadCharacterData(player, playerModel);
-            PopulateCharacterSkin(player, skinModel);
-            Globals.PopulateCharacterClothes(player);
+                // Load player's model
+                NAPI.Player.SetPlayerName(player, playerModel.realName);
+                NAPI.Player.SetPlayerSkin(player, playerModel.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
-            // Update last selected character
-            Database.UpdateLastCharacter(player.SocialClubName, playerModel.id);
+                LoadCharacterData(player, playerModel);
+                PopulateCharacterSkin(player, skinModel);
+                Globals.PopulateCharacterClothes(player);
+
+                // Update last selected character
+                Database.UpdateLastCharacter(player.SocialClubName, playerModel.id);
+            });
         }
 
         [RemoteEvent("getPlayerCustomSkin")]

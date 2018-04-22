@@ -5,6 +5,7 @@ using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.weapons
 {
@@ -39,16 +40,23 @@ namespace WiredPlayers.weapons
             weaponModel.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
             weaponModel.position = new Vector3(0.0f, 0.0f, 0.0f);
             weaponModel.dimension = 0;
-            weaponModel.id = Database.AddNewItem(weaponModel);
-            Globals.itemList.Add(weaponModel);
+
+            Task.Factory.StartNew(() =>
+            {
+                weaponModel.id = Database.AddNewItem(weaponModel);
+                Globals.itemList.Add(weaponModel);
+            });
             
             NAPI.Player.GivePlayerWeapon(player, weapon, 0);
             NAPI.Player.SetPlayerWeaponAmmo(player, weapon, bullets);
             
             if (licensed)
             {
-                // We add the weapon as a registered into database
-                Database.AddLicensedWeapon(weaponModel.id, player.Name);
+                Task.Factory.StartNew(() =>
+                {
+                    // We add the weapon as a registered into database
+                    Database.AddLicensedWeapon(weaponModel.id, player.Name);
+                });
             }
         }
 
@@ -277,12 +285,16 @@ namespace WiredPlayers.weapons
                     item.amount = weaponCrate.contentAmount;
                     item.ownerEntity = Constants.ITEM_ENTITY_VEHICLE;
                     item.ownerIdentifier = vehicleId;
-                    item.id = Database.AddNewItem(item);
-                    Globals.itemList.Add(item);
 
                     // Delete the crate
                     weaponCrate.carriedIdentifier = 0;
                     weaponCrate.carriedEntity = String.Empty;
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        item.id = Database.AddNewItem(item);
+                        Globals.itemList.Add(item);
+                    });
                 }
             }
 
@@ -425,14 +437,24 @@ namespace WiredPlayers.weapons
                 {
                     // Unequip previous weapon
                     oldWeaponModel.ownerEntity = Constants.ITEM_ENTITY_WHEEL;
-                    Database.UpdateItem(oldWeaponModel);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the weapon into the database
+                        Database.UpdateItem(oldWeaponModel);
+                    });
                 }
 
                 if (currentWeaponModel != null)
                 {
                     // Equip new weapon
                     currentWeaponModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
-                    Database.UpdateItem(currentWeaponModel);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the weapon into the database
+                        Database.UpdateItem(currentWeaponModel);
+                    });
                 }
 
                 // Check if it's armed
@@ -464,20 +486,34 @@ namespace WiredPlayers.weapons
                     if (bulletsLeft >= bulletItem.amount)
                     {
                         currentBullets += bulletItem.amount;
-                        Database.RemoveItem(bulletItem.id);
-                        Globals.itemList.Remove(bulletItem);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            Database.RemoveItem(bulletItem.id);
+                            Globals.itemList.Remove(bulletItem);
+                        });
                     }
                     else
                     {
                         currentBullets += bulletsLeft;
                         bulletItem.amount -= bulletsLeft;
-                        Database.UpdateItem(bulletItem);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the remaining bullets
+                            Database.UpdateItem(bulletItem);
+                        });
                     }
 
                     // Add ammunition to the weapon
                     ItemModel weaponItem = GetEquippedWeaponItemModelByHash(playerId, weapon);
                     weaponItem.amount = currentBullets;
-                    Database.UpdateItem(weaponItem);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the bullets in the weapon
+                        Database.UpdateItem(weaponItem);
+                    });
 
                     // Reload the weapon
                     NAPI.Player.SetPlayerWeaponAmmo(player, weapon, currentBullets);

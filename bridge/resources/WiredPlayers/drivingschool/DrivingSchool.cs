@@ -5,6 +5,7 @@ using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.drivingschool
 {
@@ -51,7 +52,7 @@ namespace WiredPlayers.drivingschool
             NAPI.Entity.SetEntityRotation(vehicle, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ROTATION));
 
             // Checkpoint delete
-            if(NAPI.Vehicle.GetVehicleDriver(vehicle) == player)
+            if (NAPI.Vehicle.GetVehicleDriver(vehicle) == player)
             {
                 Checkpoint licenseCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
                 NAPI.Entity.DeleteEntity(licenseCheckpoint);
@@ -331,46 +332,49 @@ namespace WiredPlayers.drivingschool
         [RemoteEvent("checkAnswer")]
         public void CheckAnswerEvent(Client player, int answer)
         {
-            if (Database.CheckAnswerCorrect(answer) == true)
+            Task.Factory.StartNew(() =>
             {
-                // We add the correct answer
-                int nextQuestion = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION) + 1;
-
-                if (nextQuestion < Constants.MAX_LICENSE_QUESTIONS)
+                if (Database.CheckAnswerCorrect(answer) == true)
                 {
-                    // Go for the next question
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, nextQuestion);
-                    NAPI.ClientEvent.TriggerClientEvent(player, "getNextTestQuestion");
+                    // We add the correct answer
+                    int nextQuestion = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION) + 1;
+
+                    if (nextQuestion < Constants.MAX_LICENSE_QUESTIONS)
+                    {
+                        // Go for the next question
+                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, nextQuestion);
+                        NAPI.ClientEvent.TriggerClientEvent(player, "getNextTestQuestion");
+                    }
+                    else
+                    {
+                        // Player passed the exam
+                        int license = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
+                        SetPlayerLicense(player, license, 0);
+
+                        // Reset the entity data
+                        NAPI.Data.ResetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
+                        NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION);
+
+                        // Send the message to the player
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_EXAM_PASSED);
+
+                        // Exam window close
+                        NAPI.ClientEvent.TriggerClientEvent(player, "finishLicenseExam");
+                    }
                 }
                 else
                 {
-                    // Player passed the exam
-                    int license = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
-                    SetPlayerLicense(player, license, 0);
+                    // Player failed the exam
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_EXAM_FAILED);
 
                     // Reset the entity data
                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
                     NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION);
 
-                    // Send the message to the player
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_EXAM_PASSED);
-
                     // Exam window close
                     NAPI.ClientEvent.TriggerClientEvent(player, "finishLicenseExam");
                 }
-            }
-            else
-            {
-                // Player failed the exam
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_EXAM_FAILED);
-
-                // Reset the entity data
-                NAPI.Data.ResetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
-                NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION);
-
-                // Exam window close
-                NAPI.ClientEvent.TriggerClientEvent(player, "finishLicenseExam");
-            }
+            });
         }
 
         [Command(Messages.COM_DRIVING_SCHOOL, Messages.GEN_DRIVING_SCHOOL_COMMAND)]
@@ -386,7 +390,7 @@ namespace WiredPlayers.drivingschool
 
                     // Get the player's money
                     int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-                    
+
                     switch (type.ToLower())
                     {
                         case Messages.ARG_CAR:
@@ -399,20 +403,23 @@ namespace WiredPlayers.drivingschool
                                     // Check if the player has enough money
                                     if (money >= Constants.PRICE_DRIVING_THEORICAL)
                                     {
-                                        // Add the questions
-                                        questions = Database.GetRandomQuestions(Constants.LICENSE_CAR + 1);
-                                        foreach (TestModel question in questions)
+                                        Task.Factory.StartNew(() =>
                                         {
-                                            answers.AddRange(Database.GetQuestionAnswers(question.id));
-                                        }
-                                        
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
+                                            // Add the questions
+                                            questions = Database.GetRandomQuestions(Constants.LICENSE_CAR + 1);
+                                            foreach (TestModel question in questions)
+                                            {
+                                                answers.AddRange(Database.GetQuestionAnswers(question.id));
+                                            }
 
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+                                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
+                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
 
-                                        // Start the exam
-                                        NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+
+                                            // Start the exam
+                                            NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                        });
                                     }
                                     else
                                     {
@@ -454,20 +461,23 @@ namespace WiredPlayers.drivingschool
                                     // Check if the player has enough money
                                     if (money >= Constants.PRICE_DRIVING_THEORICAL)
                                     {
-                                        // Add the questions
-                                        questions = Database.GetRandomQuestions(Constants.LICENSE_MOTORCYCLE + 1);
-                                        foreach (TestModel question in questions)
+                                        Task.Factory.StartNew(() =>
                                         {
-                                            answers.AddRange(Database.GetQuestionAnswers(question.id));
-                                        }
-                                        
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
+                                            // Add the questions
+                                            questions = Database.GetRandomQuestions(Constants.LICENSE_MOTORCYCLE + 1);
+                                            foreach (TestModel question in questions)
+                                            {
+                                                answers.AddRange(Database.GetQuestionAnswers(question.id));
+                                            }
 
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+                                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
+                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
 
-                                        // Start the exam
-                                        NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+
+                                            // Start the exam
+                                            NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                        });
                                     }
                                     else
                                     {

@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.faction
 {
@@ -363,12 +364,18 @@ namespace WiredPlayers.faction
                                     ChannelModel channel = new ChannelModel();
                                     channel.owner = playerId;
                                     channel.password = GetMd5Hash(md5Hash, arguments[1]);
-                                    channel.id = Database.AddChannel(channel);
-                                    channelList.Add(channel);
 
-                                    // Sending the message with created channel
-                                    String message = String.Format(Messages.INF_CHANNEL_CREATED, channel.id);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Create the new channel
+                                        channel.id = Database.AddChannel(channel);
+                                        channelList.Add(channel);
+
+                                        // Sending the message with created channel
+                                        String message = String.Format(Messages.INF_CHANNEL_CREATED, channel.id);
+                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                                    });
                                 }
                                 else
                                 {
@@ -387,7 +394,6 @@ namespace WiredPlayers.faction
                                 {
                                     MD5 md5Hash = MD5.Create();
                                     ownedChannel.password = GetMd5Hash(md5Hash, arguments[1]);
-                                    Database.UpdateChannel(ownedChannel);
 
                                     // We kick all the players from the channel
                                     foreach (Client target in NAPI.Pools.GetAllPlayers())
@@ -399,10 +405,17 @@ namespace WiredPlayers.faction
                                             NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CHANNEL_DISCONNECTED);
                                         }
                                     }
-                                    Database.DisconnectFromChannel(ownedChannel.id);
 
-                                    // Message sent with the confirmation
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CHANNEL_UPDATED);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Update the channel and disconnect the leader
+                                        Database.UpdateChannel(ownedChannel);
+                                        Database.DisconnectFromChannel(ownedChannel.id);
+
+                                        // Message sent with the confirmation
+                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CHANNEL_UPDATED);
+                                    });
                                 }
                                 else
                                 {
@@ -430,14 +443,19 @@ namespace WiredPlayers.faction
                                         }
                                     }
                                 }
-                                Database.DisconnectFromChannel(ownedChannel.id);
 
-                                // We destroy the channel
-                                Database.RemoveChannel(ownedChannel.id);
-                                channelList.Remove(ownedChannel);
+                                Task.Factory.StartNew(() =>
+                                {
+                                    // Disconnect the leader from the channel
+                                    Database.DisconnectFromChannel(ownedChannel.id);
 
-                                // Message sent with the confirmation
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CHANNEL_DELETED);
+                                    // We destroy the channel
+                                    Database.RemoveChannel(ownedChannel.id);
+                                    channelList.Remove(ownedChannel);
+
+                                    // Message sent with the confirmation
+                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CHANNEL_DELETED);
+                                });
                             }
                             else
                             {

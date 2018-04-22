@@ -4,6 +4,7 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.weazelNews
 {
@@ -200,14 +201,17 @@ namespace WiredPlayers.weazelNews
                         prizeModel.journalist = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
                         prizeModel.given = true;
 
-                        prizeModel.id = Database.GivePrize(prizeModel);
-                        annoucementList.Add(prizeModel);
-                        
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
                         NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
 
-                        // Log the money won
-                        Database.LogPayment(player.Name, target.Name, Messages.GEN_NEWS_PRIZE, prize);
+                        Task.Factory.StartNew(() =>
+                        {
+                            prizeModel.id = Database.GivePrize(prizeModel);
+                            annoucementList.Add(prizeModel);
+
+                            // Log the money won
+                            Database.LogPayment(player.Name, target.Name, Messages.GEN_NEWS_PRIZE, prize);
+                        });
                     }
                     else
                     {
@@ -243,16 +247,18 @@ namespace WiredPlayers.weazelNews
                     annoucement.annoucement = message;
                     annoucement.given = false;
 
-                    annoucement.id = Database.SendAnnoucement(annoucement);
-
                     // Removes player money
                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_ANNOUNCEMENT);
 
                     SendNewsMessage(player, message);
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ANNOUNCE_PUBLISHED);
 
-                    // Log the announcement into the database
-                    Database.LogPayment(player.Name, Messages.GEN_FACTION_NEWS, Messages.GEN_NEWS_ANNOUNCE, Constants.PRICE_ANNOUNCEMENT);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Log the announcement into the database
+                        annoucement.id = Database.SendAnnoucement(annoucement);
+                        Database.LogPayment(player.Name, Messages.GEN_FACTION_NEWS, Messages.GEN_NEWS_ANNOUNCE, Constants.PRICE_ANNOUNCEMENT);
+                    });
                 }
             }
         }

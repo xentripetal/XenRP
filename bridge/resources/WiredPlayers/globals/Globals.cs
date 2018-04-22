@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.globals
 {
@@ -189,7 +190,7 @@ namespace WiredPlayers.globals
                             // Remove player from jail
                             NAPI.Data.SetEntityData(player, EntityData.PLAYER_JAILED, 0);
                             NAPI.Data.SetEntityData(player, EntityData.PLAYER_JAIL_TYPE, 0);
-                            
+
                             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_UNJAILED);
                         }
                         else if (jailTime > 0)
@@ -215,13 +216,13 @@ namespace WiredPlayers.globals
                                 NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_WALKING_STYLE);
                                 NAPI.ClientEvent.TriggerClientEventForAll("resetPlayerWalkingStyle", player.Handle);
                             }
-                            
+
                             NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRUNK_LEVEL, drunkLevel);
                         }
                     }
 
                     PlayerModel character = new PlayerModel();
-                    
+
                     character.position = NAPI.Entity.GetEntityPosition(player);
                     character.rotation = NAPI.Entity.GetEntityRotation(player);
                     character.health = NAPI.Player.GetPlayerHealth(player);
@@ -249,12 +250,15 @@ namespace WiredPlayers.globals
                     character.rolePoints = NAPI.Data.GetEntityData(player, EntityData.PLAYER_ROLE_POINTS);
                     character.played = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PLAYED);
                     character.jailed = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JAIL_TYPE) + "," + NAPI.Data.GetEntityData(player, EntityData.PLAYER_JAILED);
-                    
+
                     character.money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
                     character.bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
 
-                    // Save the player into database
-                    Database.SaveCharacterInformation(character);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Save the player into database
+                        Database.SaveCharacterInformation(character);
+                    });
                 }
             }
 
@@ -283,7 +287,7 @@ namespace WiredPlayers.globals
 
             // Remove old orders
             fastFoodOrderList.RemoveAll(order => !order.taken && order.limit <= totalSeconds);
-            
+
             List<VehicleModel> vehicleList = new List<VehicleModel>();
 
             foreach (Vehicle vehicle in NAPI.Pools.GetAllVehicles())
@@ -292,7 +296,7 @@ namespace WiredPlayers.globals
                 {
                     Color primaryColor = NAPI.Vehicle.GetVehicleCustomPrimaryColor(vehicle);
                     Color secondaryColor = NAPI.Vehicle.GetVehicleCustomSecondaryColor(vehicle);
-                    
+
                     VehicleModel vehicleModel = new VehicleModel();
                     vehicleModel.id = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
                     vehicleModel.model = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
@@ -317,8 +321,11 @@ namespace WiredPlayers.globals
                 }
             }
 
-            // Save all the vehicles
-            Database.SaveAllVehicles(vehicleList);
+            Task.Factory.StartNew(() =>
+            {
+                // Save all the vehicles
+                Database.SaveAllVehicles(vehicleList);
+            });
         }
 
         private void GeneratePlayerPayday(Client player)
@@ -415,8 +422,11 @@ namespace WiredPlayers.globals
             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_TOTAL + total + "$");
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, bank + total);
 
-            // Add the payment log
-            Database.LogPayment("Payday", player.Name, "Payday", total);
+            Task.Factory.StartNew(() =>
+            {
+                // Add the payment log
+                Database.LogPayment("Payday", player.Name, "Payday", total);
+            });
         }
 
         private Vector3 GetPlayerFastFoodDeliveryDestination()
@@ -501,8 +511,12 @@ namespace WiredPlayers.globals
             item.amount -= amount;
             if (item.amount == 0)
             {
-                Database.RemoveItem(item.id);
-                itemList.Remove(item);
+                Task.Factory.StartNew(() =>
+                {
+                    // Remove the item from the database
+                    Database.RemoveItem(item.id);
+                    itemList.Remove(item);
+                });
             }
         }
 
@@ -659,7 +673,13 @@ namespace WiredPlayers.globals
                 if (clothes.player == playerId && clothes.type == type && clothes.slot == slot && clothes.dressed)
                 {
                     clothes.dressed = false;
-                    Database.UpdateClothes(clothes);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the clothes' state
+                        Database.UpdateClothes(clothes);
+                    });
+
                     break;
                 }
             }
@@ -775,7 +795,7 @@ namespace WiredPlayers.globals
                     ownedVehicles += " " + NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
                 }
             }
-            
+
             foreach (ParkedCarModel parkedVehicle in Parking.parkedCars)
             {
                 if (parkedVehicle.vehicle.owner == player.Name)
@@ -856,7 +876,7 @@ namespace WiredPlayers.globals
                     interior.textLabel = NAPI.TextLabel.CreateTextLabel(interior.captionMessage, interior.entrancePosition, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, 0);
                 }
             }
-            
+
             // Fastfood orders
             Random rnd = new Random();
             orderGenerationTime = GetTotalSeconds() + rnd.Next(0, 1) * 60;
@@ -908,7 +928,7 @@ namespace WiredPlayers.globals
                 }
 
                 PlayerModel character = new PlayerModel();
-                
+
                 character.position = NAPI.Entity.GetEntityPosition(player);
                 character.rotation = NAPI.Entity.GetEntityRotation(player);
                 character.health = NAPI.Player.GetPlayerHealth(player);
@@ -936,16 +956,19 @@ namespace WiredPlayers.globals
                 character.rolePoints = NAPI.Data.GetEntityData(player, EntityData.PLAYER_ROLE_POINTS);
                 character.played = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PLAYED);
                 character.jailed = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JAIL_TYPE) + "," + NAPI.Data.GetEntityData(player, EntityData.PLAYER_JAILED);
-                
+
                 character.money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
                 character.bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
 
-                // Save player into database
-                Database.SaveCharacterInformation(character);
-
-                // Avisamos a los jugadores cercanos de la desconexión
+                // Warnt the players near to the disconnected one
                 String message = String.Format(Messages.INF_PLAYER_DISCONNECTED, player.Name, reason);
                 Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_DISCONNECT, 10.0f);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Save player into database
+                    Database.SaveCharacterInformation(character);
+                });
             }
         }
 
@@ -1139,7 +1162,7 @@ namespace WiredPlayers.globals
 
                         // Give the weapons to the player
                         Weapons.GivePlayerWeaponItems(player);
-                        
+
                         if (rightHand != null)
                         {
                             BusinessItemModel businessItem = Business.GetBusinessItemFromHash(rightHand.hash);
@@ -1157,7 +1180,7 @@ namespace WiredPlayers.globals
                             }
                             NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, rightHand.id);
                         }
-                        
+
                         if (leftHand != null)
                         {
                             BusinessItemModel businessItem = Business.GetBusinessItemFromHash(leftHand.hash);
@@ -1196,13 +1219,13 @@ namespace WiredPlayers.globals
                         NAPI.Entity.SetEntityRotation(player, spawnRotation);
                         NAPI.Player.SetPlayerHealth(player, playerHealth);
                         NAPI.Player.SetPlayerArmor(player, playerArmor);
-                        
+
                         if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
                         {
                             Vector3 deathPosition = null;
                             String deathPlace = String.Empty;
                             String deathHour = DateTime.Now.ToString("h:mm:ss tt");
-                            
+
                             if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED) > 0)
                             {
                                 int houseId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED);
@@ -1225,9 +1248,9 @@ namespace WiredPlayers.globals
                             // Creamos the report for the emergency department
                             FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace, deathPosition, -1, deathHour);
                             Faction.factionWarningList.Add(factionWarning);
-                            
+
                             String warnMessage = String.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
-                            
+
                             foreach (Client target in NAPI.Pools.GetAllPlayers())
                             {
                                 if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY && NAPI.Data.GetEntityData(target, EntityData.PLAYER_ON_DUTY) == 0)
@@ -1247,9 +1270,12 @@ namespace WiredPlayers.globals
                 }
                 else if (player.Position.DistanceTo(new Vector3(152.2911f, -1001.088f, -99f)) < 1.5f)
                 {
-                    // Show character menu
-                    List<String> playerList = Database.GetAccountCharacters(player.SocialClubName);
-                    NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerCharacters", NAPI.Util.ToJson(playerList));
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Show character menu
+                        List<String> playerList = Database.GetAccountCharacters(player.SocialClubName);
+                        NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerCharacters", NAPI.Util.ToJson(playerList));
+                    });
                 }
             }
         }
@@ -1265,7 +1291,6 @@ namespace WiredPlayers.globals
             {
                 case Messages.COM_CONSUME:
                     item.amount--;
-                    Database.UpdateItem(item);
                     message = String.Format(Messages.INF_PLAYER_INVENTORY_CONSUME, businessItem.description.ToLower());
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
 
@@ -1278,7 +1303,7 @@ namespace WiredPlayers.globals
                             currentAlcohol = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRUNK_LEVEL);
                         }
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRUNK_LEVEL, currentAlcohol + businessItem.alcoholLevel);
-                        
+
                         if (currentAlcohol + businessItem.alcoholLevel > Constants.WASTED_LEVEL)
                         {
                             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_WALKING_STYLE, "move_m@drunk@verydrunk");
@@ -1296,8 +1321,20 @@ namespace WiredPlayers.globals
                     // Check if it was the last one remaining
                     if (item.amount == 0)
                     {
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Remove the item from the database
+                            Database.RemoveItem(item.id);
+                            itemList.Remove(item);
+                        });
+                    }
+                    else
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the item into the inventory
+                            Database.UpdateItem(item);
+                        });
                     }
 
                     // Update the inventory
@@ -1319,22 +1356,33 @@ namespace WiredPlayers.globals
                                 itemModel.amount = Constants.ITEM_OPEN_BEER_AMOUNT;
                                 itemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
                                 itemModel.dimension = player.Dimension;
-                                itemModel.id = Database.AddNewItem(itemModel);
-                                
-                                itemList.Add(itemModel);
+
+
+                                Task.Factory.StartNew(() =>
+                                {
+                                    // Create the new item
+                                    itemModel.id = Database.AddNewItem(itemModel);
+                                    itemList.Add(itemModel);
+                                });
                             }
                             else
                             {
                                 // Add the amount to the current item
                                 itemModel.amount += Constants.ITEM_OPEN_BEER_AMOUNT;
-                                Database.UpdateItem(item);
+
+
+                                Task.Factory.StartNew(() =>
+                                {
+                                    // Update the amount into the database
+                                    Database.UpdateItem(item);
+                                });
                             }
                             break;
                     }
 
                     // Substract container amount
                     SubstractPlayerItems(item);
-                    
+
                     message = String.Format(Messages.INF_PLAYER_INVENTORY_OPEN, businessItem.description.ToLower());
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
 
@@ -1354,14 +1402,13 @@ namespace WiredPlayers.globals
                         item.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(item.hash), item.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
                         NAPI.Entity.AttachEntityToEntity(item.objectHandle, player, "PH_R_Hand", businessItem.position, businessItem.rotation);
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, itemId);
-                        
+
                         message = String.Format(Messages.INF_PLAYER_INVENTORY_EQUIP, businessItem.description.ToLower());
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                     }
                     break;
                 case Messages.COM_DROP:
                     item.amount--;
-                    Database.UpdateItem(item);
 
                     // Check if there are items of the same type near
                     ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
@@ -1369,7 +1416,12 @@ namespace WiredPlayers.globals
                     if (closestItem != null)
                     {
                         closestItem.amount++;
-                        Database.UpdateItem(item);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the item into the database
+                            Database.UpdateItem(item);
+                        });
                     }
                     else
                     {
@@ -1379,17 +1431,34 @@ namespace WiredPlayers.globals
                         closestItem.dimension = player.Dimension;
                         closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
                         closestItem.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(closestItem.hash), closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
-                        closestItem.id = Database.AddNewItem(closestItem);
-                        itemList.Add(closestItem);
+
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Create the new item
+                            closestItem.id = Database.AddNewItem(closestItem);
+                            itemList.Add(closestItem);
+                        });
                     }
 
                     // Check if it was the last one
                     if (item.amount == 0)
                     {
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
+                        Task.Factory.StartNew(() =>
+                        {
+                            Database.RemoveItem(item.id);
+                            itemList.Remove(item);
+                        });
                     }
-                    
+                    else
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the item into the database
+                            Database.UpdateItem(item);
+                        });
+                    }
+
                     message = String.Format(Messages.INF_PLAYER_INVENTORY_DROP, businessItem.description.ToLower());
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
 
@@ -1403,8 +1472,13 @@ namespace WiredPlayers.globals
                     // Transfer the item from the target to the player
                     item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
                     item.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
-                    Database.UpdateItem(item);
-                    
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the amount into the database
+                        Database.UpdateItem(item);
+                    });
+
                     String playerMessage = String.Format(Messages.INF_POLICE_RETIRED_ITEMS_TO, target.Name);
                     String targetMessage = String.Format(Messages.INF_POLICE_RETIRED_ITEMS_FROM, player.Name);
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
@@ -1420,7 +1494,6 @@ namespace WiredPlayers.globals
                     // Transfer the item from the player to the vehicle
                     item.ownerEntity = Constants.ITEM_ENTITY_VEHICLE;
                     item.ownerIdentifier = NAPI.Data.GetEntityData(targetVehicle, EntityData.VEHICLE_ID);
-                    Database.UpdateItem(item);
 
                     // Remove the weapon if it's a weapon
                     foreach (WeaponHash weapon in NAPI.Player.GetPlayerWeapons(player))
@@ -1431,6 +1504,12 @@ namespace WiredPlayers.globals
                             break;
                         }
                     }
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the amount into the database
+                        Database.UpdateItem(item);
+                    });
 
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_TRUNK_STORED_ITEMS);
 
@@ -1458,7 +1537,12 @@ namespace WiredPlayers.globals
 
                     // Transfer the item from the vehicle to the player
                     item.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
-                    Database.UpdateItem(item);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the amount into the database
+                        Database.UpdateItem(item);
+                    });
 
                     Chat.SendMessageToNearbyPlayers(player, Messages.INF_TRUNK_ITEM_WITHDRAW, Constants.MESSAGE_ME, 20.0f);
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_TRUNK_WITHDRAW_ITEMS);
@@ -1474,7 +1558,7 @@ namespace WiredPlayers.globals
         public void CloseVehicleTrunkEvent(Client player)
         {
             Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_OPENED_TRUNK);
-            NAPI.Vehicle.SetVehicleDoorState(vehicle, Constants.VEHICLE_TRUNK, false);            
+            NAPI.Vehicle.SetVehicleDoorState(vehicle, Constants.VEHICLE_TRUNK, false);
             NAPI.Data.ResetEntityData(player, EntityData.PLAYER_OPENED_TRUNK);
         }
 
@@ -1504,7 +1588,12 @@ namespace WiredPlayers.globals
                 }
                 item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
                 NAPI.Data.ResetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
-                Database.UpdateItem(item);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Update the amount into the database
+                    Database.UpdateItem(item);
+                });
             }
             else
             {
@@ -1526,16 +1615,15 @@ namespace WiredPlayers.globals
                 if (businessItem.type == Constants.ITEM_TYPE_CONSUMABLE)
                 {
                     String message = String.Format(Messages.INF_PLAYER_INVENTORY_CONSUME, businessItem.description.ToLower());
-                    
+
                     item.amount--;
-                    Database.UpdateItem(item);
-                    
+
                     if (businessItem.health != 0)
                     {
                         int health = NAPI.Player.GetPlayerHealth(player);
                         NAPI.Player.SetPlayerHealth(player, health + businessItem.health);
                     }
-                    
+
                     if (businessItem.alcoholLevel > 0)
                     {
                         float currentAlcohol = 0;
@@ -1544,23 +1632,35 @@ namespace WiredPlayers.globals
                             currentAlcohol = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRUNK_LEVEL);
                         }
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRUNK_LEVEL, currentAlcohol + businessItem.alcoholLevel);
-                        
+
                         if (currentAlcohol + businessItem.alcoholLevel > Constants.WASTED_LEVEL)
                         {
                             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_WALKING_STYLE, "move_m@drunk@verydrunk");
                             NAPI.ClientEvent.TriggerClientEventForAll("changePlayerWalkingStyle", player.Handle, "move_m@drunk@verydrunk");
                         }
                     }
-                    
+
                     if (item.amount == 0)
                     {
                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
                         NAPI.Entity.DetachEntity(item.objectHandle);
                         NAPI.Entity.DeleteEntity(item.objectHandle);
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Remove the item from the database
+                            Database.UpdateItem(item);
+                        });
                     }
-                    
+                    else
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the amount into the database
+                            Database.UpdateItem(item);
+                        });
+                    }
+
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                 }
                 else
@@ -1596,7 +1696,7 @@ namespace WiredPlayers.globals
             {
                 int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
                 BusinessModel business = Business.GetBusinessById(businessId);
-                
+
                 switch (business.type)
                 {
                     case Constants.BUSINESS_TYPE_CLOTHES:
@@ -1616,7 +1716,7 @@ namespace WiredPlayers.globals
                         NAPI.Player.SetPlayerClothes(player, 11, 15, 0);
                         NAPI.Player.SetPlayerClothes(player, 3, 15, 0);
                         NAPI.Player.SetPlayerClothes(player, 8, 15, 0);
-                        
+
                         if (playerSex == 0)
                         {
                             NAPI.Player.SetPlayerClothes(player, 4, 61, 0);
@@ -1674,17 +1774,27 @@ namespace WiredPlayers.globals
                                     item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
                                     item.ownerIdentifier = playerId;
                                     item.objectHandle = null;
-                                    item.id = Database.AddNewItem(item);
-                                    itemList.Add(item);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Add the item into the database
+                                        item.id = Database.AddNewItem(item);
+                                        itemList.Add(item);
+                                    });
                                 }
                                 else
                                 {
                                     item.amount += amount;
-                                    Database.UpdateItem(item);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Update the amount into the database
+                                        Database.UpdateItem(item);
+                                    });
                                 }
-                                
+
                                 NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - amount);
-                                
+
                                 String message = String.Format(Messages.INF_PRODUCTS_BOUGHT, amount, amount);
                                 NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                             }
@@ -1735,7 +1845,7 @@ namespace WiredPlayers.globals
                                 NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
                                 return;
                             }
-                            
+
                             if (Int32.TryParse(priceString, out price) == true)
                             {
                                 if (price > 0)
@@ -1743,7 +1853,7 @@ namespace WiredPlayers.globals
                                     if (Int32.TryParse(arguments[1], out objectId) == true)
                                     {
                                         Vehicle vehicle = Vehicles.GetVehicleById(objectId);
-                                        
+
                                         if (vehicle == null)
                                         {
                                             VehicleModel vehModel = Vehicles.GetParkedVehicleById(objectId);
@@ -1931,12 +2041,16 @@ namespace WiredPlayers.globals
                                 {
                                     int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
                                     int amount = (int)Math.Round(fishModel.amount * Constants.PRICE_FISH / 1000.0);
-                                    
-                                    Database.RemoveItem(fishModel.id);
-                                    itemList.Remove(fishModel);
-                                    
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Remove the item from the database
+                                        Database.RemoveItem(fishModel.id);
+                                        itemList.Remove(fishModel);
+                                    });
+
                                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney + amount);
-                                    
+
                                     String message = String.Format(Messages.INF_FISHING_WON, amount);
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                                 }
@@ -2061,7 +2175,7 @@ namespace WiredPlayers.globals
                         {
                             message = String.Format(Messages.INF_INSURANCE_SHOW, target.Name);
                             Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_ME, 20.0f);
-                            
+
                             NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.GEN_NAME + nameChar);
                             NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.GEN_AGE + age);
                             NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.GEN_SEX + sexDescription);
@@ -2155,7 +2269,7 @@ namespace WiredPlayers.globals
                         NAPI.Player.GivePlayerWeapon(target, weaponHash, 0);
                         NAPI.Player.SetPlayerWeaponAmmo(target, weaponHash, item.amount);
                         NAPI.Player.RemovePlayerWeapon(player, weaponHash);
-                        
+
                         playerMessage = String.Format(Messages.INF_ITEM_GIVEN, item.hash.ToLower(), target.Name);
                         targetMessage = String.Format(Messages.INF_ITEM_RECEIVED, player.Name, item.hash.ToLower());
                     }
@@ -2164,7 +2278,7 @@ namespace WiredPlayers.globals
                         BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
                         NAPI.Entity.DetachEntity(item.objectHandle);
                         NAPI.Entity.AttachEntityToEntity(item.objectHandle, target, "PH_R_Hand", businessItem.position, businessItem.rotation);
-                        
+
                         playerMessage = String.Format(Messages.INF_ITEM_GIVEN, businessItem.description.ToLower(), target.Name);
                         targetMessage = String.Format(Messages.INF_ITEM_RECEIVED, player.Name, businessItem.description.ToLower());
                     }
@@ -2173,8 +2287,13 @@ namespace WiredPlayers.globals
                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
                     NAPI.Data.SetEntityData(target, EntityData.PLAYER_RIGHT_HAND, item.id);
                     item.ownerIdentifier = NAPI.Data.GetEntityData(target, EntityData.PLAYER_SQL_ID);
-                    Database.UpdateItem(item);
-                    
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the amount into the database
+                        Database.UpdateItem(item);
+                    });
+
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
                     NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
                 }
@@ -2254,7 +2373,7 @@ namespace WiredPlayers.globals
                             NAPI.Vehicle.SetVehicleCustomPrimaryColor(vehicle, Int32.Parse(primaryColor[0]), Int32.Parse(primaryColor[1]), Int32.Parse(primaryColor[2]));
                             NAPI.Vehicle.SetVehicleCustomSecondaryColor(vehicle, Int32.Parse(secondaryColor[0]), Int32.Parse(secondaryColor[1]), Int32.Parse(secondaryColor[2]));
                         }
-                        
+
                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_PARTNER);
                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAINT_VEHICLE);
                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAINT_COLOR_TYPE);
@@ -2264,7 +2383,7 @@ namespace WiredPlayers.globals
 
                         // Remove repaint window
                         NAPI.ClientEvent.TriggerClientEvent(target, "closeRepaintWindow");
-                        
+
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_REPAINT_CANCELED);
                     }
                     break;
@@ -2300,7 +2419,7 @@ namespace WiredPlayers.globals
                                     // Get the vehicle to repair and the broken part
                                     String type = NAPI.Data.GetEntityData(player, EntityData.PLAYER_REPAIR_TYPE);
                                     Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_REPAIR_VEHICLE);
-                                    
+
                                     int mechanicId = NAPI.Data.GetEntityData(mechanic, EntityData.PLAYER_SQL_ID);
                                     int mechanicMoney = NAPI.Data.GetEntitySharedData(mechanic, EntityData.PLAYER_MONEY);
                                     ItemModel item = GetPlayerItemModelFromHash(mechanicId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
@@ -2338,28 +2457,49 @@ namespace WiredPlayers.globals
                                             }
                                             break;
                                     }
-                                    
+
                                     if (player != mechanic)
                                     {
                                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
                                         NAPI.Data.SetEntitySharedData(mechanic, EntityData.PLAYER_MONEY, mechanicMoney + price);
                                     }
+
                                     item.amount -= NAPI.Data.GetEntityData(player, EntityData.JOB_OFFER_PRODUCTS);
-                                    Database.UpdateItem(item);
-                                    
+
+                                    if (item.amount == 0)
+                                    {
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            // Remove the item from the database
+                                            Database.RemoveItem(item.id);
+                                            Globals.itemList.Remove(item);
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            // Update the amount into the database
+                                            Database.UpdateItem(item);
+                                        });
+                                    }
+
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_PARTNER);
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAIR_VEHICLE);
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAIR_TYPE);
                                     NAPI.Data.ResetEntityData(player, EntityData.JOB_OFFER_PRODUCTS);
                                     NAPI.Data.ResetEntityData(player, EntityData.JOB_OFFER_PRICE);
-                                    
+
                                     String playerMessage = String.Format(Messages.INF_VEHICLE_REPAIRED_BY, mechanic.Name, price);
                                     String mechanicMessage = String.Format(Messages.INF_VEHICLE_REPAIRED_BY, player.Name, price);
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
                                     NAPI.Chat.SendChatMessageToPlayer(mechanic, Constants.COLOR_INFO + mechanicMessage);
 
-                                    // Save the log into the database
-                                    Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAIR, price);
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Save the log into the database
+                                        Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAIR, price);
+                                    });
                                 }
                                 else
                                 {
@@ -2394,7 +2534,7 @@ namespace WiredPlayers.globals
                                     String firstColor = NAPI.Data.GetEntityData(player, EntityData.PLAYER_REPAINT_FIRST_COLOR);
                                     String secondColor = NAPI.Data.GetEntityData(player, EntityData.PLAYER_REPAINT_SECOND_COLOR);
                                     int pearlescentColor = NAPI.Data.GetEntityData(player, EntityData.PLAYER_REPAINT_PEARLESCENT);
-                                    
+
                                     int mechanicId = NAPI.Data.GetEntityData(mechanic, EntityData.PLAYER_SQL_ID);
                                     int mechanicMoney = NAPI.Data.GetEntitySharedData(mechanic, EntityData.PLAYER_MONEY);
                                     ItemModel item = GetPlayerItemModelFromHash(mechanicId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
@@ -2412,16 +2552,39 @@ namespace WiredPlayers.globals
                                     vehicleModel.firstColor = firstColor;
                                     vehicleModel.secondColor = secondColor;
                                     vehicleModel.pearlescent = pearlescentColor;
-                                    Database.UpdateVehicleColor(vehicleModel);
-                                    
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Update the vehicle's color into the database
+                                        Database.UpdateVehicleColor(vehicleModel);
+                                    });
+
                                     if (player != mechanic)
                                     {
                                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
                                         NAPI.Data.SetEntitySharedData(mechanic, EntityData.PLAYER_MONEY, mechanicMoney + price);
                                     }
+
                                     item.amount -= NAPI.Data.GetEntityData(player, EntityData.JOB_OFFER_PRODUCTS);
-                                    Database.UpdateItem(item);
-                                    
+
+                                    if (item.amount == 0)
+                                    {
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            // Remove the item from the database
+                                            Database.RemoveItem(item.id);
+                                            Globals.itemList.Remove(item);
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            // Update the amount into the database
+                                            Database.UpdateItem(item);
+                                        });
+                                    }
+
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_PARTNER);
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAINT_VEHICLE);
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAINT_COLOR_TYPE);
@@ -2429,7 +2592,7 @@ namespace WiredPlayers.globals
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REPAINT_SECOND_COLOR);
                                     NAPI.Data.ResetEntityData(player, EntityData.JOB_OFFER_PRODUCTS);
                                     NAPI.Data.ResetEntityData(player, EntityData.JOB_OFFER_PRICE);
-                                    
+
                                     String playerMessage = String.Format(Messages.INF_VEHICLE_REPAINTED_BY, mechanic.Name, price);
                                     String mechanicMessage = String.Format(Messages.INF_VEHICLE_REPAINTED_TO, player.Name, price);
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
@@ -2438,8 +2601,11 @@ namespace WiredPlayers.globals
                                     // Remove repaint menu
                                     NAPI.ClientEvent.TriggerClientEvent(mechanic, "closeRepaintWindow");
 
-                                    // Save the log into the database
-                                    Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAINT, price);
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Save the log into the database
+                                        Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAINT, price);
+                                    });
                                 }
                                 else
                                 {
@@ -2527,8 +2693,11 @@ namespace WiredPlayers.globals
                                                 Hooker.sexTimerList.Add(player.Value, sexTimer);
                                             }
 
-                                            // Save payment log
-                                            Database.LogPayment(player.Name, target.Name, Messages.GEN_HOOKER, amount);
+                                            Task.Factory.StartNew(() =>
+                                            {
+                                                // Save the log into the database
+                                                Database.LogPayment(player.Name, target.Name, Messages.GEN_HOOKER, amount);
+                                            });
                                         }
                                     }
                                     else
@@ -2586,8 +2755,11 @@ namespace WiredPlayers.globals
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
                                     NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
 
-                                    // Save the logs into database
-                                    Database.LogPayment(target.Name, player.Name, Messages.GEN_PAYMENT_PLAYERS, amount);
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Save the logs into database
+                                        Database.LogPayment(target.Name, player.Name, Messages.GEN_PAYMENT_PLAYERS, amount);
+                                    });
                                 }
                                 else
                                 {
@@ -2615,7 +2787,7 @@ namespace WiredPlayers.globals
                                 {
                                     String vehicleModel = String.Empty;
                                     Vehicle vehicle = Vehicles.GetVehicleById(vehicleId);
-                                    
+
                                     if (vehicle == null)
                                     {
                                         VehicleModel vehModel = Vehicles.GetParkedVehicleById(vehicleId);
@@ -2627,11 +2799,11 @@ namespace WiredPlayers.globals
                                         NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_OWNER, player.Name);
                                         vehicleModel = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
                                     }
-                                    
+
                                     int targetMoney = NAPI.Data.GetEntitySharedData(target, EntityData.PLAYER_BANK);
                                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, money - amount);
                                     NAPI.Data.SetEntitySharedData(target, EntityData.PLAYER_BANK, targetMoney + amount);
-                                    
+
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_SELLING_VEHICLE);
                                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_SELLING_PRICE);
 
@@ -2640,8 +2812,11 @@ namespace WiredPlayers.globals
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerString);
                                     NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetString);
 
-                                    // Logeamos el pago en base de datos
-                                    Database.LogPayment(target.Name, player.Name, Messages.GEN_VEHICLE_SALE, amount);
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Save the logs into database
+                                        Database.LogPayment(target.Name, player.Name, Messages.GEN_VEHICLE_SALE, amount);
+                                    });
                                 }
                                 else
                                 {
@@ -2669,28 +2844,33 @@ namespace WiredPlayers.globals
                                 if (money >= amount)
                                 {
                                     HouseModel house = House.GetHouseById(houseId);
-                                    
+
                                     if (house.owner == target.Name)
                                     {
                                         house.owner = player.Name;
-                                        Database.KickTenantsOut(house.id);
                                         house.tenants = 2;
-                                        Database.UpdateHouse(house);
-                                        
+
                                         int targetMoney = NAPI.Data.GetEntitySharedData(target, EntityData.PLAYER_BANK);
                                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, money - amount);
                                         NAPI.Data.SetEntitySharedData(target, EntityData.PLAYER_BANK, targetMoney + amount);
-                                        
+
                                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_SELLING_HOUSE);
                                         NAPI.Data.ResetEntityData(player, EntityData.PLAYER_SELLING_PRICE);
-                                        
+
                                         String playerString = String.Format(Messages.INF_HOUSE_BUYTO, target.Name, amount);
                                         String targetString = String.Format(Messages.INF_HOUSE_BOUGHT, player.Name, amount);
                                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerString);
                                         NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetString);
 
-                                        // Log the payment into database
-                                        Database.LogPayment(target.Name, player.Name, Messages.GEN_HOUSE_SALE, amount);
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            // Update the house
+                                            Database.KickTenantsOut(house.id);
+                                            Database.UpdateHouse(house);
+
+                                            // Log the payment into database
+                                            Database.LogPayment(target.Name, player.Name, Messages.GEN_HOUSE_SALE, amount);
+                                        });
                                     }
                                     else
                                     {
@@ -2721,17 +2901,22 @@ namespace WiredPlayers.globals
                                     house.status = Constants.HOUSE_STATE_BUYABLE;
                                     NAPI.TextLabel.SetTextLabelText(house.houseLabel, House.GetHouseLabelText(house));
                                     NAPI.World.RemoveIpl(house.ipl);
-                                    Database.KickTenantsOut(house.id);
                                     house.tenants = 2;
-                                    Database.UpdateHouse(house);
-                                    
+
                                     int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
                                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, playerMoney + amount);
-                                    
+
                                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + String.Format(Messages.SUC_HOUSE_SOLD, amount));
 
-                                    // Log the payment into the database
-                                    Database.LogPayment(player.Name, Messages.GEN_STATE, Messages.GEN_HOUSE_SALE, amount);
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Update the house
+                                        Database.KickTenantsOut(house.id);
+                                        Database.UpdateHouse(house);
+
+                                        // Log the payment into the database
+                                        Database.LogPayment(player.Name, Messages.GEN_STATE, Messages.GEN_HOUSE_SALE, amount);
+                                    });
                                 }
                                 else
                                 {
@@ -2765,15 +2950,19 @@ namespace WiredPlayers.globals
                 {
                     // Get the item on the ground
                     ItemModel playerItem = GetPlayerItemModelFromHash(player.Value, item.hash);
-                    
+
                     NAPI.Entity.DeleteEntity(item.objectHandle);
 
                     if (playerItem != null)
                     {
                         NAPI.Entity.DeleteEntity(item.objectHandle);
                         playerItem.amount += item.amount;
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            Database.RemoveItem(item.id);
+                            itemList.Remove(item);
+                        });
                     }
                     else
                     {
@@ -2783,15 +2972,20 @@ namespace WiredPlayers.globals
                     // Get the new owner of the item
                     playerItem.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
                     playerItem.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
-                    Database.UpdateItem(playerItem);
-                    
+
                     // Play the animation
                     NAPI.Player.PlayPlayerAnimation(player, 0, "random@domestic", "pickup_low");
-                    
+
                     BusinessItemModel businessItem = Business.GetBusinessItemFromHash(playerItem.hash);
                     playerItem.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(playerItem.hash), playerItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)playerItem.dimension);
                     NAPI.Entity.AttachEntityToEntity(playerItem.objectHandle, player, "PH_R_Hand", businessItem.position, businessItem.rotation);
                     NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, playerItem.id);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the item's owner
+                        Database.UpdateItem(item);
+                    });
 
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_PICKED_ITEM);
                 }
@@ -2823,16 +3017,21 @@ namespace WiredPlayers.globals
                 int itemId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
                 ItemModel item = GetItemModelFromId(itemId);
                 BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
-                
+
                 item.amount--;
                 Database.UpdateItem(item);
-                
+
                 ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
 
                 if (closestItem != null)
                 {
                     closestItem.amount++;
-                    Database.UpdateItem(item);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the closest item's amount
+                        Database.UpdateItem(closestItem);
+                    });
                 }
                 else
                 {
@@ -2842,22 +3041,38 @@ namespace WiredPlayers.globals
                     closestItem.dimension = player.Dimension;
                     closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
                     closestItem.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(closestItem.hash), closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
-                    closestItem.id = Database.AddNewItem(closestItem);
-                    itemList.Add(closestItem);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Create the new item
+                        closestItem.id = Database.AddNewItem(closestItem);
+                        itemList.Add(closestItem);
+                    }); 
                 }
-                
+
                 if (item.amount == 0)
                 {
                     // Remove the item from the hand
                     NAPI.Entity.DetachEntity(item.objectHandle);
                     NAPI.Entity.DeleteEntity(item.objectHandle);
                     NAPI.Data.ResetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
-                    
-                    // Remove the item
-                    Database.RemoveItem(item.id);
-                    itemList.Remove(item);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Remove the item
+                        Database.RemoveItem(item.id);
+                        itemList.Remove(item);
+                    });
                 }
-                
+                else
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the item's amount
+                        Database.UpdateItem(item);
+                    });
+                }
+
                 String message = String.Format(Messages.INF_PLAYER_INVENTORY_DROP, businessItem.description.ToLower());
                 NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
             }
@@ -2874,7 +3089,7 @@ namespace WiredPlayers.globals
                     // Place the crate on the ground
                     NAPI.Entity.DetachEntity(weaponCrate.crateObject);
                     NAPI.Entity.SetEntityPosition(weaponCrate.crateObject, weaponCrate.position);
-                    
+
                     String message = String.Format(Messages.INF_PLAYER_INVENTORY_DROP, Messages.GEN_WEAPON_CRATE);
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                 }
@@ -2932,8 +3147,13 @@ namespace WiredPlayers.globals
                     else
                     {
                         house.locked = !house.locked;
-                        Database.UpdateHouse(house);
-                        
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the house
+                            Database.UpdateHouse(house);
+                        });
+
                         NAPI.Chat.SendChatMessageToPlayer(player, house.locked ? Constants.COLOR_INFO + Messages.INF_HOUSE_LOCKED : Constants.COLOR_INFO + Messages.INF_HOUSE_OPENED);
                     }
                     return;
@@ -2952,8 +3172,13 @@ namespace WiredPlayers.globals
                     else
                     {
                         business.locked = !business.locked;
-                        Database.UpdateBusiness(business);
-                        
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Update the business
+                            Database.UpdateBusiness(business);
+                        });
+
                         NAPI.Chat.SendChatMessageToPlayer(player, business.locked ? Constants.COLOR_INFO + Messages.INF_BUSINESS_LOCKED : Constants.COLOR_INFO + Messages.INF_BUSINESS_OPENED);
                     }
                     return;

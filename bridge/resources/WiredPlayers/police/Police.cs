@@ -9,6 +9,7 @@ using System.Threading;
 using System.Linq;
 using System;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.police
 {
@@ -137,19 +138,31 @@ namespace WiredPlayers.police
                         {
                             PoliceControlModel policeControlCopy = policeControlModel;
                             policeControlCopy.name = policeControl;
-                            policeControlCopy.id = Database.AddPoliceControlItem(policeControlCopy);
-                            copiedPoliceControlModels.Add(policeControlCopy);
+
+                            Task.Factory.StartNew(() =>
+                            {
+                                policeControlCopy.id = Database.AddPoliceControlItem(policeControlCopy);
+                                copiedPoliceControlModels.Add(policeControlCopy);
+                            });
                         }
                         else
                         {
                             policeControlModel.name = policeControl;
-                            policeControlModel.id = Database.AddPoliceControlItem(policeControlModel);
+
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Add the new element
+                                policeControlModel.id = Database.AddPoliceControlItem(policeControlModel);
+                            });
                         }
                     }
                     else if (!NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name == policeControl)
                     {
-                        Database.DeletePoliceControlItem(policeControlModel.id);
-                        deletedPoliceControlModels.Add(policeControlModel);
+                        Task.Factory.StartNew(() =>
+                        {
+                            Database.DeletePoliceControlItem(policeControlModel.id);
+                            deletedPoliceControlModels.Add(policeControlModel);
+                        });
                     }
                 }
                 policeControlList.AddRange(copiedPoliceControlModels);
@@ -165,7 +178,12 @@ namespace WiredPlayers.police
                     }
                 }
                 policeControlList.RemoveAll(control => control.name == policeControl);
-                Database.DeletePoliceControl(policeControl);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Delete the police control
+                    Database.DeletePoliceControl(policeControl);
+                });
             }
         }
 
@@ -185,13 +203,22 @@ namespace WiredPlayers.police
                             PoliceControlModel policeControlCopy = policeControlModel.Copy();
                             policeControlModel.controlObject = null;
                             policeControlCopy.name = policeControlTarget;
-                            policeControlCopy.id = Database.AddPoliceControlItem(policeControlCopy);
-                            copiedPoliceControlModels.Add(policeControlCopy);
+
+                            Task.Factory.StartNew(() =>
+                            {
+                                policeControlCopy.id = Database.AddPoliceControlItem(policeControlCopy);
+                                copiedPoliceControlModels.Add(policeControlCopy);
+                            });
                         }
                         else
                         {
                             policeControlModel.name = policeControlTarget;
-                            policeControlModel.id = Database.AddPoliceControlItem(policeControlModel);
+
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Add new element to the control
+                                policeControlModel.id = Database.AddPoliceControlItem(policeControlModel);
+                            });
                         }
                     }
                 }
@@ -200,7 +227,12 @@ namespace WiredPlayers.police
             else
             {
                 policeControlList.Where(s => s.name == policeControlSource).ToList().ForEach(t => t.name = policeControlTarget);
-                Database.RenamePoliceControl(policeControlSource, policeControlTarget);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Rename the control
+                    Database.RenamePoliceControl(policeControlSource, policeControlTarget);
+                });
             }
         }
 
@@ -398,7 +430,12 @@ namespace WiredPlayers.police
                         fine.reason = reason;
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
                         NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
-                        Database.InsertFine(fine);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Insert the fine into the database
+                            Database.InsertFine(fine);
+                        });
                     }
                 }
                 else
@@ -531,7 +568,12 @@ namespace WiredPlayers.police
                                             bulletItem.amount += Constants.STACK_SNIPERRIFLE_CAPACITY;
                                             break;
                                     }
-                                    Database.UpdateItem(bulletItem);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        // Update the bullet's amount
+                                        Database.UpdateItem(bulletItem);
+                                    });
                                 }
                                 else
                                 {
@@ -542,8 +584,12 @@ namespace WiredPlayers.police
                                     bulletItem.amount = 30;
                                     bulletItem.position = new Vector3(0.0f, 0.0f, 0.0f);
                                     bulletItem.dimension = 0;
-                                    bulletItem.id = Database.AddNewItem(bulletItem);
-                                    Globals.itemList.Add(bulletItem);
+
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        bulletItem.id = Database.AddNewItem(bulletItem);
+                                        Globals.itemList.Add(bulletItem);
+                                    });
                                 }
                             }
                             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_EQUIP_AMMO_RECEIVED);

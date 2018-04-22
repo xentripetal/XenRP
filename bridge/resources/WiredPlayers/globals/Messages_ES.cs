@@ -5,6 +5,9 @@ namespace WiredPlayers.globals
     public class Messages_ES
     {
         // Mensajes generales
+        public const String GEN_BANK_OP_WITHDRAW = "Retiro";
+        public const String GEN_BANK_OP_DEPOSIT = "Depósito";
+        public const String GEN_BANK_OP_TRANSFER = "Transferencia";
         public const String GEN_WEAPON_CRATE = "caja de armas";
         public const String GEN_STATE = "El estado";
         public const String GEN_HOUSE_SALE = "Venta de casa";

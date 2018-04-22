@@ -6,6 +6,7 @@ using WiredPlayers.database;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.fishing
 {
@@ -128,14 +129,21 @@ namespace WiredPlayers.fishing
                     fishItem.position = new Vector3(0.0f, 0.0f, 0.0f);
                     fishItem.dimension = 0;
 
-                    // Add the fish item to database
-                    fishItem.id = Database.AddNewItem(fishItem);
-                    Globals.itemList.Add(fishItem);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Add the fish item to database
+                        fishItem.id = Database.AddNewItem(fishItem);
+                        Globals.itemList.Add(fishItem);
+                    });
                 }
                 else
                 {
-                    fishItem.amount += fishWeight;
-                    Database.UpdateItem(fishItem);
+                    Task.Factory.StartNew(() =>
+                    {  
+                        // Update the inventory
+                        fishItem.amount += fishWeight;
+                        Database.UpdateItem(fishItem);
+                    });
                 }
 
                 // Send the message to the player
@@ -218,13 +226,22 @@ namespace WiredPlayers.fishing
                             
                             if (bait.amount == 1)
                             {
-                                Globals.itemList.Remove(bait);
-                                Database.RemoveItem(bait.id);
+                                Task.Factory.StartNew(() =>
+                                {
+                                    // Remove the baits from the invetory
+                                    Globals.itemList.Remove(bait);
+                                    Database.RemoveItem(bait.id);
+                                });
                             }
                             else
                             {
                                 bait.amount--;
-                                Database.UpdateItem(bait);
+
+                                Task.Factory.StartNew(() =>
+                                {
+                                    // Update the amount
+                                    Database.UpdateItem(bait);
+                                });
                             }
 
                             // Start fishing minigame

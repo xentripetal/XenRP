@@ -11,6 +11,7 @@ using WiredPlayers.weapons;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.admin
 {
@@ -334,8 +335,12 @@ namespace WiredPlayers.admin
                                                         NAPI.Entity.SetEntityDimension(veh, dimension);
                                                         vehicleId = NAPI.Data.GetEntityData(veh, EntityData.VEHICLE_ID);
                                                         NAPI.Data.SetEntityData(veh, EntityData.VEHICLE_DIMENSION, dimension);
-                                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
-                                                        Database.UpdateVehicleSingleValue("dimension", Convert.ToInt32(dimension), vehicleId);
+
+                                                        Task.Factory.StartNew(() => {
+                                                            // Update the vehicle's dimension into the database
+                                                            Database.UpdateVehicleSingleValue("dimension", Convert.ToInt32(dimension), vehicleId);
+                                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                        });
                                                     }
                                                     else
                                                     {
@@ -372,8 +377,12 @@ namespace WiredPlayers.admin
                                                         String message = String.Format(Messages.ADM_VEHICLE_FACTION_MODIFIED, faction);
                                                         vehicleId = NAPI.Data.GetEntityData(veh, EntityData.VEHICLE_ID);
                                                         NAPI.Data.SetEntityData(veh, EntityData.VEHICLE_FACTION, faction);
-                                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
-                                                        Database.UpdateVehicleSingleValue("faction", faction, vehicleId);
+
+                                                        Task.Factory.StartNew(() => {
+                                                            // Update the vehicle's faction into the database
+                                                            Database.UpdateVehicleSingleValue("faction", faction, vehicleId);
+                                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                        });
                                                     }
                                                     else
                                                     {
@@ -398,8 +407,12 @@ namespace WiredPlayers.admin
                                                 vehicle.id = NAPI.Data.GetEntityData(veh, EntityData.VEHICLE_ID);
                                                 NAPI.Data.SetEntityData(veh, EntityData.VEHICLE_POSITION, vehicle.position);
                                                 NAPI.Data.SetEntityData(veh, EntityData.VEHICLE_ROTATION, vehicle.rotation);
-                                                Database.UpdateVehiclePosition(vehicle);
-                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_VEHICLE_POS_UPDATED);
+
+                                                Task.Factory.StartNew(() => {
+                                                    // Update the vehicle's position into the database
+                                                    Database.UpdateVehiclePosition(vehicle);
+                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_VEHICLE_POS_UPDATED);
+                                                });
                                             }
                                             else
                                             {
@@ -423,8 +436,12 @@ namespace WiredPlayers.admin
                                                     String message = String.Format(Messages.ADM_VEHICLE_OWNER_MODIFIED, owner);
                                                     vehicleId = NAPI.Data.GetEntityData(veh, EntityData.VEHICLE_ID);
                                                     NAPI.Data.SetEntityData(veh, EntityData.VEHICLE_OWNER, owner);
-                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
-                                                    Database.UpdateVehicleSingleString("owner", owner, vehicleId);
+
+                                                    Task.Factory.StartNew(() => {
+                                                        // Update the vehicle's owner into the database
+                                                        Database.UpdateVehicleSingleString("owner", owner, vehicleId);
+                                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                    });
                                                 }
                                             }
                                             else
@@ -451,8 +468,11 @@ namespace WiredPlayers.admin
                                     veh = Vehicles.GetVehicleById(vehicleId);
                                     if (veh != null)
                                     {
-                                        NAPI.Entity.DeleteEntity(veh);
-                                        Database.RemoveVehicle(vehicleId);
+                                        Task.Factory.StartNew(() => {
+                                            // Remove the vehicle
+                                            NAPI.Entity.DeleteEntity(veh);
+                                            Database.RemoveVehicle(vehicleId);
+                                        });
                                     }
                                 }
                                 else
@@ -690,9 +710,13 @@ namespace WiredPlayers.admin
                                         business.owner = String.Empty;
                                         business.locked = false;
                                         business.name = Messages.GEN_BUSINESS;
-                                        business.id = Database.AddNewBusiness(business);
-                                        business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name, business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, business.dimension);
-                                        Business.businessList.Add(business);
+
+                                        Task.Factory.StartNew(() => {
+                                            // Get the id from the business
+                                            business.id = Database.AddNewBusiness(business);
+                                            business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name, business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, business.dimension);
+                                            Business.businessList.Add(business);
+                                        });
                                     }
                                     else
                                     {
@@ -728,11 +752,13 @@ namespace WiredPlayers.admin
                                                     String businessName = String.Join(" ", arguments.Skip(2));
                                                     business.name = businessName;
                                                     NAPI.TextLabel.SetTextLabelText(business.businessLabel, businessName);
-                                                    Database.UpdateBusiness(business);
-
-                                                    // Confirmation message sent to the player
                                                     message = String.Format(Messages.ADM_BUSINESS_NAME_MODIFIED, businessName);
-                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+
+                                                    Task.Factory.StartNew(() => {
+                                                        // Update the business information
+                                                        Database.UpdateBusiness(business);
+                                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                    });
                                                 }
                                                 else
                                                 {
@@ -748,11 +774,13 @@ namespace WiredPlayers.admin
                                                         // Changing business type
                                                         business.type = businessType;
                                                         business.ipl = Business.GetBusinessTypeIpl(businessType);
-                                                        Database.UpdateBusiness(business);
-
-                                                        // Confirmation message sent to the player
                                                         message = String.Format(Messages.ADM_BUSINESS_TYPE_MODIFIED, businessType);
-                                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+
+                                                        Task.Factory.StartNew(() => {
+                                                            // Update the business information
+                                                            Database.UpdateBusiness(business);
+                                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                        });
                                                     }
                                                     else
                                                     {
@@ -788,9 +816,12 @@ namespace WiredPlayers.admin
                                 business = Business.GetClosestBusiness(player);
                                 if (business != null)
                                 {
-                                    NAPI.Entity.DeleteEntity(business.businessLabel);
-                                    Database.DeleteBusiness(business.id);
-                                    Business.businessList.Remove(business);
+                                    Task.Factory.StartNew(() => {
+                                        // Delete the business
+                                        NAPI.Entity.DeleteEntity(business.businessLabel);
+                                        Database.DeleteBusiness(business.id);
+                                        Business.businessList.Remove(business);
+                                    });
                                 }
                             }
                             break;
@@ -945,10 +976,16 @@ namespace WiredPlayers.admin
                             house.tenants = 2;
                             house.rental = 0;
                             house.locked = true;
-                            house.id = Database.AddHouse(house);
-                            house.houseLabel = NAPI.TextLabel.CreateTextLabel(House.GetHouseLabelText(house), house.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_CREATED);
-                            House.houseList.Add(house);
+
+                            Task.Factory.StartNew(() => {
+                                // Add a new house
+                                house.id = Database.AddHouse(house);
+                                house.houseLabel = NAPI.TextLabel.CreateTextLabel(House.GetHouseLabelText(house), house.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
+                                House.houseList.Add(house);
+
+                                // Send the confirmation message
+                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_CREATED);
+                            });
                         }
                         break;
                     case Messages.ARG_MODIFY:
@@ -967,11 +1004,15 @@ namespace WiredPlayers.admin
                                             if (value >= 0 && value < Constants.HOUSE_IPL_LIST.Count)
                                             {
                                                 house.ipl = Constants.HOUSE_IPL_LIST[value].ipl;
-                                                Database.UpdateHouse(house);
 
-                                                // Confirmation message sent to the player
-                                                message = String.Format(Messages.ADM_HOUSE_INTERIOR_MODIFIED, value);
-                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                Task.Factory.StartNew(() => {
+                                                    // Update the house's information
+                                                    Database.UpdateHouse(house);
+
+                                                    // Confirmation message sent to the player
+                                                    message = String.Format(Messages.ADM_HOUSE_INTERIOR_MODIFIED, value);
+                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                });
                                             }
                                             else
                                             {
@@ -988,11 +1029,15 @@ namespace WiredPlayers.admin
                                                 house.price = value;
                                                 house.status = Constants.HOUSE_STATE_BUYABLE;
                                                 NAPI.TextLabel.SetTextLabelText(house.houseLabel, House.GetHouseLabelText(house));
-                                                Database.UpdateHouse(house);
 
-                                                // Confirmation message sent to the player
-                                                message = String.Format(Messages.ADM_HOUSE_PRICE_MODIFIED, value);
-                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                Task.Factory.StartNew(() => {
+                                                    // Update the house's information
+                                                    Database.UpdateHouse(house);
+
+                                                    // Confirmation message sent to the player
+                                                    message = String.Format(Messages.ADM_HOUSE_PRICE_MODIFIED, value);
+                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                });
                                             }
                                             else
                                             {
@@ -1005,11 +1050,15 @@ namespace WiredPlayers.admin
                                         {
                                             house.status = value;
                                             NAPI.TextLabel.SetTextLabelText(house.houseLabel, House.GetHouseLabelText(house));
-                                            Database.UpdateHouse(house);
 
-                                            // Confirmation message sent to the player
-                                            message = String.Format(Messages.ADM_HOUSE_STATUS_MODIFIED, value);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the house's information
+                                                Database.UpdateHouse(house);
+
+                                                // Confirmation message sent to the player
+                                                message = String.Format(Messages.ADM_HOUSE_STATUS_MODIFIED, value);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         else
                                         {
@@ -1022,11 +1071,15 @@ namespace WiredPlayers.admin
                                             house.rental = value;
                                             house.status = Constants.HOUSE_STATE_RENTABLE;
                                             NAPI.TextLabel.SetTextLabelText(house.houseLabel, House.GetHouseLabelText(house));
-                                            Database.UpdateHouse(house);
 
-                                            // Confirmation message sent to the player
-                                            message = String.Format(Messages.ADM_HOUSE_RENTAL_MODIFIED, value);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the house's information
+                                                Database.UpdateHouse(house);
+
+                                                // Confirmation message sent to the player
+                                                message = String.Format(Messages.ADM_HOUSE_RENTAL_MODIFIED, value);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         else
                                         {
@@ -1053,11 +1106,15 @@ namespace WiredPlayers.admin
                                         if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_OWNER) || NAPI.Data.GetEntityData(player, EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             house.owner = name.Trim();
-                                            Database.UpdateHouse(house);
 
-                                            // Confirmation message sent to the player
-                                            message = String.Format(Messages.ADM_HOUSE_OWNER_MODIFIED);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the house's information
+                                                Database.UpdateHouse(house);
+
+                                                // Confirmation message sent to the player
+                                                message = String.Format(Messages.ADM_HOUSE_OWNER_MODIFIED, value);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         break;
                                     case Messages.ARG_NAME:
@@ -1065,11 +1122,15 @@ namespace WiredPlayers.admin
                                         {
                                             house.name = name.Trim();
                                             NAPI.TextLabel.SetTextLabelText(house.houseLabel, House.GetHouseLabelText(house));
-                                            Database.UpdateHouse(house);
 
-                                            // Confirmation message sent to the player
-                                            message = String.Format(Messages.ADM_HOUSE_NAME_MODIFIED, value);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the house's information
+                                                Database.UpdateHouse(house);
+
+                                                // Confirmation message sent to the player
+                                                message = String.Format(Messages.ADM_HOUSE_NAME_MODIFIED, value);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         break;
                                     default:
@@ -1089,10 +1150,14 @@ namespace WiredPlayers.admin
                         {
                             if (house != null)
                             {
-                                NAPI.Entity.DeleteEntity(house.houseLabel);
-                                Database.DeleteHouse(house.id);
-                                House.houseList.Remove(house);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_DELETED);
+                                Task.Factory.StartNew(() => {
+                                    // Remove the house
+                                    NAPI.Entity.DeleteEntity(house.houseLabel);
+                                    Database.DeleteHouse(house.id);
+                                    House.houseList.Remove(house);
+
+                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_DELETED);
+                                });
                             }
                             else
                             {
@@ -1188,10 +1253,16 @@ namespace WiredPlayers.admin
                                         parking = new ParkingModel();
                                         parking.type = type;
                                         parking.position = player.Position;
-                                        parking.id = Database.AddParking(parking);
-                                        parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_CREATED);
-                                        Parking.parkingList.Add(parking);
+
+                                        Task.Factory.StartNew(() => {
+                                            // Create the new parking
+                                            parking.id = Database.AddParking(parking);
+                                            parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
+                                            Parking.parkingList.Add(parking);
+
+                                            // Send the confirmation message to the player
+                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_CREATED);
+                                        });
                                     }
                                 }
                                 else
@@ -1219,11 +1290,15 @@ namespace WiredPlayers.admin
                                             if (Int32.TryParse(arguments[2], out int houseId) == true)
                                             {
                                                 parking.houseId = houseId;
-                                                Database.UpdateParking(parking);
 
-                                                // Confirmation message sent to the player
-                                                String message = String.Format(Messages.ADM_PARKING_HOUSE_MODIFIED, houseId);
-                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                Task.Factory.StartNew(() => {
+                                                    // Update the parking's information
+                                                    Database.UpdateParking(parking);
+
+                                                    // Confirmation message sent to the player
+                                                    String message = String.Format(Messages.ADM_PARKING_HOUSE_MODIFIED, houseId);
+                                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                                });
                                             }
                                             else
                                             {
@@ -1240,12 +1315,16 @@ namespace WiredPlayers.admin
                                         if (Int32.TryParse(arguments[2], out slots) == true)
                                         {
                                             parking.capacity = slots;
-                                            Database.UpdateParking(parking);
                                             parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
 
-                                            // Confirmation message sent to the player
-                                            String message = String.Format(Messages.ADM_PARKING_SLOTS_MODIFIED, slots);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the parking's information
+                                                Database.UpdateParking(parking);
+
+                                                // Confirmation message sent to the player
+                                                String message = String.Format(Messages.ADM_PARKING_SLOTS_MODIFIED, slots);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         else
                                         {
@@ -1257,11 +1336,15 @@ namespace WiredPlayers.admin
                                         if (Int32.TryParse(arguments[2], out type) == true)
                                         {
                                             parking.type = type;
-                                            Database.UpdateParking(parking);
 
-                                            // Confirmation message sent to the player
-                                            String message = String.Format(Messages.ADM_PARKING_TYPE_MODIFIED, type);
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            Task.Factory.StartNew(() => {
+                                                // Update the parking's information
+                                                Database.UpdateParking(parking);
+
+                                                // Confirmation message sent to the player
+                                                String message = String.Format(Messages.ADM_PARKING_TYPE_MODIFIED, type);
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + message);
+                                            });
                                         }
                                         else
                                         {
@@ -1288,10 +1371,15 @@ namespace WiredPlayers.admin
                         {
                             if (parking != null)
                             {
-                                NAPI.Entity.DeleteEntity(parking.parkingLabel);
-                                Database.DeleteParking(parking.id);
-                                Parking.parkingList.Remove(parking);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_DELETED);
+                                Task.Factory.StartNew(() => {
+                                    // Update the parking's information
+                                    NAPI.Entity.DeleteEntity(parking.parkingLabel);
+                                    Database.DeleteParking(parking.id);
+                                    Parking.parkingList.Remove(parking);
+
+                                    // Confirmation message sent to the player
+                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_DELETED);
+                                });
                             }
                             else
                             {
@@ -1420,8 +1508,10 @@ namespace WiredPlayers.admin
                     String message = String.Format(Messages.ADM_PLAYER_JAILED, target.Name, jailTime, reason);
                     NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
 
-                    // We add the log in the database
-                    Database.AddAdminLog(player.SocialClubName, target.Name, "jail", jailTime, reason);
+                    Task.Factory.StartNew(() => {
+                        // We add the log in the database
+                        Database.AddAdminLog(player.SocialClubName, target.Name, "jail", jailTime, reason);
+                    });
                 }
                 else
                 {
@@ -1444,8 +1534,10 @@ namespace WiredPlayers.admin
                 String message = String.Format(Messages.ADM_PLAYER_KICKED, player.Name, target.Name, reason);
                 NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
 
-                // We add the log in the database
-                Database.AddAdminLog(player.SocialClubName, target.Name, "kick", 0, reason);
+                Task.Factory.StartNew(() => {
+                    // We add the log in the database
+                    Database.AddAdminLog(player.SocialClubName, target.Name, "kick", 0, reason);
+                });
             }
         }
 
@@ -1479,9 +1571,11 @@ namespace WiredPlayers.admin
 
                 String message = String.Format(Messages.ADM_PLAYER_BANNED, player.Name, target.Name, reason);
                 NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
-
-                // We add the log in the database
-                Database.AddAdminLog(player.SocialClubName, target.Name, "ban", 0, reason);
+                
+                Task.Factory.StartNew(() => {
+                    // We add the log in the database
+                    Database.AddAdminLog(player.SocialClubName, target.Name, "ban", 0, reason);
+                });
             }
         }
 

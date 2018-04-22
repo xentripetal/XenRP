@@ -23,10 +23,10 @@ namespace WiredPlayers.database
 {
     public class Database : Script
     {
-        private const String host = "";
-        private const String user = "";
-        private const String pass = "";
-        private const String database = "";
+        private const String host = "127.0.0.1";
+        private const String user = "gta";
+        private const String pass = "gta5server-WP";
+        private const String database = "gtav";
         private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + ";";
 
         [ServerEvent(Event.ResourceStart)]
@@ -596,9 +596,12 @@ namespace WiredPlayers.database
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = 'Transferencia' ";
-                command.CommandText += "OR type = 'Depósito' OR type = 'Retiro') ORDER BY date DESC, hour DESC LIMIT @start, @count";
+                command.CommandText = "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = @opTransfer ";
+                command.CommandText += "OR type = @opDeposit OR type = @opWithdraw) ORDER BY date DESC, hour DESC LIMIT @start, @count";
                 command.Parameters.AddWithValue("@playerName", playerName);
+                command.Parameters.AddWithValue("@opTransfer", Messages.GEN_BANK_OP_TRANSFER);
+                command.Parameters.AddWithValue("@opDeposit", Messages.GEN_BANK_OP_DEPOSIT);
+                command.Parameters.AddWithValue("@opWithdraw", Messages.GEN_BANK_OP_WITHDRAW);
                 command.Parameters.AddWithValue("@start", start);
                 command.Parameters.AddWithValue("@count", count);
 

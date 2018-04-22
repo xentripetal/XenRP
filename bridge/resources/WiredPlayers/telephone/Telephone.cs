@@ -4,6 +4,7 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.telephone
 {
@@ -75,9 +76,12 @@ namespace WiredPlayers.telephone
             contact.contactNumber = contactNumber;
             contact.contactName = contactName;
 
-            // Add contact to database
-            contact.id = Database.AddNewContact(contact);
-            contactList.Add(contact);
+            Task.Factory.StartNew(() =>
+            {
+                // Add contact to database
+                contact.id = Database.AddNewContact(contact);
+                contactList.Add(contact);
+            });
             
             String actionMessage = String.Format(Messages.INF_CONTACT_CREATED, contactName, contactNumber);
             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + actionMessage);
@@ -90,7 +94,12 @@ namespace WiredPlayers.telephone
             ContactModel contact = GetContactFromId(contactIndex);
             contact.contactNumber = contactNumber;
             contact.contactName = contactName;
-            Database.ModifyContact(contact);
+
+            Task.Factory.StartNew(() =>
+            {
+                // Modify the contact's data
+                Database.ModifyContact(contact);
+            });
             
             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CONTACT_MODIFIED);
         }
@@ -102,9 +111,12 @@ namespace WiredPlayers.telephone
             String contactName = contact.contactName;
             int contactNumber = contact.contactNumber;
 
-            // Delete the contact
-            Database.DeleteContact(contactIndex);
-            contactList.Remove(contact);
+            Task.Factory.StartNew(() =>
+            {
+                // Delete the contact
+                Database.DeleteContact(contactIndex);
+                contactList.Remove(contact);
+            });
             
             String actionMessage = String.Format(Messages.INF_CONTACT_DELETED, contactName, contactNumber);
             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + actionMessage);
@@ -146,7 +158,11 @@ namespace WiredPlayers.telephone
                     
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_SMS_SENT);
 
-                    Database.AddSMSLog(phone, contact.contactNumber, textMessage);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Add the SMS to the database
+                        Database.AddSMSLog(phone, contact.contactNumber, textMessage);
+                    });
 
                     return;
                 }
@@ -464,12 +480,22 @@ namespace WiredPlayers.telephone
                 if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PHONE_CALL_STARTED) == true)
                 {
                     elapsed = Globals.GetTotalSeconds() - NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE_CALL_STARTED);
-                    Database.AddCallLog(playerPhone, targetPhone, elapsed);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the elapsed time into the database
+                        Database.AddCallLog(playerPhone, targetPhone, elapsed);
+                    });
                 }
                 else
                 {
                     elapsed = Globals.GetTotalSeconds() - NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE_CALL_STARTED);
-                    Database.AddCallLog(targetPhone, playerPhone, elapsed);
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Update the elapsed time into the database
+                        Database.AddCallLog(targetPhone, playerPhone, elapsed);
+                    });
                 }
 
                 // Hang up the call for both players
@@ -531,8 +557,11 @@ namespace WiredPlayers.telephone
                             }
                         }
 
-                        // Add the SMS into the database
-                        Database.AddSMSLog(playerPhone, number, message);
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Add the SMS into the database
+                            Database.AddSMSLog(playerPhone, number, message);
+                        });
 
                         return;
                     }

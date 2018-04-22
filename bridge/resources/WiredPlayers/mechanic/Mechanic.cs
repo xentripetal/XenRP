@@ -7,6 +7,7 @@ using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.mechanic
 {
@@ -270,15 +271,24 @@ namespace WiredPlayers.mechanic
                             tunningModel.slot = i;
                             tunningModel.component = vehicleMod;
                             tunningModel.vehicle = vehicleId;
-                            tunningModel.id = Database.AddTunning(tunningModel);
-                            tunningList.Add(tunningModel);
+
+                            Task.Factory.StartNew(() =>
+                            {
+                                tunningModel.id = Database.AddTunning(tunningModel);
+                                tunningList.Add(tunningModel);
+                            });
                         }
                     }
                 }
 
                 // Remove consumed products
                 item.amount -= totalProducts;
-                Database.UpdateItem(item);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Update the amount into the database
+                    Database.UpdateItem(item);
+                });
 
                 // Close tunning menu
                 NAPI.ClientEvent.TriggerClientEvent(player, "closeTunningMenu");

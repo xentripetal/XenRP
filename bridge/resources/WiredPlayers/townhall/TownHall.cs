@@ -6,6 +6,7 @@ using WiredPlayers.model;
 using System.Collections.Generic;
 using System;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.TownHall
 {
@@ -43,7 +44,13 @@ namespace WiredPlayers.TownHall
                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_IDENTIFICATION);
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_DOCUMENTATION, Globals.GetTotalSeconds());
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
-                        Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_IDENTIFICATION, Constants.PRICE_IDENTIFICATION);
+
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Log the payment made
+                            Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_IDENTIFICATION, Constants.PRICE_IDENTIFICATION);
+                        });
                     }
                     break;
                 case Constants.TRAMITATE_MEDICAL_INSURANCE:
@@ -62,7 +69,13 @@ namespace WiredPlayers.TownHall
                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_MEDICAL_INSURANCE);
                         NAPI.Data.SetEntityData(player, EntityData.PLAYER_MEDICAL_INSURANCE, Globals.GetTotalSeconds() + 1209600);
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
-                        Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_MEDICAL_INSURANCE, Constants.PRICE_MEDICAL_INSURANCE);
+
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Log the payment made
+                            Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_MEDICAL_INSURANCE, Constants.PRICE_MEDICAL_INSURANCE);
+                        });
                     }
                     break;
                 case Constants.TRAMITATE_TAXI_LICENSE:
@@ -81,19 +94,28 @@ namespace WiredPlayers.TownHall
                         NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_TAXI_LICENSE);
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
                         DrivingSchool.SetPlayerLicense(player, Constants.LICENSE_TAXI, 1);
-                        Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_TAXI_LICENSE, Constants.PRICE_TAXI_LICENSE);
+
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            // Log the payment made
+                            Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_TAXI_LICENSE, Constants.PRICE_TAXI_LICENSE);
+                        });
                     }
                     break;
                 case Constants.TRAMITATE_FINE_LIST:
-                    List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
-                    if (fineList.Count > 0)
+                    Task.Factory.StartNew(() =>
                     {
-                        NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerFineList", NAPI.Util.ToJson(fineList));
-                    }
-                    else
-                    {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_NO_FINES);
-                    }
+                        List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
+                        if (fineList.Count > 0)
+                        {
+                            NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerFineList", NAPI.Util.ToJson(fineList));
+                        }
+                        else
+                        {
+                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_NO_FINES);
+                        }
+                    });
                     break;
             }
         }
@@ -101,46 +123,50 @@ namespace WiredPlayers.TownHall
         [RemoteEvent("payPlayerFines")]
         public void PayPlayerFinesEvent(Client player, String finesJson)
         {
-            List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
-            List<FineModel> removedFines = JsonConvert.DeserializeObject<List<FineModel>>(finesJson);
-            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-            int finesProcessed = 0;
-            int amount = 0;
 
-            // Get the money amount for all the fines
-            foreach (FineModel fine in removedFines)
+            Task.Factory.StartNew(() =>
             {
-                amount += fine.amount;
-                finesProcessed++;
-            }
+                List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
+                List<FineModel> removedFines = JsonConvert.DeserializeObject<List<FineModel>>(finesJson);
+                int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                int finesProcessed = 0;
+                int amount = 0;
 
-            if (amount == 0)
-            {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FINES);
-            }
-            else if (amount > money)
-            {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FINE_MONEY);
-            }
-            else
-            {
-                // Remove money from player
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - amount);
-
-                // Delete paid fines
-                Database.RemoveFines(removedFines);
-                Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_FINES_PAYMENT, amount);
-
-                // Check if all fines were paid
-                if (finesProcessed == fineList.Count)
+                // Get the money amount for all the fines
+                foreach (FineModel fine in removedFines)
                 {
-                    // Volvemos a la página anterior
-                    NAPI.ClientEvent.TriggerClientEvent(player, "backTownHallIndex");
+                    amount += fine.amount;
+                    finesProcessed++;
                 }
 
-                String message = String.Format(Messages.INF_PLAYER_FINES_PAID, amount);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
-            }
+                if (amount == 0)
+                {
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FINES);
+                }
+                else if (amount > money)
+                {
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FINE_MONEY);
+                }
+                else
+                {
+                    // Remove money from player
+                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - amount);
+
+                    // Delete paid fines
+                    Database.RemoveFines(removedFines);
+                    Database.LogPayment(player.Name, Messages.GEN_FACTION_TOWNHALL, Messages.GEN_FINES_PAYMENT, amount);
+
+                    // Check if all fines were paid
+                    if (finesProcessed == fineList.Count)
+                    {
+                        // Volvemos a la página anterior
+                        NAPI.ClientEvent.TriggerClientEvent(player, "backTownHallIndex");
+                    }
+
+                    String message = String.Format(Messages.INF_PLAYER_FINES_PAID, amount);
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                }
+            });
         }
 
         [Command(Messages.COM_TOWNHALL)]

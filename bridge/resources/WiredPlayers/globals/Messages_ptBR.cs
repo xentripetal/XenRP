@@ -5,6 +5,9 @@ namespace WiredPlayers.globals
     public class Messages_ptBR
     {
         // General messages
+        public const String GEN_BANK_OP_WITHDRAW = "Withdraw";
+        public const String GEN_BANK_OP_DEPOSIT = "Deposit";
+        public const String GEN_BANK_OP_TRANSFER = "Transfer";
         public const String GEN_WEAPON_CRATE = "caixa de arma";
         public const String GEN_STATE = "O estado";
         public const String GEN_HOUSE_SALE = "Venda de casa";

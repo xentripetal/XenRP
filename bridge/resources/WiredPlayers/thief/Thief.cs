@@ -9,6 +9,7 @@ using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace WiredPlayers.thief
 {
@@ -93,13 +94,22 @@ namespace WiredPlayers.thief
                 stolenItemModel.ownerIdentifier = playerSqlId;
                 stolenItemModel.dimension = 0;
                 stolenItemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
-                stolenItemModel.id = Database.AddNewItem(stolenItemModel);
-                Globals.itemList.Add(stolenItemModel);
+
+                Task.Factory.StartNew(() =>
+                {
+                    stolenItemModel.id = Database.AddNewItem(stolenItemModel);
+                    Globals.itemList.Add(stolenItemModel);
+                });
             }
             else
             {
                 stolenItemModel.amount += totalStolenItems;
-                Database.UpdateItem(stolenItemModel);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Update the amount into the database
+                    Database.UpdateItem(stolenItemModel);
+                });
             }
 
             // Allow player movement
@@ -395,8 +405,11 @@ namespace WiredPlayers.thief
                     
                     NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_HOTWIRE_STARTED);
 
-                    // Add hotwire log to the database
-                    Database.LogHotwire(player.Name, vehicleId, position);
+                    Task.Factory.StartNew(() =>
+                    {
+                        // Add hotwire log to the database
+                        Database.LogHotwire(player.Name, vehicleId, position);
+                    });
                 }
             }
         }
@@ -423,9 +436,12 @@ namespace WiredPlayers.thief
                             String message = String.Format(Messages.INF_PLAYER_PAWNED_ITEMS, wonAmount);
                             int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY) + wonAmount;
 
-                            // Delete stolen items
-                            Database.RemoveItem(stolenItems.id);
-                            Globals.itemList.Remove(stolenItems);
+                            Task.Factory.StartNew(() =>
+                            {
+                                // Delete stolen items
+                                Database.RemoveItem(stolenItems.id);
+                                Globals.itemList.Remove(stolenItems);
+                            });
 
                             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money);
                             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
