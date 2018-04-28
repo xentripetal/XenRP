@@ -32,9 +32,10 @@ You have to fill these fields with your database's connection information:
 ```
 8. In your database, execute the following query, replacing *MY_SOCIAL_CLUB_ACCOUNT* and *MY_PASSWORD* with your Rockstar's Social Club's account and a password you want to use to login the server, which can be different from the one used by the Social Club:
 ```
-INSERT INTO accounts (socialName, password) VALUES ('MY_SOCIAL_CLUB_ACCOUNT', MD5('MY_PASSWORD');
+INSERT INTO accounts (socialName, password) VALUES ('MY_SOCIAL_CLUB_ACCOUNT', MD5('MY_PASSWORD'));
 ```
 10. Execute the **server.exe** located under the **server-files** folder
 11. Log into your server and enjoy it
+
 
 If you followed all this steps, you should be able to login with your newly registered account
