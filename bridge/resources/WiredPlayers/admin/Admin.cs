@@ -254,6 +254,9 @@ namespace WiredPlayers.admin
                                         vehicle.parked = 0;
                                         vehicle.gas = 50.0f;
                                         vehicle.kms = 0.0f;
+
+
+                                        // Create the vehicle
                                         Vehicles.CreateVehicle(player, vehicle, true);
                                     }
                                     else
@@ -469,9 +472,12 @@ namespace WiredPlayers.admin
                                     if (veh != null)
                                     {
                                         Task.Factory.StartNew(() => {
-                                            // Remove the vehicle
-                                            NAPI.Entity.DeleteEntity(veh);
-                                            Database.RemoveVehicle(vehicleId);
+                                            NAPI.Task.Run(() =>
+                                            {
+                                                // Remove the vehicle
+                                                NAPI.Entity.DeleteEntity(veh);
+                                                Database.RemoveVehicle(vehicleId);
+                                            });
                                         });
                                     }
                                 }
@@ -712,10 +718,13 @@ namespace WiredPlayers.admin
                                         business.name = Messages.GEN_BUSINESS;
 
                                         Task.Factory.StartNew(() => {
-                                            // Get the id from the business
-                                            business.id = Database.AddNewBusiness(business);
-                                            business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name, business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, business.dimension);
-                                            Business.businessList.Add(business);
+                                            NAPI.Task.Run(() =>
+                                            {
+                                                // Get the id from the business
+                                                business.id = Database.AddNewBusiness(business);
+                                                business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name, business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, business.dimension);
+                                                Business.businessList.Add(business);
+                                            });
                                         });
                                     }
                                     else
@@ -817,10 +826,13 @@ namespace WiredPlayers.admin
                                 if (business != null)
                                 {
                                     Task.Factory.StartNew(() => {
-                                        // Delete the business
-                                        NAPI.Entity.DeleteEntity(business.businessLabel);
-                                        Database.DeleteBusiness(business.id);
-                                        Business.businessList.Remove(business);
+                                        NAPI.Task.Run(() =>
+                                        {
+                                            // Delete the business
+                                            NAPI.Entity.DeleteEntity(business.businessLabel);
+                                            Database.DeleteBusiness(business.id);
+                                            Business.businessList.Remove(business);
+                                        });
                                     });
                                 }
                             }
@@ -978,13 +990,16 @@ namespace WiredPlayers.admin
                             house.locked = true;
 
                             Task.Factory.StartNew(() => {
-                                // Add a new house
-                                house.id = Database.AddHouse(house);
-                                house.houseLabel = NAPI.TextLabel.CreateTextLabel(House.GetHouseLabelText(house), house.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
-                                House.houseList.Add(house);
+                                NAPI.Task.Run(() =>
+                                {
+                                    // Add a new house
+                                    house.id = Database.AddHouse(house);
+                                    house.houseLabel = NAPI.TextLabel.CreateTextLabel(House.GetHouseLabelText(house), house.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
+                                    House.houseList.Add(house);
 
-                                // Send the confirmation message
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_CREATED);
+                                    // Send the confirmation message
+                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_CREATED);
+                                });
                             });
                         }
                         break;
@@ -1151,12 +1166,15 @@ namespace WiredPlayers.admin
                             if (house != null)
                             {
                                 Task.Factory.StartNew(() => {
-                                    // Remove the house
-                                    NAPI.Entity.DeleteEntity(house.houseLabel);
-                                    Database.DeleteHouse(house.id);
-                                    House.houseList.Remove(house);
+                                    NAPI.Task.Run(() =>
+                                    {
+                                        // Remove the house
+                                        NAPI.Entity.DeleteEntity(house.houseLabel);
+                                        Database.DeleteHouse(house.id);
+                                        House.houseList.Remove(house);
 
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_DELETED);
+                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_DELETED);
+                                    });
                                 });
                             }
                             else
@@ -1255,13 +1273,16 @@ namespace WiredPlayers.admin
                                         parking.position = player.Position;
 
                                         Task.Factory.StartNew(() => {
-                                            // Create the new parking
-                                            parking.id = Database.AddParking(parking);
-                                            parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
-                                            Parking.parkingList.Add(parking);
+                                            NAPI.Task.Run(() =>
+                                            {
+                                                // Create the new parking
+                                                parking.id = Database.AddParking(parking);
+                                                parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
+                                                Parking.parkingList.Add(parking);
 
-                                            // Send the confirmation message to the player
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_CREATED);
+                                                // Send the confirmation message to the player
+                                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_CREATED);
+                                            });
                                         });
                                     }
                                 }
@@ -1372,13 +1393,16 @@ namespace WiredPlayers.admin
                             if (parking != null)
                             {
                                 Task.Factory.StartNew(() => {
-                                    // Update the parking's information
-                                    NAPI.Entity.DeleteEntity(parking.parkingLabel);
-                                    Database.DeleteParking(parking.id);
-                                    Parking.parkingList.Remove(parking);
+                                    NAPI.Task.Run(() =>
+                                    {
+                                        // Update the parking's information
+                                        NAPI.Entity.DeleteEntity(parking.parkingLabel);
+                                        Database.DeleteParking(parking.id);
+                                        Parking.parkingList.Remove(parking);
 
-                                    // Confirmation message sent to the player
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_DELETED);
+                                        // Confirmation message sent to the player
+                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_DELETED);
+                                    });
                                 });
                             }
                             else

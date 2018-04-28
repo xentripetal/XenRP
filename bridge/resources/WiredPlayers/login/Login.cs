@@ -144,12 +144,12 @@ namespace WiredPlayers.login
         private void LoadCharacterData(Client player, PlayerModel character)
         {
             String[] jail = character.jailed.Split(',');
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, character.money);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, character.bank);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, character.age);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SEX, character.sex);
-            
+
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SQL_ID, character.id);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, character.realName);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_HEALTH, character.health);
@@ -192,33 +192,33 @@ namespace WiredPlayers.login
             NAPI.Data.SetEntitySharedData(player, EntityData.SECOND_SKIN_TONE, skinModel.secondSkinTone);
             NAPI.Data.SetEntitySharedData(player, EntityData.HEAD_MIX, skinModel.headMix);
             NAPI.Data.SetEntitySharedData(player, EntityData.SKIN_MIX, skinModel.skinMix);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.HAIR_MODEL, skinModel.hairModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.FIRST_HAIR_COLOR, skinModel.firstHairColor);
             NAPI.Data.SetEntitySharedData(player, EntityData.SECOND_HAIR_COLOR, skinModel.secondHairColor);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.BEARD_MODEL, skinModel.beardModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.BEARD_COLOR, skinModel.beardColor);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.CHEST_MODEL, skinModel.chestModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.CHEST_COLOR, skinModel.chestColor);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.BLEMISHES_MODEL, skinModel.blemishesModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.AGEING_MODEL, skinModel.ageingModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.COMPLEXION_MODEL, skinModel.complexionModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.SUNDAMAGE_MODEL, skinModel.sundamageModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.FRECKLES_MODEL, skinModel.frecklesModel);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.EYES_COLOR, skinModel.eyesColor);
             NAPI.Data.SetEntitySharedData(player, EntityData.EYEBROWS_MODEL, skinModel.eyebrowsModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.EYEBROWS_COLOR, skinModel.eyebrowsColor);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.MAKEUP_MODEL, skinModel.makeupModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.BLUSH_MODEL, skinModel.blushModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.BLUSH_COLOR, skinModel.blushColor);
             NAPI.Data.SetEntitySharedData(player, EntityData.LIPSTICK_MODEL, skinModel.lipstickModel);
             NAPI.Data.SetEntitySharedData(player, EntityData.LIPSTICK_COLOR, skinModel.lipstickColor);
-            
+
             NAPI.Data.SetEntitySharedData(player, EntityData.NOSE_WIDTH, skinModel.noseWidth);
             NAPI.Data.SetEntitySharedData(player, EntityData.NOSE_HEIGHT, skinModel.noseHeight);
             NAPI.Data.SetEntitySharedData(player, EntityData.NOSE_LENGTH, skinModel.noseLength);
@@ -250,7 +250,7 @@ namespace WiredPlayers.login
             Client player = (Client)playerObject;
             int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
             List<TattooModel> playerTattooList = Globals.GetPlayerTattoos(playerId);
-            
+
             Timer spawnTimer = spawnTimerList[player.SocialClubName];
             if (spawnTimer != null)
             {
@@ -293,21 +293,18 @@ namespace WiredPlayers.login
 
                         if (account.lastCharacter > 0)
                         {
-                            Task.Factory.StartNew(() =>
-                            {
-                                // Load selected character
-                                PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
-                                SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
+                            // Load selected character
+                            PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
+                            SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
 
-                                NAPI.Player.SetPlayerName(player, character.realName);
-                                NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
+                            NAPI.Player.SetPlayerName(player, character.realName);
+                            NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
-                                LoadCharacterData(player, character);
+                            LoadCharacterData(player, character);
 
-                                PopulateCharacterSkin(player, skin);
+                            PopulateCharacterSkin(player, skin);
 
-                                Globals.PopulateCharacterClothes(player);
-                            });
+                            Globals.PopulateCharacterClothes(player);
                         }
                         else
                         {
@@ -356,11 +353,11 @@ namespace WiredPlayers.login
         {
             PlayerModel playerModel = new PlayerModel();
             SkinModel skinModel = JsonConvert.DeserializeObject<SkinModel>(skinJson);
-            
+
             playerModel.realName = playerName;
             playerModel.age = playerAge;
             playerModel.sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
-            
+
             PopulateCharacterSkin(player, skinModel);
 
             Task.Factory.StartNew(() =>

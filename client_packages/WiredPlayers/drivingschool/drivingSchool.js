@@ -10,9 +10,9 @@ mp.events.add('startLicenseExam', (questionsJson, answersJson) => {
 	// Disable the chat
 	mp.gui.chat.activate(false);
 	mp.gui.chat.show(false);
-	
+
 	// Show the question
-	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/licenseExam.html']);
+	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/licenseExam.html', 'getFirstTestQuestion']);
 });
 
 mp.events.add('getNextTestQuestion', () => {
@@ -43,7 +43,7 @@ mp.events.add('submitAnswer', (answerId) => {
 mp.events.add('finishLicenseExam', () => {
 	// Destroy the exam's window
 	mp.events.call('destroyBrowser');
-	
+
 	// Enable the chat
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);

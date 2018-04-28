@@ -170,6 +170,7 @@ namespace WiredPlayers.carshop
 
                                 // Creating the purchased vehicle
                                 Vehicles.CreateVehicle(player, vehicleModel, false);
+
                                 return;
                             }
                         }
@@ -210,6 +211,7 @@ namespace WiredPlayers.carshop
 
                                 // Creating the purchased vehicle
                                 Vehicles.CreateVehicle(player, vehicleModel, false);
+
                                 return;
                             }
                         }
@@ -250,6 +252,7 @@ namespace WiredPlayers.carshop
 
                                 // Creating the purchased vehicle
                                 Vehicles.CreateVehicle(player, vehicleModel, false);
+
                                 return;
                             }
                         }

@@ -5,6 +5,11 @@ namespace WiredPlayers.globals
     public class Messages
     {
         // General messages
+        public const String GEN_TOWNHALL = "Town hall";
+        public const String GEN_HOSPITAL = "Hospital";
+        public const String GEN_DRIVING_SCHOOL = "Driving school";
+        public const String GEN_WEAZEL_NEWS = "Weazel News";
+        public const String GEN_POLICE_STATION = "Police station";
         public const String GEN_BANK_OP_WITHDRAW = "Withdraw";
         public const String GEN_BANK_OP_DEPOSIT = "Deposit";
         public const String GEN_BANK_OP_TRANSFER = "Transfer";
@@ -100,7 +105,6 @@ namespace WiredPlayers.globals
         public const String GEN_RADIO = "[Radio] ";
         public const String GEN_ANNOUNCEMENT = "[ANNOUNCEMENT] ";
         public const String GEN_ADMIN_NOTICE = "[STAFF NOTIFICATION] ";
-        public const String GEN_DRIVING_SCHOOL = "Driving school";
         public const String GEN_CAR_DEALER = "Car dealer";
         public const String GEN_MOTORCYCLE_DEALER = "Motorcycle dealer";
         public const String GEN_BOAT_DEALER = "Boat dealer";
@@ -108,7 +112,7 @@ namespace WiredPlayers.globals
         public const String GEN_JOB_HELP = "Type the command above to get more information about the job";
         public const String GEN_TOWNHALL_HELP = "Type the command above to get the available formalities";
         public const String GEN_HOUSE = "House";
-        public const String GEN_BUSINESS = "Busines";
+        public const String GEN_BUSINESS = "Business";
         public const String GEN_WELCOME_MESSAGE = "Welcome to WiredPlayers, {0}.";
         public const String GEN_WELCOME_HINT = "Use ~b~/welcome ~w~command in order to know how can you start your life in Los Santos.";
         public const String GEN_HELP_HINT = "Use ~b~/help ~w~command whenever you want to get general information.";

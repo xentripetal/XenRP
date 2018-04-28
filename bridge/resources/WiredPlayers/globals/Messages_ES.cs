@@ -5,6 +5,11 @@ namespace WiredPlayers.globals
     public class Messages_ES
     {
         // Mensajes generales
+        public const String GEN_TOWNHALL = "Ayuntamiento";
+        public const String GEN_HOSPITAL = "Hospital";
+        public const String GEN_DRIVING_SCHOOL = "Autoescuela";
+        public const String GEN_WEAZEL_NEWS = "Weazel News";
+        public const String GEN_POLICE_STATION = "Comisaría";
         public const String GEN_BANK_OP_WITHDRAW = "Retiro";
         public const String GEN_BANK_OP_DEPOSIT = "Depósito";
         public const String GEN_BANK_OP_TRANSFER = "Transferencia";
@@ -100,7 +105,6 @@ namespace WiredPlayers.globals
         public const String GEN_RADIO = "[Radio] ";
         public const String GEN_ANNOUNCEMENT = "[ANUNCIO] ";
         public const String GEN_ADMIN_NOTICE = "[AVISO ADMINISTRATIVO] ";
-        public const String GEN_DRIVING_SCHOOL = "Autoescuela";
         public const String GEN_CAR_DEALER = "Concesionario de coches";
         public const String GEN_MOTORCYCLE_DEALER = "Concesionario de motos";
         public const String GEN_BOAT_DEALER = "Concesionario de barcos";

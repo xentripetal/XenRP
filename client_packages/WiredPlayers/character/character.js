@@ -12,7 +12,7 @@ let characters = undefined;
 mp.events.add('showPlayerCharacters', (charactersJson) => {
 	// Store account characters
 	characters = charactersJson;
-	
+
 	// Show character list
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateCharacterList', charactersJson]);
 });
@@ -20,7 +20,7 @@ mp.events.add('showPlayerCharacters', (charactersJson) => {
 mp.events.add('loadCharacter', (characterName) => {
 	// Destroy the menu
 	mp.events.call('destroyBrowser');
-	
+
 	// Load the character
 	mp.events.callRemote('loadCharacter', characterName);
 });
@@ -28,23 +28,24 @@ mp.events.add('loadCharacter', (characterName) => {
 mp.events.add('showCharacterCreationMenu', () => {
 	// Destroy the menu
 	mp.events.call('destroyBrowser');
-	
+
 	// Initialize the character creation
 	mp.events.callRemote('setCharacterIntoCreator');
 	initializeCharacterCreation(mp.players.local);
-	
+
 	// Make the camera focus the player
 	camera = mp.cameras.new('default', new mp.Vector3(152.6008, -1003.25, -98), new mp.Vector3(-20.0, 0.0, 0.0), 90);
     camera.setActive(true);
 	mp.game.cam.renderScriptCams(true, false, 0, true, false);
-	
+
 	// Disable the interface
+	mp.game.ui.displayRadar(false);
 	mp.game.ui.displayHud(false);
 	mp.gui.chat.activate(false);
 	mp.gui.chat.show(false);
-	
+
 	// Load the character creation menu
-	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/characterCreator.html']);	
+	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/characterCreator.html']);
 });
 
 mp.events.add('updatePlayerSex', (sex) => {
@@ -53,12 +54,12 @@ mp.events.add('updatePlayerSex', (sex) => {
 	mp.events.callRemote('changeCharacterSex', sex);
 });
 
-mp.events.add('updatePlayerCreation', (partName, value, isPercentage) => {	
+mp.events.add('updatePlayerCreation', (partName, value, isPercentage) => {
 	if(isPercentage) {
 		// Calculate the value
 		value = parseFloat(value / 100);
 	}
-	
+
 	// Update character's head
 	faceModel[`${partName}`] = value;
 	updatePlayerFace(mp.players.local, faceModel);
@@ -97,16 +98,17 @@ mp.events.add('cancelCharacterCreation', () => {
 	camera = undefined;
 
 	// Enable the interface
+	mp.game.ui.displayRadar(true);
 	mp.game.ui.displayHud(true);
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
 
 	// Destroy character creation menu
 	mp.events.call('destroyBrowser');
-	
+
 	// Add clothes and tattoos
 	mp.events.callRemote('loadCharacter', mp.players.local.name);
-	
+
 	// Show the character list
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateCharacterList', characters]);
 });
@@ -118,6 +120,7 @@ mp.events.add('characterCreatedSuccessfully', () => {
 	camera = undefined;
 
 	// Enable the interface
+	mp.game.ui.displayRadar(true);
 	mp.game.ui.displayHud(true);
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
@@ -133,7 +136,7 @@ mp.events.add('entityStreamIn', (entity) => {
         if (mp.game.joaat('mp_m_freemode_01') == model || mp.game.joaat('mp_f_freemode_01') == model) {
 			// Get player's custom data
 			mp.events.callRemote('getPlayerCustomSkin', entity);
-			
+
 			let walkingStyle = entity.getVariable('PLAYER_WALKING_STYLE');
 			if(walkingStyle !== undefined) {
 				// Add drunk walking style
@@ -147,7 +150,7 @@ mp.events.add('updatePlayerCustomSkin', (player, tattooJsonArray) => {
 	// Get custom data
 	let face = initializeCharacterCreation(player);
 	let tattooArray = JSON.parse(tattooJsonArray);
-	
+
 	// Update character's appearance
 	updatePlayerFace(player, face);
 	updatePlayerTattoos(player, tattooArray);
@@ -200,7 +203,7 @@ function initializeCharacterCreation(player) {
 	faceModel.chinWidth = player === 'undefined' ? 0.0 : player.getVariable('CHIN_WIDTH');
 	faceModel.chinShape = player === 'undefined' ? 0.0 : player.getVariable('CHIN_SHAPE');
 	faceModel.neckWidth = player === 'undefined' ? 0.0 : player.getVariable('NECK_WIDTH');
-	
+
 	return faceModel;
 }
 

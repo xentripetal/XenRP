@@ -92,55 +92,58 @@ namespace WiredPlayers.vehicles
         {
             Task.Factory.StartNew(() =>
             {
-                int vehicleId = Database.AddNewVehicle(vehModel);
-                Vehicle vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehModel.model), vehModel.position, vehModel.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
-                NAPI.Vehicle.SetVehicleNumberPlate(vehicle, vehModel.plate == String.Empty ? "LS " + (1000 + vehicleId) : vehModel.plate);
-                NAPI.Vehicle.SetVehicleEngineStatus(vehicle, vehModel.engine == 0 ? false : true);
-                NAPI.Vehicle.SetVehicleLocked(vehicle, vehModel.locked == 0 ? false : true);
-                NAPI.Entity.SetEntityDimension(vehicle, Convert.ToUInt32(vehModel.dimension));
-
-                if (vehModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
+                NAPI.Task.Run(() =>
                 {
-                    NAPI.Vehicle.SetVehiclePrimaryColor(vehicle, Int32.Parse(vehModel.firstColor));
-                    NAPI.Vehicle.SetVehicleSecondaryColor(vehicle, Int32.Parse(vehModel.secondColor));
-                    NAPI.Vehicle.SetVehiclePearlescentColor(vehicle, vehModel.pearlescent);
-                }
-                else
-                {
-                    String[] firstColor = vehModel.firstColor.Split(',');
-                    String[] secondColor = vehModel.secondColor.Split(',');
-                    NAPI.Vehicle.SetVehicleCustomPrimaryColor(vehicle, Int32.Parse(firstColor[0]), Int32.Parse(firstColor[1]), Int32.Parse(firstColor[2]));
-                    NAPI.Vehicle.SetVehicleCustomSecondaryColor(vehicle, Int32.Parse(secondColor[0]), Int32.Parse(secondColor[1]), Int32.Parse(secondColor[2]));
-                }
+                    int vehicleId = Database.AddNewVehicle(vehModel);
+                    Vehicle vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehModel.model), vehModel.position, vehModel.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
+                    NAPI.Vehicle.SetVehicleNumberPlate(vehicle, vehModel.plate == String.Empty ? "LS " + (1000 + vehicleId) : vehModel.plate);
+                    NAPI.Vehicle.SetVehicleEngineStatus(vehicle, vehModel.engine == 0 ? false : true);
+                    NAPI.Vehicle.SetVehicleLocked(vehicle, vehModel.locked == 0 ? false : true);
+                    NAPI.Entity.SetEntityDimension(vehicle, Convert.ToUInt32(vehModel.dimension));
 
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_ID, vehicleId);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_MODEL, vehModel.model);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_POSITION, vehModel.position);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_ROTATION, vehModel.rotation);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_DIMENSION, vehModel.dimension);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_COLOR_TYPE, vehModel.colorType);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_FIRST_COLOR, vehModel.firstColor);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_SECOND_COLOR, vehModel.secondColor);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PEARLESCENT_COLOR, vehModel.pearlescent);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_FACTION, vehModel.faction);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PLATE, vehModel.plate);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_OWNER, vehModel.owner);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PRICE, vehModel.price);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PARKING, vehModel.parking);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PARKED, vehModel.parked);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_GAS, vehModel.gas);
-                NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_KMS, vehModel.kms);
+                    if (vehModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
+                    {
+                        NAPI.Vehicle.SetVehiclePrimaryColor(vehicle, Int32.Parse(vehModel.firstColor));
+                        NAPI.Vehicle.SetVehicleSecondaryColor(vehicle, Int32.Parse(vehModel.secondColor));
+                        NAPI.Vehicle.SetVehiclePearlescentColor(vehicle, vehModel.pearlescent);
+                    }
+                    else
+                    {
+                        String[] firstColor = vehModel.firstColor.Split(',');
+                        String[] secondColor = vehModel.secondColor.Split(',');
+                        NAPI.Vehicle.SetVehicleCustomPrimaryColor(vehicle, Int32.Parse(firstColor[0]), Int32.Parse(firstColor[1]), Int32.Parse(firstColor[2]));
+                        NAPI.Vehicle.SetVehicleCustomSecondaryColor(vehicle, Int32.Parse(secondColor[0]), Int32.Parse(secondColor[1]), Int32.Parse(secondColor[2]));
+                    }
 
-                if (!adminCreated)
-                {
-                    int moneyLeft = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK) - vehModel.price;
-                    String purchaseMssage = String.Format(Messages.SUC_VEHICLE_PURCHASED, vehModel.model, vehModel.price);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + purchaseMssage);
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, moneyLeft);
-                }
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_ID, vehicleId);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_MODEL, vehModel.model);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_POSITION, vehModel.position);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_ROTATION, vehModel.rotation);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_DIMENSION, vehModel.dimension);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_COLOR_TYPE, vehModel.colorType);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_FIRST_COLOR, vehModel.firstColor);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_SECOND_COLOR, vehModel.secondColor);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PEARLESCENT_COLOR, vehModel.pearlescent);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_FACTION, vehModel.faction);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PLATE, vehModel.plate);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_OWNER, vehModel.owner);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PRICE, vehModel.price);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PARKING, vehModel.parking);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_PARKED, vehModel.parked);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_GAS, vehModel.gas);
+                    NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_KMS, vehModel.kms);
 
-                // Set vehicle's tunning
-                Mechanic.AddTunningToVehicle(vehicle);
+                    if (!adminCreated)
+                    {
+                        int moneyLeft = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK) - vehModel.price;
+                        String purchaseMssage = String.Format(Messages.SUC_VEHICLE_PURCHASED, vehModel.model, vehModel.price);
+                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + purchaseMssage);
+                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, moneyLeft);
+                    }
+
+                    // Set vehicle's tunning
+                    Mechanic.AddTunningToVehicle(vehicle);
+                });
             });
         }
 

@@ -8,7 +8,7 @@ namespace WiredPlayers.globals
     public class Constants
     {
         // Versión del gamemode
-        public const String GM_VERSION = "v1.0.1";
+        public const String GM_VERSION = "v1.0.1.1";
 
         public const String DEFAULT_PED_MODEL = "StrPerf01SMM";
         public const int MALE_PED_HASH = 1885233650;
@@ -172,8 +172,6 @@ namespace WiredPlayers.globals
 
         // Cantidades de objetos al abrir el contenedor
         public const int ITEM_OPEN_BEER_AMOUNT = 6;
-
-        // Hashes de objetos comprables
 
         // Items 24-7
         public const String ITEM_HASH_FRIES = "1443311452";
@@ -408,11 +406,11 @@ namespace WiredPlayers.globals
         // Accesos a interiores genéricos
         public static List<InteriorModel> INTERIOR_LIST = new List<InteriorModel>
         {
-            new InteriorModel("Ayuntamiento", new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, "Ayuntamiento"),
-            new InteriorModel("Hospital", new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, "Los Santos Medical Center"),
-            new InteriorModel("Autoescuela", new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, "Autoescuela"),
-            new InteriorModel("Weazel News", new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, "Weazel News"),
-            new InteriorModel("Comisaría", new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), "", 60, "Los Santos Police Department"),
+            new InteriorModel(Messages.GEN_TOWNHALL, new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, Messages.GEN_TOWNHALL),
+            new InteriorModel(Messages.GEN_HOSPITAL, new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, Messages.GEN_HOSPITAL),
+            new InteriorModel(Messages.GEN_DRIVING_SCHOOL, new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, Messages.GEN_DRIVING_SCHOOL),
+            new InteriorModel(Messages.GEN_WEAZEL_NEWS, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, Messages.GEN_WEAZEL_NEWS),
+            new InteriorModel(Messages.GEN_POLICE_STATION, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), String.Empty, 60, Messages.GEN_POLICE_STATION),
         };
 
         // Interiores de negocios del juego

@@ -2472,7 +2472,7 @@ namespace WiredPlayers.globals
                                         {
                                             // Remove the item from the database
                                             Database.RemoveItem(item.id);
-                                            Globals.itemList.Remove(item);
+                                            itemList.Remove(item);
                                         });
                                     }
                                     else
@@ -2573,7 +2573,7 @@ namespace WiredPlayers.globals
                                         {
                                             // Remove the item from the database
                                             Database.RemoveItem(item.id);
-                                            Globals.itemList.Remove(item);
+                                            itemList.Remove(item);
                                         });
                                     }
                                     else
