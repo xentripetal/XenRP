@@ -1,15 +1,16 @@
 ﻿let playerList = undefined;
+let loginTimer = undefined;
 
 mp.events.add('guiReady', () => {
 	// Remove health regeneration
     mp.game.player.setHealthRechargeMultiplier(0.0);
-	
+
 	// Remove weapons from the vehicles
 	mp.game.player.disableVehicleRewards();
-	
+
 	// Freeze the player until he logs in
 	mp.players.local.freezePosition(true);
-	
+
 	mp.keys.bind(0x45, false, function() {
 		// Key 'E' pressed
 		if(!mp.players.local.vehicle || mp.players.local.seat > 0) {
@@ -26,12 +27,34 @@ mp.events.add('guiReady', () => {
 	});
 
 	mp.keys.bind(0x4B, false, function() {
-		// Key 'K' pressed	
+		// Key 'K' pressed
 		if(mp.players.local.vehicle && mp.players.local.seat == 0) {
 			// Toggle vehicle's engine
 			mp.events.callRemote('engineOnEventKey');
 		}
 	});
+
+  // Show the login panel when all is loaded
+  loginTimer = setInterval(function() {
+    // Get the time from the server
+    let serverTime = mp.players.local.getVariable('SERVER_TIME');
+
+    if(serverTime !== undefined) {
+      // Clear the timer
+      clearInterval(loginTimer);
+      loginTimer = undefined;
+
+    	// Set the hour from the server
+      let time = serverTime.split(':');
+      let hours = parseInt(time[0]);
+      let minutes = parseInt(time[1]);
+      let seconds = parseInt(time[2]);
+    	mp.game.time.setClockTime(hours, minutes, seconds);
+
+      // Show the login window
+      mp.events.call('accountLoginForm');
+    }
+  }, 100);
 });
 
 mp.events.add('changePlayerWalkingStyle', (player, clipSet) => {
@@ -58,7 +81,7 @@ NAPI.OnKeyDown.connect(function (sender, e) {
 });*/
 
 
-/* 
+/*
 NAPI.OnKeyUp.connect(function (sender, e) {
     if (!NAPI.Player.IsPlayerInAnyVehicle(NAPI.GetLocalPlayer()) && e.KeyCode === Keys.F) {
         NAPI.TriggerServerEvent("checkPlayerEventKey");

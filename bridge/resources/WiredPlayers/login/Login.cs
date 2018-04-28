@@ -315,9 +315,9 @@ namespace WiredPlayers.login
                         // Make the player invisible
                         NAPI.Entity.SetEntityTransparency(player, 255);
 
-                        // Show login window and synchronize the time
-                        TimeSpan currentTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
-                        NAPI.ClientEvent.TriggerClientEvent(player, "accountLoginForm", currentTime.Hours, currentTime.Minutes, currentTime.Seconds);
+                        // Activate the login window
+                        NAPI.Data.SetEntitySharedData(player, EntityData.SERVER_TIME, DateTime.Now.ToString("HH:mm:ss"));
+
                         break;
                 }
             });

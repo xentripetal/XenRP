@@ -181,6 +181,7 @@ namespace WiredPlayers.globals
         public const String SHAPE_CAPTION = "SHAPE_CAPTION";
 
         // Datos genéricos
+        public const String SERVER_TIME = "SERVER_TIME";
         public const String JOB_OFFER_PRICE = "JOB_OFFER_PRICE";
         public const String JOB_OFFER_PRODUCTS = "JOB_OFFER_PRODUCTS";
         public const String TIME_HOSPITAL_RESPAWN = "TIME_HOSPITAL_RESPAWN";
