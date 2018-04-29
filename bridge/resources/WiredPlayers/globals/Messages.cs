@@ -337,7 +337,7 @@ namespace WiredPlayers.globals
         public const String INF_HOUSE_RENT_STOP = "You canceled your rent for the house {0}.";
         public const String INF_HOUSE_STATE_RENT = "You set a rental price of {0}$.";
         public const String INF_HOUSE_RENT_CANCEL = "You removed house's rental price.";
-        public const String INF_JOB_ACCEPTED = "You have a new job. Use /service yo start working.";
+        public const String INF_JOB_ACCEPTED = "You have a new job. Use /duty to start working.";
         public const String INF_JOB_LEFT = "You left your current job.";
         public const String INF_DELIVER_ORDER = "You've got {0} seconds to deliver the order. You can cancel it using /cancel.";
         public const String INF_JOB_VEHICLE_LEFT = "Get back into the vehicle within {0} seconds or you'll get a penalty.";
