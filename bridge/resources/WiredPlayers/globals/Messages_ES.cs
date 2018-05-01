@@ -1113,5 +1113,159 @@ namespace WiredPlayers.globals
         public const String ARG_HAT = "sombrero";
         public const String ARG_GLASSES = "gafas";
         public const String ARG_EARRINGS = "pendientes";
+
+        // Rangos de facción
+        public const String FAC_NONE_M = "Civil";
+        public const String FAC_NONE_F = "Civil";
+
+        public const String FAC_LSPD_0_M = "Soplón";
+        public const String FAC_LSPD_0_F = "Soplona";
+        public const String FAC_LSPD_1_M = "Cadete";
+        public const String FAC_LSPD_1_F = "Cadete";
+        public const String FAC_LSPD_2_M = "Oficial";
+        public const String FAC_LSPD_2_F = "Oficial";
+        public const String FAC_LSPD_3_M = "Sargento";
+        public const String FAC_LSPD_3_F = "Sargento";
+        public const String FAC_LSPD_4_M = "Teniente";
+        public const String FAC_LSPD_4_F = "Teniente";
+        public const String FAC_LSPD_5_M = "Capitán";
+        public const String FAC_LSPD_5_F = "Capitán";
+        public const String FAC_LSPD_6_M = "Comisario";
+        public const String FAC_LSPD_6_F = "Comisaria";
+        public const String FAC_LSPD_7_M = "Asuntos Internos";
+        public const String FAC_LSPD_7_F = "Asuntos Internos";
+
+        public const String FAC_EMS_1_M = "Auxiliar";
+        public const String FAC_EMS_1_F = "Auxiliar";
+        public const String FAC_EMS_2_M = "Enfermero";
+        public const String FAC_EMS_2_F = "Enfermera";
+        public const String FAC_EMS_3_M = "Cirujano adjunto";
+        public const String FAC_EMS_3_F = "Cirujana adjunta";
+        public const String FAC_EMS_4_M = "Paramédico";
+        public const String FAC_EMS_4_F = "Paramédico";
+        public const String FAC_EMS_5_M = "Cirujano de primera";
+        public const String FAC_EMS_5_F = "Cirujana de primera";
+        public const String FAC_EMS_6_M = "Médico";
+        public const String FAC_EMS_6_F = "Médico";
+        public const String FAC_EMS_7_M = "Cirujano jefe";
+        public const String FAC_EMS_7_F = "Cirujana jefa";
+        public const String FAC_EMS_8_M = "Jefe de urgencias";
+        public const String FAC_EMS_8_F = "Jefa de urgencias";
+        public const String FAC_EMS_9_M = "Subdirector";
+        public const String FAC_EMS_9_F = "Subdirectora";
+        public const String FAC_EMS_10_M = "Director";
+        public const String FAC_EMS_10_F = "Directora";
+
+        public const String FAC_NEWS_1_M = "Becario";
+        public const String FAC_NEWS_1_F = "Becaria";
+        public const String FAC_NEWS_2_M = "Periodista";
+        public const String FAC_NEWS_2_F = "Periodista";
+        public const String FAC_NEWS_3_M = "Locutor";
+        public const String FAC_NEWS_3_F = "Locutora";
+        public const String FAC_NEWS_4_M = "Subdirector";
+        public const String FAC_NEWS_4_F = "Subdirectora";
+        public const String FAC_NEWS_5_M = "Director";
+        public const String FAC_NEWS_5_F = "Directora";
+
+        public const String FAC_TOWN_1_M = "Becario";
+        public const String FAC_TOWN_1_F = "Becaria";
+        public const String FAC_TOWN_2_M = "Funcionario";
+        public const String FAC_TOWN_2_F = "Funcionaria";
+        public const String FAC_TOWN_3_M = "Jefe de departamento";
+        public const String FAC_TOWN_3_F = "Jefa de departamento";
+        public const String FAC_TOWN_4_M = "Alcalde";
+        public const String FAC_TOWN_4_F = "Alcaldesa";
+
+        public const String FAC_LSTD_1_M = "Conductor";
+        public const String FAC_LSTD_1_F = "Conductora";
+        public const String FAC_LSTD_2_M = "Veterano";
+        public const String FAC_LSTD_2_F = "Veterana";
+        public const String FAC_LSTD_3_M = "Gerente";
+        public const String FAC_LSTD_3_F = "Gerente";
+        public const String FAC_LSTD_4_M = "Vicepresidente";
+        public const String FAC_LSTD_4_F = "Vicepresidenta";
+        public const String FAC_LSTD_5_M = "Presidente";
+        public const String FAC_LSTD_5_F = "Presidenta";
+
+        // Trabajos
+        public const String JOB_UNEMPLOYED_M = "Desempleado";
+        public const String JOB_UNEMPLOYED_F = "Desempleada";
+        public const String JOB_FASTFOOD_M = "Repartidor";
+        public const String JOB_FASTFOOD_F = "Repartidora";
+        public const String JOB_THIEF_M = "Ladrón";
+        public const String JOB_THIEF_F = "Ladrona";
+        public const String JOB_MECHANIC_M = "Mecánico";
+        public const String JOB_MECHANIC_F = "Mecánica";
+        public const String JOB_GARGAGE_M = "Basurero";
+        public const String JOB_GARGAGE_F = "Basurera";
+        public const String JOB_HOOKER_M = "Gigoló";
+        public const String JOB_HOOKER_F = "Prostituta";
+
+        // Obtetos comprables
+        public const String ITM_BEER_BOTTLE = "Botellín de cerveza";
+        public const String ITM_BEER_PACK = "Pack de cervezas";
+        public const String ITM_SANDWICH = "Sandwich";
+        public const String ITM_CIGARETTES = "Cigarrillos RedWood";
+        public const String ITM_COLA = "FunCola";
+        public const String ITM_CANDY = "Caramelos";
+        public const String ITM_JERRYCAN = "Lata de gasolina";
+        public const String ITM_COFFEE = "Café";
+        public const String ITM_BURGER = "Hamburguesa";
+        public const String ITM_HOTDOG = "Perrito caliente";
+        public const String ITM_JUICE = "Zumo";
+        public const String ITM_ENERGY_DRINK = "Bebida energética";
+        public const String ITM_CAVA_BOTTLE = "Botella de cava";
+
+        public const String ITM_SMARTPHONE = "Teléfono móvil";
+        public const String ITM_WALKIE = "Walkie-Talkie";
+        public const String ITM_CAMERA = "Cámara de fotos";
+
+        public const String ITM_CROWBAR = "Palanca";
+        public const String ITM_HAMMER = "Martillo";
+        public const String ITM_FLASHLIGHT = "Linterna";
+        public const String ITM_HATCHET = "Hacha";
+        public const String ITM_WRENCH = "Llave de tubo";
+        public const String ITM_KNUCLE_DUSTER = "Puño americano";
+        public const String ITM_KNIFE = "Cuchillo";
+        public const String ITM_SWITCHBLADE = "Navaja";
+        public const String ITM_BAT = "Bate de baseball";
+        public const String ITM_GOLF_CLUB = "Palo de golf";
+
+        public const String ITM_PISTOL = "Pistola";
+        public const String ITM_BULLPUP_SHOTGUN = "Escopeta bullpup";
+        public const String ITM_COMPACT_RIFLE = "Rifle compacto";
+        public const String ITM_CARBINE_RIFLE = "Carabina";
+        public const String ITM_HEAVY_SHOTGUN = "Escopeta pesada";
+        public const String ITM_SAWN_OFF_SHOTGUN = "Escopeta recortada";
+        public const String ITM_BULLPUP_RIFLE = "Rifle bullpup";
+        public const String ITM_ASSAULT_RIFLE = "Rifle de asalto";
+        public const String ITM_AP_PISTOL = "Pistola penetrante";
+        public const String ITM_DOUBLE_BARREL_SHOTGUN = "Escopeta de dos cañones";
+        public const String ITM_MACHINE_PISTOL = "Pistola automática";
+        public const String ITM_SNIPER_RIFLE = "Rifle de francotirador";
+        public const String ITM_ASSAULT_SMG = "SMG de asalto";
+        public const String ITM_COMBAT_PDW = "PDW de combate";
+        public const String ITM_REVOLVER = "Revólver";
+        public const String ITM_HEAVY_PISTOL = "Pistola pesada";
+        public const String ITM_PUMP_SHOTGUN = "Escopeta";
+        public const String ITM_SPECIAL_CARBINE = "Carabina especial";
+        public const String ITM_PISTOL_50 = "Pistola 50";
+        public const String ITM_ADVANCED_RIFLE = "Rifle avanzado";
+        public const String ITM_HEAVY_SNIPER = "Francotirador pesado";
+        public const String ITM_MICRO_SMG = "Micro SMG";
+        public const String ITM_ASSAULT_SHOTGUN = "Escopeta de asalto";
+        public const String ITM_MARKSMAN_RIFLE = "Rifle de precisión";
+        public const String ITM_SMG = "SMG";
+        public const String ITM_PISTOL_AMMO = "Munición de pistola";
+        public const String ITM_SMG_AMMO = "Munición de metralleta";
+        public const String ITM_SHOTGUN_AMMO = "Munición de escopeta";
+        public const String ITM_RIFLE_AMMO = "Munición de rifle de asalto";
+        public const String ITM_SNIPER_AMMO = "Munición de rifle de francotirador";
+
+        public const String ITM_FISHING_ROD = "Caña de pescar";
+        public const String ITM_BAIT = "Cebo";
+        public const String ITM_FISH = "Pescado";
+        public const String ITM_PRODUCTS = "Productos";
+        public const String ITM_STOLEN_ITEMS = "Objetos robados";
     }
 }

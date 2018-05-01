@@ -4,12 +4,15 @@
 });
 
 mp.events.add('requestPlayerLogin', (password) => {
-	// Check for the credentials
-	mp.events.callRemote('loginAccount', password);
+	setTimeout(function() {
+		// Check for the credentials
+		mp.events.callRemote('loginAccount', password);
+	}, 100);
 });
 
 mp.events.add('showLoginError', () => {
-	mp.gui.chat.push("Invalid password");
+	// Show the message on the panel
+	mp.events.call('executeFunction', ['showLoginError']);
 });
 
 mp.events.add('clearLoginWindow', () => {

@@ -13,8 +13,9 @@
       <div class="panel-heading login-heading"><img class="logo" src="../img/login/logo.png" /></div>
       <p id="login" class="card-text" data-i18n="login.message"></p>
       <input id="pass" class="form-control center-block pass-field" type="password" data-i18n="[placeholder]general.password" required="required" autofocus/>
+      <div id="error" class="alert alert-danger d-none" role="alert" data-i18n="login.error"></div>
       <div class="row justify-content-center">
-        <button id="register" class="btn btn-primary text-center" data-i18n="general.access" onclick="loginAccount();"></button>
+        <button id="register" class="btn btn-primary text-center" data-i18n="general.access" onclick="loginAccount()"></button>
       </div>
     </form>
   </div>

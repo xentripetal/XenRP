@@ -7,7 +7,7 @@ namespace WiredPlayers.globals
 {
     public class Constants
     {
-        // Versión del gamemode
+        // Gamemode version
         public const String GM_VERSION = "v1.0.1.3";
 
         public const String DEFAULT_PED_MODEL = "StrPerf01SMM";
@@ -32,7 +32,7 @@ namespace WiredPlayers.globals
         public const int PAID_PER_LEVEL = 30;
         public const float HOUSE_SALE_STATE = 0.7f;
 
-        // Sexo
+        // Sex
         public const int SEX_NONE = -1;
         public const int SEX_MALE = 0;
         public const int SEX_FEMALE = 1;
@@ -41,18 +41,18 @@ namespace WiredPlayers.globals
         public const int CHAT_LENGTH = 85;
         public const int CHAT_RANGES = 5;
 
-        // Tipos de cárcel
+        // Jail types
         public const int JAIL_TYPE_IC = 1;
         public const int JAIL_TYPE_OOC = 2;
 
-        // Rangos de administrador
+        // Administrative ranks
         public const int STAFF_NONE = 0;
         public const int STAFF_SUPPORT = 1;
         public const int STAFF_GAME_MASTER = 2;
         public const int STAFF_S_GAME_MASTER = 3;
         public const int STAFF_ADMIN = 4;
 
-        // Acciones
+        // Actions
         public const int ACTION_LOAD = 0;
         public const int ACTION_SAVE = 1;
         public const int ACTION_RENAME = 2;
@@ -60,7 +60,7 @@ namespace WiredPlayers.globals
         public const int ACTION_ADD = 4;
         public const int ACTION_SMS = 5;
 
-        // Tipos de negocios
+        // Business types
         public const int BUSINESS_TYPE_NONE = -1;
         public const int BUSINESS_TYPE_24_7 = 1;
         public const int BUSINESS_TYPE_ELECTRONICS = 2;
@@ -87,7 +87,7 @@ namespace WiredPlayers.globals
         public const int BUSINESS_TYPE_VANILLA = 23;
         public const int BUSINESS_TYPE_FISHING = 24;
 
-        // Números de teléfono
+        // Phone numbers
         public const int NUMBER_POLICE = 091;
         public const int NUMBER_EMERGENCY = 112;
         public const int NUMBER_NEWS = 114;
@@ -95,13 +95,13 @@ namespace WiredPlayers.globals
         public const int NUMBER_MECHANIC = 116;
         public const int NUMBER_TAXI = 555;
 
-        // Tipos de parkings
+        // Parking types
         public const int PARKING_TYPE_PUBLIC = 0;
         public const int PARKING_TYPE_GARAGE = 1;
         public const int PARKING_TYPE_SCRAPYARD = 2;
         public const int PARKING_TYPE_DEPOSIT = 3;
 
-        // Partes del cuerpo para la ropa
+        // Clothes bodyparts
         public const int CLOTHES_MASK = 1;
         public const int CLOTHES_TORSO = 3;
         public const int CLOTHES_LEGS = 4;
@@ -111,7 +111,7 @@ namespace WiredPlayers.globals
         public const int CLOTHES_UNDERSHIRT = 8;
         public const int CLOTHES_TOPS = 11;
 
-        // Partes del cuerpo para los tatuajes
+        // Tattoo zones
         public const int TATTOO_ZONE_TORSO = 0;
         public const int TATTOO_ZONE_HEAD = 1;
         public const int TATTOO_ZONE_LEFT_ARM = 2;
@@ -119,12 +119,12 @@ namespace WiredPlayers.globals
         public const int TATTOO_ZONE_LEFT_LEG = 4;
         public const int TATTOO_ZONE_RIGHT_LEG = 5;
 
-        // Tipos de accesorios
+        // Accessory types
         public const int ACCESSORY_HATS = 0;
         public const int ACCESSORY_GLASSES = 1;
         public const int ACCESSORY_EARS = 2;
 
-        // Lista de componentes
+        // Vehicle components
         public const int VEHICLE_MOD_SPOILER = 0;
         public const int VEHICLE_MOD_FRONT_BUMPER = 1;
         public const int VEHICLE_MOD_REAR_BUMPER = 2;
@@ -155,14 +155,14 @@ namespace WiredPlayers.globals
         public const int VEHICLE_MOD_HYDRAULICS = 38;
         public const int VEHICLE_MOD_LIVERY = 48;
 
-        // Tipos de objetivo del inventario
+        // Inventory targets
         public const int INVENTORY_TARGET_SELF = 0;
         public const int INVENTORY_TARGET_PLAYER = 1;
         public const int INVENTORY_TARGET_HOUSE = 2;
         public const int INVENTORY_TARGET_VEHICLE_TRUNK = 3;
         public const int INVENTORY_TARGET_VEHICLE_PLAYER = 4;
 
-        // Tipos de objetos comprables
+        // Item types
         public const int ITEM_TYPE_CONSUMABLE = 0;
         public const int ITEM_TYPE_EQUIPABLE = 1;
         public const int ITEM_TYPE_OPENABLE = 2;
@@ -170,10 +170,10 @@ namespace WiredPlayers.globals
         public const int ITEM_TYPE_AMMUNITION = 4;
         public const int ITEM_TYPE_MISC = 5;
 
-        // Cantidades de objetos al abrir el contenedor
+        // Amount of items when container opened
         public const int ITEM_OPEN_BEER_AMOUNT = 6;
 
-        // Items 24-7
+        // 24-7 items
         public const String ITEM_HASH_FRIES = "1443311452";
         public const String ITEM_HASH_HOTDOG = "2565741261";
         public const String ITEM_HASH_CHOCOLATE_BAR = "921283475";
@@ -197,27 +197,27 @@ namespace WiredPlayers.globals
 
         public const String ITEM_HASH_CIGARRETES_PACK_OPEN = "1079465856";
 
-        // Items electrónica
+        // Electronic items
         public const String ITEM_HASH_TELEPHONE = "2277609629";
         public const String ITEM_HASH_WALKIE = "1806057883";
         public const String ITEM_HASH_RADIO_CASSETTE = "1060029110";
         public const String ITEM_HASH_CAMERA = "680380202";
 
-        // Items munición
+        // Ammunition items
         public const String ITEM_HASH_PISTOL_AMMO_CLIP = "PistolAmmo";
         public const String ITEM_HASH_MACHINEGUN_AMMO_CLIP = "SmgAmmo";
         public const String ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP = "RifleAmmo";
         public const String ITEM_HASH_SNIPERRIFLE_AMMO_CLIP = "SniperAmmo";
         public const String ITEM_HASH_SHOTGUN_AMMO_CLIP = "ShotgunAmmo";
 
-        // Capacidad cargadores
+        // Stack of the guns
         public const Int32 STACK_PISTOL_CAPACITY = 32;
         public const Int32 STACK_MACHINEGUN_CAPACITY = 100;
         public const Int32 STACK_SHOTGUN_CAPACITY = 24;
         public const Int32 STACK_ASSAULTRIFLE_CAPACITY = 60;
         public const Int32 STACK_SNIPERRIFLE_CAPACITY = 8;
 
-        // Items miscelánea
+        // Miscelaneous items
         public const String ITEM_HASH_ID_CARD = "511938898";
         public const String ITEM_HASH_CUFFS = "1070220657";
         public const String ITEM_HASH_JERRYCAN = "1069395324";
@@ -227,11 +227,11 @@ namespace WiredPlayers.globals
         public const String ITEM_HASH_BAIT = "Bait";
         public const String ITEM_HASH_FISH = "Fish";
 
-        // Tipos de color del vehículo
+        // Vehicle color types
         public const int VEHICLE_COLOR_TYPE_PREDEFINED = 0;
         public const int VEHICLE_COLOR_TYPE_CUSTOM = 1;
         
-        // Tipos de vehículos
+        // Vehicle types
         public const int VEHICLE_CLASS_COMPACTS = 0;
         public const int VEHICLE_CLASS_SEDANS = 1;
         public const int VEHICLE_CLASS_SUVS = 2;
@@ -255,14 +255,14 @@ namespace WiredPlayers.globals
         public const int VEHICLE_CLASS_COMMERCIAL = 20;
         public const int VEHICLE_CLASS_TRAINS = 21;
 
-        // Porcentaje de impuestos
+        // Tax percentage
         public const float TAXES_VEHICLE = 0.005f;
         public const float TAXES_HOUSE = 0.0015f;
 
-        // Dinero ganado por trabajo
+        // Gargabe route money
         public const int MONEY_GARBAGE_ROUTE = 350;
 
-        // Precios
+        // Price in products
         public const int PRICE_VEHICLE_CHASSIS = 300;
         public const int PRICE_VEHICLE_DOORS = 60;
         public const int PRICE_VEHICLE_WINDOWS = 15;
@@ -283,7 +283,7 @@ namespace WiredPlayers.globals
         public const int PRICE_GAS = 1;
         public const int PRICE_FISH = 20;
 
-        // Facciones
+        // Factions
         public const int FACTION_NONE = 0;
         public const int FACTION_POLICE = 1;
         public const int FACTION_EMERGENCY = 2;
@@ -295,7 +295,7 @@ namespace WiredPlayers.globals
         public const int LAST_STATE_FACTION = 10;
         public const int MAX_FACTION_VEHICLES = 100;
 
-        // Lista de trabajos
+        // Jobs
         public const int JOB_NONE = 0;
         public const int JOB_FASTFOOD = 1;
         public const int JOB_THIEF = 2;
@@ -304,7 +304,7 @@ namespace WiredPlayers.globals
         public const int JOB_HOOKER = 5;
         public const int JOB_FISHERMAN = 6;
 
-        // Tipos de entidades "dueñas" de los objetos
+        // Database stored items' place
         public const String ITEM_ENTITY_GROUND = "Ground";
         public const String ITEM_ENTITY_PLAYER = "Player";
         public const String ITEM_ENTITY_VEHICLE = "Vehicle";
@@ -313,41 +313,41 @@ namespace WiredPlayers.globals
         public const String ITEM_ENTITY_LEFT_HAND = "Left hand";
         public const String ITEM_ENTITY_RIGHT_HAND = "Right hand";
 
-        // Licencias de autoescuela
+        // Driving school's licenses
         public const int LICENSE_CAR = 0;
         public const int LICENSE_MOTORCYCLE = 1;
         public const int LICENSE_TAXI = 2;
 
-        // Exámenes de autoescuela
+        // Driving school exam type
         public const int CAR_DRIVING_THEORICAL = 1;
         public const int CAR_DRIVING_PRACTICE = 2;
         public const int MOTORCYCLE_DRIVING_THEORICAL = 3;
         public const int MOTORCYCLE_DRIVING_PRACTICE = 4;
 
-        // Trámites del ayuntamiento
+        // Town hall formalities
         public const int TRAMITATE_IDENTIFICATION = 0;
         public const int TRAMITATE_MEDICAL_INSURANCE = 1;
         public const int TRAMITATE_TAXI_LICENSE = 2;
         public const int TRAMITATE_FINE_LIST = 3;
 
-        // Operaciones bancarias en el cajero
+        // Bank operations
         public const int OPERATION_WITHDRAW = 1;
         public const int OPERATION_DEPOSIT = 2;
         public const int OPERATION_TRANSFER = 3;
         public const int OPERATION_BALANCE = 4;
 
-        // Estados de la casa
+        // House status
         public const int HOUSE_STATE_NONE = 0;
         public const int HOUSE_STATE_RENTABLE = 1;
         public const int HOUSE_STATE_BUYABLE = 2;
 
-        // Objetos de la policía
+        // Police control's items
         public const int POLICE_DEPLOYABLE_CONE = 1245865676;
         public const int POLICE_DEPLOYABLE_BEACON = 93871477;
         public const int POLICE_DEPLOYABLE_BARRIER = -143315610;
         public const int POLICE_DEPLOYABLE_SPIKES = -874338148;
 
-        // Tipos de mensajes de chat
+        // Chat message types
         public const int MESSAGE_TALK = 0;
         public const int MESSAGE_YELL = 1;
         public const int MESSAGE_WHISPER = 2;
@@ -362,7 +362,7 @@ namespace WiredPlayers.globals
         public const int MESSAGE_MEGAPHONE = 11;
         public const int MESSAGE_RADIO = 12;
 
-        // Colores de chat
+        // Chat colors
         public const String COLOR_CHAT_CLOSE = "!{#E6E6E6}";
         public const String COLOR_CHAT_NEAR = "!{#C8C8C8}";
         public const String COLOR_CHAT_MEDIUM = "!{#AAAAAA}";
@@ -390,20 +390,20 @@ namespace WiredPlayers.globals
         public const String COLOR_RADIO_EMERGENCY = "!{#FF9F0F}";
         public const String COLOR_NEWS = "!{#805CC9}";
 
-        // Tipos de ruta
+        // Gargabe collector's routes
         public const int NORTH_ROUTE = 0;
         public const int EAST_ROUTE = 1;
         public const int SOUTH_ROUTE = 2;
         public const int WEST_ROUTE = 3;
 
-        // Tipos de servicio de prostituta
+        // Hooker's services
         public const int HOOKER_SERVICE_BASIC = 0;
         public const int HOOKER_SERVICE_FULL = 1;
 
-        // Nivel de alcohol para ir wasted
+        // Alcohol limit
         public const float WASTED_LEVEL = 0.4f;
 
-        // Accesos a interiores genéricos
+        // Generic interiors
         public static List<InteriorModel> INTERIOR_LIST = new List<InteriorModel>
         {
             new InteriorModel(Messages.GEN_TOWNHALL, new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, Messages.GEN_TOWNHALL),
@@ -413,7 +413,7 @@ namespace WiredPlayers.globals
             new InteriorModel(Messages.GEN_POLICE_STATION, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), String.Empty, 60, Messages.GEN_POLICE_STATION),
         };
 
-        // Interiores de negocios del juego
+        // Business IPLs from the game
         public static List<BusinessIplModel> BUSINESS_IPL_LIST = new List<BusinessIplModel>
         {
             new BusinessIplModel(BUSINESS_TYPE_24_7, "ipl_supermarket", new Vector3(-710.1048f, -914.5465f, 19.21559f)),
@@ -440,13 +440,12 @@ namespace WiredPlayers.globals
             new BusinessIplModel(BUSINESS_TYPE_MECHANIC, "v_chopshop", new Vector3(481.9714f, -1313.103f, 29.20123f)),
             new BusinessIplModel(BUSINESS_TYPE_VANILLA, "vanilla_no_ipl", new Vector3(128.9892f, -1296.068f, 29.26953f)),
             new BusinessIplModel(BUSINESS_TYPE_FISHING, "ex_exec_warehouse_placement_interior_0_int_warehouse_m_dlc_milo", new Vector3(1048.286f, -3096.858f, -38.99991f))
-        //  new BusinessIplModel(BUSINESS_TYPE_RESTAURANT, "v_comedy", new Vector3(-447.4833f, 280.3197f, 77.521f)),
         };
 
-        // Interiores de casas del juego
+        // House interiors from the game
         public static List<HouseIplModel> HOUSE_IPL_LIST = new List<HouseIplModel>
         {
-            // Apartamentos con IPL. Son todos el mismo interior, con variantes de color.
+            // Apartments with IPL
             new HouseIplModel("apa_v_mp_h_01_a", new Vector3(-786.8663f, 315.7642f, 217.6385f)),
             new HouseIplModel("apa_v_mp_h_01_c", new Vector3(-786.9563f, 315.6229f, 187.9136f)),
             new HouseIplModel("apa_v_mp_h_01_b", new Vector3(-774.0126f, 342.0428f, 196.6864f)),
@@ -472,7 +471,7 @@ namespace WiredPlayers.globals
             new HouseIplModel("apa_v_mp_h_08_c", new Vector3(-786.9756f, 315.723f, 187.9134f)),
             new HouseIplModel("apa_v_mp_h_08_b", new Vector3(-774.0349f, 342.0296f, 196.6862f)),
 
-            // Apartamentos sin IPL
+            // Apartments without IPL
             new HouseIplModel("house_no_ipl_a", new Vector3(265.9776f, -1006.97f, -100.8839f)),
             new HouseIplModel("house_no_ipl_b", new Vector3(-30.58078f, -595.3096f, 80.03086f)),
             new HouseIplModel("house_no_ipl_c", new Vector3(-30.58078f, -595.3096f, 80.03086f)),
@@ -490,101 +489,101 @@ namespace WiredPlayers.globals
             new HouseIplModel("house_no_ipl_o", new Vector3(-1451.652f, -523.7687f, 56.92904f)),
             new HouseIplModel("house_no_ipl_p", new Vector3(-1451.652f, -523.7687f, 56.92904f)),
 
-            // Caravana de Trevor
+            // Trevor's trailer
             new HouseIplModel("TrevorsMP", new Vector3(1972.965f, 3816.529f, 33.42873f)),
             new HouseIplModel("TrevorsTrailerTidy", new Vector3(1972.965f, 3816.529f, 33.42873f)),
 
-            // Casa de Floyd
+            // Floyd's house
             new HouseIplModel("vb_30_crimetape", new Vector3(-1149.709f, -1521.088f, 10.78267f)),
 
-            // Casa de Lester
+            // Lester's house
             new HouseIplModel("lester_house", new Vector3(1273.9f, -1719.305f, 54.77141f)),
 
-            // Pisito
+            // Janitor's office
             new HouseIplModel("v_janitor", new Vector3(-107.6496f, -8.308348f, 70.51957f)),
 
-            // Mansión
+            // Mansion
             new HouseIplModel("mansion_no_ipl", new Vector3(1396.415f, 1141.854f, 114.3336f)),
 
-            // Piso con habitaciones
+            // Flat with rooms
             new HouseIplModel("flat_no_ipl", new Vector3(346.3212f, -1012.968f, -99.19625f)),
 
-            // Casa de la tía de Franklin 
+            // Franklin's aunt's house
             new HouseIplModel("franklin_hoo_house", new Vector3(-14.31764f, -1439.986f, 31.10155f)),
 
-            // Mansión de Franklin
+            // Franklin's mansion
             new HouseIplModel("franklin_mansion_no_ipl", new Vector3(7.69007f, 538.0661f, 176.028f)),
 
-            // Granja O'neill
+            // O'Neill's farm
             new HouseIplModel("farmint", new Vector3(2436.875f, 4974.916f, 46.8106f)),
 
-            // Habitación motel
+            // Motel room
             new HouseIplModel("motel_room_no_ipl", new Vector3(151.1905f, -1007.731f, -98.99999f))
         };
 
-        // Lista de rangos de facciones
+        // Faction ranks
         public static List<FactionModel> FACTION_RANK_LIST = new List<FactionModel>
         {
-            new FactionModel("Civil", "Civil", FACTION_NONE, 0, 0),
+            new FactionModel(Messages.FAC_NONE_M, Messages.FAC_NONE_F, FACTION_NONE, 0, 0),
 
-            // Policía
-            new FactionModel("Soplón", "Soplona", FACTION_POLICE, 0, 0),
-            new FactionModel("Cadete", "Cadete", FACTION_POLICE, 1, 1250),
-            new FactionModel("Oficial", "Oficial", FACTION_POLICE, 2, 1388),
-            new FactionModel("Sargento", "Sargento", FACTION_POLICE, 3, 1685),
-            new FactionModel("Teniente", "Teniente", FACTION_POLICE, 4, 2056),
-            new FactionModel("Capitán", "Capitán", FACTION_POLICE, 5, 2420),
-            new FactionModel("Comisario", "Comisaria", FACTION_POLICE, 6, 2901),
-            new FactionModel("Asuntos Internos", "Asuntos Internos", FACTION_POLICE, 7, 2200),
+            // Police department
+            new FactionModel(Messages.FAC_LSPD_0_M, Messages.FAC_LSPD_0_F, FACTION_POLICE, 0, 0),
+            new FactionModel(Messages.FAC_LSPD_1_M, Messages.FAC_LSPD_1_F, FACTION_POLICE, 1, 1250),
+            new FactionModel(Messages.FAC_LSPD_2_M, Messages.FAC_LSPD_2_F, FACTION_POLICE, 2, 1388),
+            new FactionModel(Messages.FAC_LSPD_3_M, Messages.FAC_LSPD_3_F, FACTION_POLICE, 3, 1685),
+            new FactionModel(Messages.FAC_LSPD_4_M, Messages.FAC_LSPD_4_F, FACTION_POLICE, 4, 2056),
+            new FactionModel(Messages.FAC_LSPD_5_M, Messages.FAC_LSPD_5_F, FACTION_POLICE, 5, 2420),
+            new FactionModel(Messages.FAC_LSPD_6_M, Messages.FAC_LSPD_6_F, FACTION_POLICE, 6, 2901),
+            new FactionModel(Messages.FAC_LSPD_7_M, Messages.FAC_LSPD_7_F, FACTION_POLICE, 7, 2200),
 
-            // Emergencias
-            new FactionModel("Auxiliar", "Auxiliar", FACTION_EMERGENCY, 1, 1075),
-            new FactionModel("Enfermero", "Enfermera", FACTION_EMERGENCY, 2, 1200),
-            new FactionModel("Cirujano adjunto", "Cirujana adjunta", FACTION_EMERGENCY, 3, 1500),
-            new FactionModel("Paramédico", "Paramédico", FACTION_EMERGENCY, 4, 1500),
-            new FactionModel("Cirujano de primera", "Cirujana de primera", FACTION_EMERGENCY, 5, 1800),
-            new FactionModel("Médico", "Médico", FACTION_EMERGENCY, 6, 1800),
-            new FactionModel("Cirujano jefe", "Cirujana jefe", FACTION_EMERGENCY, 7, 2200),
-            new FactionModel("Jefe de urgencias", "Jefa de urgencias", FACTION_EMERGENCY, 8, 2200),
-            new FactionModel("Subdirector", "Subdirectora", FACTION_EMERGENCY, 9, 2800),
-            new FactionModel("Director", "Directora", FACTION_EMERGENCY, 10, 3500),
+            // Emergency department
+            new FactionModel(Messages.FAC_EMS_1_M, Messages.FAC_EMS_1_F, FACTION_EMERGENCY, 1, 1075),
+            new FactionModel(Messages.FAC_EMS_2_M, Messages.FAC_EMS_2_F, FACTION_EMERGENCY, 2, 1200),
+            new FactionModel(Messages.FAC_EMS_3_M, Messages.FAC_EMS_3_F, FACTION_EMERGENCY, 3, 1500),
+            new FactionModel(Messages.FAC_EMS_4_M, Messages.FAC_EMS_4_F, FACTION_EMERGENCY, 4, 1500),
+            new FactionModel(Messages.FAC_EMS_5_M, Messages.FAC_EMS_5_F, FACTION_EMERGENCY, 5, 1800),
+            new FactionModel(Messages.FAC_EMS_6_M, Messages.FAC_EMS_6_F, FACTION_EMERGENCY, 6, 1800),
+            new FactionModel(Messages.FAC_EMS_7_M, Messages.FAC_EMS_7_F, FACTION_EMERGENCY, 7, 2200),
+            new FactionModel(Messages.FAC_EMS_8_M, Messages.FAC_EMS_8_F, FACTION_EMERGENCY, 8, 2200),
+            new FactionModel(Messages.FAC_EMS_9_M, Messages.FAC_EMS_9_F, FACTION_EMERGENCY, 9, 2800),
+            new FactionModel(Messages.FAC_EMS_10_M, Messages.FAC_EMS_10_F, FACTION_EMERGENCY, 10, 3500),
 
-            // Noticias
-            new FactionModel("Becario", "Becaria", FACTION_NEWS, 1, 1020),
-            new FactionModel("Periodista", "Periodista", FACTION_NEWS, 2, 1100),
-            new FactionModel("Locutor", "Locutora", FACTION_NEWS, 3, 1200),
-            new FactionModel("Subdirector", "Subdirectora", FACTION_NEWS, 4, 1610),
-            new FactionModel("Director", "Directora", FACTION_NEWS, 5, 2300),
+            // News
+            new FactionModel(Messages.FAC_NEWS_1_M, Messages.FAC_NEWS_1_F, FACTION_NEWS, 1, 1020),
+            new FactionModel(Messages.FAC_NEWS_2_M, Messages.FAC_NEWS_2_F, FACTION_NEWS, 2, 1100),
+            new FactionModel(Messages.FAC_NEWS_3_M, Messages.FAC_NEWS_3_F, FACTION_NEWS, 3, 1200),
+            new FactionModel(Messages.FAC_NEWS_4_M, Messages.FAC_NEWS_4_F, FACTION_NEWS, 4, 1610),
+            new FactionModel(Messages.FAC_NEWS_5_M, Messages.FAC_NEWS_5_F, FACTION_NEWS, 5, 2300),
 
-            // Ayuntamiento
-            new FactionModel("Becario", "Becaria", FACTION_TOWNHALL, 1, 1200),
-            new FactionModel("Funcionario", "Funcionaria", FACTION_TOWNHALL, 2, 1800),
-            new FactionModel("Jefe de departamento", "Jefa de departamento", FACTION_TOWNHALL, 3, 2200),
-            new FactionModel("Alcalde", "Alcaldesa", FACTION_TOWNHALL, 4, 3000),
+            // Town hall
+            new FactionModel(Messages.FAC_TOWN_1_M, Messages.FAC_TOWN_1_F, FACTION_TOWNHALL, 1, 1200),
+            new FactionModel(Messages.FAC_TOWN_2_M, Messages.FAC_TOWN_2_F, FACTION_TOWNHALL, 2, 1800),
+            new FactionModel(Messages.FAC_TOWN_3_M, Messages.FAC_TOWN_3_F, FACTION_TOWNHALL, 3, 2200),
+            new FactionModel(Messages.FAC_TOWN_4_M, Messages.FAC_TOWN_4_F, FACTION_TOWNHALL, 4, 3000),
 
-            // Transportes
-            new FactionModel("Conductor", "Conductora", FACTION_TAXI_DRIVER, 1, 1020),
-            new FactionModel("Veterano", "Veterana", FACTION_TAXI_DRIVER, 2, 1180),
-            new FactionModel("Gerente", "Gerente", FACTION_TAXI_DRIVER, 3, 1360),
-            new FactionModel("Vicepresidente", "Vicepresidenta", FACTION_TAXI_DRIVER, 4, 1600),
-            new FactionModel("Presidente", "Presidenta", FACTION_TAXI_DRIVER, 5, 1890)
+            // Transport services
+            new FactionModel(Messages.FAC_LSTD_1_M, Messages.FAC_LSTD_1_F, FACTION_TAXI_DRIVER, 1, 1020),
+            new FactionModel(Messages.FAC_LSTD_2_M, Messages.FAC_LSTD_2_F, FACTION_TAXI_DRIVER, 2, 1180),
+            new FactionModel(Messages.FAC_LSTD_3_M, Messages.FAC_LSTD_3_F, FACTION_TAXI_DRIVER, 3, 1360),
+            new FactionModel(Messages.FAC_LSTD_4_M, Messages.FAC_LSTD_4_F, FACTION_TAXI_DRIVER, 4, 1600),
+            new FactionModel(Messages.FAC_LSTD_5_M, Messages.FAC_LSTD_5_F, FACTION_TAXI_DRIVER, 5, 1890)
         };
 
-        // Lista de salarios de empleos
+        // Job description and salary
         public static List<JobModel> JOB_LIST = new List<JobModel>
         {
-            new JobModel("Desempleado", "Desempleada", JOB_NONE, 575),
-            new JobModel("Repartidor", "Repartidora", JOB_FASTFOOD, 775),
-            new JobModel("Ladrón", "Ladrona", JOB_THIEF, 450),
-            new JobModel("Mecánico", "Mecánica", JOB_MECHANIC, 875),
-            new JobModel("Basurero", "Basurero", JOB_GARBAGE, 975),
-            new JobModel("Gigoló", "Prostituta", JOB_HOOKER, 575)
+            new JobModel(Messages.JOB_UNEMPLOYED_M, Messages.JOB_UNEMPLOYED_F, JOB_NONE, 575),
+            new JobModel(Messages.JOB_FASTFOOD_M, Messages.JOB_FASTFOOD_F, JOB_FASTFOOD, 775),
+            new JobModel(Messages.JOB_THIEF_M, Messages.JOB_THIEF_F, JOB_THIEF, 450),
+            new JobModel(Messages.JOB_MECHANIC_M, Messages.JOB_MECHANIC_F, JOB_MECHANIC, 875),
+            new JobModel(Messages.JOB_GARGAGE_M, Messages.JOB_GARGAGE_F, JOB_GARBAGE, 975),
+            new JobModel(Messages.JOB_HOOKER_M, Messages.JOB_HOOKER_F, JOB_HOOKER, 575)
         };
 
-        // Lista de uniformes
+        // Uniform list
         public static List<UniformModel> UNIFORM_LIST = new List<UniformModel>
         {  
-            // Uniforme masculino de policía
+            // Male police uniform
             new UniformModel(0, FACTION_POLICE, SEX_MALE, 0, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_MALE, 1, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_MALE, 2, -1, -1),
@@ -598,7 +597,7 @@ namespace WiredPlayers.globals
             new UniformModel(0, FACTION_POLICE, SEX_MALE, 10, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_MALE, 11, 55, 0),
 
-            // Uniforme femenino de policía
+            // Female police uniform
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 0, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 1, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 2, -1, -1),
@@ -612,21 +611,7 @@ namespace WiredPlayers.globals
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 10, 0, 0),
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 11, 48, 0),
 
-            // Uniforme femenino de paramédico
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 11, 48, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 4, 30, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 3, 138, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 6, 25, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 7, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 9, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 10, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 8, 2, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 5, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 0, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 1, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 2, -1, -1),
-
-            // Uniforme masculino de paramédico
+            // Male paramedic uniform
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 11, 55, 0),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 4, 33, 0),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 3, 128, 0),
@@ -638,13 +623,27 @@ namespace WiredPlayers.globals
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 10, 0, 0),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 5, 0, 0),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 1, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 2, -1, -1)
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 2, -1, -1),
+
+            // Female paramedic uniform
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 11, 48, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 4, 30, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 3, 138, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 6, 25, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 7, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 9, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 10, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 8, 2, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 5, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 0, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 1, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 2, -1, -1)
         };
 
-        // Lista de armas de fuego
+        // Guns
         public static List<GunModel> GUN_LIST = new List<GunModel>()
         {
-            // Pistolas
+            // Pistols
             new GunModel(WeaponHash.Pistol, ITEM_HASH_PISTOL_AMMO_CLIP, 12),
             new GunModel(WeaponHash.CombatPistol, ITEM_HASH_PISTOL_AMMO_CLIP, 12),
             new GunModel(WeaponHash.Pistol50, ITEM_HASH_PISTOL_AMMO_CLIP, 9),
@@ -656,7 +655,7 @@ namespace WiredPlayers.globals
             new GunModel(WeaponHash.APPistol, ITEM_HASH_PISTOL_AMMO_CLIP, 18),
             new GunModel(WeaponHash.FlareGun, ITEM_HASH_PISTOL_AMMO_CLIP, 1),
 
-            // Metralletas
+            // Machine guns
             new GunModel(WeaponHash.MicroSMG, ITEM_HASH_MACHINEGUN_AMMO_CLIP, 16),
             new GunModel(WeaponHash.MachinePistol, ITEM_HASH_MACHINEGUN_AMMO_CLIP, 12),
             new GunModel(WeaponHash.SMG, ITEM_HASH_MACHINEGUN_AMMO_CLIP, 30),
@@ -667,7 +666,7 @@ namespace WiredPlayers.globals
             new GunModel(WeaponHash.Gusenberg, ITEM_HASH_MACHINEGUN_AMMO_CLIP, 30),
             new GunModel(WeaponHash.MiniSMG, ITEM_HASH_MACHINEGUN_AMMO_CLIP, 20),
 
-            // Rifles de asalto
+            // Assault rifles
             new GunModel(WeaponHash.AssaultRifle, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, 30),
             new GunModel(WeaponHash.CarbineRifle, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, 30),
             new GunModel(WeaponHash.AdvancedRifle, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, 30),
@@ -675,23 +674,22 @@ namespace WiredPlayers.globals
             new GunModel(WeaponHash.BullpupRifle, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, 30),
             new GunModel(WeaponHash.CompactRifle, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, 30),
 
-            // Rifles de francotirador
+            // Sniper rifles
             new GunModel(WeaponHash.SniperRifle, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, 10),
             new GunModel(WeaponHash.HeavySniper, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, 6),
             new GunModel(WeaponHash.MarksmanRifle, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, 8),
 
-            // Escopetas
+            // Shotguns
             new GunModel(WeaponHash.PumpShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 8),
             new GunModel(WeaponHash.SawnOffShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 8),
             new GunModel(WeaponHash.BullpupShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 14),
             new GunModel(WeaponHash.AssaultShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 8),
             new GunModel(WeaponHash.Musket, ITEM_HASH_SHOTGUN_AMMO_CLIP, 1),
             new GunModel(WeaponHash.HeavyShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 6),
-            new GunModel(WeaponHash.DoubleBarrelShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 2),
-            //new GunModel(WeaponHash.Autoshotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 10)
+            new GunModel(WeaponHash.DoubleBarrelShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 2)
         };
 
-        // Lista de delitos
+        // Crime list
         public static List<CrimeModel> CRIME_LIST = new List<CrimeModel>()
         {
             new CrimeModel("Omisión de indicaciones policiales", 20, 500, "Quitar 2 puntos del carnet"),
@@ -735,134 +733,128 @@ namespace WiredPlayers.globals
             new CrimeModel("Suplantación de departamento estatal", 100, 20000, "")
         };
 
-        // Posiciones de las celdas
+        // Jail positions
         public static List<Vector3> JAIL_SPAWNS = new List<Vector3>
         {
-            // Celdas
+            // Cells
             new Vector3(460.0685f, -993.9847f, 24.91487f),
             new Vector3(459.6115f, -998.0204f, 24.91487f),
             new Vector3(459.8612f, -1001.641f, 24.91487f),
 
-            // Salida cárcel IC
+            // IC jail's exit
             new Vector3(463.6655f, -990.8979f, 24.91487f),
 
-            // Salida cárcel OOC
+            // OOC jail's exit
             new Vector3(-1285.544f, -567.0439f, 31.71239f)
         };
 
-        // Objetos a la venta en negocios
+        // Business sellable items
         public static List<BusinessItemModel> BUSINESS_ITEM_LIST = new List<BusinessItemModel>
         {
             // 24-7
-            new BusinessItemModel("Botellín de cerveza", ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.08f),
-            new BusinessItemModel("Pack de cervezas", ITEM_HASH_PACK_BEER_AM, ITEM_TYPE_OPENABLE, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("Sandwich", ITEM_HASH_SANDWICH, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 10, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(180.0f, 180.0f, 90.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("Cigarrillos RedWood", ITEM_HASH_CIGARRETES_PACK_OPEN, ITEM_TYPE_CONSUMABLE, 8, 0.1f, -2, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("FunCola", ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.05f, -0.03f, 0.0f), new Vector3(270.0f, 20.0f, -20.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("Caramelos", ITEM_HASH_CANDY, ITEM_TYPE_CONSUMABLE, 4, 0.1f, 3, 1, new Vector3(0.05f, -0.010f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("Lata de gasolina", ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel("Cafe", ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.08f),
+            new BusinessItemModel(Messages.ITM_BEER_PACK, ITEM_HASH_PACK_BEER_AM, ITEM_TYPE_OPENABLE, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_SANDWICH, ITEM_HASH_SANDWICH, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 10, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(180.0f, 180.0f, 90.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_CIGARETTES, ITEM_HASH_CIGARRETES_PACK_OPEN, ITEM_TYPE_CONSUMABLE, 8, 0.1f, -2, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.05f, -0.03f, 0.0f), new Vector3(270.0f, 20.0f, -20.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_CANDY, ITEM_HASH_CANDY, ITEM_TYPE_CONSUMABLE, 4, 0.1f, 3, 1, new Vector3(0.05f, -0.010f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_JERRYCAN, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
  
-            // Gasolinera
-            new BusinessItemModel("Lata de gasolina", ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_GAS_STATION, 0.0f),
+            // Oil station
+            new BusinessItemModel(Messages.ITM_JERRYCAN, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_GAS_STATION, 0.0f),
  
-            // Electrónica
-            new BusinessItemModel("Teléfono móvil", ITEM_HASH_TELEPHONE, ITEM_TYPE_EQUIPABLE, 200, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
-            new BusinessItemModel("Walkie-Talkie", ITEM_HASH_WALKIE, ITEM_TYPE_EQUIPABLE, 150, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
-            new BusinessItemModel("Cámara de fotos", ITEM_HASH_CAMERA, ITEM_TYPE_EQUIPABLE, 50, 0.1f, 0, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            // Electronic store
+            new BusinessItemModel(Messages.ITM_SMARTPHONE, ITEM_HASH_TELEPHONE, ITEM_TYPE_EQUIPABLE, 200, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            new BusinessItemModel(Messages.ITM_WALKIE, ITEM_HASH_WALKIE, ITEM_TYPE_EQUIPABLE, 150, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            new BusinessItemModel(Messages.ITM_CAMERA, ITEM_HASH_CAMERA, ITEM_TYPE_EQUIPABLE, 50, 0.1f, 0, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
 
-            // Ferretería
-            new BusinessItemModel("Palanca", WeaponHash.Crowbar.ToString(), ITEM_TYPE_WEAPON, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Martillo", WeaponHash.Hammer.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Linterna", WeaponHash.Flashlight.ToString(), ITEM_TYPE_WEAPON, 30, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Hacha", WeaponHash.Hatchet.ToString(), ITEM_TYPE_WEAPON, 200, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Llave de tubo", WeaponHash.Wrench.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Puño americano", WeaponHash.KnuckleDuster.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Cuchillo", WeaponHash.Knife.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Navaja", WeaponHash.SwitchBlade.ToString(), ITEM_TYPE_WEAPON, 150, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel("Bate de baseball", WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            // Hardware store
+            new BusinessItemModel(Messages.ITM_CROWBAR, WeaponHash.Crowbar.ToString(), ITEM_TYPE_WEAPON, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HAMMER, WeaponHash.Hammer.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_FLASHLIGHT, WeaponHash.Flashlight.ToString(), ITEM_TYPE_WEAPON, 30, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HATCHET, WeaponHash.Hatchet.ToString(), ITEM_TYPE_WEAPON, 200, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_WRENCH, WeaponHash.Wrench.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_KNUCLE_DUSTER, WeaponHash.KnuckleDuster.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_KNIFE, WeaponHash.Knife.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SWITCHBLADE, WeaponHash.SwitchBlade.ToString(), ITEM_TYPE_WEAPON, 150, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(Messages.ITM_BAT, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
  
             // Bar
-            new BusinessItemModel("Botellín de cerveza", ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.08f),
-            new BusinessItemModel("Hamburguesa", ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel("Cafe", ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel("FunCola", ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel("Perrito caliente", ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.08f),
+            new BusinessItemModel(Messages.ITM_BURGER, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(Messages.ITM_HOTDOG, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
  
             // Clubhouse
-            new BusinessItemModel("Botellín de cerveza", ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.08f),
-            new BusinessItemModel("Hamburguesa", ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel("Cafe", ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel("FunCola", ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel("Perrito caliente", ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.08f),
+            new BusinessItemModel(Messages.ITM_BURGER, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HOTDOG, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
  
-            // Discoteca
-            new BusinessItemModel("Botellín de cerveza", ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.08f),
-            new BusinessItemModel("Zumo", ITEM_HASH_CUP_JUICE, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 10, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
-            new BusinessItemModel("Bebida energética", ITEM_HASH_ENERGY_DRINK, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
-            new BusinessItemModel("Botella de champán", ITEM_HASH_BOTTLE_CAVA, ITEM_TYPE_CONSUMABLE, 70, 0.1f, 15, 5, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.05f),
- 
-            // Restaurante
-           // new BusinessItemModel("Copa de vino", ITEM_HASH_CUP_WINE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_RESTAURANT, 0.06),
-           // new BusinessItemModel("Copa de champán", ITEM_HASH_BOTTLE_CAVA, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_RESTAURANT, 0.05),
-           // new BusinessItemModel("Botellín de cerveza", ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_RESTAURANT, 0.08),
-           // new BusinessItemModel("Patatas fritas", ITEM_HASH_FRIES, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 10, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_RESTAURANT, 0),
+            // Disco
+            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.08f),
+            new BusinessItemModel(Messages.ITM_JUICE, ITEM_HASH_CUP_JUICE, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 10, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
+            new BusinessItemModel(Messages.ITM_ENERGY_DRINK, ITEM_HASH_ENERGY_DRINK, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
+            new BusinessItemModel(Messages.ITM_CAVA_BOTTLE, ITEM_HASH_BOTTLE_CAVA, ITEM_TYPE_CONSUMABLE, 70, 0.1f, 15, 5, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.05f),
  
             // Ammu-Nation
-            new BusinessItemModel("Pistola", WeaponHash.Pistol.ToString(), ITEM_TYPE_WEAPON, 2000, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel("Munición de pistola", ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 300, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel("Munición de metralleta", ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 500, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel("Munición de escopeta", ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 400, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel("Munición de rifle", ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 1000, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel("Munición de francotirador", ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 2000, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_PISTOL, WeaponHash.Pistol.ToString(), ITEM_TYPE_WEAPON, 2000, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_PISTOL_AMMO, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 300, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_SMG_AMMO, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 500, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_SHOTGUN_AMMO, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 400, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_RIFLE_AMMO, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 1000, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(Messages.ITM_SNIPER_AMMO, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 2000, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
 
-            // Tienda de ropa
-            new BusinessItemModel("Bate de baseball", WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 300, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
-            new BusinessItemModel("Palo de golf", WeaponHash.GolfClub.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
+            // Clothes store
+            new BusinessItemModel(Messages.ITM_BAT, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 300, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
+            new BusinessItemModel(Messages.ITM_GOLF_CLUB, WeaponHash.GolfClub.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
  
-            // Tienda de pescaBUSINESS_TYPE_FISHING
-            new BusinessItemModel("Caña de pescar", ITEM_HASH_FISHING_ROD, ITEM_TYPE_EQUIPABLE, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
-            new BusinessItemModel("Cebo", ITEM_HASH_BAIT, ITEM_TYPE_MISC, 10, 0.1f, 0, 10, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
+            // Fishing store
+            new BusinessItemModel(Messages.ITM_FISHING_ROD, ITEM_HASH_FISHING_ROD, ITEM_TYPE_EQUIPABLE, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
+            new BusinessItemModel(Messages.ITM_BAIT, ITEM_HASH_BAIT, ITEM_TYPE_MISC, 10, 0.1f, 0, 10, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
  
-            // Miscelánea
-            new BusinessItemModel("Pescado", ITEM_HASH_FISH, ITEM_TYPE_MISC, 0, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Productos", ITEM_HASH_BUSINESS_PRODUCTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Objetos robados", ITEM_HASH_STOLEN_OBJECTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta bullpup", "BullpupShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle compacto", "CompactRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle carabina", "CarbineRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta pesada", "HeavyShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta recortada", "SawnoffShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle bullpup", "BullpupRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle de asalto", "AssaultRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Pistola penetrante", "APPistol", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta de dos cañones", "DoubleBarrelShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Pistola automática", "MachinePistol", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle de francotirador", "SniperRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("SMG de asalto", "AssaultSMG", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("PDW de combate", "CombatPDW", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Revólver", "Revolver", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Pistola pesada", "HeavyPistol", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta", "PumpShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Carabina especial", "SpecialCarbine", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Pistola 50", "Pistol50", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle avanzado", "AdvancedRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Francotirador pesado", "HeavySniper", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Micro SMG", "MicroSMG", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Escopeta de asalto", "AssaultShotgun", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Rifle de precisión", "MarksmanRifle", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("SMG", "SMG", ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Munición de pistola", ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Munición de metralleta", ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Munición de escopeta", ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Munición de rifle", ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel("Munición de francotirador", ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f)
+            // Miscellaneous
+            new BusinessItemModel(Messages.ITM_FISH, ITEM_HASH_FISH, ITEM_TYPE_MISC, 0, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_PRODUCTS, ITEM_HASH_BUSINESS_PRODUCTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_STOLEN_ITEMS, ITEM_HASH_STOLEN_OBJECTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_BULLPUP_SHOTGUN, WeaponHash.BullpupShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_COMPACT_RIFLE, WeaponHash.CompactRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_CARBINE_RIFLE, WeaponHash.CarbineRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HEAVY_SHOTGUN, WeaponHash.HeavyShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SAWN_OFF_SHOTGUN, WeaponHash.SawnOffShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_BULLPUP_RIFLE, WeaponHash.BullpupRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_ASSAULT_RIFLE, WeaponHash.AssaultRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_AP_PISTOL, WeaponHash.APPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_DOUBLE_BARREL_SHOTGUN, WeaponHash.DoubleBarrelShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_MACHINE_PISTOL, WeaponHash.MachinePistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SNIPER_RIFLE, WeaponHash.SniperRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_ASSAULT_SMG, WeaponHash.AssaultSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_COMBAT_PDW, WeaponHash.CombatPDW.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_REVOLVER, WeaponHash.Revolver.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HEAVY_PISTOL, WeaponHash.HeavyPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_PUMP_SHOTGUN, WeaponHash.PumpShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SPECIAL_CARBINE, WeaponHash.SpecialCarbine.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_PISTOL_50, WeaponHash.Pistol50.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_ADVANCED_RIFLE, WeaponHash.AdvancedRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_HEAVY_SNIPER, WeaponHash.HeavySniper.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_MICRO_SMG, WeaponHash.MicroSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_ASSAULT_SHOTGUN, WeaponHash.AssaultShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_MARKSMAN_RIFLE, WeaponHash.MarksmanRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SMG, WeaponHash.SMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_PISTOL_AMMO, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SMG_AMMO, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SHOTGUN_AMMO, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_RIFLE_AMMO, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(Messages.ITM_SNIPER_AMMO, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f)
         };
 
-        // Lista de prendas
+        // Clothes list
         public static List<BusinessClothesModel> BUSINESS_CLOTHES_LIST = new List<BusinessClothesModel>
         {
-            // Máscaras
+            // Masks
             new BusinessClothesModel(0, "Cerdo", CLOTHES_MASK, 1, SEX_NONE, 0),
             new BusinessClothesModel(0, "Calavera", CLOTHES_MASK, 2, SEX_NONE, 0),
             new BusinessClothesModel(0, "Mono fumador", CLOTHES_MASK, 3, SEX_NONE, 0),
@@ -961,7 +953,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "BIGNESS media cara nariz boca", CLOTHES_MASK, 101, SEX_NONE, 0),
             new BusinessClothesModel(0, "Dibujado por niños", CLOTHES_MASK, 102, SEX_NONE, 0),
 
-            // Pantalones de mujer
+            // Female pants
             new BusinessClothesModel(0, "vaqueros estrechos oscuros", CLOTHES_LEGS, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "vaqueros anchos oscuros", CLOTHES_LEGS, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "deportivo recogido blanco", CLOTHES_LEGS, 2, SEX_FEMALE, 0),
@@ -1036,7 +1028,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "leggins militar oscuro y rojo", CLOTHES_LEGS, 87, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "leggins rayas colores fosforitos", CLOTHES_LEGS, 88, SEX_FEMALE, 0),
 
-            // Pantalones de hombre
+            // Male pants
             new BusinessClothesModel(0, "vaquero azul oscuro cintu negro", CLOTHES_LEGS, 0, SEX_MALE, 0),
             new BusinessClothesModel(0, "vaquero bajo slip visible", CLOTHES_LEGS, 1, SEX_MALE, 0),
             new BusinessClothesModel(0, "corto cuadros blanco y negro", CLOTHES_LEGS, 2, SEX_MALE, 0),
@@ -1107,7 +1099,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "pitillo negro", CLOTHES_LEGS, 83, SEX_MALE, 0),
             new BusinessClothesModel(0, "ajustado con motivos coloridos", CLOTHES_LEGS, 85, SEX_MALE, 0),
 
-            // Mochilas
+            // Bags
             new BusinessClothesModel(0, "Gris, blanca y negra con rayas azules", CLOTHES_BAGS, 1, SEX_NONE, 0),
             new BusinessClothesModel(0, "Bandera EEUU", CLOTHES_BAGS, 10, SEX_NONE, 0),
             new BusinessClothesModel(0, "Blanca cruz azul", CLOTHES_BAGS, 21, SEX_NONE, 0),
@@ -1116,7 +1108,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Negra grande", CLOTHES_BAGS, 44, SEX_NONE, 0),
             new BusinessClothesModel(0, "Verde y negra", CLOTHES_BAGS, 52, SEX_NONE, 0),
 
-            // Zapatos de mujer
+            // Female shoes
             new BusinessClothesModel(0, "Tacon redondo negro", CLOTHES_FEET, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Zapatillas blanca y gris", CLOTHES_FEET, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Botas pelito marron", CLOTHES_FEET, 2, SEX_FEMALE, 0),
@@ -1175,7 +1167,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Zapatillas camel", CLOTHES_FEET, 60, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Plano negro rayas rosa y celeste", CLOTHES_FEET, 61, SEX_FEMALE, 0),
 
-            // Zapatos de hombre
+            // Male shoes
             new BusinessClothesModel(0, "Zapatillas cuadros negros y blancos tobillo alto", CLOTHES_FEET, 0, SEX_MALE, 0),
             new BusinessClothesModel(0, "Zapatillas negra suela blanca", CLOTHES_FEET, 1, SEX_MALE, 0),
             new BusinessClothesModel(0, "Zapatillas cuadros negros y blancos tobillo bajo", CLOTHES_FEET, 2, SEX_MALE, 0),
@@ -1231,7 +1223,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Zapatillas camel", CLOTHES_FEET, 57, SEX_MALE, 0),
             new BusinessClothesModel(0, "Plano negro rayas rojas y celestes", CLOTHES_FEET, 58, SEX_MALE, 0),
 
-            // Accesorios de mujer
+            // Female accessories
             new BusinessClothesModel(0, "Pendientes aro ancho dorado", CLOTHES_ACCESSORIES, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Pendientes aro fino dorado", CLOTHES_ACCESSORIES, 2, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Muñequera mano derecha negra", CLOTHES_ACCESSORIES, 3, SEX_FEMALE, 0),
@@ -1281,7 +1273,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Collar perlas marron claro", CLOTHES_ACCESSORIES, 93, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Auriculares blanco y azul", CLOTHES_ACCESSORIES, 94, SEX_FEMALE, 0),
 
-            // Accesorios de hombre
+            // Male accessories
             new BusinessClothesModel(0, "Corbata blanca ajustada", CLOTHES_ACCESSORIES, 10, SEX_MALE, 0),
             new BusinessClothesModel(0, "Pajarita cuadros blanco y negro", CLOTHES_ACCESSORIES, 11, SEX_MALE, 0),
             new BusinessClothesModel(0, "Corbata blanca", CLOTHES_ACCESSORIES, 12, SEX_MALE, 0),
@@ -1326,7 +1318,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Collar perlas marron claro", CLOTHES_ACCESSORIES, 123, SEX_MALE, 0),
             new BusinessClothesModel(0, "Auriculares azul y blanco", CLOTHES_ACCESSORIES, 124, SEX_MALE, 0),
 
-            // Torso de mujer
+            // Female torsos
             new BusinessClothesModel(0, "Guantes largos morado", CLOTHES_TORSO, 16, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Guantes verde", CLOTHES_TORSO, 17, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Guantes negro", CLOTHES_TORSO, 45, SEX_FEMALE, 0),
@@ -1353,7 +1345,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Sin guantes 13", CLOTHES_TORSO, 161, SEX_FEMALE, 0),
              new BusinessClothesModel(0, "Sin guantes 14", CLOTHES_TORSO, 130, SEX_FEMALE, 0),
 
-            // Torso de hombre
+            // Male torsos
             new BusinessClothesModel(0, "Guantes verde", CLOTHES_TORSO, 16, SEX_MALE, 0),
             new BusinessClothesModel(0, "Guantes negro", CLOTHES_TORSO, 17, SEX_MALE, 0),
             new BusinessClothesModel(0, "Guantes negro dedos fuera", CLOTHES_TORSO, 18, SEX_MALE, 0),
@@ -1387,8 +1379,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Sin Guantes 19", CLOTHES_TORSO, 113, SEX_MALE, 0),
             new BusinessClothesModel(0, "Sin Guantes 20", CLOTHES_TORSO, 114, SEX_MALE, 0),
 
-
-            // Partes superiores de mujer
+            // Female tops
             new BusinessClothesModel(0, "Camiseta manga corta rojo oscuro y gris", CLOTHES_TOPS, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Chaqueta vaquera remangada abierta", CLOTHES_TOPS, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Camiseta blanca hombro al aire", CLOTHES_TOPS, 2, SEX_FEMALE, 0),
@@ -1607,8 +1598,8 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Chaqueta negra con mangas largas cerrada con cremallera", CLOTHES_TOPS, 234, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Camiseta blanca y mangas azules con letras", CLOTHES_TOPS, 235, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "Camiseta negra normal", CLOTHES_TOPS, 236, SEX_FEMALE, 0),
-
-            // Partes superiores de hombre
+            
+            // Male tops
             new BusinessClothesModel(0, "Camiseta roja mangas gris", CLOTHES_TOPS, 0, SEX_MALE, 0),
             new BusinessClothesModel(0, "Camiseta blanca", CLOTHES_TOPS, 1, SEX_MALE, 0),
             new BusinessClothesModel(0, "Camiseta sin mangas cuadros negro y blanco", CLOTHES_TOPS, 2, SEX_MALE, 0),
@@ -1823,7 +1814,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "Camiseta blanca y azul oscuro 98", CLOTHES_TOPS, 225, SEX_MALE, 0),
             new BusinessClothesModel(0, "Camiseta negra normal", CLOTHES_TOPS, 226, SEX_MALE, 0),
 
-            // Interior de mujer
+            // Female undershirt
             new BusinessClothesModel(0, "0", CLOTHES_UNDERSHIRT, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "1", CLOTHES_UNDERSHIRT, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "2", CLOTHES_UNDERSHIRT, 2, SEX_FEMALE, 0),
@@ -1874,7 +1865,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "47", CLOTHES_UNDERSHIRT, 47, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "48", CLOTHES_UNDERSHIRT, 48, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "49", CLOTHES_UNDERSHIRT, 49, SEX_FEMALE, 0),
-            new BusinessClothesModel(0, "50",CLOTHES_UNDERSHIRT, 50, SEX_FEMALE, 0),
+            new BusinessClothesModel(0, "50", CLOTHES_UNDERSHIRT, 50, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "51", CLOTHES_UNDERSHIRT, 51, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "52", CLOTHES_UNDERSHIRT, 52, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "53", CLOTHES_UNDERSHIRT, 53, SEX_FEMALE, 0),
@@ -1943,7 +1934,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "116", CLOTHES_UNDERSHIRT, 116, SEX_FEMALE, 0),
             new BusinessClothesModel(0, "117", CLOTHES_UNDERSHIRT, 117, SEX_FEMALE, 0),
 
-            // Interior de hombre
+            // Male undershirt
             new BusinessClothesModel(0, "0", CLOTHES_UNDERSHIRT, 0, SEX_MALE, 0),
             new BusinessClothesModel(0, "1", CLOTHES_UNDERSHIRT, 1, SEX_MALE, 0),
             new BusinessClothesModel(0, "2", CLOTHES_UNDERSHIRT, 2, SEX_MALE, 0),
@@ -2043,7 +2034,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(0, "96", CLOTHES_UNDERSHIRT, 96, SEX_MALE, 0),
             new BusinessClothesModel(0, "97", CLOTHES_UNDERSHIRT, 97, SEX_MALE, 0),
 
-            // Sombreros de mujer
+            // Female hats
             new BusinessClothesModel(1, "Auriculares rojos", ACCESSORY_HATS, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Cono blanco", ACCESSORY_HATS, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Cowgirl cuadros negro y blanco", ACCESSORY_HATS, 2, SEX_FEMALE, 0),
@@ -2124,7 +2115,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Cuernos reno punta roja", ACCESSORY_HATS, 100, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Gorra negra", ACCESSORY_HATS, 101, SEX_FEMALE, 0),
 
-            // Sombreros de hombre
+            // Male hats
             new BusinessClothesModel(1, "Auriculares rojos", ACCESSORY_HATS, 0, SEX_MALE, 0),
             new BusinessClothesModel(1, "Cono blanco", ACCESSORY_HATS, 1, SEX_MALE, 0),
             new BusinessClothesModel(1, "Lana negro", ACCESSORY_HATS, 2, SEX_MALE, 0),
@@ -2204,7 +2195,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Reno puntas rojas", ACCESSORY_HATS, 101, SEX_MALE, 0),
             new BusinessClothesModel(1, "Gorra negra basica", ACCESSORY_HATS, 102, SEX_MALE, 0),
 
-            //Gafas de mujer
+            // Female glasses
             new BusinessClothesModel(1, "Deportiva cristal amarillo naranja", ACCESSORY_GLASSES, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Redondas marron oscuro", ACCESSORY_GLASSES, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Redonda con picos superiores marron oscuro", ACCESSORY_GLASSES, 2, SEX_FEMALE, 0),
@@ -2230,7 +2221,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Piloto", ACCESSORY_GLASSES, 26, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Snow", ACCESSORY_GLASSES, 27, SEX_FEMALE, 0),
 
-            // Gafas de hombre
+            // Male glasses
             new BusinessClothesModel(1, "Finas cuadrados blancos y negros", ACCESSORY_GLASSES, 1, SEX_MALE, 0),
             new BusinessClothesModel(1, "Finas negra cristal oscuro", ACCESSORY_GLASSES, 2, SEX_MALE, 0),
             new BusinessClothesModel(1, "Finas negras cristal transparente oscuro", ACCESSORY_GLASSES, 3, SEX_MALE, 0),
@@ -2253,7 +2244,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Piloto", ACCESSORY_GLASSES, 24, SEX_MALE, 0),
             new BusinessClothesModel(1, "Snow", ACCESSORY_GLASSES, 25, SEX_MALE, 0),
 
-            // Pendientes de mujer
+            // Female earrings
             new BusinessClothesModel(1, "Pinganillo negro y blanco", ACCESSORY_EARS, 0, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Pinganillo rojo y negro", ACCESSORY_EARS, 1, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Pinganillo rectangular negro", ACCESSORY_EARS, 2, SEX_FEMALE, 0),
@@ -2273,7 +2264,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Aro ancho oro letras", ACCESSORY_EARS, 16, SEX_FEMALE, 0),
             new BusinessClothesModel(1, "Aro ancho oro letras", ACCESSORY_EARS, 17, SEX_FEMALE, 0),
 
-            // Pendientes de hombre
+            // Male earrings
             new BusinessClothesModel(1, "Pinganillo negro y blanco", ACCESSORY_EARS, 0, SEX_MALE, 0),
             new BusinessClothesModel(1, "Pinganillo rojo y negro", ACCESSORY_EARS, 1, SEX_MALE, 0),
             new BusinessClothesModel(1, "Aro pequeño oro", ACCESSORY_EARS, 4, SEX_MALE, 0),
@@ -2288,7 +2279,7 @@ namespace WiredPlayers.globals
             new BusinessClothesModel(1, "Cuadrado grande plata", ACCESSORY_EARS, 35, SEX_MALE, 0)
         };
 
-        // Lista de tatuajes
+        // Tattoo list
         public static List<BusinessTattooModel> TATTOO_LIST = new List<BusinessTattooModel>
         {
             // Torso
@@ -2481,7 +2472,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Stone Cross", "multiplayer_overlays", "FM_Tat_M_044", "FM_Tat_F_044", 250),
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Skulls and Rose", "multiplayer_overlays", "FM_Tat_M_045", "FM_Tat_F_045", 400),
             
-            // Cabeza
+            // Head
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Cash is King", "mpbusiness_overlays", "MP_Buis_M_Neck_000", String.Empty, 100),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Bold Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_001", String.Empty, 100),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Script Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_002", String.Empty, 100),
@@ -2507,7 +2498,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Flaming Quad", "mpstunt_overlays", "MP_MP_Stunt_Tat_042_M", "MP_MP_Stunt_Tat_042_F", 150),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Skull", "multiplayer_overlays", "FM_Tat_Award_M_000", "FM_Tat_Award_F_000", 100),
 
-            // Brazo izquierdo
+            // Left arm
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "$100 Bill", "mpbusiness_overlays", "MP_Buis_M_LeftArm_000", String.Empty, 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "All-Seeing Eye", "mpbusiness_overlays", "MP_Buis_M_LeftArm_001", String.Empty, 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Greed is Good", "mpbusiness_overlays", String.Empty, "MP_Buis_F_LArm_000", 200),
@@ -2579,7 +2570,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Lady M", "multiplayer_overlays", "FM_Tat_M_031", "FM_Tat_F_031", 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Dope Skull", "multiplayer_overlays", "FM_Tat_M_041", "FM_Tat_F_041", 100),
 
-            // Brazo derecho
+            // Right arm
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Skull", "mpbusiness_overlays", "MP_Buis_M_RightArm_000", String.Empty, 150),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Green", "mpbusiness_overlays", "MP_Buis_M_RightArm_001", String.Empty, 150),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Sign", "mpbusiness_overlays", String.Empty, "MP_Buis_F_RArm_000", 100),
@@ -2651,7 +2642,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dagger", "multiplayer_overlays", "FM_Tat_M_038", "FM_Tat_F_038", 100),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Lion", "multiplayer_overlays", "FM_Tat_M_047", "FM_Tat_F_047", 100),
 
-            // Pierna izquierda
+            // Left leg
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Single", "mpbusiness_overlays", String.Empty, "MP_Buis_F_LLeg_000", 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Spider Outline", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_001", "MP_Xmas2_F_Tat_001", 300),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Spider Color", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_002", "MP_Xmas2_F_Tat_002", 350),
@@ -2691,7 +2682,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Dragon", "multiplayer_overlays", "FM_Tat_M_035", "FM_Tat_F_035", 250),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Grim Reaper", "multiplayer_overlays", "FM_Tat_M_037", "FM_Tat_F_037", 200),
             
-            // Pierna derecha
+            // Right leg
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Diamond Crown", "mpbusiness_overlays", String.Empty, "MP_Buis_F_RLeg_000", 100),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Floral Dagger", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_014", "MP_Xmas2_F_Tat_014", 250),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Combat Skull", "mpgunrunning_overlays", "MP_Gunrunning_Tattoo_006_M", "MP_Gunrunning_Tattoo_006_F", 150),
@@ -2727,10 +2718,10 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Indian Ram", "multiplayer_overlays", "FM_Tat_M_043", "FM_Tat_F_043", 200)
         };
 
-        // Vehículos de concesionario
+        // Car dealer's vehicles
         public static List<CarShopVehicleModel> CARSHOP_VEHICLE_LIST = new List<CarShopVehicleModel>
         {
-            // Compactos
+            // Compacts
             new CarShopVehicleModel("Blista", VehicleHash.Blista, 0, VEHICLE_CLASS_COMPACTS, 10000),
             new CarShopVehicleModel("Blista2", VehicleHash.Blista2, 0, VEHICLE_CLASS_COMPACTS, 6000),
             new CarShopVehicleModel("Blista3", VehicleHash.Blista3, 0, VEHICLE_CLASS_COMPACTS, 30000),
@@ -2741,7 +2732,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Prairie", VehicleHash.Prairie, 0, VEHICLE_CLASS_COMPACTS, 12000),
             new CarShopVehicleModel("Rhapsody", VehicleHash.Rhapsody, 0, VEHICLE_CLASS_COMPACTS, 1500),
 
-            // Coupés
+            // Coupes
             new CarShopVehicleModel("CogCabrio", VehicleHash.CogCabrio, 0, VEHICLE_CLASS_COUPES, 39000),
             new CarShopVehicleModel("Exemplar", VehicleHash.Exemplar, 0, VEHICLE_CLASS_COUPES, 45000),
             new CarShopVehicleModel("F620", VehicleHash.F620, 0, VEHICLE_CLASS_COUPES, 46300),
@@ -2878,7 +2869,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Peyote", VehicleHash.Peyote, 0, VEHICLE_CLASS_SEDANS, 30000),
             new CarShopVehicleModel("Stretch", VehicleHash.Stretch, 0, VEHICLE_CLASS_SEDANS, 95000),
 
-            // Deportivos
+            // Sports
             new CarShopVehicleModel("Alpha", VehicleHash.Alpha, 0, VEHICLE_CLASS_SPORTS, 35600),
             new CarShopVehicleModel("Banshee", VehicleHash.Banshee, 0, VEHICLE_CLASS_SPORTS, 89000),
             new CarShopVehicleModel("Banshee2", VehicleHash.Banshee2, 0, VEHICLE_CLASS_SPORTS, 122000),
@@ -2921,7 +2912,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Stinger", VehicleHash.Stinger, 0, VEHICLE_CLASS_SPORTS, 50000),
             new CarShopVehicleModel("ZType", VehicleHash.ZType, 0, VEHICLE_CLASS_SPORTS, 55000),
             
-            // Deportivos Clasicos
+            // Classic sports
             new CarShopVehicleModel("Feltzer3", VehicleHash.Feltzer3, 0, VEHICLE_CLASS_SPORTS, 147000),
             new CarShopVehicleModel("Retinue", VehicleHash.Retinue, 0, VEHICLE_CLASS_SPORTS, 38000),
             new CarShopVehicleModel("RapidGT3", VehicleHash.RapidGT3, 0, VEHICLE_CLASS_SPORTS, 57000),
@@ -2935,7 +2926,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Coquette", VehicleHash.Coquette, 0, VEHICLE_CLASS_SPORTS, 115000),
             new CarShopVehicleModel("Cheetah2", VehicleHash.Cheetah2, 0, VEHICLE_CLASS_SPORTS, 197000),
 
-		    // Superdeportivos
+		    // Super sports
             new CarShopVehicleModel("Cyclone", VehicleHash.Cyclone, 0, VEHICLE_CLASS_SPORTS, 375000),
             new CarShopVehicleModel("Voltic", VehicleHash.Voltic, 0, VEHICLE_CLASS_SPORTS, 132000),
             new CarShopVehicleModel("GP1", VehicleHash.GP1, 0, VEHICLE_CLASS_SPORTS, 245000),
@@ -2965,7 +2956,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Adder", VehicleHash.Adder, 0, VEHICLE_CLASS_SPORTS, 310000),
             new CarShopVehicleModel("Sheava", VehicleHash.Sheava, 0, VEHICLE_CLASS_SPORTS, 368000),
 
-            // Motos
+            // Motorcycles
             new CarShopVehicleModel("Akuma", VehicleHash.Akuma, 1, VEHICLE_CLASS_MOTORCYCLES, 85000),
             new CarShopVehicleModel("Avarus", VehicleHash.Avarus, 1, VEHICLE_CLASS_MOTORCYCLES, 75000),
             new CarShopVehicleModel("Bagger", VehicleHash.Bagger, 1, VEHICLE_CLASS_MOTORCYCLES, 25000),
@@ -3018,7 +3009,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Diablous", VehicleHash.Diablous, 1, VEHICLE_CLASS_MOTORCYCLES, 45000),
             new CarShopVehicleModel("Diablous2", VehicleHash.Diablous2, 1, VEHICLE_CLASS_MOTORCYCLES, 40000),
 
-            // Vehículos acuáticos
+            // Boats
             new CarShopVehicleModel("Dinghy", VehicleHash.Dinghy, 2, VEHICLE_CLASS_BOATS, 25000),
             new CarShopVehicleModel("Dinghy2", VehicleHash.Dinghy2, 2, VEHICLE_CLASS_BOATS, 32000),
             new CarShopVehicleModel("Dinghy3", VehicleHash.Dinghy3, 2, VEHICLE_CLASS_BOATS, 40000),
@@ -3038,7 +3029,7 @@ namespace WiredPlayers.globals
             new CarShopVehicleModel("Tug", VehicleHash.Tug, 2, VEHICLE_CLASS_BOATS, 175000)
         };
 
-        //Puertas del vehículo
+        // Vehicle's doors
         public const int DRIVER_FRONT_DOOR = 0;
         public const int PASSENGER_FRONT_DOOR = 1;
         public const int DRIVER_REAR_DOOR = 2;
@@ -3046,7 +3037,6 @@ namespace WiredPlayers.globals
         public const int VEHICLE_HOOD = 4;
         public const int VEHICLE_TRUNK = 5;
 
-        // Plazas de aparcamiento del concesionario
         public static List<Vector3> CARSHOP_SPAWNS = new List<Vector3>()
         {
             new Vector3(-47.8021f, -1116.419f, 26.43427f),
@@ -3055,7 +3045,6 @@ namespace WiredPlayers.globals
             new Vector3(-56.41209f, -1116.901f, 26.43442f)
         };
 
-        // Plazas de aparcamiento del concesionario de motos
         public static List<Vector3> BIKESHOP_SPAWNS = new List<Vector3>()
 {
             new Vector3(265.2711f, -1149.21f, 29.29169f),
@@ -3073,10 +3062,9 @@ namespace WiredPlayers.globals
             new Vector3(-743.5413f, -1347.753f, -0.473477f)
         };
 
-        // Lista de rutas de basurero
         public static List<GarbageModel> GARBAGE_LIST = new List<GarbageModel>()
         {
-            // Ruta norte
+            // North
             new GarbageModel(NORTH_ROUTE, 0, new Vector3(-240.8727f, -1346.671f, 30.65419f)),
             new GarbageModel(NORTH_ROUTE, 1, new Vector3(-179.5796f, -1287.857f, 30.87206f)),
             new GarbageModel(NORTH_ROUTE, 2, new Vector3(24.35715f, -366.3141f, 38.88739f)),
@@ -3089,7 +3077,7 @@ namespace WiredPlayers.globals
             new GarbageModel(NORTH_ROUTE, 9, new Vector3(-53.21499f, -1262.405f, 28.6037f)),
             new GarbageModel(NORTH_ROUTE, 10, new Vector3(-151.2484f, -1345.604f, 29.44017f)),
 
-            // Ruta sur
+            // South
             new GarbageModel(SOUTH_ROUTE, 0, new Vector3(-223.4353f, -1559.368f, 33.44161f)),
             new GarbageModel(SOUTH_ROUTE, 1, new Vector3(-228.065f, -1633.905f, 33.11632f)),
             new GarbageModel(SOUTH_ROUTE, 2, new Vector3(-14.47537f, -1817.777f, 25.40428f)),
@@ -3103,7 +3091,7 @@ namespace WiredPlayers.globals
             new GarbageModel(SOUTH_ROUTE, 10, new Vector3(233.6994f, -1773.683f, 28.25623f)),
             new GarbageModel(SOUTH_ROUTE, 11, new Vector3(-49.93156f, -1486.384f, 31.23168f)),
 
-            // Ruta este
+            // East
             new GarbageModel(EAST_ROUTE, 0, new Vector3(-75.37492f, -1317.174f, 28.6338f)),
             new GarbageModel(EAST_ROUTE, 1, new Vector3(452.5973f, -1070.959f, 28.78741f)),
             new GarbageModel(EAST_ROUTE, 2, new Vector3(808.8442f, -1044.986f, 26.21269f)),
@@ -3116,7 +3104,7 @@ namespace WiredPlayers.globals
             new GarbageModel(EAST_ROUTE, 9, new Vector3(-167.9472f, -1298.646f, 30.72958f)),
             new GarbageModel(EAST_ROUTE, 10, new Vector3(-240.3486f, -1304.548f, 30.89062f)),
 
-            // Ruta oeste
+            // West
             new GarbageModel(WEST_ROUTE, 0, new Vector3(-995.6018f, -1116.74f, 1.685367f)),
             new GarbageModel(WEST_ROUTE, 1, new Vector3(-1054.836f, -1021.385f, 1.617427f)),
             new GarbageModel(WEST_ROUTE, 2, new Vector3(-1254.953f, -862.3749f, 11.91052f)),
@@ -3159,16 +3147,16 @@ namespace WiredPlayers.globals
             new TunningPriceModel(VEHICLE_MOD_HYDRAULICS, 1200)
         };
 
-        // Tiendas de empeño
+        // Pawn shops
         public static List<Vector3> PAWN_SHOP = new List<Vector3>()
         {
             new Vector3(183.02f, -1319.41f, 29.13f)
         };
 
-        // Lista de cajones de armas
+        // Weapons crates
         public static List<CrateSpawnModel> CRATE_SPAWN_LIST = new List<CrateSpawnModel>()
         {
-            // Cajas de la isla
+            // Island crates
             new CrateSpawnModel(0, new Vector3(-2153.035f, 5202.386f, 13.69618f)),
             new CrateSpawnModel(0, new Vector3(-2165.921f, 5196.308f, 15.8804f)),
             new CrateSpawnModel(0, new Vector3(-2166.648f, 5198.421f, 15.8804f)),
@@ -3235,9 +3223,9 @@ namespace WiredPlayers.globals
             new CrateSpawnModel(0, new Vector3(-2173.201f, 5199.95f, 20.03394f))
         };
 
-        // Lista de probabilidad de armas y munición
+        // Weapon and ammunition drop rate
         public static List<WeaponProbabilityModel> WEAPON_CHANCE_LIST = new List<WeaponProbabilityModel>() {
-            // Lista de armas
+            // Weapons
             new WeaponProbabilityModel(0, "BullpupShotgun", 0, 0, 60),
             new WeaponProbabilityModel(0, "CompactRifle", 0, 61, 75),
             new WeaponProbabilityModel(0, "CarbineRifle", 0, 76, 95),
@@ -3263,7 +3251,7 @@ namespace WiredPlayers.globals
             new WeaponProbabilityModel(0, "MarksmanRifle", 0, 1181, 1195),
             new WeaponProbabilityModel(0, "SMG", 0, 1196, 1235),
 
-            // Lista de munición
+            // Ammunition
             new WeaponProbabilityModel(1, ITEM_HASH_PISTOL_AMMO_CLIP, STACK_PISTOL_CAPACITY, 0, 355),
             new WeaponProbabilityModel(1, ITEM_HASH_MACHINEGUN_AMMO_CLIP, STACK_MACHINEGUN_CAPACITY, 356, 420),
             new WeaponProbabilityModel(1, ITEM_HASH_SHOTGUN_AMMO_CLIP, STACK_SHOTGUN_CAPACITY, 421, 485),
@@ -3271,7 +3259,7 @@ namespace WiredPlayers.globals
             new WeaponProbabilityModel(1, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, STACK_SNIPERRIFLE_CAPACITY, 496, 500)
         };
 
-        // Lista de negocios resaltados
+        // Highlighted businesses
         public static List<BusinessBlipModel> BUSINESS_BLIP_LIST = new List<BusinessBlipModel>()
         {
             new BusinessBlipModel(3, 93),
@@ -3286,7 +3274,7 @@ namespace WiredPlayers.globals
             new BusinessBlipModel(297, 52)
         };
 
-        // Lista de cajeros
+        // ATMs
         public static List<Vector3> ATM_LIST = new List<Vector3>()
         {
             new Vector3(-846.6537, -341.509, 37.6685),
@@ -3415,7 +3403,6 @@ namespace WiredPlayers.globals
             new Vector3(1167.086, -456.1151, 66.79015)
         };
 
-        // CheckPoints del carnet de turismos
         public static List<Vector3> CAR_LICENSE_CHECKPOINTS = new List<Vector3>()
         {
             new Vector3(-221.63, -1156.04, 21.95),
@@ -3448,7 +3435,6 @@ namespace WiredPlayers.globals
             new Vector3(-246.74, -1148.72, 21.79)
         };
 
-        // CheckPoints del carnet de motocicletas
         public static List<Vector3> BIKE_LICENSE_CHECKPOINTS = new List<Vector3>()
         {
             new Vector3(-221.63, -1156.04, 21.95),

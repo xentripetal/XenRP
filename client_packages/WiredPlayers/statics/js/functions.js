@@ -25,7 +25,12 @@ function loginAccount() {
 	// Validate the password
 	let pass = document.getElementById('pass').value;
 	mp.trigger('requestPlayerLogin', pass);
-};
+}
+
+function showLoginError() {
+	// Remove hidden class
+	$('#error').removeClass('d-none');
+}
 
 function selectName() {
 	var name = capitalizeFirstLetter(document.getElementById('name').value);
@@ -36,7 +41,7 @@ function selectName() {
 
 function getPlayerList() {
 	mp.trigger('getConnectedPlayers');
-};
+}
 
 function populatePlayerList(playerJSON) {
 	var playerArray = JSON.parse(playerJSON);
@@ -62,7 +67,7 @@ function populatePlayerList(playerJSON) {
 			tableBody.appendChild(tableRow);
 		}
 	}
-};
+}
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);

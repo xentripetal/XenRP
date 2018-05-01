@@ -22,7 +22,8 @@
 		"amount": "Amount: "
 	},
 	"login": {
-		"message": "Welcome back to WiredPlayers. You need to insert your password below in order to log in"
+		"message": "Welcome back to WiredPlayers. You need to insert your password below in order to log in",
+		"error": "The introduced password is incorrect"
 	},
 	"phone": {
 		"number": "Number",

@@ -22,7 +22,8 @@
 		"amount": "Cantidad: "
 	},
 	"login": {
-		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña"
+		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña",
+		"error": "La contraseña introducida es incorrecta"
 	},
 	"phone": {
 		"number": "Número",

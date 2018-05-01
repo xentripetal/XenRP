@@ -27,7 +27,7 @@ namespace WiredPlayers.database
         private const String user = "gta";
         private const String pass = "gta5server-WP";
         private const String database = "gtav";
-        private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + ";";
+        private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=none;";
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
