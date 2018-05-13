@@ -184,7 +184,6 @@ namespace WiredPlayers.database
 
         public static int CreateCharacter(Client player, PlayerModel playerModel, SkinModel skin)
         {
-            // Inicializamos el id
             int playerId = 0;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -200,10 +199,10 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@socialName", player.SocialClubName);
                     command.ExecuteNonQuery();
 
-                    // Obtenemos el id insertado
+                    // Get the inserted identifier
                     playerId = (int)command.LastInsertedId;
 
-                    // Damos de alta el aspecto
+                    // Store player's skin
                     command.CommandText = "INSERT INTO skins VALUES (@playerId, @firstHeadShape, @secondHeadShape, @firstSkinTone, @secondSkinTone, @headMix, @skinMix, ";
                     command.CommandText += "@hairModel, @firstHairColor, @secondHairColor, @beardModel, @beardColor, @chestModel, @chestColor, @blemishesModel, @ageingModel, ";
                     command.CommandText += "@complexionModel, @sundamageModel, @frecklesModel, @noseWidth, @noseHeight, @noseLength, @noseBridge, @noseTip, @noseShift, @browHeight, ";
@@ -862,19 +861,15 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    // Creamos la consulta de modificación
                     command.CommandText = "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, colorType = @colorType, ";
                     command.CommandText += "firstColor = @firstColor, secondColor = @secondColor, pearlescent = @pearlescent, dimension = @dimension, ";
                     command.CommandText += "engine = @engine, locked = @locked, faction = @faction, owner = @owner, plate = @plate, price = @price, ";
                     command.CommandText += "parking = @parking, parkedTime = @parkedTime, gas = @gas, kms = @kms WHERE id = @vehId LIMIT 1";
 
-                    // Recorremos la lista de negocios
                     foreach (VehicleModel vehicle in vehicleList)
                     {
-                        // Limpiamos la lista de parámetros
                         command.Parameters.Clear();
 
-                        // Actualizamos la lista de parámetros para cada fila
                         command.Parameters.AddWithValue("@posX", vehicle.position.X);
                         command.Parameters.AddWithValue("@posY", vehicle.position.Y);
                         command.Parameters.AddWithValue("@posZ", vehicle.position.Z);
@@ -896,7 +891,6 @@ namespace WiredPlayers.database
                         command.Parameters.AddWithValue("@kms", vehicle.kms);
                         command.Parameters.AddWithValue("@vehId", vehicle.id);
 
-                        // Ejecutamos la query
                         command.ExecuteNonQuery();
                     }
                 }
@@ -1282,17 +1276,13 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    // Creamos la consulta de modificación
                     command.CommandText = "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
                     command.CommandText += "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
 
-                    // Recorremos la lista de negocios
                     foreach (BusinessModel business in businessList)
                     {
-                        // Limpiamos la lista de parámetros
                         command.Parameters.Clear();
 
-                        // Actualizamos la lista de parámetros para cada fila
                         command.Parameters.AddWithValue("@type", business.type);
                         command.Parameters.AddWithValue("@ipl", business.ipl);
                         command.Parameters.AddWithValue("@posX", business.position.X);
@@ -1307,7 +1297,6 @@ namespace WiredPlayers.database
                         command.Parameters.AddWithValue("@locked", business.locked);
                         command.Parameters.AddWithValue("@id", business.id);
 
-                        // Ejecutamos la query
                         command.ExecuteNonQuery();
                     }
                 }
@@ -1866,20 +1855,15 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    // Creamos la consulta de borrado
                     command.CommandText = "DELETE FROM fines WHERE officer = @officer AND target = @target AND date = @date LIMIT 1";
 
-                    // Recorremos la lista de multas
                     foreach (FineModel fine in fineList)
                     {
-                        // Convertimos la fecha a base de datos
                         DateTime dateTime = DateTime.ParseExact(fine.date, "d/M/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
                         fine.date = dateTime.ToString("yyyy-dd-MM HH:mm:ss");
 
-                        // Limpiamos la lista de parámetros
                         command.Parameters.Clear();
 
-                        // Actualizamos la lista de parámetros para cada fila
                         command.Parameters.AddWithValue("@officer", fine.officer);
                         command.Parameters.AddWithValue("@target", fine.target);
                         command.Parameters.AddWithValue("@date", fine.date);

@@ -1440,7 +1440,7 @@ namespace WiredPlayers.admin
                 {
                     if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_KILLED) != 0)
                     {
-                        Emergency.DestroyDeathTimer(target);
+                        Emergency.CancelPlayerDeath(target);
                         String playerMessage = String.Format(Messages.ADM_PLAYER_REVIVED, target.Name);
                         String targetMessage = String.Format(Messages.SUC_ADMIN_REVIVED, player.SocialClubName);
                         NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + playerMessage);

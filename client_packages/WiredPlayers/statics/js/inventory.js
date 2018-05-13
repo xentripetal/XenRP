@@ -1,5 +1,16 @@
 ﻿let selected = undefined;
 
+$(document).ready(function() {
+	i18next.use(window.i18nextXHRBackend).init({
+		backend: {
+			loadPath: '../i18n/en.json'
+		}
+	}, function(err, t) {
+		jqueryI18next.init(i18next, $);
+		$(document).localize();
+	});
+});
+
 function populateInventory(inventoryJson, title) {
 	// Initialize the selection
 	selected = undefined;
@@ -57,9 +68,11 @@ function populateInventory(inventoryJson, title) {
 function showInventoryOptions(optionsArray, dropable) {
 	// Add the options
 	for(let i = 0; i < optionsArray; i++) {
+
 	}
 	
 	if(dropable) {
 		// Add drop option
+
 	}
 }

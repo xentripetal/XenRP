@@ -11,14 +11,14 @@ mp.events.add('guiReady', () => {
 	policeMainDoors = mp.colshapes.newSphere(468.535, -1014.098, 26.386, 5.0);
 	policeBackDoors = mp.colshapes.newSphere(435.131, -981.9197, 30.689, 5.0);
 	policeCellDoors = mp.colshapes.newSphere(461.7501, -998.361, 24.915, 5.0);
-	
+
 	// Car dealer's doors
 	motorsportMain = mp.colshapes.newSphere(-59.893, -1092.952, 26.8836, 5.0);
 	motorsportParking = mp.colshapes.newSphere(-39.134, -1108.22, 26.72, 5.0);
-	
+
 	// Supermarket's doors
 	supermarketDoors = mp.colshapes.newSphere(-711.545, -915.54, 19.216, 5.0);
-	
+
 	// Club house's doors
 	clubhouseDoor = mp.colshapes.newSphere(981.7533, -102.7987, 74.8487, 5.0);
 });

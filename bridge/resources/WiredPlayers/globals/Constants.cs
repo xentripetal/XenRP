@@ -10,7 +10,6 @@ namespace WiredPlayers.globals
         // Gamemode version
         public const String GM_VERSION = "v1.0.1.3";
 
-        public const String DEFAULT_PED_MODEL = "StrPerf01SMM";
         public const int MALE_PED_HASH = 1885233650;
         public const int FEMALE_PED_HASH = -1667301416;
         public const int ENVIRONMENT_KILL = 65535;

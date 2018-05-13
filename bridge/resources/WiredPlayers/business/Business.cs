@@ -11,10 +11,6 @@ namespace WiredPlayers.business
 {
     public class Business : Script
     {
-        private Blip scrapYard = null;
-        private Blip hardwareBlip = null;
-        private Blip hardwareBlip2 = null;
-
         public static List<BusinessModel> businessList;
 
         public void LoadDatabaseBusiness()

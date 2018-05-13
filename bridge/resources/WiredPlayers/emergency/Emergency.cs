@@ -6,58 +6,40 @@ using WiredPlayers.house;
 using WiredPlayers.business;
 using WiredPlayers.faction;
 using System.Collections.Generic;
-using System.Threading;
-using System;
 using System.Threading.Tasks;
+using System;
 
 namespace WiredPlayers.emergency
 {
     public class Emergency : Script
     {
         public static List<BloodModel> bloodList;
-        private static Dictionary<int, Timer> deathTimerList = new Dictionary<int, Timer>();
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
+        private void CreateEmergencyReport(DeathModel death)
         {
-            // Destroy death timer
-            DestroyDeathTimer(player);
-        }
-
-        public void OnDeathTimer(object death)
-        {
-            Client player = ((DeathModel)death).player;
-            Client killer = ((DeathModel)death).killer;
-            uint weapon = ((DeathModel)death).weapon;
+            // Get the server time
             int totalSeconds = Globals.GetTotalSeconds();
 
-            if (killer.Value == Constants.ENVIRONMENT_KILL)
+            if (death.killer.Value == Constants.ENVIRONMENT_KILL)
             {
                 // Check if the player was dead
-                int databaseKiller = NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED);
+                int databaseKiller = NAPI.Data.GetEntityData(death.player, EntityData.PLAYER_KILLED);
 
                 if (databaseKiller == 0)
                 {
                     // There's no killer, we set the environment as killer
-                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_KILLED, Constants.ENVIRONMENT_KILL);
+                    NAPI.Data.SetEntityData(death.player, EntityData.PLAYER_KILLED, Constants.ENVIRONMENT_KILL);
                 }
             }
             else
             {
-                int killerId = NAPI.Data.GetEntityData(killer, EntityData.PLAYER_SQL_ID);
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_KILLED, killerId);
+                int killerId = NAPI.Data.GetEntityData(death.killer, EntityData.PLAYER_SQL_ID);
+                NAPI.Data.SetEntityData(death.player, EntityData.PLAYER_KILLED, killerId);
             }
 
-            // We remove the timer from the list
-            Timer deathTimer = deathTimerList[player.Value];
-            if (deathTimer != null)
-            {
-                deathTimer.Dispose();
-                deathTimerList.Remove(player.Value);
-            }
-
-            NAPI.Entity.SetEntityInvincible(player, true);
-            NAPI.Data.SetEntityData(player, EntityData.TIME_HOSPITAL_RESPAWN, totalSeconds + 240);
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_EMERGENCY_WARN);
+            NAPI.Entity.SetEntityInvincible(death.player, true);
+            NAPI.Data.SetEntityData(death.player, EntityData.TIME_HOSPITAL_RESPAWN, totalSeconds + 240);
+            NAPI.Chat.SendChatMessageToPlayer(death.player, Constants.COLOR_INFO + Messages.INF_EMERGENCY_WARN);
         }
 
         private int GetRemainingBlood()
@@ -77,15 +59,10 @@ namespace WiredPlayers.emergency
             return remaining;
         }
 
-        public static void DestroyDeathTimer(Client player)
+        public static void CancelPlayerDeath(Client player)
         {
-            if (deathTimerList.TryGetValue(player.Value, out Timer deathTimer) == true)
-            {
-                deathTimer.Dispose();
-                deathTimerList.Remove(player.Value);
-            }
-
             NAPI.Entity.SetEntityInvincible(player, false);
+            NAPI.Player.SpawnPlayer(player, player.Position);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_KILLED, 0);
             NAPI.Data.ResetEntityData(player, EntityData.TIME_HOSPITAL_RESPAWN);
         }
@@ -104,7 +81,7 @@ namespace WiredPlayers.emergency
         [ServerEvent(Event.PlayerDeath)]
         public void OnPlayerDeath(Client player, Client killer, uint weapon)
         {
-            if(deathTimerList.TryGetValue(player.Value, out Timer timer) == false)
+            if(NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) == 0)
             {
                 DeathModel death = new DeathModel(player, killer, weapon);
 
@@ -148,9 +125,8 @@ namespace WiredPlayers.emergency
                     }
                 }
 
-                // Timer to process player's death
-                Timer deathTimer = new Timer(OnDeathTimer, death, 2500, Timeout.Infinite);
-                deathTimerList.Add(player.Value, deathTimer);
+                // Create the emergency report
+                CreateEmergencyReport(death);
             }
         }
 
@@ -217,7 +193,7 @@ namespace WiredPlayers.emergency
                     {
                         if (GetRemainingBlood() > 0)
                         {
-                            DestroyDeathTimer(target);
+                            CancelPlayerDeath(target);
 
                             // We create blood model
                             BloodModel bloodModel = new BloodModel();
@@ -321,7 +297,6 @@ namespace WiredPlayers.emergency
                 {
                     // Move player to the hospital
                     TeleportPlayerToHospital(player);
-                    DestroyDeathTimer(player);
 
                     // Get the report generated with the death
                     FactionWarningModel factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);

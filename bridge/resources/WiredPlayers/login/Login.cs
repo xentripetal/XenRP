@@ -308,8 +308,8 @@ namespace WiredPlayers.login
                         }
                         else
                         {
-                            PedHash pedHash = NAPI.Util.PedNameToModel(Constants.DEFAULT_PED_MODEL);
-                            NAPI.Player.SetPlayerSkin(player, pedHash);
+                            // Set the default skin
+                            NAPI.Player.SetPlayerSkin(player, PedHash.Strperf01SMM);
                         }
 
                         // Make the player invisible

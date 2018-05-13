@@ -3,7 +3,7 @@ let loginTimer = undefined;
 
 mp.events.add('guiReady', () => {
 	// Remove health regeneration
-    mp.game.player.setHealthRechargeMultiplier(0.0);
+  mp.game.player.setHealthRechargeMultiplier(0.0);
 
 	// Remove weapons from the vehicles
 	mp.game.player.disableVehicleRewards();
@@ -27,8 +27,8 @@ mp.events.add('guiReady', () => {
 	});
 
 	mp.keys.bind(0x4B, false, function() {
-		// Key 'K' pressed
-		if(mp.players.local.vehicle && mp.players.local.seat == 0) {
+        // Key 'K' pressed
+		if(mp.players.local.vehicle && mp.players.local.vehicle.getPedInSeat(-1) == mp.players.local.handle) {
 			// Toggle vehicle's engine
 			mp.events.callRemote('engineOnEventKey');
 		}

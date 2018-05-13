@@ -452,10 +452,10 @@ namespace WiredPlayers.vehicles
                 // Engine toggle message
                 NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_HOW_TO_START_ENGINE);
 
-                // Initialize speedometer
+                // Initialize speedometer and engine status
                 float kms = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_KMS);
                 float gas = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_GAS);
-                NAPI.ClientEvent.TriggerClientEvent(player, "initializeSpeedometer", vehicle, kms, gas);
+                NAPI.ClientEvent.TriggerClientEvent(player, "initializeSpeedometer", kms, gas, vehicle.EngineStatus);
             }
         }
 

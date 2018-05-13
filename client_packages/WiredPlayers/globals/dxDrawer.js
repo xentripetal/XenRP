@@ -55,12 +55,12 @@ let weazeldesc = "¿Hay algo que no ocurra en esta ciudad? ¡No! ¿Y algo que se
     "conocimien to del ciudadano de a pie. Además ¿qué mejor manera hay de ganar fama en Los Santos\n" +
     "que siendo l   a voz pública? ¡La prensa es la artillería de la verdad!";
 
-let docdesc = "Lo primero que necesitarás es poner tus papeles en regla, para eso debes dirigirte al\n" + 
+let docdesc = "Lo primero que necesitarás es poner tus papeles en regla, para eso debes dirigirte al\n" +
     "ayuntamiento  y una vez allí podrás cumplimentar varios trámites, debería ser tu primera visita\n" +
     "en la ciudad.      Aunque siempre puedes intentar vivir al margen de la ley siendo un indocumentado\n" +
     "pero con sus consecuencias.";
 
-let jobdesc = "Nos guste o no vivimos en una sociedad capitalista, si quieres disfrutar de\n" + 
+let jobdesc = "Nos guste o no vivimos en una sociedad capitalista, si quieres disfrutar de\n" +
     "las comodidades que se te ofrecen tendrás que ganártelas, y eso implica trabajar. Para\n" +
     "ello tienes diferentes opciones q  ue puedes elegir. A no ser que seas de esos que prefiere\n" +
     "hacer dinero fácil... en esta ciudad hay  de  todo.";
@@ -94,7 +94,7 @@ let buydesc = "Hay multitud de tiendas por toda la ciudad. Puedes encontrar faci
 let inventorydesc = "Cuando compres o cojas algo, primero aparecera en tu mano utiliza entonces /guardar para\n" +
     "almacenarlo en tu inventario desde el cual podras acceder de manera rapida y comoda a todas tus\n" +
     "pertenencias. Usa /inventario y haz clic en el objeto que quieras para ver las opciones disponibles."
-	
+
 let cellsPerRow = 10;
 let optionCells = 3;
 let resolution = null;
@@ -176,11 +176,17 @@ mp.events.add('fishingBaitTaken', () => {
 	fishingState = 3;
 });
 
-mp.events.add('initializeSpeedometer', (vehicle, kms, gas) => {
+mp.events.add('initializeSpeedometer', (kms, gas, engine) => {
+    // Get the vehicle
+    let vehicle = mp.players.local.vehicle;
+
+    // Don't let the player turn the engine on if by default
+    vehicle.setEngineOn(engine, true, true);
+
 	// Inicializamos las variables de kilómetros y gasolina
-	vehicleKms = kms;
-	vehicleGas = gas;
-	
+	vehicleKms = parseFloat(kms);
+	vehicleGas = parseFloat(gas);
+
 	// Inicializamos el contador
 	lastPosition = vehicle.position;
 	distance = 0.0;
@@ -190,7 +196,7 @@ mp.events.add('initializeSpeedometer', (vehicle, kms, gas) => {
 mp.events.add('resetSpeedometer', (vehicle) => {
 	// Eliminamos la última posición
 	lastPosition = null;
-	
+
 	// Guardamos los kilómetros y la gasolina
 	mp.events.callRemote('saveVehicleConsumes', vehicle, vehicleKms, vehicleGas);
 });
@@ -233,10 +239,10 @@ mp.events.add('render', () => {
 			moneySize = money.toString().length + 1;
 			lastTimeFlagChecked = currentTime;
 		}
-		
+
 		// Dibujamos el dinero del jugador
 		mp.game.graphics.drawText(`${money}$`, [0.99 - moneySize * 0.005, 0.05], {font: 7, color: [30, 150, 0, 255], scale: [0.5, 0.5], outline: true});
-		
+
 		// Miramos si está esposado
 		if(handcuffed) {
 			mp.game.controls.disableControlAction(2, 12, true);
@@ -396,7 +402,7 @@ function drawHelpMenu() {
 
     // Cargamos el pie de pagina
     mp.game.graphics.drawRect(resolution.x / 2.0 - 505.0, resolution.y / 2.0 + 300.0, 1010.0, 50.0, 43, 32, 32, 245);
-	
+
     // Cargamos la cruz para cerrar el menú
     NAPI.DxDrawTexture("statics/img/close.png", new Point(parseInt(resolution.x / 2.0 + 478.0), parseInt(resolution.y / 2.0 - 377.0)), new Size(24, 24), 0.0);
 
@@ -483,7 +489,7 @@ function drawHelpMenu() {
             NAPI.DrawText("Comandos Básicos de Vehículo", resolution.x / 2.0 - 0.0, resolution.y / 2.0 - -80.0, 0.7, 255, 255, 0, 255, 1, 1, false, false, 0);
 
             NAPI.DrawText("/bloqueo /cinturon /capo /maletero /localizar /repostar /desaparcar /desguace /vender /lavar", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - -130.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
-                                                
+
             break;
         case 1:
 			// Flecha de atrás
@@ -592,10 +598,10 @@ function drawWelcomeMenu() {
         case 1:
 			// Flecha de atrás
             NAPI.DxDrawTexture("statics/img/backwhite.png", new Point(parseInt(resolution.x / 2.0 - 505.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
 			// Flecha de siguiente
             NAPI.DxDrawTexture("statics/img/nextwhite.png", new Point(parseInt(resolution.x / 2.0 + 450.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
             // Descripción rolera del job
             NAPI.DrawText("Consigue un vehículo", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 310.0, 0.5, 0, 204, 0, 255, 1, 0, false, false, 0);
             NAPI.DrawText(carshopdesc, resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 275.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
@@ -612,10 +618,10 @@ function drawWelcomeMenu() {
         case 2:
 			// Flecha de atrás
             NAPI.DxDrawTexture("statics/img/backwhite.png", new Point(parseInt(resolution.x / 2.0 - 505.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
 			// Flecha de siguiente
             NAPI.DxDrawTexture("statics/img/nextwhite.png", new Point(parseInt(resolution.x / 2.0 + 450.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
             // Descripción rolera del job
             NAPI.DrawText("Accede a tu dinero comodamente", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 310.0, 0.5, 0, 204, 0, 255, 1, 0, false, false, 0);
             NAPI.DrawText(bankdesc, resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 275.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
@@ -632,10 +638,10 @@ function drawWelcomeMenu() {
         case 3:
 			// Flecha de atrás
             NAPI.DxDrawTexture("statics/img/backwhite.png", new Point(parseInt(resolution.x / 2.0 - 505.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
 			// Flecha de siguiente
             NAPI.DxDrawTexture("statics/img/nextwhite.png", new Point(parseInt(resolution.x / 2.0 + 450.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
             // Descripción rolera del job
             NAPI.DrawText("Prostitución", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 310.0, 0.5, 0, 204, 0, 255, 1, 0, false, false, 0);
             NAPI.DrawText(hookerdesc, resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 275.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
@@ -652,10 +658,10 @@ function drawWelcomeMenu() {
         case 4:
 			// Flecha de atrás
             NAPI.DxDrawTexture("statics/img/backwhite.png", new Point(parseInt(resolution.x / 2.0 - 505.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
 			// Flecha de siguiente
             NAPI.DxDrawTexture("statics/img/nextwhite.png", new Point(parseInt(resolution.x / 2.0 + 450.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
             // Descripción rolera del job
             NAPI.DrawText("Mecánico de Los Santos Custom", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 310.0, 0.5, 0, 204, 0, 255, 1, 0, false, false, 0);
             NAPI.DrawText(mechdesc, resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 275.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
@@ -691,7 +697,7 @@ function drawWelcomeMenu() {
         case 5:
 			// Flecha de atrás
             NAPI.DxDrawTexture("statics/img/backwhite.png", new Point(parseInt(resolution.x / 2.0 - 505.0), parseInt(resolution.y / 2.0 - 85.0)), new Size(64, 64), 0.0);
-			
+
             // Descripción rolera del job
             NAPI.DrawText("Departamento de policía de Los Santos (LSPD)", resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 310.0, 0.5, 0, 204, 0, 255, 1, 0, false, false, 0);
             NAPI.DrawText(lspddesc, resolution.x / 2.0 - 450.0, resolution.y / 2.0 - 275.0, 0.4, 255, 255, 255, 255, 4, 0, false, false, 0);
@@ -772,7 +778,7 @@ function drawFishingMinigame() {
 		} else {
 			// Restamos unidades
 			fishingBarPosition -= 1.0;
-			
+
 			if(fishingBarPosition < fishingBarMin) {
 				fishingBarPosition = fishingBarMin;
 				movementRight = true;
@@ -796,7 +802,7 @@ function updateSpeedometer(player) {
 		let maxHealth = vehicle.getMaxHealth();
 		let healthPercent = Math.floor((health / maxHealth) * 100);
 		let speed = Math.round(Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z) * 3.6);
-		
+
 		// Calculamos la distancia y consumo
 		distance = distanceTo(currentPosition, lastPosition);
 		consumed = distance * perMeter;
@@ -830,7 +836,7 @@ function updateSpeedometer(player) {
 		// Actualizamos los valores del vehículo
 		vehicleKms += distance;
 		vehicleGas -= consumed;
-		
+
 		// Reinicializamos las variables
 		distance = 0.0;
 		consumed = 0.0;
@@ -842,7 +848,7 @@ function distanceTo(vectorFrom, vectorTo) {
     let distanceX = vectorFrom.x - vectorTo.x;
     let distanceY = vectorFrom.y - vectorTo.y;
     let distanceZ = vectorFrom.z - vectorTo.z;
-	
+
     return Math.sqrt(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ);
 }
 

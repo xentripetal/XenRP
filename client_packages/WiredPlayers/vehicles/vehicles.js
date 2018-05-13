@@ -1,4 +1,8 @@
-﻿let vehicleLocationBlip = undefined; 
+﻿let vehicleLocationBlip = undefined;
+
+mp.events.add('playerEnterVehicle', (vehicle, seat) => {
+    vehicle.setEngineOn(false, true, true);
+});
 
 mp.events.add('locateVehicle', (position) => {
 	// Create the blip on the map

@@ -10,7 +10,6 @@ using WiredPlayers.parking;
 using WiredPlayers.faction;
 using WiredPlayers.vehicles;
 using WiredPlayers.drivingschool;
-using WiredPlayers.emergency;
 using WiredPlayers.fastfood;
 using WiredPlayers.fishing;
 using WiredPlayers.garbage;
@@ -18,10 +17,10 @@ using WiredPlayers.login;
 using WiredPlayers.police;
 using WiredPlayers.thief;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.globals
 {
@@ -79,20 +78,6 @@ namespace WiredPlayers.globals
             }
             return position;
         }
-
-        /*
-        private void OnChatCommandHandler(Client player, String command, CancelEventArgs e)
-        {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) == true)
-            {
-                NAPI.Util.ConsoleOutput(player.Name + " ha usado el comando '" + command + "'");
-            }
-            else if(command.StartsWith("/login") == false)
-            {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_COMMAND);
-                e.Cancel = true;
-            }
-        }*/
 
         public static Vehicle GetClosestVehicle(Client player, float distance = 2.5f)
         {
@@ -388,7 +373,7 @@ namespace WiredPlayers.globals
                     int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
                     String vehicleModel = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
                     String vehiclePlate = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PLATE) == String.Empty ? "LS " + (1000 + vehicleId) : NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PLATE);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + "Impuestos de " + vehicleModel + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
+                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_VEHICLE_TAXES_FROM + vehicleModel + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
                     total -= vehicleTaxes;
                 }
             }
@@ -522,15 +507,8 @@ namespace WiredPlayers.globals
 
         private int GetPlayerInventoryTotal(Client player)
         {
-            int totalItems = 0;
-            foreach (ItemModel item in itemList)
-            {
-                if (item.ownerEntity == Constants.ITEM_ENTITY_PLAYER && NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID) == item.ownerIdentifier)
-                {
-                    totalItems++;
-                }
-            }
-            return totalItems;
+            // Return the amount of items in the player's inventory
+            return itemList.Count(item => item.ownerEntity == Constants.ITEM_ENTITY_PLAYER && NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID) == item.ownerIdentifier);
         }
 
         private List<InventoryModel> GetPlayerInventory(Client player)
@@ -624,29 +602,14 @@ namespace WiredPlayers.globals
 
         public static List<ClothesModel> GetPlayerClothes(int playerId)
         {
-            List<ClothesModel> clothesModelList = new List<ClothesModel>();
-            foreach (ClothesModel clothes in clothesList)
-            {
-                if (clothes.player == playerId)
-                {
-                    clothesModelList.Add(clothes);
-                }
-            }
-            return clothesModelList;
+            // Get a list with the player's clothes
+            return clothesList.Where(c => c.player == playerId).ToList();
         }
 
         public static ClothesModel GetDressedClothesInSlot(int playerId, int type, int slot)
         {
-            ClothesModel clothesDressed = null;
-            foreach (ClothesModel clothes in clothesList)
-            {
-                if (clothes.player == playerId && clothes.type == type && clothes.slot == slot && clothes.dressed)
-                {
-                    clothesDressed = clothes;
-                    break;
-                }
-            }
-            return clothesDressed;
+            // Get the clothes in the selected slot
+            return clothesList.FirstOrDefault(c => c.player == playerId && c.type == type && c.slot == slot && c.dressed);
         }
 
         public static List<String> GetClothesNames(List<ClothesModel> clothesList)
@@ -706,15 +669,8 @@ namespace WiredPlayers.globals
 
         public static List<TattooModel> GetPlayerTattoos(int playerId)
         {
-            List<TattooModel> tattooModelList = new List<TattooModel>();
-            foreach (TattooModel tattoo in tattooList)
-            {
-                if (tattoo.player == playerId)
-                {
-                    tattooModelList.Add(tattoo);
-                }
-            }
-            return tattooModelList;
+            // Get all the tattoos from the player
+            return tattooList.Where(t => t.player == playerId).ToList();
         }
 
         public static void GetPlayerBasicData(Client asker, Client player)
@@ -905,7 +861,6 @@ namespace WiredPlayers.globals
                 // Other classes' disconnect function
                 Chat.OnPlayerDisconnected(player, type, reason);
                 DrivingSchool.OnPlayerDisconnected(player, type, reason);
-                Emergency.OnPlayerDisconnected(player, type, reason);
                 FastFood.OnPlayerDisconnected(player, type, reason);
                 Fishing.OnPlayerDisconnected(player, type, reason);
                 Garbage.OnPlayerDisconnected(player, type, reason);
