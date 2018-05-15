@@ -2574,12 +2574,17 @@ namespace WiredPlayers.globals
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_REPAIR_OFFERED);
+                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_REPAINT_OFFERED);
                         }
 
                         break;
                     case Messages.ARG_SERVICE:
-                        if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_ALREADY_FUCKING) == true)
+
+                        if (NAPI.Data.HasEntityData(player, EntityData.HOOKER_TYPE_SERVICE) == false)
+                        {
+                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_SERVICE_OFFERED);
+                        }
+                        else  if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_ALREADY_FUCKING) == true)
                         {
                             NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ALREADY_FUCKING);
                         }

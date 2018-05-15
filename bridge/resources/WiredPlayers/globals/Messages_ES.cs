@@ -696,6 +696,7 @@ namespace WiredPlayers.globals
         public const String ERR_VEHICLE_NOT_THIS_PARKING = "El vehículo no está aparcado aquí.";
         public const String ERR_NOT_IN_VEHICLE_TYPE_CAR = "Debes estar dentro de un coche.";
         public const String ERR_HOOKER_OFFERED_HIMSELF = "No puedes ofrecerte un servicio a ti mismo.";
+        public const String ERR_NO_SERVICE_OFFERED = "Nadie te ha ofrecido un servicio sexual.";
         public const String ERR_NOT_HOUSE_NEAR = "No hay ninguna casa cerca de ti.";
         public const String ERR_HOUSE_INTERIOR_MODIFY = "El valor de interior debe estar entre 0 y {0}.";
         public const String ERR_HOUSE_PRICE_MODIFY = "El precio de la casa debe ser superior a 0$.";
