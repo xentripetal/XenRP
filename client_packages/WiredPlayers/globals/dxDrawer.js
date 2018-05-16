@@ -112,7 +112,7 @@ let consumed = 0.0;
 let vehicleKms = 0.0;
 let vehicleGas = 0.0;
 let perMeter = 0.00065;
-let lastPosition = null;
+let lastPosition = undefined;
 
 // Variables de pesca
 let fishingState = 0;
@@ -177,28 +177,30 @@ mp.events.add('fishingBaitTaken', () => {
 });
 
 mp.events.add('initializeSpeedometer', (kms, gas, engine) => {
-    // Get the vehicle
+    // Get the player's vehicle
     let vehicle = mp.players.local.vehicle;
 
     // Don't let the player turn the engine on if by default
     vehicle.setEngineOn(engine, true, true);
 
-	// Inicializamos las variables de kilómetros y gasolina
+	// Initialize the kilometers and gas
 	vehicleKms = parseFloat(kms);
 	vehicleGas = parseFloat(gas);
 
-	// Inicializamos el contador
+	// Initialize the counters
 	lastPosition = vehicle.position;
 	distance = 0.0;
 	consumed = 0.0;
 });
 
 mp.events.add('resetSpeedometer', (vehicle) => {
-	// Eliminamos la última posición
-	lastPosition = null;
+    if(lastPosition !== undefined) {
+        // Reset the vehicle's position
+        lastPosition = undefined;
 
-	// Guardamos los kilómetros y la gasolina
-	mp.events.callRemote('saveVehicleConsumes', vehicle, vehicleKms, vehicleGas);
+        // Save the kilometers and gas
+        mp.events.callRemote('saveVehicleConsumes', vehicle, vehicleKms, vehicleGas);
+    }
 });
 
 mp.events.add('toggleHandcuffed', (toggle) => {
@@ -792,7 +794,7 @@ function updateSpeedometer(player) {
 	let vehicle = player.vehicle;
 
 	// Miramos que no sea una bicicleta
-	if(lastPosition != null) {
+	if(lastPosition !== undefined) {
 		// Obtenemos la posición del vehículo
 		let currentPosition = vehicle.position;
 
