@@ -20,7 +20,8 @@
 		"store": "Guardar",
 		"unit-price": "Precio unitario: ",
 		"price": "Precio: ",
-		"amount": "Cantidad: "
+		"amount": "Cantidad: ",
+		"inventory": "Inventario"
 	},
 	"login": {
 		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña",

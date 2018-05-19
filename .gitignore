@@ -13,6 +13,8 @@
 /plugins
 /node.dll
 /client_packages/.listcache
+/client_packages/node_modules/*
+/client_packages/package-lock.json
 /bt.dat
 /bridge/server_exceptions.txt
 !/bridge/runtime/MySql.Data.dll

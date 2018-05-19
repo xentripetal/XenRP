@@ -20,7 +20,8 @@
 		"store": "Store",
 		"unit-price": "Unit price: ",
 		"price": "Price: ",
-		"amount": "Amount: "
+		"amount": "Amount: ",
+		"inventory": "Inventory"
 	},
 	"login": {
 		"message": "Welcome back to WiredPlayers. You need to insert your password below in order to log in",

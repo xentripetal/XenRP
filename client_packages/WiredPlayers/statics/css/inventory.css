@@ -75,6 +75,11 @@
 	height: 65px;
 }
 
+.inventory-options > div {
+	display: inline;
+	padding: 0px 10px;
+}
+
 .inventory-exit {
 	float: right;
 	width: 14%;

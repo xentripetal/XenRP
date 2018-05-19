@@ -5,7 +5,7 @@ mp.events.add('showPlayerInventory', (inventoryJson, target) => {
 	targetType = target;
 	
 	// Show player's inventory
-	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/inventory.html', 'populateInventory', inventoryJson, 'a']);
+	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/inventory.html', 'populateInventory', inventoryJson, 'general.inventory']);
 });
 
 mp.events.add('getInventoryOptions', (itemType, itemHash) => {
@@ -45,5 +45,10 @@ mp.events.add('getInventoryOptions', (itemType, itemHash) => {
 	}
 	
 	// Show the options into the inventory
-	mp.events.call('executeFunction', [optionsArray, dropable]);
+	mp.events.call('executeFunction', ['showInventoryOptions', JSON.stringify(optionsArray), dropable]);
+});
+
+mp.events.add('executeAction', (item, option) => {
+	// Execute the selected action
+	mp.events.callRemote('processMenuAction', item, option);
 });

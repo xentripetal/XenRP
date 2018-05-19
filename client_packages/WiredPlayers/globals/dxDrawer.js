@@ -160,7 +160,7 @@ mp.events.add('welcomeHelp', () => {
 	// Mostramos el texto de bienvenida
 	mp.gui.cursor.show(true, true);
 	mp.gui.chat.activate(false);
-	mp.gui.chat.show(false);
+    mp.gui.chat.show(false);
 	helpWelcome = 2;
 });
 
@@ -260,122 +260,6 @@ mp.events.add('render', () => {
 	}
 });
 /*
-function drawInventory() {
-	// Obtenemos la posición del cursor
-    let cursorPosition = mp.gui.cursor.position;
-
-	// Miramos si se ha hecho click
-	let mouseClick = mp.game.controls.isControlJustPressed(0, 24);
-
-    // Miramos si se ha cerrado la ventana
-    if (isPositionInArea(cursorPosition, resolution.x / 2.0 + 478.0, resolution.y / 2.0 - 377.0, 24.0, 24.0) && mouseClick) {
-		if(target == 3 || target == 4) {
-			// Hay que cerrar el maletero del vehículo
-			mp.events.callRemote('closeVehicleTrunk');
-		}
-		mp.gui.cursor.visible = false;
-		mp.gui.chat.activate(true);
-		mp.gui.chat.show(true);
-		target = null;
-    } else {
-        // Comprobamos si se ha hecho click en una opción
-        for (let i = 0; i < optionCells; i++) {
-            if (isPositionInArea(cursorPosition, inventoryOptions[i].startingX, inventoryOptions[i].startingY, 175.0, 30.0) && inventoryOptions[i].action.length > 0 && mouseClick) {
-                mp.events.callRemote('processMenuAction', getSelectedItem(), inventoryOptions[i].action);
-                if (inventoryOptions[i].action == 'Equipar') {
-					mp.gui.cursor.visible = false;
-					mp.gui.chat.activate(true);
-					mp.gui.chat.show(true);
-					target = null;
-                    return;
-                }
-            }
-        }
-
-        // Cargamos la cabecera
-		mp.game.graphics.drawRect(resolution.x / 2.0 - 505.0, resolution.y / 2.0 - 380.0, 1010.0, 30.0, 43, 32, 32, 220);
-
-        // Cargamos el pie de pagina
-        mp.game.graphics.drawRect(resolution.x / 2.0 - 505.0, resolution.y / 2.0 + 300.0, 1010.0, 50.0, 43, 32, 32, 220);
-
-        // Cargamos la cabecera
-
-        NAPI.DxDrawTexture("statics/img/close.png", new Point(parseInt(resolution.x / 2.0 + 478.0), parseInt(resolution.y / 2.0 - 377.0)), new Size(24, 24), 0.0);
-
-        // Cargamos el fondo
-        mp.game.graphics.drawRect(resolution.x / 2.0 - 505.0, resolution.y / 2.0 - 350.0, 1010.0, 700.0, 43, 32, 32, 170);
-
-        // Creamos las celdas para almacenar los objetos
-        var currentRow = 0;
-        var currentColumn = 0;
-        for (var i = 0; i < inventory.length; i++) {
-            // Miramos si se ha hecho click sobre una imagen
-            if (mouseClick) {
-                for (let j = 0; j < inventory.length; j++) {
-                    // Si hemos hecho click en un elemento, lo marcamos como seleccionado
-                    inventory[j].selected = isPositionInArea(cursorPosition, inventory[j].startingX, inventory[j].startingY, 90, 90);
-                }
-            }
-
-            // Si el elemento está seleccionado, mostramos su descripción y opciones
-            if (inventory[i].selected) {
-                var currentOptions = 0;
-
-                mp.game.graphics.drawRect(inventory[i].startingX, inventory[i].startingY, 90.0, 90.0, 43, 65, 3, 221);
-				mp.game.graphics.drawText(inventory[i].description, [resolution.x / 2.0 - 495.0, resolution.y / 2.0 + 260.0], {font: 4, color: [255, 255, 255, 255], scale: [0.5, 0.5], outline: true});
-				mp.game.graphics.drawText(`Cantidad: ${inventory[i].amount}`, [resolution.x / 2.0 + 495.0, resolution.y / 2.0 + 260.0], {font: 4, color: [255, 255, 255, 255], scale: [0.5, 0.5], outline: true});
-
-                // Mostramos las opciones sobre el objeto
-                switch (target) {
-                    case 0:
-                        // Mostramos el inventario propio
-                        if (inventory[i].type == 0) {
-                            inventoryOptions[currentOptions].action = "Consumir";
-                            NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                            currentOptions++;
-                        }
-
-                        if (inventory[i].type == 2) {
-                            inventoryOptions[currentOptions].action = "Abrir";
-                            NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                            currentOptions++;
-                        }
-
-                        if (isNaN(inventory[i].path.replace(".png", "")) === false) {
-                            inventoryOptions[currentOptions].action = "Equipar";
-                            NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                            currentOptions++;
-                        }
-
-                        inventoryOptions[currentOptions].action = "Tirar";
-                        NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                        break;
-                    case 1:
-                        // Mostramos el inventario del jugador objetivo
-                        inventoryOptions[currentOptions].action = "Requisar";
-                        NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                        break;
-                    case 3:
-                        // Mostramos el inventario del maletero
-                        inventoryOptions[currentOptions].action = "Sacar";
-                        NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                        break;
-                    case 4:
-                        // Mostramos el inventario propio
-                        inventoryOptions[currentOptions].action = "Guardar";
-                        NAPI.DrawText(inventoryOptions[currentOptions].action, inventoryOptions[currentOptions].startingX, inventoryOptions[currentOptions].startingY, 0.6, 255, 255, 255, 255, 1, 0, false, false, 0);
-                        break;
-                }
-            }
-
-            // Dibujamos la imagen asociada a cada celda
-            if (inventory[i].path.length > 0) {
-                var point = new Point(inventory[i].startingX + 13, inventory[i].startingY + 13);
-                NAPI.DxDrawTexture("statics/img/inventory/" + inventory[i].path, point, new Size(64, 64), 0.0);
-            }
-        }
-    }
-}
 
 function drawHelpMenu() {
 	// Obtenemos la posición del cursor
@@ -853,47 +737,3 @@ function distanceTo(vectorFrom, vectorTo) {
 
     return Math.sqrt(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ);
 }
-
-/*
-function populateInventory(inventoryJson) {
-    let currentRow = 0;
-    let currentColumn = 0;
-    let itemsArray = JSON.parse(inventoryJson);
-    for (let i = 0; i < itemsArray.length; i++) {
-        // Creamos la celda
-        let inventoryCell = {};
-        inventoryCell.id = itemsArray[i].id;
-        inventoryCell.description = itemsArray[i].description;
-        inventoryCell.startingX = parseInt(resolution.x / 2.0 - 505.0 + currentColumn * 90.0 + (currentColumn + 1) * 10.0);
-        inventoryCell.startingY = parseInt(resolution.y / 2.0 - 350.0 + currentRow * 90.0 + (currentRow + 1) * 10.0);
-        inventoryCell.type = itemsArray[i].type;
-        inventoryCell.amount = itemsArray[i].amount;
-        inventoryCell.path = itemsArray[i].hash + ".png";
-        inventoryCell.selected = false;
-
-        // Añadimos la celda al array
-        inventory.push(inventoryCell);
-
-        // Incrementamos el contador de columnas
-        currentColumn++;
-
-        // Calculamos si es necesario el salto a la siguiente fila
-        if (currentColumn % cellsPerRow == 0) {
-            currentColumn = 0;
-            currentRow++;
-        }
-    }
-}
-
-function isPositionInArea(point, x, y, width, height) {
-    return (point.X >= x && point.Y >= y && (width + x) >= point.X && (height + y) >= point.Y);
-}
-
-function getSelectedItem() {
-    for (let i = 0; i < inventory.length; i++) {
-        if (inventory[i].selected) {
-            return inventory[i].id;
-        }
-    }
-}
-*/

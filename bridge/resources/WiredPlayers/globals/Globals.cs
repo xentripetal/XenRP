@@ -1242,7 +1242,7 @@ namespace WiredPlayers.globals
             ItemModel item = GetItemModelFromId(itemId);
             BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
 
-            switch (action)
+            switch (action.ToLower())
             {
                 case Messages.COM_CONSUME:
                     item.amount--;
