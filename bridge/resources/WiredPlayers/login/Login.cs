@@ -41,7 +41,6 @@ namespace WiredPlayers.login
 
             // Initialize shared entity data
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SEX, 0);
-            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, 18);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, 0);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, 3500);
 
@@ -51,6 +50,7 @@ namespace WiredPlayers.login
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SPAWN_ROT, rotation);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_NAME, String.Empty);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_RANK, 0);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_AGE, 18);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_HEALTH, 100);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ARMOR, 0);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE, 0);
@@ -149,13 +149,13 @@ namespace WiredPlayers.login
 
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, character.money);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, character.bank);
-            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, character.age);
             NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SEX, character.sex);
 
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SQL_ID, character.id);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, character.realName);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_HEALTH, character.health);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ARMOR, character.armor);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_AGE, character.age);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_RANK, character.adminRank);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_NAME, character.adminName);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SPAWN_POS, character.position);
@@ -372,7 +372,7 @@ namespace WiredPlayers.login
                     NAPI.Entity.SetEntityTransparency(player, 255);
                     NAPI.Data.SetEntityData(player, EntityData.PLAYER_SQL_ID, playerId);
                     NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, playerName);
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_AGE, playerAge);
+                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_AGE, playerAge);
                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_POS, new Vector3(200.6641f, -932.0939f, 30.6868f));
                     NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 0.0f));
 

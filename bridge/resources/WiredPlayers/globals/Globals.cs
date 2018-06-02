@@ -677,7 +677,7 @@ namespace WiredPlayers.globals
         {
             int rolePoints = NAPI.Data.GetEntityData(player, EntityData.PLAYER_ROLE_POINTS);
             String sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
-            String age = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_AGE) + Messages.GEN_YEARS;
+            String age = NAPI.Data.GetEntityData(player, EntityData.PLAYER_AGE) + Messages.GEN_YEARS;
             String money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY) + "$";
             String bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK) + "$";
             String job = Messages.GEN_UNEMPLOYED;
@@ -2057,7 +2057,7 @@ namespace WiredPlayers.globals
                 int currentLicense = 0;
                 String message = String.Empty;
                 String nameChar = NAPI.Data.GetEntityData(player, EntityData.PLAYER_NAME);
-                int age = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_AGE);
+                int age = NAPI.Data.GetEntityData(player, EntityData.PLAYER_AGE);
                 String sexDescription = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
 
                 Client target = Int32.TryParse(targetString, out int targetId) ? GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
