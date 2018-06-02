@@ -47,10 +47,12 @@ namespace WiredPlayers.login
 
             // Initialize entity data
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_NAME, String.Empty);
-            NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_RANK, 0);
-            NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_NAME, String.Empty);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SPAWN_POS, worldSpawn);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_SPAWN_ROT, rotation);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_NAME, String.Empty);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_ADMIN_RANK, 0);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_HEALTH, 100);
+            NAPI.Data.SetEntityData(player, EntityData.PLAYER_ARMOR, 0);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE, 0);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_RADIO, 0);
             NAPI.Data.SetEntityData(player, EntityData.PLAYER_KILLED, 0);

@@ -1,5 +1,5 @@
 # WiredPlayers RolePlay Server
-WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main server language and JavaScript for clien-side scripts. I started with it back in March 2017 and I'm still upgrading its functionality with suggestions received from people using this gamemode.
+WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main server language and JavaScript for client-side scripts. I started with it back in March 2017 and I'm still upgrading its functionality with suggestions received from people using this gamemode.
 
 ## Getting Started
 
