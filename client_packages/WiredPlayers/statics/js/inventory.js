@@ -58,7 +58,7 @@ function populateInventory(inventoryJson, title) {
 					// Select the clicked element
 					let currentSelected = document.getElementsByClassName('inventory-item')[i];
 					currentSelected.classList.add('active-item');
-					selected = i;
+					selected = item.id;
 					
 					// Show the options
 					mp.trigger('getInventoryOptions', item.type, item.hash);
