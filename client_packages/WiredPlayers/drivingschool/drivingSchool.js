@@ -41,12 +41,12 @@ mp.events.add('submitAnswer', (answerId) => {
 });
 
 mp.events.add('finishLicenseExam', () => {
-	// Destroy the exam's window
-	mp.events.call('destroyBrowser');
-
 	// Enable the chat
 	mp.gui.chat.activate(true);
 	mp.gui.chat.show(true);
+
+	// Destroy the exam's window
+	mp.events.call('destroyBrowser');
 });
 
 mp.events.add('showLicenseCheckpoint', (position) => {
