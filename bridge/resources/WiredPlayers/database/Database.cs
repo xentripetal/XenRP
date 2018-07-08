@@ -27,7 +27,7 @@ namespace WiredPlayers.database
         private const String user = "gta";
         private const String pass = "gta5server-WP";
         private const String database = "gtav";
-        private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=none;";
+        private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
@@ -500,7 +500,7 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
                     command.CommandText = "UPDATE users SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, money = @money, bank = @bank, health = @health, armor = @armor, ";
-                    command.CommandText += "radio = @radio, killed = @killed, jailed = @jailed, faction = @faction, job = @job, rank = @rank, duty = @duty, phone = @phone, carKeys = @carKeys, ";
+                    command.CommandText += "radio = @radio, killed = @killed, jailed = @jailed, faction = @faction, job = @job, `rank` = @rank, duty = @duty, phone = @phone, carKeys = @carKeys, ";
                     command.CommandText += "documentation = @documentation, licenses = @licenses, insurance = @insurance, weaponLicense = @weaponLicense, houseRent = @houseRent, ";
                     command.CommandText += "houseEntered = @houseEntered, businessEntered = @businessEntered, employeeCooldown = @employeeCooldown, jobCooldown = @jobCooldown, ";
                     command.CommandText += "jobDeliver = @jobDeliver, jobPoints = @jobPoints, rolePoints = @rolePoints, played = @played WHERE id = @playerId LIMIT 1";
