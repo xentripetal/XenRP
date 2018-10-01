@@ -8,10 +8,10 @@ using WiredPlayers.business;
 using WiredPlayers.weapons;
 using WiredPlayers.chat;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.vehicles
 {
@@ -158,15 +158,7 @@ namespace WiredPlayers.vehicles
             {
                 int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
                 string keyString = player.GetData(EntityData.PLAYER_VEHICLE_KEYS);
-                string[] keyArray = keyString.Split(',');
-                foreach (string key in keyArray)
-                {
-                    if (int.Parse(key) == vehicleId)
-                    {
-                        hasKeys = true;
-                        break;
-                    }
-                }
+                hasKeys = keyString.Split(',').Any(key => int.Parse(key) == vehicleId);
             }
             return hasKeys;
         }
@@ -181,15 +173,7 @@ namespace WiredPlayers.vehicles
             else
             {
                 string keyString = player.GetData(EntityData.PLAYER_VEHICLE_KEYS);
-                string[] keyArray = keyString.Split(',');
-                foreach (string key in keyArray)
-                {
-                    if (int.Parse(key) == vehicle.id)
-                    {
-                        hasKeys = true;
-                        break;
-                    }
-                }
+                hasKeys = keyString.Split(',').Any(key => int.Parse(key) == vehicle.id);
             }
             return hasKeys;
         }
@@ -309,47 +293,47 @@ namespace WiredPlayers.vehicles
                 {
                     // Recreate the vehicle in the same position
                     vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehicleModel.model), vehicleModel.position, vehicleModel.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
+
+                    vehicle.NumberPlate = vehicleModel.plate == string.Empty ? "LS " + (1000 + vehicleModel.id) : vehicleModel.plate;
+                    vehicle.Dimension = Convert.ToUInt32(vehicleModel.dimension);
+                    vehicle.EngineStatus = false;
+                    vehicle.Locked = false;
+
+                    if (vehicleModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
+                    {
+                        vehicle.PrimaryColor = int.Parse(vehicleModel.firstColor);
+                        vehicle.SecondaryColor = int.Parse(vehicleModel.secondColor);
+                        vehicle.PearlescentColor = vehicleModel.pearlescent;
+                    }
+                    else
+                    {
+                        string[] firstColor = vehicleModel.firstColor.Split(',');
+                        string[] secondColor = vehicleModel.secondColor.Split(',');
+                        vehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
+                        vehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
+                    }
+
+                    vehicle.SetData(EntityData.VEHICLE_ID, vehicleModel.id);
+                    vehicle.SetData(EntityData.VEHICLE_MODEL, vehicleModel.model);
+                    vehicle.SetData(EntityData.VEHICLE_POSITION, vehicleModel.position);
+                    vehicle.SetData(EntityData.VEHICLE_ROTATION, vehicleModel.rotation);
+                    vehicle.SetData(EntityData.VEHICLE_DIMENSION, vehicleModel.dimension);
+                    vehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehicleModel.colorType);
+                    vehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehicleModel.firstColor);
+                    vehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehicleModel.secondColor);
+                    vehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehicleModel.pearlescent);
+                    vehicle.SetData(EntityData.VEHICLE_FACTION, vehicleModel.faction);
+                    vehicle.SetData(EntityData.VEHICLE_PLATE, vehicleModel.plate);
+                    vehicle.SetData(EntityData.VEHICLE_OWNER, vehicleModel.owner);
+                    vehicle.SetData(EntityData.VEHICLE_PRICE, vehicleModel.price);
+                    vehicle.SetData(EntityData.VEHICLE_PARKING, vehicleModel.parking);
+                    vehicle.SetData(EntityData.VEHICLE_PARKED, vehicleModel.parked);
+                    vehicle.SetData(EntityData.VEHICLE_GAS, vehicleModel.gas);
+                    vehicle.SetData(EntityData.VEHICLE_KMS, vehicleModel.kms);
+
+                    // Set vehicle's tunning
+                    Mechanic.AddTunningToVehicle(vehicle);
                 });
-
-                vehicle.NumberPlate = vehicleModel.plate == string.Empty ? "LS " + (1000 + vehicleModel.id) : vehicleModel.plate;
-                vehicle.Dimension = Convert.ToUInt32(vehicleModel.dimension);
-                vehicle.EngineStatus = false;
-                vehicle.Locked = false;
-                
-                if (vehicleModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
-                {
-                    vehicle.PrimaryColor = int.Parse(vehicleModel.firstColor);
-                    vehicle.SecondaryColor = int.Parse(vehicleModel.secondColor);
-                    vehicle.PearlescentColor = vehicleModel.pearlescent;
-                }
-                else
-                {
-                    string[] firstColor = vehicleModel.firstColor.Split(',');
-                    string[] secondColor = vehicleModel.secondColor.Split(',');
-                    vehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
-                    vehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
-                }
-
-                vehicle.SetData(EntityData.VEHICLE_ID, vehicleModel.id);
-                vehicle.SetData(EntityData.VEHICLE_MODEL, vehicleModel.model);
-                vehicle.SetData(EntityData.VEHICLE_POSITION, vehicleModel.position);
-                vehicle.SetData(EntityData.VEHICLE_ROTATION, vehicleModel.rotation);
-                vehicle.SetData(EntityData.VEHICLE_DIMENSION, vehicleModel.dimension);
-                vehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehicleModel.colorType);
-                vehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehicleModel.firstColor);
-                vehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehicleModel.secondColor);
-                vehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehicleModel.pearlescent);
-                vehicle.SetData(EntityData.VEHICLE_FACTION, vehicleModel.faction);
-                vehicle.SetData(EntityData.VEHICLE_PLATE, vehicleModel.plate);
-                vehicle.SetData(EntityData.VEHICLE_OWNER, vehicleModel.owner);
-                vehicle.SetData(EntityData.VEHICLE_PRICE, vehicleModel.price);
-                vehicle.SetData(EntityData.VEHICLE_PARKING, vehicleModel.parking);
-                vehicle.SetData(EntityData.VEHICLE_PARKED, vehicleModel.parked);
-                vehicle.SetData(EntityData.VEHICLE_GAS, vehicleModel.gas);
-                vehicle.SetData(EntityData.VEHICLE_KMS, vehicleModel.kms);
-
-                // Set vehicle's tunning
-                Mechanic.AddTunningToVehicle(vehicle);
             }
             
             Timer vehicleRespawnTimer = vehicleRespawnTimerList[vehicleModel.id];
@@ -778,7 +762,7 @@ namespace WiredPlayers.vehicles
 
                                     if (inventory.Count > 0)
                                     {
-                                        vehicle.OpenDoor(true);
+                                        vehicle.OpenDoor(Constants.VEHICLE_TRUNK);
                                         player.SetData(EntityData.PLAYER_OPENED_TRUNK, vehicle);
                                         player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_PLAYER);
                                     }

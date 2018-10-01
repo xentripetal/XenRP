@@ -169,7 +169,7 @@ namespace WiredPlayers.fastfood
                             player.ResetData(EntityData.PLAYER_DELIVER_START);
                             player.SetData(EntityData.PLAYER_JOB_WON, amount > 0 ? amount : 25);
 
-                            player.TriggerEvent("fastFoodDeliverBack", vehiclePosition);
+                            player.TriggerEvent("fastFoodDeliverBack", playerDeliverColShape.Position);
 
                             player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_DELIVER_COMPLETED);
                         }

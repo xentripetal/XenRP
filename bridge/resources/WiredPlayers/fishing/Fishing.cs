@@ -4,9 +4,9 @@ using WiredPlayers.model;
 using WiredPlayers.faction;
 using WiredPlayers.database;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading;
 using System;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.fishing
 {
@@ -39,7 +39,7 @@ namespace WiredPlayers.fishing
             player.TriggerEvent("fishingBaitTaken");
 
             // Send the message and play fishing animation
-            player.PlayAnimation((int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@idle_a", "idle_c");
+            player.PlayAnimation("amb@world_human_stand_fishing@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
             player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SOMETHING_BAITED);
         }
 
@@ -246,7 +246,7 @@ namespace WiredPlayers.fishing
 
                             // Start fishing minigame
                             player.SetData(EntityData.PLAYER_FISHING, true);
-                            player.PlayAnimation((int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@base", "base");
+                            player.PlayAnimation("amb@world_human_stand_fishing@base", "base", (int)Constants.AnimationFlags.Loop);
                             player.TriggerEvent("startPlayerFishing");
                             return;
                         }

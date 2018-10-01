@@ -2317,7 +2317,7 @@ namespace WiredPlayers.globals
                             string[] primaryColor = primaryVehicleColor.Split(',');
                             string[] secondaryColor = secondaryVehicleColor.Split(',');
                             vehicle.CustomPrimaryColor = new Color(int.Parse(primaryColor[0]), int.Parse(primaryColor[1]), int.Parse(primaryColor[2]));
-                            vehicle.CustomSecondaryColor = new Color(int.Parse(secondaryColor[0]), int.Parse(secondaryColor[1]), int.Parse(secondaryColor[2]);
+                            vehicle.CustomSecondaryColor = new Color(int.Parse(secondaryColor[0]), int.Parse(secondaryColor[1]), int.Parse(secondaryColor[2]));
                         }
 
                         player.ResetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2625,8 +2625,8 @@ namespace WiredPlayers.globals
                                             // Check the type of the service
                                             if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) == Constants.HOOKER_SERVICE_BASIC)
                                             {
-                                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_bj_loop_player");
-                                                target.PlayAnimation((int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexlow_veh", "low_car_bj_loop_female");
+                                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_bj_loop_player", (int)Constants.AnimationFlags.Loop);
+                                                target.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_bj_loop_female", (int)Constants.AnimationFlags.Loop);
 
                                                 // Timer to finish the service
                                                 Timer sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 120000, Timeout.Infinite);
@@ -2634,8 +2634,8 @@ namespace WiredPlayers.globals
                                             }
                                             else
                                             {
-                                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player");
-                                                target.PlayAnimation((int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexlow_veh", "low_car_sex_loop_female");
+                                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player", (int)Constants.AnimationFlags.Loop);
+                                                target.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female", (int)Constants.AnimationFlags.Loop);
 
                                                 // Timer to finish the service
                                                 Timer sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 180000, Timeout.Infinite);

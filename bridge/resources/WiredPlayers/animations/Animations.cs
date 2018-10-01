@@ -1,6 +1,5 @@
 ﻿using GTANetworkAPI;
 using WiredPlayers.globals;
-using System;
 
 namespace WiredPlayers.Animations
 {

@@ -3,7 +3,6 @@ using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
-using System;
 using System.Threading.Tasks;
 
 namespace WiredPlayers.bank

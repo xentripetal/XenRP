@@ -367,7 +367,7 @@ namespace WiredPlayers.garbage
                             {
                                 if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == false)
                                 {
-                                    player.PlayAnimation("anim@move_m@trash", "pickup");
+                                    player.PlayAnimation("anim@move_m@trash", "pickup", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                                     player.SetData(EntityData.PLAYER_ANIMATION, true);
 
                                     // Make the timer for garbage collection

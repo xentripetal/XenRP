@@ -4,11 +4,11 @@ using WiredPlayers.globals;
 using WiredPlayers.chat;
 using WiredPlayers.database;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using System;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.faction
 {
