@@ -11,7 +11,7 @@ namespace WiredPlayers.bank
     public class Bank : Script
     {
         [RemoteEvent("executeBankOperation")]
-        public void ExecuteBankOperationEvent(Client player, int operation, int amount, String targetName)
+        public void ExecuteBankOperationEvent(Client player, int operation, int amount, string targetName)
         {
             // Throw an error if the amount is less than zero.
             if (amount <= 0)
@@ -47,12 +47,12 @@ namespace WiredPlayers.bank
         /// <param name="money"></param>
         private void UpdatePlayerMoney(Client player, int bank, int money = -99)
         {
-            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_BANK, bank);
+            player.SetSharedData(EntityData.PLAYER_BANK, bank);
 
             if (money == -99)
                 return;
 
-            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money);
+            player.SetSharedData(EntityData.PLAYER_MONEY, money);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace WiredPlayers.bank
         /// <param name="response"></param>
         private void TriggerLocalResponse(Client player, string response)
         {
-            NAPI.ClientEvent.TriggerClientEvent(player, "bankOperationResponse", response);
+            player.TriggerEvent("bankOperationResponse", response);
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace WiredPlayers.bank
         private void WithdrawFromBank(Client player, int amount)
         {
             // Get Player Money, Bank Info, Name, etc.
-            int bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
-            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-            String name = NAPI.Data.GetEntityData(player, EntityData.PLAYER_NAME);
+            int bank = player.GetSharedData(EntityData.PLAYER_BANK);
+            int money = player.GetSharedData(EntityData.PLAYER_MONEY);
+            string name = player.GetData(EntityData.PLAYER_NAME);
 
             // If the bank has less than the amount requested. Throw an error.
             if (bank < amount)
@@ -105,9 +105,9 @@ namespace WiredPlayers.bank
         private void DepositToBank(Client player, int amount)
         {
             // Get Player Money, Bank Info, Name, etc.
-            int bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
-            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-            String name = NAPI.Data.GetEntityData(player, EntityData.PLAYER_NAME);
+            int bank = player.GetSharedData(EntityData.PLAYER_BANK);
+            int money = player.GetSharedData(EntityData.PLAYER_MONEY);
+            string name = player.GetData(EntityData.PLAYER_NAME);
 
             // If the player's money is less than the amount he wants to deposit. Just move all of the player's money into the bank.
             if (money < amount)
@@ -138,9 +138,9 @@ namespace WiredPlayers.bank
         private void TransferFromBank(Client player, int amount, string targetPlayer)
         {
             // Get Player Money, Bank Info, Name, etc.
-            int bank = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_BANK);
-            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-            String name = NAPI.Data.GetEntityData(player, EntityData.PLAYER_NAME);
+            int bank = player.GetSharedData(EntityData.PLAYER_BANK);
+            int money = player.GetSharedData(EntityData.PLAYER_MONEY);
+            string name = player.GetData(EntityData.PLAYER_NAME);
 
             // If the bank has less than the amount requested. End it here.
             if (bank < amount)
@@ -178,11 +178,11 @@ namespace WiredPlayers.bank
                 return;
             }
 
-            if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+            if (target.HasData(EntityData.PLAYER_PLAYING) == true)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    int targetBank = NAPI.Data.GetEntitySharedData(target, EntityData.PLAYER_BANK);
+                    int targetBank = target.GetSharedData(EntityData.PLAYER_BANK);
                     targetBank += amount;
                     bank -= amount;
                     UpdatePlayerMoney(player, bank, money);
@@ -197,7 +197,7 @@ namespace WiredPlayers.bank
             Task.Factory.StartNew(() => {
                 // Show the bank operations for the player
                 List<BankOperationModel> operations = Database.GetBankOperations(player.Name, 1, Constants.MAX_BANK_OPERATIONS);
-                NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerBankBalance", NAPI.Util.ToJson(operations), player.Name);
+                player.TriggerEvent("showPlayerBankBalance", NAPI.Util.ToJson(operations), player.Name);
             });
         }
     }

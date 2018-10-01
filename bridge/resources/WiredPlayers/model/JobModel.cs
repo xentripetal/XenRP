@@ -4,12 +4,12 @@ namespace WiredPlayers.model
 {
     public class JobModel
     {
-        public String descriptionMale { get; set; }
-        public String descriptionFemale { get; set; }
+        public string descriptionMale { get; set; }
+        public string descriptionFemale { get; set; }
         public int job { get; set; }
         public int salary { get; set; }
 
-        public JobModel(String descriptionMale, String descriptionFemale, int job, int salary)
+        public JobModel(string descriptionMale, string descriptionFemale, int job, int salary)
         {
             this.descriptionMale = descriptionMale;
             this.descriptionFemale = descriptionFemale;

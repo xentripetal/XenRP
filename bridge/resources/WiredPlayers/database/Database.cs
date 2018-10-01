@@ -23,11 +23,11 @@ namespace WiredPlayers.database
 {
     public class Database : Script
     {
-        private const String host = "127.0.0.1";
-        private const String user = "gta";
-        private const String pass = "gta5server-WP";
-        private const String database = "gtav";
-        private static String connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
+        private const string host = "127.0.0.1";
+        private const string user = "gta";
+        private const string pass = "gta5server-WP";
+        private const string database = "gtav";
+        private static readonly string connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
@@ -86,7 +86,7 @@ namespace WiredPlayers.database
             Admin.permissionList = LoadAllPermissions();
         }
 
-        public static AccountModel GetAccount(String socialName)
+        public static AccountModel GetAccount(string socialName)
         {
 
             AccountModel account = new AccountModel();
@@ -114,7 +114,7 @@ namespace WiredPlayers.database
             return account;
         }
 
-        public static bool LoginAccount(String socialName, String password)
+        public static bool LoginAccount(string socialName, string password)
         {
             bool login = false;
 
@@ -135,7 +135,7 @@ namespace WiredPlayers.database
             return login;
         }
 
-        public static int GetPlayerStatus(String name)
+        public static int GetPlayerStatus(string name)
         {
             int status = 0;
 
@@ -158,9 +158,9 @@ namespace WiredPlayers.database
             return status;
         }
 
-        public static List<String> GetAccountCharacters(String account)
+        public static List<string> GetAccountCharacters(string account)
         {
-            List<String> characters = new List<String>();
+            List<string> characters = new List<string>();
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -173,7 +173,7 @@ namespace WiredPlayers.database
                 {
                     while (reader.Read())
                     {
-                        String name = reader.GetString("name");
+                        string name = reader.GetString("name");
                         characters.Add(name);
                     }
                 }
@@ -261,7 +261,7 @@ namespace WiredPlayers.database
                 {
                     NAPI.Util.ConsoleOutput("[EXCEPTION CreateCharacter] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION CreateCharacter] " + ex.StackTrace);
-                    NAPI.ClientEvent.TriggerClientEvent(player, "characterNameDuplicated", playerModel.realName);
+                    player.TriggerEvent("characterNameDuplicated", playerModel.realName);
                 }
             }
 
@@ -428,7 +428,7 @@ namespace WiredPlayers.database
             return character;
         }
 
-        public static PlayerModel LoadCharacterInformationByName(String characterName)
+        public static PlayerModel LoadCharacterInformationByName(string characterName)
         {
             PlayerModel character = new PlayerModel();
 
@@ -546,7 +546,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void UpdateLastCharacter(String socialName, int playerId)
+        public static void UpdateLastCharacter(string socialName, int playerId)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -567,7 +567,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static bool FindCharacter(String name)
+        public static bool FindCharacter(string name)
         {
             bool found = false;
 
@@ -587,7 +587,7 @@ namespace WiredPlayers.database
             return found;
         }
 
-        public static List<BankOperationModel> GetBankOperations(String playerName, int start, int count)
+        public static List<BankOperationModel> GetBankOperations(string playerName, int start, int count)
         {
             List<BankOperationModel> operations = new List<BankOperationModel>();
 
@@ -762,7 +762,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void UpdateVehicleSingleValue(String table, int value, int vehicleId)
+        public static void UpdateVehicleSingleValue(string table, int value, int vehicleId)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -785,7 +785,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void UpdateVehicleSingleString(String table, String value, int vehicleId)
+        public static void UpdateVehicleSingleString(string table, string value, int vehicleId)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1004,7 +1004,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void TransferMoneyToPlayer(String name, int amount)
+        public static void TransferMoneyToPlayer(string name, int amount)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1027,7 +1027,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void LogPayment(String source, String receiver, String type, int amount)
+        public static void LogPayment(string source, string receiver, string type, int amount)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1052,7 +1052,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void LogHotwire(String playerName, int vehicleId, Vector3 position)
+        public static void LogHotwire(string playerName, int vehicleId, Vector3 position)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1692,7 +1692,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void RenamePoliceControl(String sourceName, String targetName)
+        public static void RenamePoliceControl(string sourceName, string targetName)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1715,7 +1715,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void DeletePoliceControl(String name)
+        public static void DeletePoliceControl(string name)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1791,7 +1791,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static List<FineModel> LoadPlayerFines(String name)
+        public static List<FineModel> LoadPlayerFines(string name)
         {
             List<FineModel> fineList = new List<FineModel>();
 
@@ -2420,7 +2420,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void AddSMSLog(int phone, int target, String message)
+        public static void AddSMSLog(int phone, int target, string message)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -2524,7 +2524,7 @@ namespace WiredPlayers.database
             return correct;
         }
 
-        public static void AddAdminLog(String admin, String player, String action, int time, String reason)
+        public static void AddAdminLog(string admin, string player, string action, int time, string reason)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -2550,7 +2550,7 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void AddLicensedWeapon(int itemId, String buyer)
+        public static void AddLicensedWeapon(int itemId, string buyer)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

@@ -9,168 +9,168 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_GRAB)]
         public void GrabCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@heists@money_grab@duffel", "loop");
+                player.StopAnimation();
+                player.PlayAnimation("anim@heists@money_grab@duffel", "loop", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_FACEPALM)]
         public void FacepalmCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@face_palm", "face_palm");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intcelebrationmale@face_palm", "face_palm", 0);
             }
         }
 
         [Command(Messages.COM_LOCO)]
         public void LocoCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@you_loco", "you_loco");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intcelebrationmale@you_loco", "you_loco", 0);
             }
         }
 
         [Command(Messages.COM_FREAKOUT)]
         public void FreakoutCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@freakout", "freakout");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intcelebrationmale@freakout", "freakout", 0);
             }
         }
 
         [Command(Messages.COM_THUMB_ON_EARS)]
         public void ThumbOnEarsCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@thumb_on_ears", "thumb_on_ears");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intcelebrationmale@thumb_on_ears", "thumb_on_ears", 0);
             }
         }
 
         [Command(Messages.COM_VICTORY)]
         public void VictoryCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@v_sign", "v_sign");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intcelebrationmale@v_sign", "v_sign", 0);
             }
         }
 
         [Command(Messages.COM_CROUCH)]
         public void CrouchCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "misscarstealfinalecar_5_ig_3", "crouchloop");
+                player.StopAnimation();
+                player.PlayAnimation("misscarstealfinalecar_5_ig_3", "crouchloop", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_DJ)]
         public void DjCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intupperdj", "enter");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intupperdj", "enter", 0);
             }
         }
 
         [Command(Messages.COM_KNEEL)]
         public void KneelCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@medic@standing@kneel@base", "base");
+                player.StopAnimation();
+                player.PlayAnimation("amb@medic@standing@kneel@base", "base", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_SPEAK)]
         public void SpeakCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@code_human_police_crowd_control@idle_a", "idle_b");
+                player.StopAnimation();
+                player.PlayAnimation("amb@code_human_police_crowd_control@idle_a", "idle_b", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_MECHANIC, Messages.GEN_ANIMS_MECHANIC)]
         public void MechanicCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_vehicle_mechanic@male@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_vehicle_mechanic@male@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@repair", "fixing_a_ped");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@repair", "fixing_a_ped", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missheistdockssetup1ig_10@laugh", "laugh_pipe_worker1");
+                        player.StopAnimation();
+                        player.PlayAnimation("missheistdockssetup1ig_10@laugh", "laugh_pipe_worker1", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_MECHANIC);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_MECHANIC);
                         break;
                 }
             }
@@ -179,64 +179,64 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_DIG)]
         public void DigCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missmic1leadinoutmic_1_mcs_2", "_leadin_trevor");
+                player.StopAnimation();
+                player.PlayAnimation("missmic1leadinoutmic_1_mcs_2", "_leadin_trevor", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_CRY)]
         public void CryCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_bank_heist_1", "f_cower_01");
+                player.StopAnimation();
+                player.PlayAnimation("mp_bank_heist_1", "f_cower_01", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_CLEAN, Messages.GEN_ANIMS_CLEAN)]
         public void CleanCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "switch@franklin@cleaning_car", "001946_01_gc_fras_v2_ig_5_base");
+                        player.StopAnimation();
+                        player.PlayAnimation("switch@franklin@cleaning_car", "001946_01_gc_fras_v2_ig_5_base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@maid@cleaning_window@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@maid@cleaning_window@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missheistdocks2bleadinoutlsdh_2b_int", "leg_massage_b_floyd");
+                        player.StopAnimation();
+                        player.PlayAnimation("missheistdocks2bleadinoutlsdh_2b_int", "leg_massage_b_floyd", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfbi_s4mop", "idle_scrub");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfbi_s4mop", "idle_scrub", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_bum_wash@male@low@idle_a", "idle_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_bum_wash@male@low@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_CLEAN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CLEAN);
                         break;
                 }
             }
@@ -245,24 +245,24 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_SHOWER, Messages.GEN_ANIMS_SHOWER)]
         public void ShowerCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@mp_yacht@shower@male@", "male_shower_idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@mp_yacht@shower@male@", "male_shower_idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@mp_yacht@shower@female@", "shower_idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@mp_yacht@shower@female@", "shower_idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SHOWER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SHOWER);
                         break;
                 }
             }
@@ -271,90 +271,90 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_HURRY_UP)]
         public void HurryUpCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfam4", "say_hurry_up_a_trevor");
+                player.StopAnimation();
+                player.PlayAnimation("missfam4", "say_hurry_up_a_trevor", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_SPORTS, Messages.GEN_ANIMS_SPORTS)]
         public void SportsCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "rcmcollect_paperleadinout@", "meditiate_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("rcmcollect_paperleadinout@", "meditiate_idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@reunited@ig_2", "jimmy_masterbation");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@reunited@ig_2", "jimmy_masterbation", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@reunited@ig_2", "jimmy_base");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@reunited@ig_2", "jimmy_base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@jog@", "run");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@jog@", "run", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@jogger", "jogging");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@jogger", "jogging", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "amb@world_human_jog@female@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_jog@female@base", "base", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@triathlon", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@triathlon", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@triathlon", "idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@triathlon", "idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@triathlon", "idle_e");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@triathlon", "idle_e", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@triathlon", "idle_f");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@triathlon", "idle_f", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_yoga@female@base", "base_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_yoga@female@base", "base_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 12:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_yoga@female@base", "base_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_yoga@female@base", "base_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 13:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_yoga@male@base", "base_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_yoga@male@base", "base_b", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 14:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_push_ups@male@idle_a", "idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_push_ups@male@idle_a", "idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 15:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_sit_ups@male@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_sit_ups@male@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SPORTS);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SPORTS);
                         break;
                 }
             }
@@ -363,114 +363,114 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_TYPE)]
         public void TypeCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_fbi_heist", "loop");
+                player.StopAnimation();
+                player.PlayAnimation("mp_fbi_heist", "loop", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_KNOCK_DOOR)]
         public void KnockDoorCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@jimmy@doorknock@", "knockdoor_idle");
+                player.StopAnimation();
+                player.PlayAnimation("timetable@jimmy@doorknock@", "knockdoor_idle", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_TAGGING)]
         public void TaggingCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "switch@franklin@lamar_tagging_wall", "lamar_tagging_exit_loop_lamar");
+                player.StopAnimation();
+                player.PlayAnimation("switch@franklin@lamar_tagging_wall", "lamar_tagging_exit_loop_lamar", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_STRIPTEASE, Messages.GEN_ANIMS_STRIPTEASE)]
         public void StripteaseCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame), "mini@strip_club@pole_dance@pole_a_2_stage", "pole_a_2_stage");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_a_2_stage", "pole_a_2_stage", (int)Constants.AnimationFlags.StopOnLastFrame);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame), "mini@strip_club@pole_dance@pole_b_2_stage", "pole_b_2_stage");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_b_2_stage", "pole_b_2_stage", (int)Constants.AnimationFlags.StopOnLastFrame);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame), "mini@strip_club@pole_dance@pole_c_2_prvd_a", "pole_c_2_prvd_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_c_2_prvd_a", "pole_c_2_prvd_a", (int)Constants.AnimationFlags.StopOnLastFrame);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame), "mini@strip_club@pole_dance@pole_c_2_prvd_b", "pole_c_2_prvd_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_c_2_prvd_b", "pole_c_2_prvd_b", (int)Constants.AnimationFlags.StopOnLastFrame);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@hookers_spcrackhead", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spcrackhead", "idle_b", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame), "mini@strip_club@pole_dance@pole_c_2_prvd_c", "pole_c_2_prvd_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_c_2_prvd_c", "pole_c_2_prvd_c", (int)Constants.AnimationFlags.StopOnLastFrame);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@pole_dance@pole_dance1", "pd_dance_01");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_dance1", "pd_dance_01", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@pole_dance@pole_dance2", "pd_dance_02");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_dance2", "pd_dance_02", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@pole_dance@pole_dance3", "pd_dance_03");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_dance3", "pd_dance_03", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@pole_dance@pole_enter", "pd_enter");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_enter", "pd_enter", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@pole_dance@pole_exit", "pd_exit");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@pole_dance@pole_exit", "pd_exit", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 12:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@private_dance@exit", "priv_dance_exit");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@private_dance@exit", "priv_dance_exit", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 13:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@strip_club@private_dance@idle", "priv_dance_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@strip_club@private_dance@idle", "priv_dance_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 14:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_am_stripper", "lap_dance_girl");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_am_stripper", "lap_dance_girl", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_STRIPTEASE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_STRIPTEASE);
                         break;
                 }
             }
@@ -479,83 +479,83 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_DRINK)]
         public void DrinkCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "amb@world_human_drinking_fat@beer@male@idle_a", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("amb@world_human_drinking_fat@beer@male@idle_a", "idle_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
             }
         }
 
         [Command(Messages.COM_KISS)]
         public void KissCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_sp", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("mini@hookers_sp", "idle_a", 0);
             }
         }
 
         [Command(Messages.COM_AIM)]
         public void AimCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "combat@chg_stance", "aima_loop");
+                player.StopAnimation();
+                player.PlayAnimation("combat@chg_stance", "aima_loop", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_SALUTE, Messages.GEN_ANIMS_SALUTE)]
         public void SaluteCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_player_int_uppersalute", "mp_player_int_salute");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_player_int_uppersalute", "mp_player_int_salute", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mp_ped_interaction", "hugs_guy_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_ped_interaction", "hugs_guy_a", 0);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mp_player_intsalute", "mp_player_int_salute");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_player_intsalute", "mp_player_int_salute", 0);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missmic4premiere", "crowd_a_idle_01");
+                        player.StopAnimation();
+                        player.PlayAnimation("missmic4premiere", "crowd_a_idle_01", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missexile2", "franklinwavetohelicopter");
+                        player.StopAnimation();
+                        player.PlayAnimation("missexile2", "franklinwavetohelicopter", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "anim@mp_player_intcelebrationmale@wave", "wave");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@mp_player_intcelebrationmale@wave", "wave", 0);
                         break;
                     default:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SALUTE);
+                        player.StopAnimation();
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SALUTE);
                         break;
                 }
             }
@@ -564,114 +564,114 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_FUCKU)]
         public void FuckUCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "anim@mp_player_intselfiethe_bird", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intselfiethe_bird", "idle_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
             }
         }
 
         [Command(Messages.COM_WALK, Messages.GEN_ANIMS_WALK)]
         public void WalkCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@heels@c", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@heels@c", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@arrogant@a", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@arrogant@a", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@sad@a", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@sad@a", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@drunk@moderatedrunk", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@drunk@moderatedrunk", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@shadyped@a", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@shadyped@a", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@gangster@ng", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@gangster@ng", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@generic", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@generic", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@heels@d", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@heels@d", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_f@posh@", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_f@posh@", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@brave@b", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@brave@b", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@confident", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@confident", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 12:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@depressed@d", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@depressed@d", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 13:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@favor_right_foot", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@favor_right_foot", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 14:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@generic", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@generic", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 15:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@generic_variations@walk", "walk_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@generic_variations@walk", "walk_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 16:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@generic_variations@walk", "walk_f");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@generic_variations@walk", "walk_f", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 17:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@golfer@", "golf_walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@golfer@", "golf_walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 18:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@money", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@money", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 19:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@shadyped@a", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@shadyped@a", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 20:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "move_m@swagger@b", "walk");
+                        player.StopAnimation();
+                        player.PlayAnimation("move_m@swagger@b", "walk", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 21:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "switch@franklin@dispensary", "exit_dispensary_outro_ped_f_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("switch@franklin@dispensary", "exit_dispensary_outro_ped_f_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_WALK);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_WALK);
                         break;
                 }
             }
@@ -680,74 +680,74 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_KNUCKLES)]
         public void KnucklesCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "anim@mp_player_intupperknuckle_crunch", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intupperknuckle_crunch", "idle_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
             }
         }
 
         [Command(Messages.COM_SURRENDER, Messages.GEN_ANIMS_SURRENDER)]
         public void SurrenderCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mp_am_hold_up", "handsup_base");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_am_hold_up", "handsup_base", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "anim@mp_player_intuppersurrender", "idle_a_fp");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@mp_player_intuppersurrender", "idle_a_fp", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "amb@code_human_cower@female@react_cowering", "base_back_left");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@code_human_cower@female@react_cowering", "base_back_left", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "amb@code_human_cower@female@react_cowering", "base_right");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@code_human_cower@female@react_cowering", "base_right", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfbi5ig_0", "lyinginpain_loop_steve");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfbi5ig_0", "lyinginpain_loop_steve", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfbi5ig_10", "lift_holdup_loop_labped");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfbi5ig_10", "lift_holdup_loop_labped", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfbi5ig_17", "walk_in_aim_loop_scientista");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfbi5ig_17", "walk_in_aim_loop_scientista", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_am_hold_up", "cower_loop");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_am_hold_up", "cower_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_arrest_paired", "crook_p1_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_arrest_paired", "crook_p1_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_bank_heist_1", "m_cower_02");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_bank_heist_1", "m_cower_02", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "misstrevor1", "threaten_ortega_endloop_ort");
+                        player.StopAnimation();
+                        player.PlayAnimation("misstrevor1", "threaten_ortega_endloop_ort", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SURRENDER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SURRENDER);
                         break;
                 }
             }
@@ -756,74 +756,74 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_EAT)]
         public void EatCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mp_player_inteat@burger", "mp_player_int_eat_burger");
+                player.StopAnimation();
+                player.PlayAnimation("mp_player_inteat@burger", "mp_player_int_eat_burger", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
             }
         }
 
         [Command(Messages.COM_PUKE)]
         public void PukeCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "missheistpaletoscore1leadinout", "trv_puking_leadout");
+                player.StopAnimation();
+                player.PlayAnimation("missheistpaletoscore1leadinout", "trv_puking_leadout", 0);
             }
         }
 
         [Command(Messages.COM_PLANT)]
         public void PlantCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "amb@world_human_gardener_plant@male@idle_a", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("amb@world_human_gardener_plant@male@idle_a", "idle_a", 0);
             }
         }
 
         [Command(Messages.COM_CPR, Messages.GEN_ANIMS_CPR)]
         public void CprCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame | Constants.AnimationFlags.AllowPlayerControl), "mini@cpr@char_a@cpr_def", "cpr_intro");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@cpr@char_a@cpr_def", "cpr_intro", (int)(Constants.AnimationFlags.StopOnLastFrame | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "mini@cpr@char_a@cpr_str", "cpr_kol");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@cpr@char_a@cpr_str", "cpr_kol", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl), "mini@cpr@char_a@cpr_def", "cpr_pumpchest_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@cpr@char_a@cpr_def", "cpr_pumpchest_idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mini@cpr@char_a@cpr_str", "cpr_success");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@cpr@char_a@cpr_str", "cpr_success", 0);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_CPR);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CPR);
                         break;
                 }
             }
@@ -832,95 +832,95 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_CAR_SEX, Messages.GEN_ANIMS_CAR_SEX)]
         public void CarSexCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Player.IsPlayerInAnyVehicle(player) == false)
+            else if (!player.IsInVehicle)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
             }
             else
             {
-                NetHandle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                String vehicleModel = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
+                string vehicleModel = player.Vehicle.GetData(EntityData.VEHICLE_MODEL);
                 VehicleHash vehicleHash = NAPI.Util.VehicleNameToModel(vehicleModel);
+
                 if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_CYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_MOTORCYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_BOATS)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_CAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_CAR);
                 }
                 else
                 {
                     switch (action)
                     {
                         case 1:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.Driver)
+                            if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexnorm_veh", "bj_loop_male");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexnorm_veh", "bj_loop_male", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         case 2:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.Driver)
+                            if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexnorm_veh", "sex_loop_male");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexnorm_veh", "sex_loop_male", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         case 3:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.RightFront)
+                            if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexnorm_veh", "sex_loop_prostitute");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexnorm_veh", "sex_loop_prostitute", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         case 4:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.Driver)
+                            if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexlow_veh", "low_car_bj_loop_player");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_bj_loop_player", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         case 5:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.RightFront)
+                            if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexlow_veh", "low_car_bj_loop_female");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_bj_loop_female", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         case 6:
-                            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.RightFront)
+                            if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
                             }
                             else
                             {
-                                NAPI.Player.StopPlayerAnimation(player);
-                                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@prostitutes@sexlow_veh", "low_car_sex_loop_female");
+                                player.StopAnimation();
+                                player.PlayAnimation("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female", (int)Constants.AnimationFlags.Loop);
                             }
                             break;
                         default:
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_CAR_SEX);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CAR_SEX);
                             break;
                     }
                 }
@@ -930,40 +930,40 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_SEXY_DANCE, Messages.GEN_ANIMS_SEXY_DANCE)]
         public void SexyDanceCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_prostitute@cokehead@idle_a", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_prostitute@cokehead@idle_a", "idle_b", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_sp", "ilde_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_sp", "ilde_c", 0);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_spcokehead", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spcokehead", "idle_a", 0);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_spcokehead", "idle_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spcokehead", "idle_c", 0);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@hookers_spcrackhead", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spcrackhead", "idle_b", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_spvanilla", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spvanilla", "idle_b", 0);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SEXY_DANCE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SEXY_DANCE);
                         break;
                 }
             }
@@ -972,60 +972,60 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_SIT, Messages.GEN_ANIMS_SIT)]
         public void SitCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_stupor@male@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_stupor@male@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_stupor@male_looking_left@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_stupor@male_looking_left@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@heists@fleeca_bank@ig_7_jetski_owner", "owner_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@heists@fleeca_bank@ig_7_jetski_owner", "owner_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_army_contact", "positive_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_army_contact", "positive_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@reunited@ig_10", "base_amanda");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@reunited@ig_10", "base_amanda", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@heists@prison_heistunfinished_biztarget_idle", "target_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@heists@prison_heistunfinished_biztarget_idle", "target_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "switch@michael@sitting", "idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("switch@michael@sitting", "idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@michael@on_sofaidle_c", "sit_sofa_g");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@michael@on_sofaidle_c", "sit_sofa_g", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@michael@on_sofaidle_b", "sit_sofa_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@michael@on_sofaidle_b", "sit_sofa_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "timetable@michael@on_sofaidle_a", "sit_sofa_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("timetable@michael@on_sofaidle_a", "sit_sofa_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "rcm_barry3", "barry_3_sit_loop");
+                        player.StopAnimation();
+                        player.PlayAnimation("rcm_barry3", "barry_3_sit_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SIT);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SIT);
                         break;
                 }
             }
@@ -1034,28 +1034,28 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_SMOKE, Messages.GEN_ANIMS_SMOKING)]
         public void SmokeCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_smoking@male@male_a@idle_a", "idle_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_smoking@male@male_a@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl), "amb@world_human_smoking@female@idle_a", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_smoking@female@idle_a", "idle_b", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mini@hookers_spfrench", "idle_wait");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spfrench", "idle_wait", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_SMOKING);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SMOKING);
                         break;
                 }
             }
@@ -1064,40 +1064,40 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_LIE_DOWN, Messages.GEN_ANIMS_LIE_DOWN)]
         public void LieDownCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_sunbathe@male@back@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_sunbathe@male@back@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_sunbathe@female@back@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_sunbathe@female@back@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_sunbathe@female@front@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_sunbathe@female@front@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_picnic@male@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_picnic@male@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_picnic@female@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_picnic@female@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfra0_chop_fchase", "ballasog_rollthroughtraincar_ig6_loop");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfra0_chop_fchase", "ballasog_rollthroughtraincar_ig6_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_LIE_DOWN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_LIE_DOWN);
                         break;
                 }
             }
@@ -1106,32 +1106,32 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_ARMS, Messages.GEN_ANIMS_ARMS)]
         public void ArmsCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_hang_out_street@male_c@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_hang_out_street@male_c@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_hang_out_street@female_arms_crossed@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_hang_out_street@female_arms_crossed@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mini@hookers_sp", "idle_reject_loop_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_sp", "idle_reject_loop_c", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mini@hookers_sp", "idle_reject");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_sp", "idle_reject", (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_ARMS);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_ARMS);
                         break;
                 }
             }
@@ -1140,32 +1140,32 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_GUARD, Messages.GEN_ANIMS_GUARD)]
         public void GuardCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missbigscore1", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("missbigscore1", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missbigscore1", "idle_base");
+                        player.StopAnimation();
+                        player.PlayAnimation("missbigscore1", "idle_base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missbigscore1", "idle_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("missbigscore1", "idle_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missbigscore1", "idle_e");
+                        player.StopAnimation();
+                        player.PlayAnimation("missbigscore1", "idle_e", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_GUARD);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_GUARD);
                         break;
                 }
             }
@@ -1174,36 +1174,36 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_DEAD, Messages.GEN_ANIMS_DEAD)]
         public void DeadCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missarmenian2", "corpse_search_exit_ped");
+                        player.StopAnimation();
+                        player.PlayAnimation("missarmenian2", "corpse_search_exit_ped", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missarmenian2", "drunk_loop");
+                        player.StopAnimation();
+                        player.PlayAnimation("missarmenian2", "drunk_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfinale_c1@", "lying_dead_player0");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfinale_c1@", "lying_dead_player0", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mp_bank_heist_1", "prone_l_loop");
+                        player.StopAnimation();
+                        player.PlayAnimation("mp_bank_heist_1", "prone_l_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfra2", "lamar_base_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfra2", "lamar_base_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_DEAD);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_DEAD);
                         break;
                 }
             }
@@ -1212,52 +1212,52 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_IDLE, Messages.GEN_ANIMS_IDLE)]
         public void IdleCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl), "amb@world_human_hang_out_street@female_hold_arm@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_hang_out_street@female_hold_arm@base", "base", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "mini@hookers_sp", "idle_wait");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_sp", "idle_wait", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_stand_impatient@female@no_sign@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_stand_impatient@female@no_sign@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "mini@hookers_spfrench", "idle_wait");
+                        player.StopAnimation();
+                        player.PlayAnimation("mini@hookers_spfrench", "idle_wait", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_hang_out_street@female_arm_side@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_hang_out_street@female_arm_side@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_b");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_b", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missfbi5leadinout", "leadin_2_fra");
+                        player.StopAnimation();
+                        player.PlayAnimation("missfbi5leadinout", "leadin_2_fra", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cop_idles@female@idle_a", "idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cop_idles@female@idle_a", "idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cop_idles@male@idle_b", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cop_idles@male@idle_b", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_IDLE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_IDLE);
                         break;
                 }
             }
@@ -1266,36 +1266,36 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_PHONE, Messages.GEN_ANIMS_TLF)]
         public void PhoneCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "amb@world_human_stand_mobile@male@text@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_stand_mobile@male@text@base", "base", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "cellphone@", "cellphone_email_read_base");
+                        player.StopAnimation();
+                        player.PlayAnimation("cellphone@", "cellphone_email_read_base", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "cellphone@", "cellphone_photo_idle");
+                        player.StopAnimation();
+                        player.PlayAnimation("cellphone@", "cellphone_photo_idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl), "amb@world_human_stand_mobile@female@standing@call@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_stand_mobile@female@standing@call@idle_a", "idle_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_mobile_film_shocking@female@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_mobile_film_shocking@female@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_TLF);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_TLF);
                         break;
                 }
             }
@@ -1304,64 +1304,64 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_LEAN, Messages.GEN_ANIMS_LEAN)]
         public void LeanCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@prop_human_bum_shopping_cart@male@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@prop_human_bum_shopping_cart@male@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "anim@mp_ferris_wheel", "idle_a_player_one");
+                        player.StopAnimation();
+                        player.PlayAnimation("anim@mp_ferris_wheel", "idle_a_player_one", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@prop_human_bum_shopping_cart@male@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@prop_human_bum_shopping_cart@male@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@male@wall@back@legs_crossed@idle_b", "idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@male@wall@back@legs_crossed@idle_b", "idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@male@wall@back@hands_together@idle_a", "idle_c");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@male@wall@back@hands_together@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@male@wall@back@mobile@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@male@wall@back@mobile@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@male@wall@back@texting@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@male@wall@back@texting@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 8:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@female@wall@back@mobile@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@female@wall@back@mobile@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 9:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@female@wall@back@texting@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@female@wall@back@texting@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 10:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@female@smoke@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@female@smoke@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 11:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_leaning@male@wall@back@foot_up@idle_b", "idle_d");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_leaning@male@wall@back@foot_up@idle_b", "idle_d", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 12:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "misscarsteal1car_1_ext_leadin", "base_driver1");
+                        player.StopAnimation();
+                        player.PlayAnimation("misscarsteal1car_1_ext_leadin", "base_driver1", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_LEAN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_LEAN);
                         break;
                 }
             }
@@ -1370,44 +1370,44 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_CHEER, Messages.GEN_ANIMS_CHEER)]
         public void CheerCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@female_a", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@female_a", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@female_c", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@female_c", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@female_d", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@female_d", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@male_a", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@male_a", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@male_b", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@male_b", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@male_d", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@male_d", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 7:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_cheering@male_e", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_cheering@male_e", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_CHEER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CHEER);
                         break;
                 }
             }
@@ -1416,40 +1416,40 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_DANCE, Messages.GEN_ANIMS_DANCE)]
         public void DanceCommand(Client player, int action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 switch (action)
                 {
                     case 1:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_jog_standing@female@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_jog_standing@female@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 2:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_jog_standing@female@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_jog_standing@female@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 3:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_power_walker@female@static", "static");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_power_walker@female@static", "static", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 4:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_partying@female@partying_beer@base", "base");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_partying@female@partying_beer@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 5:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_partying@female@partying_cellphone@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_partying@female@partying_cellphone@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     case 6:
-                        NAPI.Player.StopPlayerAnimation(player);
-                        NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_partying@female@partying_beer@idle_a", "idle_a");
+                        player.StopAnimation();
+                        player.PlayAnimation("amb@world_human_partying@female@partying_beer@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_ANIMS_DANCE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_DANCE);
                         break;
                 }
             }
@@ -1458,140 +1458,140 @@ namespace WiredPlayers.Animations
         [Command(Messages.COM_PISS)]
         public void PissCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "missbigscore1switch_trevor_piss", "piss_loop");
+                player.StopAnimation();
+                player.PlayAnimation("missbigscore1switch_trevor_piss", "piss_loop", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_APLAUSE)]
         public void AplauseCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_strip_watch_stand@male_a@idle_a", "idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("amb@world_human_strip_watch_stand@male_a@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_DRUNK)]
         public void DrunkCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "mini@hookers_spcrackhead", "idle_c");
+                player.StopAnimation();
+                player.PlayAnimation("mini@hookers_spcrackhead", "idle_c", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_SHRUG)]
         public void ShrugCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "gestures@f@standing@casual", "gesture_shrug_hard");
+                player.StopAnimation();
+                player.PlayAnimation("gestures@f@standing@casual", "gesture_shrug_hard", (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
             }
         }
 
         [Command(Messages.COM_DESPERATE)]
         public void DesperateCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "misscarsteal4@toilet", "desperate_toilet_idle_a");
+                player.StopAnimation();
+                player.PlayAnimation("misscarsteal4@toilet", "desperate_toilet_idle_a", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_PENSIVE)]
         public void PensiveCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl), "misscarsteal4@aliens", "rehearsal_base_idle_director");
+                player.StopAnimation();
+                player.PlayAnimation("misscarsteal4@aliens", "rehearsal_base_idle_director", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
             }
         }
 
         [Command(Messages.COM_HANDS_HEAT)]
         public void HandsHeatCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.Loop), "amb@world_human_stand_fire@male@base", "base");
+                player.StopAnimation();
+                player.PlayAnimation("amb@world_human_stand_fire@male@base", "base", (int)Constants.AnimationFlags.Loop);
             }
         }
 
         [Command(Messages.COM_ROCK)]
         public void RockCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody), "anim@mp_player_intincarrockbodhi@ps@", "enter");
+                player.StopAnimation();
+                player.PlayAnimation("anim@mp_player_intincarrockbodhi@ps@", "enter", (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
             }
         }
 
         [Command(Messages.COM_INJURED)]
         public void InjuredCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, (int)(Constants.AnimationFlags.StopOnLastFrame | Constants.AnimationFlags.AllowPlayerControl), "combat@damage@injured_pistol@to_writhe", "variation_b");
+                player.StopAnimation();
+                player.PlayAnimation("combat@damage@injured_pistol@to_writhe", "variation_b", (int)(Constants.AnimationFlags.StopOnLastFrame | Constants.AnimationFlags.AllowPlayerControl));
             }
         }
 
         [Command(Messages.COM_STUMBLE)]
         public void StumbleCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                NAPI.Player.StopPlayerAnimation(player);
-                NAPI.Player.PlayPlayerAnimation(player, 0, "misscarsteal4@actor", "stumble");
+                player.StopAnimation();
+                player.PlayAnimation("misscarsteal4@actor", "stumble", (int)Constants.AnimationFlags.Loop);
             }
         }
     }

@@ -6,12 +6,12 @@ namespace WiredPlayers.model
     public class HouseModel
     {
         public int id { get; set; }
-        public String ipl { get; set; }
-        public String name { get; set; }
+        public string ipl { get; set; }
+        public string name { get; set; }
         public Vector3 position { get; set; }
         public uint dimension { get; set; }
         public int price { get; set; }
-        public String owner { get; set; }
+        public string owner { get; set; }
         public int status { get; set; }
         public int tenants { get; set; }
         public int rental { get; set; }

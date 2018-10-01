@@ -36,11 +36,11 @@ namespace WiredPlayers.fishing
             }
 
             // Start the minigame
-            NAPI.ClientEvent.TriggerClientEvent(player, "fishingBaitTaken");
+            player.TriggerEvent("fishingBaitTaken");
 
             // Send the message and play fishing animation
-            NAPI.Player.PlayPlayerAnimation(player, (int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@idle_a", "idle_c");
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_SOMETHING_BAITED);
+            player.PlayAnimation((int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@idle_a", "idle_c");
+            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SOMETHING_BAITED);
         }
 
         private int GetPlayerFishingLevel(Client player)
@@ -67,7 +67,7 @@ namespace WiredPlayers.fishing
             fishingTimerList.Add(player.Value, fishingTimer);
 
             // Confirmation message
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_FISHING_ROD_THROWN);
+            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_FISHING_ROD_THROWN);
         }
 
         [RemoteEvent("fishingCanceled")]
@@ -80,11 +80,11 @@ namespace WiredPlayers.fishing
             }
 
             // Cancel the fishing
-            NAPI.Player.StopPlayerAnimation(player);
-            NAPI.Player.FreezePlayer(player, false);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_FISHING);
+            player.StopAnimation();
+            player.Freeze(false);
+            player.ResetData(EntityData.PLAYER_FISHING);
             
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_FISHING_CANCELED);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FISHING_CANCELED);
         }
 
         [RemoteEvent("fishingSuccess")]
@@ -116,7 +116,7 @@ namespace WiredPlayers.fishing
             {
                 // Get player earnings
                 int fishWeight = random.Next(fishingLevel * 100, fishingLevel * 750);
-                int playerDatabaseId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                int playerDatabaseId = player.GetData(EntityData.PLAYER_SQL_ID);
                 ItemModel fishItem = Globals.GetPlayerItemModelFromHash(playerDatabaseId, Constants.ITEM_HASH_FISH);
 
                 if (fishItem == null)
@@ -147,12 +147,12 @@ namespace WiredPlayers.fishing
                 }
 
                 // Send the message to the player
-                String message = String.Format(Messages.INF_FISHED_WEIGHT, fishWeight);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                string message = string.Format(Messages.INF_FISHED_WEIGHT, fishWeight);
+                player.SendChatMessage(Constants.COLOR_INFO + message);
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_GARBAGE_FISHED);
+                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_GARBAGE_FISHED);
             }
 
             // Add one skill point to the player
@@ -160,42 +160,42 @@ namespace WiredPlayers.fishing
             Job.SetJobPoints(player, Constants.JOB_FISHERMAN, fishingPoints + 1);
 
             // Cancel fishing
-            NAPI.Player.StopPlayerAnimation(player);
-            NAPI.Player.FreezePlayer(player, false);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_FISHING);
+            player.StopAnimation();
+            player.Freeze(false);
+            player.ResetData(EntityData.PLAYER_FISHING);
         }
 
         [RemoteEvent("fishingFailed")]
         public void FishingFailedEvent(Client player)
         {
             // Cancel fishing
-            NAPI.Player.StopPlayerAnimation(player);
-            NAPI.Player.FreezePlayer(player, false);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_FISHING);
+            player.StopAnimation();
+            player.Freeze(false);
+            player.ResetData(EntityData.PLAYER_FISHING);
             
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_FISHING_FAILED);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FISHING_FAILED);
         }
 
         [Command(Messages.COM_FISH)]
         public void FishCommand(Client player)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_FISHING) == true)
+            if (player.HasData(EntityData.PLAYER_FISHING) == true)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_FISHING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_FISHING);
             }
-            else if (NAPI.Player.GetPlayerVehicleSeat(player) == (int)VehicleSeat.Driver)
+            else if (player.VehicleSeat == (int)VehicleSeat.Driver)
             {
-                NetHandle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                VehicleHash vehicleModel = (VehicleHash)NAPI.Entity.GetEntityModel(vehicle);
+                VehicleHash vehicleModel = (VehicleHash)player.Vehicle.Model;
+
                 if (vehicleModel == VehicleHash.Marquis || vehicleModel == VehicleHash.Tug)
                 {
-                    if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) != Constants.JOB_FISHERMAN)
+                    if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FISHERMAN)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FISHERMAN);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FISHERMAN);
                     }
-                    else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_FISHABLE) == false)
+                    else if (player.HasData(EntityData.PLAYER_FISHABLE) == false)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
                     }
                     else
                     {
@@ -204,25 +204,25 @@ namespace WiredPlayers.fishing
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_BOAT);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_BOAT);
                 }
             }
-            else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_RIGHT_HAND) == true)
+            else if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
             {
-                int fishingRodId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
+                int fishingRodId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
                 ItemModel fishingRod = Globals.GetItemModelFromId(fishingRodId);
 
                 if (fishingRod != null && fishingRod.hash == Constants.ITEM_HASH_FISHING_ROD)
                 {
-                    int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                    int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                     ItemModel bait = Globals.GetPlayerItemModelFromHash(playerId, Constants.ITEM_HASH_BAIT);
                     if (bait != null && bait.amount > 0)
                     {
                         foreach (Vector3 fishingPosition in Constants.FISHING_POSITION_LIST)
                         {
                             // Set player looking to the sea
-                            NAPI.Entity.SetEntityRotation(player, new Vector3(0.0f, 0.0f, 142.532f));
-                            NAPI.Player.FreezePlayer(player, true);
+                            player.Freeze(true);
+                            player.Rotation = new Vector3(0.0f, 0.0f, 142.532f);
                             
                             if (bait.amount == 1)
                             {
@@ -245,28 +245,28 @@ namespace WiredPlayers.fishing
                             }
 
                             // Start fishing minigame
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_FISHING, true);
-                            NAPI.Player.PlayPlayerAnimation(player, (int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@base", "base");
-                            NAPI.ClientEvent.TriggerClientEvent(player, "startPlayerFishing");
+                            player.SetData(EntityData.PLAYER_FISHING, true);
+                            player.PlayAnimation((int)Constants.AnimationFlags.Loop, "amb@world_human_stand_fishing@base", "base");
+                            player.TriggerEvent("startPlayerFishing");
                             return;
                         }
 
                         // Player's not in the fishing zone
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
                     }
                     else
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_BAITS);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_BAITS);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_FISHING_ROD);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_FISHING_ROD);
                 }
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ROD_BOAT);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ROD_BOAT);
             }
         }
     }

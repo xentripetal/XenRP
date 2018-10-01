@@ -6,8 +6,8 @@ namespace WiredPlayers.model
     public class ItemModel
     {
         public int id { get; set; }
-        public String hash { get; set; }
-        public String ownerEntity { get; set; }
+        public string hash { get; set; }
+        public string ownerEntity { get; set; }
         public int ownerIdentifier { get; set; }
         public int amount { get; set; }
         public Vector3 position { get; set; }

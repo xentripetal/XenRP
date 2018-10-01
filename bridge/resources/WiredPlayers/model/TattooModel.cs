@@ -6,7 +6,7 @@ namespace WiredPlayers.model
     {
         public int player { get; set; }
         public int slot { get; set; }
-        public String library { get; set; }
-        public String hash { get; set; }
+        public string library { get; set; }
+        public string hash { get; set; }
     }
 }

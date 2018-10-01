@@ -19,36 +19,36 @@ namespace WiredPlayers.faction
 
         public static int GetJobPoints(Client player, int job)
         {
-            String jobPointsString = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_POINTS);
-            return Int32.Parse(jobPointsString.Split(',')[job]);
+            string jobPointsString = player.GetData(EntityData.PLAYER_JOB_POINTS);
+            return int.Parse(jobPointsString.Split(',')[job]);
         }
 
         public static void SetJobPoints(Client player, int job, int points)
         {
-            String jobPointsString = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_POINTS);
-            String[] jobPointsArray = jobPointsString.Split(',');
+            string jobPointsString = player.GetData(EntityData.PLAYER_JOB_POINTS);
+            string[] jobPointsArray = jobPointsString.Split(',');
             jobPointsArray[job] = points.ToString();
-            jobPointsString = String.Join(",", jobPointsArray);
-            NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_POINTS, jobPointsString);
+            jobPointsString = string.Join(",", jobPointsArray);
+            player.SetData(EntityData.PLAYER_JOB_POINTS, jobPointsString);
         }
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
             Blip trashBlip = NAPI.Blip.CreateBlip(new Vector3(-322.088f, -1546.014f, 31.01991f));
-            NAPI.Blip.SetBlipName(trashBlip, Messages.GEN_GARBAGE_JOB);
-            NAPI.Blip.SetBlipShortRange(trashBlip, true);
-            NAPI.Blip.SetBlipSprite(trashBlip, 318);
+            trashBlip.Name = Messages.GEN_GARBAGE_JOB;
+            trashBlip.ShortRange = true;
+            trashBlip.Sprite = 318;
 
             Blip mechanicBlip = NAPI.Blip.CreateBlip(new Vector3(486.5268f, -1314.683f, 29.22961f));
-            NAPI.Blip.SetBlipName(mechanicBlip, Messages.GEN_MECHANIC_JOB);
-            NAPI.Blip.SetBlipShortRange(mechanicBlip, true);
-            NAPI.Blip.SetBlipSprite(mechanicBlip, 72);
+            mechanicBlip.Name = Messages.GEN_MECHANIC_JOB;
+            mechanicBlip.ShortRange = true;
+            mechanicBlip.Sprite = 72;
 
             Blip fastFoodBlip = NAPI.Blip.CreateBlip(new Vector3(-1037.697f, -1397.189f, 5.553192f));
-            NAPI.Blip.SetBlipName(fastFoodBlip, Messages.GEN_FASTFOOD_JOB);
-            NAPI.Blip.SetBlipSprite(fastFoodBlip, 501);
-            NAPI.Blip.SetBlipShortRange(fastFoodBlip, true);
+            fastFoodBlip.Name = Messages.GEN_FASTFOOD_JOB;
+            fastFoodBlip.ShortRange = true;
+            fastFoodBlip.Sprite = 501;
 
             foreach (JobPickModel job in jobList)
             {
@@ -58,10 +58,10 @@ namespace WiredPlayers.faction
         }
 
         [Command(Messages.COM_JOB, Messages.GEN_JOB_COMMAND)]
-        public void JobCommand(Client player, String action)
+        public void JobCommand(Client player, string action)
         {
-            int faction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
-            int job = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB);
+            int faction = player.GetData(EntityData.PLAYER_FACTION);
+            int job = player.GetData(EntityData.PLAYER_JOB);
 
             switch (action.ToLower())
             {
@@ -70,7 +70,7 @@ namespace WiredPlayers.faction
                     {
                         if (player.Position.DistanceTo(jobPick.position) < 1.5f)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + jobPick.description);
+                            player.SendChatMessage(Constants.COLOR_INFO + jobPick.description);
                             break;
                         }
                     }
@@ -78,11 +78,11 @@ namespace WiredPlayers.faction
                 case Messages.ARG_ACCEPT:
                     if (faction > 0 && faction < Constants.LAST_STATE_FACTION)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_STATE_FACTION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_STATE_FACTION);
                     }
                     else if (job > 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_JOB);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_JOB);
                     }
                     else
                     {
@@ -90,9 +90,9 @@ namespace WiredPlayers.faction
                         {
                             if (player.Position.DistanceTo(jobPick.position) < 1.5f)
                             {
-                                NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB, jobPick.job);
-                                NAPI.Data.SetEntityData(player, EntityData.PLAYER_EMPLOYEE_COOLDOWN, 5);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_JOB_ACCEPTED);
+                                player.SetData(EntityData.PLAYER_JOB, jobPick.job);
+                                player.SetData(EntityData.PLAYER_EMPLOYEE_COOLDOWN, 5);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_JOB_ACCEPTED);
                                 break;
                             }
                         }
@@ -100,29 +100,29 @@ namespace WiredPlayers.faction
                     break;
                 case Messages.ARG_LEAVE:
                     // Get the hours spent in the current job
-                    int employeeCooldown = NAPI.Data.GetEntityData(player, EntityData.PLAYER_EMPLOYEE_COOLDOWN);
+                    int employeeCooldown = player.GetData(EntityData.PLAYER_EMPLOYEE_COOLDOWN);
 
                     if (employeeCooldown > 0)
                     {
-                        String message = String.Format(Messages.ERR_EMPLOYEE_COOLDOWN, employeeCooldown);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                        string message = string.Format(Messages.ERR_EMPLOYEE_COOLDOWN, employeeCooldown);
+                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                     }
-                    else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_RESTRICTION) > 0)
+                    else if (player.GetData(EntityData.PLAYER_JOB_RESTRICTION) > 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_RESTRICTION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_RESTRICTION);
                     }
                     else if (job == 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
                     }
                     else
                     {
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB, 0);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_JOB_LEFT);
+                        player.SetData(EntityData.PLAYER_JOB, 0);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_JOB_LEFT);
                     }
                     break;
                 default:
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_JOB_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JOB_COMMAND);
                     break;
             }
         }
@@ -131,28 +131,28 @@ namespace WiredPlayers.faction
         public void DutyCommand(Client player)
         {
             // We get the sex, job and faction from the player
-            int playerSex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
-            int playerJob = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB);
-            int playerFaction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
+            int playerSex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int playerJob = player.GetData(EntityData.PLAYER_JOB);
+            int playerFaction = player.GetData(EntityData.PLAYER_FACTION);
 
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else if (playerJob == 0 && playerFaction == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 1)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 1)
             {
                 // Populate player's clothes
                 Globals.PopulateCharacterClothes(player);
 
                 // We set the player off duty
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_ON_DUTY, 0);
+                player.SetData(EntityData.PLAYER_ON_DUTY, 0);
 
                 // Notification sent to the player
-                NAPI.Notification.SendNotificationToPlayer(player, Messages.INF_PLAYER_FREE_TIME);
+                player.SendNotification(Messages.INF_PLAYER_FREE_TIME);
             }
             else
             {
@@ -161,19 +161,19 @@ namespace WiredPlayers.faction
                 {
                     if (uniform.type == 0 && uniform.factionJob == playerFaction && playerSex == uniform.characterSex)
                     {
-                        NAPI.Player.SetPlayerClothes(player, uniform.uniformSlot, uniform.uniformDrawable, uniform.uniformTexture);
+                        player.SetClothes(uniform.uniformSlot, uniform.uniformDrawable, uniform.uniformTexture);
                     }
                     else if (uniform.type == 1 && uniform.factionJob == playerJob && playerSex == uniform.characterSex)
                     {
-                        NAPI.Player.SetPlayerClothes(player, uniform.uniformSlot, uniform.uniformDrawable, uniform.uniformTexture);
+                        player.SetClothes(uniform.uniformSlot, uniform.uniformDrawable, uniform.uniformTexture);
                     }
                 }
 
                 // We set the player on duty
-                NAPI.Data.SetEntityData(player, EntityData.PLAYER_ON_DUTY, 1);
+                player.SetData(EntityData.PLAYER_ON_DUTY, 1);
 
                 // Notification sent to the player
-                NAPI.Notification.SendNotificationToPlayer(player, Messages.INF_PLAYER_ON_DUTY);
+                player.SendNotification(Messages.INF_PLAYER_ON_DUTY);
             }
         }
     }

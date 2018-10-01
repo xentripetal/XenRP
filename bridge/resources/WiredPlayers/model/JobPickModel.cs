@@ -7,9 +7,9 @@ namespace WiredPlayers.model
     {
         public int job { get; set; }
         public Vector3 position { get; set; }
-        public String description { get; set; }
+        public string description { get; set; }
 
-        public JobPickModel(int job, Vector3 position, String description)
+        public JobPickModel(int job, Vector3 position, string description)
         {
             this.job = job;
             this.position = position;

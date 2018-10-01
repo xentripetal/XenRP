@@ -4,11 +4,11 @@ namespace WiredPlayers.model
 {
     public class BankOperationModel
     {
-        public String source { get; set; }
-        public String receiver { get; set; }
-        public String type { get; set; }
+        public string source { get; set; }
+        public string receiver { get; set; }
+        public string type { get; set; }
         public int amount { get; set; }
-        public String day { get; set; }
-        public String time { get; set; }
+        public string day { get; set; }
+        public string time { get; set; }
     }
 }

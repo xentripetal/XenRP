@@ -5,6 +5,6 @@ namespace WiredPlayers.model
     public class AdminTicketModel
     {
         public int playerId { get; set; }
-        public String question { get; set; }
+        public string question { get; set; }
     }
 }

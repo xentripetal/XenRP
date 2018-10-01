@@ -26,7 +26,7 @@ namespace WiredPlayers.telephone
             return contact;
         }
 
-        private int GetNumerFromContactName(String contactName, int playerPhone)
+        private int GetNumerFromContactName(string contactName, int playerPhone)
         {
             int targetPhone = 0;
             foreach (ContactModel contact in contactList)
@@ -53,9 +53,9 @@ namespace WiredPlayers.telephone
             return contacts;
         }
 
-        private String GetContactInTelephone(int phone, int number)
+        private string GetContactInTelephone(int phone, int number)
         {
-            String contactName = String.Empty;
+            string contactName = string.Empty;
             foreach (ContactModel contact in contactList)
             {
                 if (contact.owner == phone && contact.contactNumber == number)
@@ -68,11 +68,11 @@ namespace WiredPlayers.telephone
         }
 
         [RemoteEvent("addNewContact")]
-        public void AddNewContactEvent(Client player, int contactNumber, String contactName)
+        public void AddNewContactEvent(Client player, int contactNumber, string contactName)
         {
             // Create the model for the new contact
             ContactModel contact = new ContactModel();
-            contact.owner = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
+            contact.owner = player.GetData(EntityData.PLAYER_PHONE);
             contact.contactNumber = contactNumber;
             contact.contactName = contactName;
 
@@ -83,12 +83,12 @@ namespace WiredPlayers.telephone
                 contactList.Add(contact);
             });
             
-            String actionMessage = String.Format(Messages.INF_CONTACT_CREATED, contactName, contactNumber);
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + actionMessage);
+            string actionMessage = string.Format(Messages.INF_CONTACT_CREATED, contactName, contactNumber);
+            player.SendChatMessage(Constants.COLOR_INFO + actionMessage);
         }
 
         [RemoteEvent("modifyContact")]
-        public void ModifyContactEvent(Client player, int contactNumber, String contactName, int contactIndex)
+        public void ModifyContactEvent(Client player, int contactNumber, string contactName, int contactIndex)
         {
             // Modify contact data
             ContactModel contact = GetContactFromId(contactIndex);
@@ -101,14 +101,14 @@ namespace WiredPlayers.telephone
                 Database.ModifyContact(contact);
             });
             
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CONTACT_MODIFIED);
+            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CONTACT_MODIFIED);
         }
 
         [RemoteEvent("deleteContact")]
         public void DeleteContactEvent(Client player, int contactIndex)
         {
             ContactModel contact = GetContactFromId(contactIndex);
-            String contactName = contact.contactName;
+            string contactName = contact.contactName;
             int contactNumber = contact.contactNumber;
 
             Task.Factory.StartNew(() =>
@@ -118,29 +118,29 @@ namespace WiredPlayers.telephone
                 contactList.Remove(contact);
             });
             
-            String actionMessage = String.Format(Messages.INF_CONTACT_DELETED, contactName, contactNumber);
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + actionMessage);
+            string actionMessage = string.Format(Messages.INF_CONTACT_DELETED, contactName, contactNumber);
+            player.SendChatMessage(Constants.COLOR_INFO + actionMessage);
         }
 
         [RemoteEvent("sendPhoneMessage")]
-        public void SendPhoneMessageEvent(Client player, int contactIndex, String textMessage)
+        public void SendPhoneMessageEvent(Client player, int contactIndex, string textMessage)
         {
             ContactModel contact = GetContactFromId(contactIndex);
             
             foreach (Client target in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE) == contact.contactNumber)
+                if (target.GetData(EntityData.PLAYER_PHONE) == contact.contactNumber)
                 {
                     // Check player's number
-                    int phone = NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE);
-                    String contactName = GetContactInTelephone(phone, contact.contactNumber);
+                    int phone = target.GetData(EntityData.PLAYER_PHONE);
+                    string contactName = GetContactInTelephone(phone, contact.contactNumber);
 
                     if (contactName.Length == 0)
                     {
                         contactName = contact.contactNumber.ToString();
                     }
                     
-                    String secondMessage = String.Empty;
+                    string secondMessage = string.Empty;
 
                     if (textMessage.Length > Constants.CHAT_LENGTH)
                     {
@@ -150,13 +150,13 @@ namespace WiredPlayers.telephone
                     }
 
                     // Send the message to the target
-                    NAPI.Chat.SendChatMessageToPlayer(target, secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + contactName + "] " + textMessage + "..." : Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + contactName + "] " + textMessage);
+                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + contactName + "] " + textMessage + "..." : Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + contactName + "] " + textMessage);
                     if (secondMessage.Length > 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + secondMessage);
+                       target.SendChatMessage(Constants.COLOR_INFO + secondMessage);
                     }
                     
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_SMS_SENT);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SMS_SENT);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -169,157 +169,157 @@ namespace WiredPlayers.telephone
             }
 
             // There's no player matching the contact
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
+            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
         }
 
         [Command(Messages.COM_CALL, Messages.GEN_PHONE_CALL_COMMAND)]
-        public void CallCommand(Client player, String called)
+        public void CallCommand(Client player, string called)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PHONE_TALKING) || NAPI.Data.HasEntityData(player, EntityData.PLAYER_CALLING) == true)
+            if (player.HasData(EntityData.PLAYER_PHONE_TALKING) || player.HasData(EntityData.PLAYER_CALLING) == true)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ALREADY_PHONE_TALKING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_PHONE_TALKING);
             }
             else
             {
-                ItemModel item = Globals.GetItemInEntity(NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
+                ItemModel item = Globals.GetItemInEntity(player.GetData(EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
                 if (item != null && item.hash == Constants.ITEM_HASH_TELEPHONE)
                 {
                     int peopleOnline = 0;
 
-                    if (Int32.TryParse(called, out int number) == true)
+                    if (int.TryParse(called, out int number) == true)
                     {
                         switch (number)
                         {
                             case Constants.NUMBER_POLICE:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.FACTION_POLICE);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.FACTION_POLICE);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_POLICE);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_POLICE);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             case Constants.NUMBER_EMERGENCY:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.FACTION_EMERGENCY);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.FACTION_EMERGENCY);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_EMERGENCY);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_EMERGENCY);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             case Constants.NUMBER_NEWS:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.FACTION_NEWS);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.FACTION_NEWS);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_NEWS);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_NEWS);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             case Constants.NUMBER_TAXI:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == Constants.FACTION_TAXI_DRIVER)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_TAXI_DRIVER)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.FACTION_TAXI_DRIVER);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.FACTION_TAXI_DRIVER);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_TAXI);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_TAXI);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             case Constants.NUMBER_FASTFOOD:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.JOB_FASTFOOD + 100);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.JOB_FASTFOOD + 100);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_FASTFOOD);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_FASTFOOD);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             case Constants.NUMBER_MECHANIC:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_JOB) == Constants.JOB_MECHANIC)
+                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_MECHANIC)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CENTRAL_CALL);
                                         peopleOnline++;
                                     }
                                 }
                                 
                                 if (peopleOnline > 0)
                                 {
-                                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, Constants.JOB_MECHANIC + 100);
+                                    player.SetData(EntityData.PLAYER_CALLING, Constants.JOB_MECHANIC + 100);
                                     
-                                    String playerMessage = String.Format(Messages.INF_CALLING, Constants.NUMBER_MECHANIC);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                                    string playerMessage = string.Format(Messages.INF_CALLING, Constants.NUMBER_MECHANIC);
+                                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                 }
                                 else
                                 {
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LINE_OCCUPIED);
                                 }
                                 break;
                             default:
@@ -327,27 +327,27 @@ namespace WiredPlayers.telephone
                                 {
                                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                                     {
-                                        if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE) == number)
+                                        if (target.GetData(EntityData.PLAYER_PHONE) == number)
                                         {
-                                            int playerPhone = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
+                                            int playerPhone = player.GetData(EntityData.PLAYER_PHONE);
 
                                             // Check if the player has the number as contact
-                                            int phone = NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE);
-                                            String contact = GetContactInTelephone(phone, playerPhone);
+                                            int phone = target.GetData(EntityData.PLAYER_PHONE);
+                                            string contact = GetContactInTelephone(phone, playerPhone);
 
                                             if (contact.Length == 0)
                                             {
                                                 contact = playerPhone.ToString();
                                             }
 
-                                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, target);
+                                            player.SetData(EntityData.PLAYER_CALLING, target);
 
                                             // Check if the player calling is a contact into target's contact list
-                                            String playerMessage = String.Format(Messages.INF_CALLING, number);
-                                            String targetMessage = String.Format(Messages.INF_CALL_FROM, contact.Length > 0 ? contact : contact.ToString());
+                                            string playerMessage = string.Format(Messages.INF_CALLING, number);
+                                            string targetMessage = string.Format(Messages.INF_CALL_FROM, contact.Length > 0 ? contact : contact.ToString());
                                             
-                                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                            player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                           target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                                             return;
                                         }
@@ -355,37 +355,37 @@ namespace WiredPlayers.telephone
                                 }
 
                                 // The phone number doesn't exist
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
                                 break;
                         }
                     }
                     else
                     {
                         // Call a contact
-                        int playerPhone = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
+                        int playerPhone = player.GetData(EntityData.PLAYER_PHONE);
                         int targetPhone = GetNumerFromContactName(called, playerPhone);
                         
                         if (targetPhone > 0)
                         {
                             foreach (Client target in NAPI.Pools.GetAllPlayers())
                             {
-                                if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE) == targetPhone)
+                                if (target.GetData(EntityData.PLAYER_PHONE) == targetPhone)
                                 {
-                                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_CALLING) || NAPI.Data.HasEntityData(target, EntityData.PLAYER_PHONE_TALKING) || NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) == false)
+                                    if (target.HasData(EntityData.PLAYER_CALLING) || target.HasData(EntityData.PLAYER_PHONE_TALKING) || player.HasData(EntityData.PLAYER_PLAYING) == false)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
+                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
                                     }
                                     else
                                     {
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_CALLING, target);
+                                        player.SetData(EntityData.PLAYER_CALLING, target);
 
                                         // Check if the player is in target's contact list
-                                        String contact = GetContactInTelephone(NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE), playerPhone);
+                                        string contact = GetContactInTelephone(target.GetData(EntityData.PLAYER_PHONE), playerPhone);
 
-                                        String playerMessage = String.Format(Messages.INF_CALLING, called);
-                                        String targetMessage = String.Format(Messages.INF_CALL_FROM, contact.Length > 0 ? contact : playerPhone.ToString());
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_INCOMING_CALL);
+                                        string playerMessage = string.Format(Messages.INF_CALLING, called);
+                                        string targetMessage = string.Format(Messages.INF_CALL_FROM, contact.Length > 0 ? contact : playerPhone.ToString());
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_INCOMING_CALL);
                                     }
                                     return;
                                 }
@@ -393,12 +393,12 @@ namespace WiredPlayers.telephone
                         }
 
                         // The contact player isn't online
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
                 }
             }
         }
@@ -406,80 +406,80 @@ namespace WiredPlayers.telephone
         [Command(Messages.COM_ANSWER)]
         public void AnswerCommand(Client player)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_CALLING) || NAPI.Data.HasEntityData(player, EntityData.PLAYER_PHONE_TALKING) == true)
+            if (player.HasData(EntityData.PLAYER_CALLING) || player.HasData(EntityData.PLAYER_PHONE_TALKING) == true)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ALREADY_PHONE_TALKING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_PHONE_TALKING);
             }
             else
             {
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
                     // Check if the target player is calling somebody
-                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_CALLING) == true)
+                    if (target.HasData(EntityData.PLAYER_CALLING) == true)
                     {
-                        if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_CALLING) is int)
+                        if (target.GetData(EntityData.PLAYER_CALLING) is int)
                         {
-                            int factionJob = NAPI.Data.GetEntityData(target, EntityData.PLAYER_CALLING);
-                            int faction = NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION);
-                            int job = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB);
+                            int factionJob = target.GetData(EntityData.PLAYER_CALLING);
+                            int faction = player.GetData(EntityData.PLAYER_FACTION);
+                            int job = player.GetData(EntityData.PLAYER_JOB);
 
                             if (factionJob == faction || factionJob == job + 100)
                             {
                                 // Link both players in the same call
-                                NAPI.Data.ResetEntityData(target, EntityData.PLAYER_CALLING);
-                                NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE_TALKING, target);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_PHONE_TALKING, player);
+                                target.ResetData(EntityData.PLAYER_CALLING);
+                                player.SetData(EntityData.PLAYER_PHONE_TALKING, target);
+                                target.SetData(EntityData.PLAYER_PHONE_TALKING, player);
                                 
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CALL_RECEIVED);
-                                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CALL_TAKEN);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CALL_RECEIVED);
+                                target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CALL_TAKEN);
 
                                 // Store call starting time
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
+                                target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
                                 return;
                             }
                         }
-                        else if (NAPI.Data.GetEntityData(target, EntityData.PLAYER_CALLING) == player)
+                        else if (target.GetData(EntityData.PLAYER_CALLING) == player)
                         {
                             // Link both players in the same call
-                            NAPI.Data.ResetEntityData(target, EntityData.PLAYER_CALLING);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE_TALKING, target);
-                            NAPI.Data.SetEntityData(target, EntityData.PLAYER_PHONE_TALKING, player);
+                            target.ResetData(EntityData.PLAYER_CALLING);
+                            player.SetData(EntityData.PLAYER_PHONE_TALKING, target);
+                            target.SetData(EntityData.PLAYER_PHONE_TALKING, player);
                             
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_CALL_RECEIVED);
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_CALL_TAKEN);
+                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CALL_RECEIVED);
+                           target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CALL_TAKEN);
 
                             // Store call starting time
-                            NAPI.Data.SetEntityData(target, EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
+                            target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
                             return;
                         }
                     }
                 }
 
                 // Nobody's calling the player
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_CALLED);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_CALLED);
             }
         }
 
         [Command(Messages.COM_HANG)]
         public void HangCommand(Client player)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_CALLING) == true)
+            if (player.HasData(EntityData.PLAYER_CALLING) == true)
             {
                 // Hang up the call
-                NAPI.Data.ResetEntityData(player, EntityData.PLAYER_CALLING);
+                player.ResetData(EntityData.PLAYER_CALLING);
             }
-            else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PHONE_TALKING) == true)
+            else if (player.HasData(EntityData.PLAYER_PHONE_TALKING) == true)
             {
                 // Get the player he's talking with
                 int elapsed = 0;
-                Client target = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE_TALKING);
-                int playerPhone = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
-                int targetPhone = NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE);
+                Client target = player.GetData(EntityData.PLAYER_PHONE_TALKING);
+                int playerPhone = player.GetData(EntityData.PLAYER_PHONE);
+                int targetPhone = target.GetData(EntityData.PLAYER_PHONE);
 
                 // Get phone call time
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PHONE_CALL_STARTED) == true)
+                if (player.HasData(EntityData.PLAYER_PHONE_CALL_STARTED) == true)
                 {
-                    elapsed = Globals.GetTotalSeconds() - NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE_CALL_STARTED);
+                    elapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -489,7 +489,7 @@ namespace WiredPlayers.telephone
                 }
                 else
                 {
-                    elapsed = Globals.GetTotalSeconds() - NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE_CALL_STARTED);
+                    elapsed = Globals.GetTotalSeconds() - target.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -499,41 +499,41 @@ namespace WiredPlayers.telephone
                 }
 
                 // Hang up the call for both players
-                NAPI.Data.ResetEntityData(player, EntityData.PLAYER_PHONE_TALKING);
-                NAPI.Data.ResetEntityData(target, EntityData.PLAYER_PHONE_TALKING);
-                NAPI.Data.ResetEntityData(player, EntityData.PLAYER_PHONE_CALL_STARTED);
+                player.ResetData(EntityData.PLAYER_PHONE_TALKING);
+                target.ResetData(EntityData.PLAYER_PHONE_TALKING);
+                player.ResetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_FINISHED_CALL);
-                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_FINISHED_CALL);
+                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FINISHED_CALL);
+                target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FINISHED_CALL);
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_PHONE_TALKING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PHONE_TALKING);
             }
         }
 
         [Command(Messages.COM_SMS, Messages.GEN_SMS_COMMAND, GreedyArg = true)]
-        public void SmsCommand(Client player, int number, String message)
+        public void SmsCommand(Client player, int number, string message)
         {
-            ItemModel item = Globals.GetItemInEntity(NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
+            ItemModel item = Globals.GetItemInEntity(player.GetData(EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
             if (item != null && item.hash == Constants.ITEM_HASH_TELEPHONE)
             {
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
-                    if (number > 0 && NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE) == number)
+                    if (number > 0 && target.GetData(EntityData.PLAYER_PHONE) == number)
                     {
-                        int playerPhone = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
+                        int playerPhone = player.GetData(EntityData.PLAYER_PHONE);
 
                         // Check if the player's in the contact list
-                        int phone = NAPI.Data.GetEntityData(target, EntityData.PLAYER_PHONE);
-                        String contact = GetContactInTelephone(phone, playerPhone);
+                        int phone = target.GetData(EntityData.PLAYER_PHONE);
+                        string contact = GetContactInTelephone(phone, playerPhone);
 
                         if (contact.Length == 0)
                         {
                             contact = playerPhone.ToString();
                         }
                         
-                        String secondMessage = String.Empty;
+                        string secondMessage = string.Empty;
 
                         if (message.Length > Constants.CHAT_LENGTH)
                         {
@@ -542,18 +542,18 @@ namespace WiredPlayers.telephone
                             message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
                         }
                         
-                        NAPI.Chat.SendChatMessageToPlayer(target, secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + playerPhone + "] " + message + "..." : Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + playerPhone + "] " + message);
+                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + playerPhone + "] " + message + "..." : Constants.COLOR_INFO + "[" + Messages.GEN_SMS_FROM + playerPhone + "] " + message);
                         if (secondMessage.Length > 0)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + secondMessage);
+                           target.SendChatMessage(Constants.COLOR_INFO + secondMessage);
                         }
 
                         foreach (Client targetPlayer in NAPI.Pools.GetAllPlayers())
                         {
                             if (targetPlayer.Position.DistanceTo(player.Position) < 20.0f)
                             {
-                                String nearMessage = String.Format(Messages.INF_PLAYER_TEXTING, player.Name);
-                                NAPI.Chat.SendChatMessageToPlayer(targetPlayer, Constants.COLOR_CHAT_ME + nearMessage);
+                                string nearMessage = string.Format(Messages.INF_PLAYER_TEXTING, player.Name);
+                                targetPlayer.SendChatMessage(Constants.COLOR_CHAT_ME + nearMessage);
                             }
                         }
 
@@ -568,81 +568,81 @@ namespace WiredPlayers.telephone
                 }
 
                 // The phone doesn't exist
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
+                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
             }
         }
 
         [Command(Messages.COM_CONTACTS, Messages.GEN_CONTACTS_COMMAND)]
-        public void AgendaCommand(Client player, String action)
+        public void AgendaCommand(Client player, string action)
         {
-            ItemModel item = Globals.GetItemInEntity(NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
+            ItemModel item = Globals.GetItemInEntity(player.GetData(EntityData.PLAYER_SQL_ID), Constants.ITEM_ENTITY_RIGHT_HAND);
             if (item != null && item.hash == Constants.ITEM_HASH_TELEPHONE)
             {
                 // Get the contact list
-                int phoneNumber = NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE);
+                int phoneNumber = player.GetData(EntityData.PLAYER_PHONE);
                 List<ContactModel> contacts = GetTelephoneContactList(phoneNumber);
 
                 switch (action.ToLower())
                 {
                     case Messages.ARG_NUMBER:
-                        String message = String.Format(Messages.INF_PHONE_NUMBER, phoneNumber);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        string message = string.Format(Messages.INF_PHONE_NUMBER, phoneNumber);
+                        player.SendChatMessage(Constants.COLOR_INFO + message);
                         break;
                     case Messages.ARG_VIEW:
                         if (contacts.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_LOAD);
+                            player.TriggerEvent("showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_LOAD);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
                         }
                         break;
                     case Messages.ARG_ADD:
-                        NAPI.ClientEvent.TriggerClientEvent(player, "addContactWindow", Constants.ACTION_ADD);
+                        player.TriggerEvent("addContactWindow", Constants.ACTION_ADD);
                         break;
                     case Messages.ARG_MODIFY:
                         if (contacts.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_RENAME);
+                            player.TriggerEvent("showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_RENAME);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
                         }
                         break;
                     case Messages.ARG_REMOVE:
                         if (contacts.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_DELETE);
+                            player.TriggerEvent("showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_DELETE);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
                         }
                         break;
                     case Messages.ARG_SMS:
                         if (contacts.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_SMS);
+                            player.TriggerEvent("showPhoneContacts", NAPI.Util.ToJson(contacts), Constants.ACTION_SMS);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CONTACT_LIST_EMPTY);
                         }
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_CONTACTS_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_CONTACTS_COMMAND);
                         break;
                 }
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_TELEPHONE_HAND);
             }
         }
     }

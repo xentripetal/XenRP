@@ -28,7 +28,7 @@ namespace WiredPlayers.drivingschool
         {
             // We get the player and his vehicle
             Client player = (Client)playerObject;
-            Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_VEHICLE);
+            Vehicle vehicle = player.GetData(EntityData.PLAYER_VEHICLE);
 
             // We finish the exam
             FinishDrivingExam(player, vehicle);
@@ -41,113 +41,113 @@ namespace WiredPlayers.drivingschool
             }
 
             // Confirmation message sent to the player
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_FAILED_NOT_IN_VEHICLE);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_FAILED_NOT_IN_VEHICLE);
         }
 
         private void FinishDrivingExam(Client player, Vehicle vehicle)
         {
             // Vehicle reseting
-            NAPI.Vehicle.RepairVehicle(vehicle);
-            NAPI.Entity.SetEntityPosition(vehicle, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION));
-            NAPI.Entity.SetEntityRotation(vehicle, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ROTATION));
+            vehicle.Repair();
+            vehicle.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
+            vehicle.Rotation = vehicle.GetData(EntityData.VEHICLE_ROTATION);
 
             // Checkpoint delete
             if (NAPI.Vehicle.GetVehicleDriver(vehicle) == player)
             {
-                Checkpoint licenseCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
-                NAPI.Entity.DeleteEntity(licenseCheckpoint);
-                NAPI.ClientEvent.TriggerClientEvent(player, "deleteLicenseCheckpoint");
+                Checkpoint licenseCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
+                player.TriggerEvent("deleteLicenseCheckpoint");
+                licenseCheckpoint.Delete();
             }
 
             // Entity data cleanup
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_VEHICLE);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DRIVING_EXAM);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT);
+            player.ResetData(EntityData.PLAYER_VEHICLE);
+            player.ResetData(EntityData.PLAYER_DRIVING_EXAM);
+            player.ResetData(EntityData.PLAYER_DRIVING_COLSHAPE);
+            player.ResetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
 
             // Remove player from vehicle
-            NAPI.Player.WarpPlayerOutOfVehicle(player);
+            player.WarpOutOfVehicle();
         }
 
         public static int GetPlayerLicenseStatus(Client player, int license)
         {
-            String playerLicenses = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSES);
-            String[] licenses = playerLicenses.Split(',');
-            return Int32.Parse(licenses[license]);
+            string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
+            string[] licenses = playerLicenses.Split(',');
+            return int.Parse(licenses[license]);
         }
 
         public static void SetPlayerLicense(Client player, int license, int value)
         {
             // We get player licenses
-            String playerLicenses = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSES);
-            String[] licenses = playerLicenses.Split(',');
+            string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
+            string[] licenses = playerLicenses.Split(',');
 
             // Changing license status
             licenses[license] = value.ToString();
-            playerLicenses = String.Join(",", licenses);
+            playerLicenses = string.Join(",", licenses);
 
             // Save the new licenses
-            NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSES, playerLicenses);
+            player.SetData(EntityData.PLAYER_LICENSES, playerLicenses);
         }
 
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seatId)
         {
-            if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
+            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
             {
-                VehicleHash vehicleHash = (VehicleHash)NAPI.Entity.GetEntityModel(vehicle);
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
+                VehicleHash vehicleHash = (VehicleHash) vehicle.Model;
+                if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
                 {
                     // We check the class of the vehicle
                     if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_SEDANS)
                     {
-                        int checkPoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
                         if (drivingSchoolTimerList.TryGetValue(player.Value, out Timer drivingSchoolTimer) == true)
                         {
                             drivingSchoolTimer.Dispose();
                             drivingSchoolTimerList.Remove(player.Value);
                         }
                         Checkpoint newCheckpoint = NAPI.Checkpoint.CreateCheckpoint(0, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint], Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1], 2.5f, new Color(198, 40, 40, 200));
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE, newCheckpoint);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_VEHICLE, vehicle);
+                        player.SetData(EntityData.PLAYER_DRIVING_COLSHAPE, newCheckpoint);
+                        player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
 
                         // We place a mark on the map
-                        NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", Constants.CAR_LICENSE_CHECKPOINTS[checkPoint]);
+                        player.TriggerEvent("showLicenseCheckpoint", Constants.CAR_LICENSE_CHECKPOINTS[checkPoint]);
                     }
                     else
                     {
-                        NAPI.Player.WarpPlayerOutOfVehicle(player);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
+                        player.WarpOutOfVehicle();
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
                     }
                 }
-                else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
+                else if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
                 {
                     // We check the class of the vehicle
                     if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_MOTORCYCLES)
                     {
-                        int checkPoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
                         if (drivingSchoolTimerList.TryGetValue(player.Value, out Timer drivingSchoolTimer) == true)
                         {
                             drivingSchoolTimer.Dispose();
                             drivingSchoolTimerList.Remove(player.Value);
                         }
                         Checkpoint newCheckpoint = NAPI.Checkpoint.CreateCheckpoint(0, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint], Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1], 2.5f, new Color(198, 40, 40, 200));
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE, newCheckpoint);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_VEHICLE, vehicle);
+                        player.SetData(EntityData.PLAYER_DRIVING_COLSHAPE, newCheckpoint);
+                        player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
 
                         // We place a mark on the map
-                        NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint]);
+                        player.TriggerEvent("showLicenseCheckpoint", Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint]);
                     }
                     else
                     {
-                        NAPI.Player.WarpPlayerOutOfVehicle(player);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
+                        player.WarpOutOfVehicle();
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
                     }
                 }
                 else
                 {
-                    NAPI.Player.WarpPlayerOutOfVehicle(player);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_IN_CAR_PRACTICE);
+                    player.WarpOutOfVehicle();
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_CAR_PRACTICE);
                 }
             }
         }
@@ -155,18 +155,18 @@ namespace WiredPlayers.drivingschool
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) && NAPI.Data.HasEntityData(player, EntityData.PLAYER_VEHICLE) == true)
+            if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.HasData(EntityData.PLAYER_VEHICLE) == true)
             {
                 // Checking if is a valid vehicle
-                if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_VEHICLE) == vehicle && NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
+                if (player.GetData(EntityData.PLAYER_VEHICLE) == vehicle && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
                 {
-                    String warn = String.Format(Messages.INF_LICENSE_VEHICLE_EXIT, 15);
-                    Checkpoint playerDrivingCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
-                    NAPI.Entity.DeleteEntity(playerDrivingCheckpoint);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + warn);
+                    string warn = string.Format(Messages.INF_LICENSE_VEHICLE_EXIT, 15);
+                    Checkpoint playerDrivingCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
+                    playerDrivingCheckpoint.Delete();
+                    player.SendChatMessage(Constants.COLOR_INFO + warn);
 
                     // Removing the checkpoint marker
-                    NAPI.ClientEvent.TriggerClientEvent(player, "deleteLicenseCheckpoint");
+                    player.TriggerEvent("deleteLicenseCheckpoint");
 
                     // When the timer finishes, the exam will be failed
                     Timer drivingSchoolTimer = new Timer(OnDrivingTimer, player, 15000, Timeout.Infinite);
@@ -178,43 +178,42 @@ namespace WiredPlayers.drivingschool
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE) && NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == true)
+            if (player.HasData(EntityData.PLAYER_DRIVING_COLSHAPE) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
             {
-                if (NAPI.Player.IsPlayerInAnyVehicle(player) == true && NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
+                if (player.IsInVehicle && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
                 {
-                    Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                    if (checkpoint == NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE) && NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
+                    Vehicle vehicle = player.Vehicle;
+                    if (checkpoint == player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
                     {
-                        Checkpoint currentCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
-                        int checkPoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        Checkpoint currentCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
+                        int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
 
                         if (checkPoint < Constants.CAR_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1]);
-                            NAPI.Checkpoint.SetCheckpointDirection(currentCheckpoint, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 2]);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            currentCheckpoint.Position = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1];
+                            currentCheckpoint.Direction = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 2];
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else if (checkPoint == Constants.CAR_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1]);
-                            NAPI.Checkpoint.SetCheckpointDirection(currentCheckpoint, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION));
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            currentCheckpoint.Position = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1];
+                            currentCheckpoint.Direction = vehicle.GetData(EntityData.VEHICLE_POSITION);
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else if (checkPoint == Constants.CAR_LICENSE_CHECKPOINTS.Count - 1)
                         {
-                            Vector3 lastCheckPointPosition = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION);
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, lastCheckPointPosition);
+                            currentCheckpoint.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
                             NAPI.Entity.SetEntityModel(currentCheckpoint, (int)CheckpointType.Checkerboard);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else
                         {
@@ -225,45 +224,44 @@ namespace WiredPlayers.drivingschool
                             SetPlayerLicense(player, Constants.LICENSE_CAR, 12);
 
                             // Confirmation message sent to the player
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
+                            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
                         }
                     }
                 }
-                else if (NAPI.Player.IsPlayerInAnyVehicle(player) == true && NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
+                else if (player.IsInVehicle && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
                 {
-                    Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                    if (checkpoint == NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE) && NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
+                    Vehicle vehicle = player.Vehicle;
+                    if (checkpoint == player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
                     {
-                        Checkpoint currentCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE);
-                        int checkPoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        Checkpoint currentCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
+                        int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
 
                         if (checkPoint < Constants.BIKE_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1]);
-                            NAPI.Checkpoint.SetCheckpointDirection(currentCheckpoint, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 2]);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            currentCheckpoint.Position = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1];
+                            currentCheckpoint.Direction = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 2];
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else if (checkPoint == Constants.BIKE_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1]);
-                            NAPI.Checkpoint.SetCheckpointDirection(currentCheckpoint, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION));
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            currentCheckpoint.Position = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1];
+                            currentCheckpoint.Direction = vehicle.GetData(EntityData.VEHICLE_POSITION);
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else if (checkPoint == Constants.BIKE_LICENSE_CHECKPOINTS.Count - 1)
                         {
-                            Vector3 lastCheckPointPosition = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION);
-                            NAPI.Entity.SetEntityPosition(currentCheckpoint, lastCheckPointPosition);
+                            currentCheckpoint.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
                             NAPI.Entity.SetEntityModel(currentCheckpoint, (int)CheckpointType.Checkerboard);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
+                            player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showLicenseCheckpoint", currentCheckpoint.Position);
+                            player.TriggerEvent("showLicenseCheckpoint", currentCheckpoint.Position);
                         }
                         else
                         {
@@ -274,7 +272,7 @@ namespace WiredPlayers.drivingschool
                             SetPlayerLicense(player, Constants.LICENSE_MOTORCYCLE, 12);
 
                             // Confirmation message sent to the player
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
+                            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
                         }
                     }
                 }
@@ -285,17 +283,15 @@ namespace WiredPlayers.drivingschool
         public void OnVehicleDamage(Vehicle vehicle, float lossFirst, float lossSecond)
         {
             Client player = NAPI.Vehicle.GetVehicleDriver(vehicle);
-            if (player != null && NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_COLSHAPE) && NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == true)
+            if (player != null && player.HasData(EntityData.PLAYER_DRIVING_COLSHAPE) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
             {
-                float currentHealth = NAPI.Vehicle.GetVehicleHealth(vehicle);
-
-                if (lossFirst - currentHealth > 5.0f)
+                if (lossFirst - vehicle.Health > 5.0f)
                 {
                     // Exam finished
                     FinishDrivingExam(player, vehicle);
 
                     // Inform the player about his failure
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
                 }
             }
         }
@@ -305,13 +301,13 @@ namespace WiredPlayers.drivingschool
         {
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) && NAPI.Data.HasEntityData(player, EntityData.PLAYER_DRIVING_EXAM) == true)
+                if (player.HasData(EntityData.PLAYER_PLAYING) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
                 {
                     // Check if is driving a vehicle
-                    if (NAPI.Player.IsPlayerInAnyVehicle(player) && NAPI.Player.GetPlayerVehicleSeat(player) == (int)VehicleSeat.Driver)
+                    if (player.IsInVehicle && player.VehicleSeat == (int)VehicleSeat.Driver)
                     {
-                        Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                        if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
+                        Vehicle vehicle = player.Vehicle;
+                        if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
                         {
                             Vector3 velocity = NAPI.Entity.GetEntityVelocity(vehicle);
                             double speed = Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y + velocity.Z * velocity.Z);
@@ -321,7 +317,7 @@ namespace WiredPlayers.drivingschool
                                 FinishDrivingExam(player, vehicle);
 
                                 // Inform the player about his failure
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
                             }
                         }
                     }
@@ -337,48 +333,48 @@ namespace WiredPlayers.drivingschool
                 if (Database.CheckAnswerCorrect(answer) == true)
                 {
                     // We add the correct answer
-                    int nextQuestion = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION) + 1;
+                    int nextQuestion = player.GetSharedData(EntityData.PLAYER_LICENSE_QUESTION) + 1;
 
                     if (nextQuestion < Constants.MAX_LICENSE_QUESTIONS)
                     {
                         // Go for the next question
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, nextQuestion);
-                        NAPI.ClientEvent.TriggerClientEvent(player, "getNextTestQuestion");
+                        player.SetSharedData(EntityData.PLAYER_LICENSE_QUESTION, nextQuestion);
+                        player.TriggerEvent("getNextTestQuestion");
                     }
                     else
                     {
                         // Player passed the exam
-                        int license = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
+                        int license = player.GetData(EntityData.PLAYER_LICENSE_TYPE);
                         SetPlayerLicense(player, license, 0);
 
                         // Reset the entity data
-                        NAPI.Data.ResetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
-                        NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION);
+                        player.ResetData(EntityData.PLAYER_LICENSE_TYPE);
+                        player.ResetSharedData(EntityData.PLAYER_LICENSE_QUESTION);
 
                         // Send the message to the player
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_EXAM_PASSED);
+                        player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_EXAM_PASSED);
 
                         // Exam window close
-                        NAPI.ClientEvent.TriggerClientEvent(player, "finishLicenseExam");
+                        player.TriggerEvent("finishLicenseExam");
                     }
                 }
                 else
                 {
                     // Player failed the exam
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_LICENSE_EXAM_FAILED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_EXAM_FAILED);
 
                     // Reset the entity data
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_LICENSE_TYPE);
-                    NAPI.Data.ResetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION);
+                    player.ResetData(EntityData.PLAYER_LICENSE_TYPE);
+                    player.ResetSharedData(EntityData.PLAYER_LICENSE_QUESTION);
 
                     // Exam window close
-                    NAPI.ClientEvent.TriggerClientEvent(player, "finishLicenseExam");
+                    player.TriggerEvent("finishLicenseExam");
                 }
             });
         }
 
         [Command(Messages.COM_DRIVING_SCHOOL, Messages.GEN_DRIVING_SCHOOL_COMMAND)]
-        public void DrivingSchoolCommand(Client player, String type)
+        public void DrivingSchoolCommand(Client player, string type)
         {
             int licenseStatus = 0;
             foreach (InteriorModel interior in Constants.INTERIOR_LIST)
@@ -389,7 +385,7 @@ namespace WiredPlayers.drivingschool
                     List<TestModel> answers = new List<TestModel>();
 
                     // Get the player's money
-                    int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                    int money = player.GetSharedData(EntityData.PLAYER_MONEY);
 
                     switch (type.ToLower())
                     {
@@ -412,42 +408,42 @@ namespace WiredPlayers.drivingschool
                                                 answers.AddRange(Database.GetQuestionAnswers(question.id));
                                             }
 
-                                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
-                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
+                                            player.SetData(EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
+                                            player.SetSharedData(EntityData.PLAYER_LICENSE_QUESTION, 0);
 
-                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+                                            player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
 
                                             // Start the exam
-                                            NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                            player.TriggerEvent("startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
                                         });
                                     }
                                     else
                                     {
-                                        String message = String.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 case 0:
                                     // Check if the player has enough money
                                     if (money >= Constants.PRICE_DRIVING_PRACTICAL)
                                     {
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_EXAM, Constants.CAR_DRIVING_PRACTICE);
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, 0);
+                                        player.SetData(EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_CAR);
+                                        player.SetData(EntityData.PLAYER_DRIVING_EXAM, Constants.CAR_DRIVING_PRACTICE);
+                                        player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, 0);
 
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
+                                        player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
 
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_CAR_VEHICLE);
+                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_CAR_VEHICLE);
                                     }
                                     else
                                     {
-                                        String message = String.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 default:
                                     // License up to date
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
                                     break;
                             }
                             break;
@@ -470,47 +466,47 @@ namespace WiredPlayers.drivingschool
                                                 answers.AddRange(Database.GetQuestionAnswers(question.id));
                                             }
 
-                                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
-                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_LICENSE_QUESTION, 0);
+                                            player.SetData(EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
+                                            player.SetSharedData(EntityData.PLAYER_LICENSE_QUESTION, 0);
 
-                                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
+                                            player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_THEORICAL);
 
                                             // Start the exam
-                                            NAPI.ClientEvent.TriggerClientEvent(player, "startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
+                                            player.TriggerEvent("startLicenseExam", NAPI.Util.ToJson(questions), NAPI.Util.ToJson(answers));
                                         });
                                     }
                                     else
                                     {
-                                        String message = String.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 case 0:
                                     // Check if the player has enough money
                                     if (money >= Constants.PRICE_DRIVING_PRACTICAL)
                                     {
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_EXAM, Constants.MOTORCYCLE_DRIVING_PRACTICE);
-                                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DRIVING_CHECKPOINT, 0);
+                                        player.SetData(EntityData.PLAYER_LICENSE_TYPE, Constants.LICENSE_MOTORCYCLE);
+                                        player.SetData(EntityData.PLAYER_DRIVING_EXAM, Constants.MOTORCYCLE_DRIVING_PRACTICE);
+                                        player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, 0);
 
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
+                                        player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
 
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_BIKE_VEHICLE);
+                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_BIKE_VEHICLE);
                                     }
                                     else
                                     {
-                                        String message = String.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 default:
                                     // License up to date
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
                                     break;
                             }
                             break;
                         default:
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_DRIVING_SCHOOL_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_DRIVING_SCHOOL_COMMAND);
                             break;
                     }
                     return;
@@ -518,33 +514,33 @@ namespace WiredPlayers.drivingschool
             }
 
             // Player's not in the driving school
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DRIVING_SCHOOL);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DRIVING_SCHOOL);
         }
 
         [Command(Messages.COM_LICENSES)]
         public void LicensesCommand(Client player)
         {
             int currentLicense = 0;
-            String playerLicenses = NAPI.Data.GetEntityData(player, EntityData.PLAYER_LICENSES);
-            String[] playerLicensesArray = playerLicenses.Split(',');
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_LICENSE_LIST);
-            foreach (String license in playerLicensesArray)
+            string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
+            string[] playerLicensesArray = playerLicenses.Split(',');
+            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LICENSE_LIST);
+            foreach (string license in playerLicensesArray)
             {
-                int currentLicenseStatus = Int32.Parse(license);
+                int currentLicenseStatus = int.Parse(license);
                 switch (currentLicense)
                 {
                     case Constants.LICENSE_CAR:
                         switch (currentLicenseStatus)
                         {
                             case -1:
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_NOT_AVAILABLE);
+                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_NOT_AVAILABLE);
                                 break;
                             case 0:
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_PRACTICAL_PENDING);
+                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_PRACTICAL_PENDING);
                                 break;
                             default:
-                                String message = String.Format(Messages.INF_CAR_LICENSE_POINTS + currentLicenseStatus);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + message);
+                                string message = string.Format(Messages.INF_CAR_LICENSE_POINTS + currentLicenseStatus);
+                                player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
                         break;
@@ -552,25 +548,25 @@ namespace WiredPlayers.drivingschool
                         switch (currentLicenseStatus)
                         {
                             case -1:
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_NOT_AVAILABLE);
+                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_NOT_AVAILABLE);
                                 break;
                             case 0:
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_PRACTICAL_PENDING);
+                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_PRACTICAL_PENDING);
                                 break;
                             default:
-                                String message = String.Format(Messages.INF_MOTORCYCLE_LICENSE_POINTS + currentLicenseStatus);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + message);
+                                string message = string.Format(Messages.INF_MOTORCYCLE_LICENSE_POINTS + currentLicenseStatus);
+                                player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
                         break;
                     case Constants.LICENSE_TAXI:
                         if (currentLicenseStatus == -1)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_NOT_AVAILABLE);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_NOT_AVAILABLE);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_UP_TO_DATE);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_UP_TO_DATE);
                         }
                         break;
                 }

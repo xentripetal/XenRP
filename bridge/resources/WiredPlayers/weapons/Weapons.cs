@@ -18,14 +18,14 @@ namespace WiredPlayers.weapons
         public static void GivePlayerWeaponItems(Client player)
         {
             int itemId = 0;
-            int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             foreach (ItemModel item in Globals.itemList)
             {
-                if (!Int32.TryParse(item.hash, out itemId) && item.ownerIdentifier == playerId && item.ownerEntity == Constants.ITEM_ENTITY_WHEEL)
+                if (!int.TryParse(item.hash, out itemId) && item.ownerIdentifier == playerId && item.ownerEntity == Constants.ITEM_ENTITY_WHEEL)
                 {
                     WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
-                    NAPI.Player.GivePlayerWeapon(player, weaponHash, 0);
-                    NAPI.Player.SetPlayerWeaponAmmo(player, weaponHash, item.amount);
+                    player.GiveWeapon(weaponHash, 0);
+                    player.SetWeaponAmmo(weaponHash, item.amount);
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace WiredPlayers.weapons
             weaponModel.hash = weapon.ToString();
             weaponModel.amount = bullets;
             weaponModel.ownerEntity = Constants.ITEM_ENTITY_WHEEL;
-            weaponModel.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+            weaponModel.ownerIdentifier = player.GetData(EntityData.PLAYER_SQL_ID);
             weaponModel.position = new Vector3(0.0f, 0.0f, 0.0f);
             weaponModel.dimension = 0;
 
@@ -46,9 +46,9 @@ namespace WiredPlayers.weapons
                 weaponModel.id = Database.AddNewItem(weaponModel);
                 Globals.itemList.Add(weaponModel);
             });
-            
-            NAPI.Player.GivePlayerWeapon(player, weapon, 0);
-            NAPI.Player.SetPlayerWeaponAmmo(player, weapon, bullets);
+
+            player.GiveWeapon(weapon, 0);
+            player.SetWeaponAmmo(weapon, bullets);
             
             if (licensed)
             {
@@ -60,9 +60,9 @@ namespace WiredPlayers.weapons
             }
         }
 
-        public static String GetGunAmmunitionType(WeaponHash weapon)
+        public static string GetGunAmmunitionType(WeaponHash weapon)
         {
-            String type = String.Empty;
+            string type = string.Empty;
             foreach (GunModel gun in Constants.GUN_LIST)
             {
                 if (weapon == gun.weapon)
@@ -107,7 +107,7 @@ namespace WiredPlayers.weapons
             WeaponCrateModel weaponCrate = null;
             foreach (WeaponCrateModel weaponCrateModel in weaponCrateList)
             {
-                if (player.Position.DistanceTo(weaponCrateModel.position) < distance && weaponCrateModel.carriedEntity == String.Empty)
+                if (player.Position.DistanceTo(weaponCrateModel.position) < distance && weaponCrateModel.carriedEntity == string.Empty)
                 {
                     weaponCrate = weaponCrateModel;
                     break;
@@ -135,9 +135,9 @@ namespace WiredPlayers.weapons
             // Send the warning message to all factions
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
+                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WEAPON_PREWARN);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_PREWARN);
                 }
             }
 
@@ -152,12 +152,12 @@ namespace WiredPlayers.weapons
             if (weaponCrate != null)
             {
                 weaponCrate.position = new Vector3(player.Position.X, player.Position.Y, player.Position.X - 1.0f);
-                weaponCrate.carriedEntity = String.Empty;
+                weaponCrate.carriedEntity = string.Empty;
                 weaponCrate.carriedIdentifier = 0;
 
                 // Place the crate on the floor
-                NAPI.Entity.DetachEntity(weaponCrate.crateObject);
-                NAPI.Entity.SetEntityPosition(weaponCrate.crateObject, weaponCrate.position);
+                weaponCrate.crateObject.Detach();
+                weaponCrate.crateObject.Position = weaponCrate.position;
             }
         }
 
@@ -233,7 +233,7 @@ namespace WiredPlayers.weapons
                 weaponCrate.contentItem = crateContent.item;
                 weaponCrate.contentAmount = crateContent.amount;
                 weaponCrate.position = spawn;
-                weaponCrate.carriedEntity = String.Empty;
+                weaponCrate.carriedEntity = string.Empty;
                 weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, spawn, new Vector3(0.0f, 0.0f, 0.0f), 0);
                 
                 weaponCrateList.Add(weaponCrate);                
@@ -243,9 +243,9 @@ namespace WiredPlayers.weapons
             // Warn all the factions about the place
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
+                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
                 }
             }
 
@@ -260,9 +260,9 @@ namespace WiredPlayers.weapons
             // Send the warning message to all the police members
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
                 }
             }
 
@@ -273,7 +273,7 @@ namespace WiredPlayers.weapons
         private static void OnVehicleUnpackWeapons(object vehicleObject)
         {
             Vehicle vehicle = (Vehicle)vehicleObject;
-            int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
+            int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
             
             foreach (WeaponCrateModel weaponCrate in weaponCrateList)
             {
@@ -288,7 +288,7 @@ namespace WiredPlayers.weapons
 
                     // Delete the crate
                     weaponCrate.carriedIdentifier = 0;
-                    weaponCrate.carriedEntity = String.Empty;
+                    weaponCrate.carriedEntity = string.Empty;
 
                     Task.Factory.StartNew(() =>
                     {
@@ -301,15 +301,15 @@ namespace WiredPlayers.weapons
             // Warn driver about unpacked crates
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_VEHICLE) == vehicle)
+                if (player.GetData(EntityData.PLAYER_VEHICLE) == vehicle)
                 {
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_VEHICLE);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WEAPONS_UNPACKED);
+                    player.ResetData(EntityData.PLAYER_VEHICLE);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPONS_UNPACKED);
                     break;
                 }
             }
-            
-            NAPI.Data.ResetEntityData(vehicle, EntityData.VEHICLE_WEAPON_UNPACKING);
+
+            vehicle.ResetData(EntityData.VEHICLE_WEAPON_UNPACKING);
         }
 
         private static void OnWeaponEventFinished(object unused)
@@ -318,9 +318,9 @@ namespace WiredPlayers.weapons
 
             foreach (WeaponCrateModel crate in weaponCrateList)
             {
-                if (NAPI.Entity.DoesEntityExist(crate.crateObject) == true)
+                if (crate.crateObject.Exists)
                 {
-                    NAPI.Entity.DeleteEntity(crate.crateObject);
+                    crate.crateObject.Delete();
                 }
             }
 
@@ -352,17 +352,17 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seat)
         {
-            if (NAPI.Data.HasEntityData(vehicle, EntityData.VEHICLE_ID) && NAPI.Player.GetPlayerVehicleSeat(player) == (int)VehicleSeat.Driver)
+            if (vehicle.HasData(EntityData.VEHICLE_ID) && player.VehicleSeat == (int)VehicleSeat.Driver)
             {
-                int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
-                if (!NAPI.Data.HasEntityData(vehicle, EntityData.VEHICLE_WEAPON_UNPACKING) && GetVehicleWeaponCrates(vehicleId) > 0)
+                int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
+                if (!vehicle.HasData(EntityData.VEHICLE_WEAPON_UNPACKING) && GetVehicleWeaponCrates(vehicleId) > 0)
                 {
                     // Mark the delivery point
                     Vector3 weaponPosition = new Vector3(-2085.543f, 2600.857f, -0.4712417f);
                     Checkpoint weaponCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, weaponPosition, new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
-                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_COLSHAPE, weaponCheckpoint);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WEAPON_POSITION_MARK);
-                    NAPI.ClientEvent.TriggerClientEvent(player, "showWeaponCheckpoint", weaponPosition);
+                    player.SetData(EntityData.PLAYER_JOB_COLSHAPE, weaponCheckpoint);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_POSITION_MARK);
+                    player.TriggerEvent("showWeaponCheckpoint", weaponPosition);
                 }
             }
         }
@@ -370,12 +370,12 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (NAPI.Data.HasEntityData(vehicle, EntityData.VEHICLE_ID) == true)
+            if (vehicle.HasData(EntityData.VEHICLE_ID) == true)
             {
-                int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_COLSHAPE) && GetVehicleWeaponCrates(vehicleId) > 0)
+                int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
+                if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) && GetVehicleWeaponCrates(vehicleId) > 0)
                 {
-                    NAPI.ClientEvent.TriggerClientEvent(player, "deleteWeaponCheckpoint");
+                    player.TriggerEvent("deleteWeaponCheckpoint");
                 }
             }
         }
@@ -383,28 +383,28 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_COLSHAPE) == true)
+            if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) == true)
             {
-                if (checkpoint == NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_COLSHAPE) && NAPI.Player.GetPlayerVehicleSeat(player) == (int)VehicleSeat.Driver)
+                if (checkpoint == player.GetData(EntityData.PLAYER_JOB_COLSHAPE) && player.VehicleSeat == (int)VehicleSeat.Driver)
                 {
-                    NetHandle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                    int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
+                    Vehicle vehicle = player.Vehicle;
+                    int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
                     if (GetVehicleWeaponCrates(vehicleId) > 0)
                     {
                         // Delete the checkpoint
-                        Checkpoint weaponCheckpoint = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_COLSHAPE);
-                        NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_COLSHAPE);
-                        NAPI.ClientEvent.TriggerClientEvent(player, "deleteWeaponCheckpoint");
-                        NAPI.Entity.DeleteEntity(weaponCheckpoint);
+                        Checkpoint weaponCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
+                        player.ResetData(EntityData.PLAYER_JOB_COLSHAPE);
+                        player.TriggerEvent("deleteWeaponCheckpoint");
+                        weaponCheckpoint.Delete();
 
                         // Freeze the vehicle
-                        NAPI.Vehicle.SetVehicleEngineStatus(vehicle, false);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_VEHICLE, vehicle);
-                        NAPI.Data.SetEntityData(vehicle, EntityData.VEHICLE_WEAPON_UNPACKING, true);
+                        vehicle.EngineStatus = false;
+                        player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
+                        vehicle.SetData(EntityData.VEHICLE_WEAPON_UNPACKING, true);
 
                         vehicleWeaponTimer.Add(new Timer(OnVehicleUnpackWeapons, vehicle, 60000, Timeout.Infinite));
                         
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WAIT_FOR_WEAPONS);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WAIT_FOR_WEAPONS);
                     }
                 }
             }
@@ -413,18 +413,18 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerWeaponSwitch)]
         public void OnPlayerWeaponSwitch(Client player, WeaponHash oldWeapon, WeaponHash newWeapon)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_PLAYING) == true)
+            if (player.HasData(EntityData.PLAYER_PLAYING) == true)
             {
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_RIGHT_HAND) == true)
+                if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
                 {
-                    int itemId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
+                    int itemId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
                     ItemModel item = Globals.GetItemModelFromId(itemId);
-                    if (Int32.TryParse(item.hash, out int itemHash) == true)
+                    if (int.TryParse(item.hash, out int itemHash) == true)
                     {
                         ItemModel weaponItem = GetEquippedWeaponItemModelByHash(playerId, newWeapon);
-                        NAPI.Player.GivePlayerWeapon(player, WeaponHash.Unarmed, 1);
+                        player.GiveWeapon(WeaponHash.Unarmed, 1);
                         return;
                     }
                 }
@@ -460,11 +460,11 @@ namespace WiredPlayers.weapons
                 // Check if it's armed
                 if (newWeapon == WeaponHash.Unarmed)
                 {
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_RIGHT_HAND);
+                    player.ResetData(EntityData.PLAYER_RIGHT_HAND);
                 }
                 else
                 {
-                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, currentWeaponModel.id);
+                    player.SetData(EntityData.PLAYER_RIGHT_HAND, currentWeaponModel.id);
                 }
             }
         }
@@ -472,13 +472,13 @@ namespace WiredPlayers.weapons
         [RemoteEvent("reloadPlayerWeapon")]
         public void ReloadPlayerWeaponEvent(Client player)
         {
-            WeaponHash weapon = NAPI.Player.GetPlayerCurrentWeapon(player);
+            WeaponHash weapon = player.CurrentWeapon;
             int maxCapacity = GetGunAmmunitionCapacity(weapon);
-            int currentBullets = NAPI.Player.GetPlayerWeaponAmmo(player, weapon);
+            int currentBullets = player.GetWeaponAmmo(weapon);
             if (currentBullets < maxCapacity)
             {
-                String bulletType = GetGunAmmunitionType(weapon);
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                string bulletType = GetGunAmmunitionType(weapon);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                 ItemModel bulletItem = Globals.GetPlayerItemModelFromHash(playerId, bulletType);
                 if (bulletItem != null)
                 {
@@ -516,7 +516,7 @@ namespace WiredPlayers.weapons
                     });
 
                     // Reload the weapon
-                    NAPI.Player.SetPlayerWeaponAmmo(player, weapon, currentBullets);
+                    player.SetWeaponAmmo(weapon, currentBullets);
                     //NAPI.Native.SendNativeToPlayer(player, Hash.MAKE_PED_RELOAD, player);
                 }
             }
@@ -525,16 +525,16 @@ namespace WiredPlayers.weapons
         [Command(Messages.COM_WEAPONS_EVENT)]
         public void WeaponsEventCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_S_GAME_MASTER)
+            if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_S_GAME_MASTER)
             {
                 if (weaponTimer == null)
                 {
                     WeaponsPrewarn();
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ADMIN_INFO + Messages.ADM_WEAPON_EVENT_STARTED);
+                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_WEAPON_EVENT_STARTED);
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_WEAPON_EVENT_ON_COURSE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WEAPON_EVENT_ON_COURSE);
                 }
             }
         }

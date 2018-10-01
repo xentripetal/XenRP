@@ -12,9 +12,9 @@ namespace WiredPlayers.weazelNews
     {
         public static List<AnnoucementModel> annoucementList;
 
-        public static void SendNewsMessage(Client player, String message)
+        public static void SendNewsMessage(Client player, string message)
         {
-            String secondMessage = String.Empty;
+            string secondMessage = string.Empty;
 
             if (message.Length > Constants.CHAT_LENGTH)
             {
@@ -23,30 +23,30 @@ namespace WiredPlayers.weazelNews
                 message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
             }
 
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_ON_AIR) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
+            if (player.HasData(EntityData.PLAYER_ON_AIR) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
             {
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
-                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+                    if (target.HasData(EntityData.PLAYER_PLAYING) == true)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(target, secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_INTERVIEWER + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + Messages.GEN_INTERVIEWER + player.Name + ": " + message);
+                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_INTERVIEWER + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + Messages.GEN_INTERVIEWER + player.Name + ": " + message);
                         if (secondMessage.Length > 0)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_NEWS + secondMessage);
+                           target.SendChatMessage(Constants.COLOR_NEWS + secondMessage);
                         }
                     }
                 }
             }
-            else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_ON_AIR))
+            else if (player.HasData(EntityData.PLAYER_ON_AIR))
             {
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
-                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+                    if (target.HasData(EntityData.PLAYER_PLAYING) == true)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(target, secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_GUEST + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + Messages.GEN_GUEST + player.Name + ": " + message);
+                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_GUEST + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + Messages.GEN_GUEST + player.Name + ": " + message);
                         if (secondMessage.Length > 0)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_NEWS + secondMessage);
+                           target.SendChatMessage(Constants.COLOR_NEWS + secondMessage);
                         }
                     }
                 }
@@ -55,12 +55,12 @@ namespace WiredPlayers.weazelNews
             {
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
-                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+                    if (target.HasData(EntityData.PLAYER_PLAYING) == true)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(target, secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_ANNOUNCEMENT + message + "..." : Constants.COLOR_NEWS + Messages.GEN_ANNOUNCEMENT + message);
+                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + Messages.GEN_ANNOUNCEMENT + message + "..." : Constants.COLOR_NEWS + Messages.GEN_ANNOUNCEMENT + message);
                         if (secondMessage.Length > 0)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_NEWS + secondMessage);
+                           target.SendChatMessage(Constants.COLOR_NEWS + secondMessage);
                         }
                     }
                 }
@@ -86,123 +86,123 @@ namespace WiredPlayers.weazelNews
         }
 
         [Command(Messages.COM_INTERVIEW, Messages.GEN_OFFER_ON_AIR_COMMAND)]
-        public void EntrevistarCommand(Client player, String targetString)
+        public void EntrevistarCommand(Client player, string targetString)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
             }
             else
             {
                 Vehicle vehicle = Globals.GetClosestVehicle(player);
-                if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) != Constants.FACTION_NEWS && NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.LeftRear)
+                if (vehicle.GetData(EntityData.VEHICLE_FACTION) != Constants.FACTION_NEWS && player.VehicleSeat != (int)VehicleSeat.LeftRear)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_NEWS_VAN);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_NEWS_VAN);
                 }
                 else
                 {
-                    Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                    Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                    if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_ON_AIR) == true)
+                    if (target.HasData(EntityData.PLAYER_ON_AIR) == true)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ON_AIR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ON_AIR);
                     }
                     else
                     {
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_ON_AIR, target);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_PARTNER, target);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_WZ_OFFER_ONAIR);
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_WZ_ACCEPT_ONAIR);
+                        player.SetData(EntityData.PLAYER_ON_AIR, target);
+                        player.SetData(EntityData.PLAYER_JOB_PARTNER, target);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WZ_OFFER_ONAIR);
+                       target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WZ_ACCEPT_ONAIR);
                     }
                 }
             }
         }
 
         [Command(Messages.COM_CUT_INTERVIEW, Messages.GEN_CUT_ON_AIR_COMMAND)]
-        public void CutInterviewCommand(Client player, String targetString)
+        public void CutInterviewCommand(Client player, string targetString)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
             }
             else
             {
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
                 
-                if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_ON_AIR) == false)
+                if (target.HasData(EntityData.PLAYER_ON_AIR) == false)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_ON_AIR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_ON_AIR);
                 }
                 else if (target == player)
                 {
                     foreach (Client interviewed in NAPI.Pools.GetAllPlayers())
                     {
-                        if (NAPI.Data.HasEntityData(interviewed, EntityData.PLAYER_ON_AIR) && interviewed != player)
+                        if (interviewed.HasData(EntityData.PLAYER_ON_AIR) && interviewed != player)
                         {
-                            NAPI.Data.ResetEntityData(interviewed, EntityData.PLAYER_ON_AIR);
-                            NAPI.Data.ResetEntityData(interviewed, EntityData.PLAYER_JOB_PARTNER);
-                            NAPI.Chat.SendChatMessageToPlayer(interviewed, Constants.COLOR_INFO + Messages.INF_PLAYER_ON_AIR_CUTTED);
+                            interviewed.ResetData(EntityData.PLAYER_ON_AIR);
+                            interviewed.ResetData(EntityData.PLAYER_JOB_PARTNER);
+                            interviewed.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_ON_AIR_CUTTED);
                         }
                     }
                     
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_ON_AIR);
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_PARTNER);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_REPORTER_ON_AIR_CUTTED);
+                    player.ResetData(EntityData.PLAYER_ON_AIR);
+                    player.ResetData(EntityData.PLAYER_JOB_PARTNER);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_REPORTER_ON_AIR_CUTTED);
                 }
                 else
                 {
-                    NAPI.Data.ResetEntityData(target, EntityData.PLAYER_ON_AIR);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_REPORTER_ON_AIR_CUTTED);
-                    NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + Messages.INF_PLAYER_ON_AIR_CUTTED);
+                    target.ResetData(EntityData.PLAYER_ON_AIR);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_REPORTER_ON_AIR_CUTTED);
+                    target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_ON_AIR_CUTTED);
                 }
             }
         }
 
         [Command(Messages.COM_PRIZE, Messages.GEN_PRIZE_COMMAND, GreedyArg = true)]
-        public void PrizeCommand(Client player, String targetString, int prize, string contest)
+        public void PrizeCommand(Client player, string targetString, int prize, string contest)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
             }
             else
             {
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target != null && NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+                if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
                 {
                     int prizeAmount = GetRemainingFounds();
                     if (prizeAmount >= prize)
                     {
                         AnnoucementModel prizeModel = new AnnoucementModel();
-                        int targetMoney = NAPI.Data.GetEntitySharedData(target, EntityData.PLAYER_MONEY);
+                        int targetMoney = target.GetSharedData(EntityData.PLAYER_MONEY);
 
-                        String playerMessage = String.Format(Messages.INF_PRIZE_GIVEN, prize, target.Name);
-                        String targetMessage = String.Format(Messages.INF_PRIZE_RECEIVED, player.Name, prize, contest);
+                        string playerMessage = string.Format(Messages.INF_PRIZE_GIVEN, prize, target.Name);
+                        string targetMessage = string.Format(Messages.INF_PRIZE_RECEIVED, player.Name, prize, contest);
 
                         targetMoney += prize;
-                        NAPI.Data.SetEntitySharedData(target, EntityData.PLAYER_MONEY, targetMoney);
+                        target.SetSharedData(EntityData.PLAYER_MONEY, targetMoney);
 
                         prizeModel.amount = prize;
-                        prizeModel.winner = NAPI.Data.GetEntityData(target, EntityData.PLAYER_SQL_ID);
+                        prizeModel.winner = target.GetData(EntityData.PLAYER_SQL_ID);
                         prizeModel.annoucement = contest;
-                        prizeModel.journalist = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                        prizeModel.journalist = player.GetData(EntityData.PLAYER_SQL_ID);
                         prizeModel.given = true;
 
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                         Task.Factory.StartNew(() =>
                         {
@@ -215,12 +215,12 @@ namespace WiredPlayers.weazelNews
                     }
                     else
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.ERR_FACTION_NOT_ENOUGH_MONEY);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.ERR_FACTION_NOT_ENOUGH_MONEY);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                 }
             }
         }
@@ -228,30 +228,30 @@ namespace WiredPlayers.weazelNews
         [Command(Messages.COM_ANNOUNCE, Messages.GEN_ANNOUCEMENT_COMMAND, GreedyArg = true)]
         public void AnnounceCommand(Client player, string message)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
-                int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                int money = player.GetSharedData(EntityData.PLAYER_MONEY);
                 if (money < Constants.PRICE_ANNOUNCEMENT)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
                 }
                 else
                 {
                     AnnoucementModel annoucement = new AnnoucementModel();
-                    annoucement.winner = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                    annoucement.winner = player.GetData(EntityData.PLAYER_SQL_ID);
                     annoucement.amount = Constants.PRICE_ANNOUNCEMENT;
                     annoucement.annoucement = message;
                     annoucement.given = false;
 
                     // Removes player money
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_ANNOUNCEMENT);
+                    player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_ANNOUNCEMENT);
 
                     SendNewsMessage(player, message);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_ANNOUNCE_PUBLISHED);
+                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ANNOUNCE_PUBLISHED);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -266,20 +266,20 @@ namespace WiredPlayers.weazelNews
         [Command(Messages.COM_NEWS, Messages.GEN_NEWS_COMMAND, GreedyArg = true)]
         public void NewsCommand(Client player, string message)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_NEWS)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_NEWS_FACTION);
             }
             else
             {
                 Vehicle vehicle = Globals.GetClosestVehicle(player);
-                if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) != Constants.FACTION_NEWS && NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.LeftRear)
+                if (vehicle.GetData(EntityData.VEHICLE_FACTION) != Constants.FACTION_NEWS && player.VehicleSeat != (int)VehicleSeat.LeftRear)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_NEWS_VAN);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_NEWS_VAN);
                 }
                 else
                 {

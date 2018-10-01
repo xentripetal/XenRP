@@ -8,7 +8,7 @@ namespace WiredPlayers.model
         public int winner { get; set; }
         public int journalist { get; set; }
         public int amount { get; set; }
-        public String annoucement { get; set; }
+        public string annoucement { get; set; }
         public bool given { get; set; }
     }
 }

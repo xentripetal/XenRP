@@ -27,9 +27,9 @@ namespace WiredPlayers.business
                     if (blipModel.id == businessModel.id)
                     {
                         Blip businessBlip = NAPI.Blip.CreateBlip(businessModel.position);
-                        NAPI.Blip.SetBlipName(businessBlip, businessModel.name);
-                        NAPI.Blip.SetBlipSprite(businessBlip, blipModel.blip);
-                        NAPI.Blip.SetBlipShortRange(businessBlip, true);
+                        businessBlip.Name = businessModel.name;
+                        businessBlip.Sprite = (uint)blipModel.blip;
+                        businessBlip.ShortRange = true;
                         break;
                     }
                 }
@@ -77,7 +77,7 @@ namespace WiredPlayers.business
             return businessItems;
         }
 
-        public static BusinessItemModel GetBusinessItemFromName(String itemName)
+        public static BusinessItemModel GetBusinessItemFromName(string itemName)
         {
             BusinessItemModel item = null;
             foreach (BusinessItemModel businessItem in Constants.BUSINESS_ITEM_LIST)
@@ -91,7 +91,7 @@ namespace WiredPlayers.business
             return item;
         }
 
-        public static BusinessItemModel GetBusinessItemFromHash(String itemHash)
+        public static BusinessItemModel GetBusinessItemFromHash(string itemHash)
         {
             BusinessItemModel item = null;
             foreach (BusinessItemModel businessItem in Constants.BUSINESS_ITEM_LIST)
@@ -132,9 +132,9 @@ namespace WiredPlayers.business
             return productsPrice;
         }
 
-        public static String GetBusinessTypeIpl(int type)
+        public static string GetBusinessTypeIpl(int type)
         {
-            String businessIpl = String.Empty;
+            string businessIpl = string.Empty;
             foreach (BusinessIplModel iplModel in Constants.BUSINESS_IPL_LIST)
             {
                 if (iplModel.type == type)
@@ -147,7 +147,7 @@ namespace WiredPlayers.business
             return businessIpl;
         }
 
-        public static Vector3 GetBusinessExitPoint(String ipl)
+        public static Vector3 GetBusinessExitPoint(string ipl)
         {
             Vector3 exit = null;
             foreach (BusinessIplModel businessIpl in Constants.BUSINESS_IPL_LIST)
@@ -187,30 +187,30 @@ namespace WiredPlayers.business
         }
 
         [RemoteEvent("businessPurchaseMade")]
-        public void BusinessPurchaseMadeEvent(Client player, String itemName, int amount)
+        public void BusinessPurchaseMadeEvent(Client player, string itemName, int amount)
         {
-            int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
+            int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             BusinessModel business = GetBusinessById(businessId);
             BusinessItemModel businessItem = GetBusinessItemFromName(itemName);
 
-            if (business.type == Constants.BUSINESS_TYPE_AMMUNATION && businessItem.type == Constants.ITEM_TYPE_WEAPON && NAPI.Data.GetEntityData(player, EntityData.PLAYER_WEAPON_LICENSE) < Globals.GetTotalSeconds())
+            if (business.type == Constants.BUSINESS_TYPE_AMMUNATION && businessItem.type == Constants.ITEM_TYPE_WEAPON && player.GetData(EntityData.PLAYER_WEAPON_LICENSE) < Globals.GetTotalSeconds())
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_WEAPON_LICENSE_EXPIRED);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WEAPON_LICENSE_EXPIRED);
             }
             else
             {
                 int hash = 0;
                 int price = (int)Math.Round(businessItem.products * business.multiplier) * amount;
-                int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                int money = player.GetSharedData(EntityData.PLAYER_MONEY);
 
                 if(money < price)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
                 }
                 else
                 {
-                    String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
-                    int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                    string purchaseMessage = string.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
                     // We look for the item in the inventory
                     ItemModel itemModel = Globals.GetPlayerItemModelFromHash(playerId, businessItem.hash);
@@ -225,9 +225,9 @@ namespace WiredPlayers.business
                         }
                         else
                         {
-                            itemModel.ownerEntity = Int32.TryParse(itemModel.hash, out hash) ? Constants.ITEM_ENTITY_RIGHT_HAND : Constants.ITEM_ENTITY_PLAYER;
+                            itemModel.ownerEntity = int.TryParse(itemModel.hash, out hash) ? Constants.ITEM_ENTITY_RIGHT_HAND : Constants.ITEM_ENTITY_PLAYER;
                         }
-                        itemModel.ownerIdentifier = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                        itemModel.ownerIdentifier = player.GetData(EntityData.PLAYER_SQL_ID);
                         itemModel.amount = businessItem.uses * amount;
                         itemModel.position = new Vector3(0.0f, 0.0f, 0.0f);
                         itemModel.dimension = 0;
@@ -240,7 +240,7 @@ namespace WiredPlayers.business
                     }
                     else
                     {
-                        if (Int32.TryParse(itemModel.hash, out hash) == true)
+                        if (int.TryParse(itemModel.hash, out hash) == true)
                         {
                             itemModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
                         }
@@ -255,14 +255,13 @@ namespace WiredPlayers.business
                     // If the item has a valid hash, we give it in hand
                     if (itemModel.ownerEntity == Constants.ITEM_ENTITY_RIGHT_HAND)
                     {
-                        itemModel.objectHandle = NAPI.Object.CreateObject(UInt32.Parse(itemModel.hash), itemModel.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
-                        NAPI.Entity.AttachEntityToEntity(itemModel.objectHandle, player, "PH_R_Hand", businessItem.position, businessItem.rotation);
+                        itemModel.objectHandle = NAPI.Object.CreateObject(uint.Parse(itemModel.hash), itemModel.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
+                        itemModel.objectHandle.AttachTo(player, "PH_R_Hand", businessItem.position, businessItem.rotation);
                     }
                     else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
                     {
                         // We give the weapon to the player
-                        WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(itemModel.hash);
-                        NAPI.Player.GivePlayerWeapon(player, weaponHash, itemModel.amount);
+                        player.GiveWeapon(NAPI.Util.WeaponNameToModel(itemModel.hash), itemModel.amount);
 
                         // Checking if it's been bought in the Ammu-Nation
                         if (business.type == Constants.BUSINESS_TYPE_AMMUNATION)
@@ -275,25 +274,25 @@ namespace WiredPlayers.business
                     }
 
                     // We set the item into the hand variable
-                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_RIGHT_HAND, itemModel.id);
+                    player.SetData(EntityData.PLAYER_RIGHT_HAND, itemModel.id);
 
                     // If it's a phone, we create a new number
                     if (itemModel.hash == Constants.ITEM_HASH_TELEPHONE)
                     {
-                        if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_PHONE) == 0)
+                        if (player.GetData(EntityData.PLAYER_PHONE) == 0)
                         {
                             Random random = new Random();
                             int phone = random.Next(100000, 999999);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_PHONE, phone);
+                            player.SetData(EntityData.PLAYER_PHONE, phone);
 
                             // Sending the message with the new number to the player
-                            String message = String.Format(Messages.INF_PLAYER_PHONE, phone);
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                            string message = string.Format(Messages.INF_PLAYER_PHONE, phone);
+                            player.SendChatMessage(Constants.COLOR_INFO + message);
                         }
                     }
 
                     // We substract the product and add funds to the business
-                    if (business.owner != String.Empty)
+                    if (business.owner != string.Empty)
                     {
                         business.funds += price;
                         business.products -= businessItem.products;
@@ -304,8 +303,8 @@ namespace WiredPlayers.business
                         });
                     }
 
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - price);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                    player.SetSharedData(EntityData.PLAYER_MONEY, money - price);
+                    player.SendChatMessage(Constants.COLOR_INFO + purchaseMessage);
                 }
             }
         }
@@ -313,45 +312,45 @@ namespace WiredPlayers.business
         [RemoteEvent("getClothesByType")]
         public void GetClothesByTypeEvent(Client player, int type, int slot)
         {
-            int sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
+            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
             List<BusinessClothesModel> clothesList = GetBusinessClothesFromSlotType(sex, type, slot);
             if (clothesList.Count > 0)
             {
-                BusinessModel business = GetBusinessById(NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED));
-                NAPI.ClientEvent.TriggerClientEvent(player, "showTypeClothes", NAPI.Util.ToJson(clothesList));
+                BusinessModel business = GetBusinessById(player.GetData(EntityData.PLAYER_BUSINESS_ENTERED));
+                player.TriggerEvent("showTypeClothes", NAPI.Util.ToJson(clothesList));
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_BUSINESS_CLOTHES_NOT_AVAILABLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BUSINESS_CLOTHES_NOT_AVAILABLE);
             }
         }
 
         [RemoteEvent("dressEquipedClothes")]
         public void DressEquipedClothesEvent(Client player, int type, int slot)
         {
-            int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             ClothesModel clothes = Globals.GetDressedClothesInSlot(playerId, type, slot);
             
             if (clothes != null)
             {
                 if (type == 0)
                 {
-                    NAPI.Player.SetPlayerClothes(player, slot, clothes.drawable, clothes.texture);
+                    player.SetClothes(slot, clothes.drawable, clothes.texture);
                 }
                 else
                 {
-                    NAPI.Player.SetPlayerAccessory(player, slot, clothes.drawable, clothes.texture);
+                    player.SetAccessories(slot, clothes.drawable, clothes.texture);
                 }
             }
             else
             {
                 if (type == 0)
                 {
-                    NAPI.Player.SetPlayerClothes(player, slot, 0, 0);
+                    player.SetClothes(slot, 0, 0);
                 }
                 else
                 {
-                    NAPI.Player.SetPlayerAccessory(player, slot, 0, 0);
+                    player.SetAccessories(slot, 0, 0);
                 }
             }
         }
@@ -359,24 +358,24 @@ namespace WiredPlayers.business
         [RemoteEvent("clothesItemSelected")]
         public void ClothesItemSelectedEvent(Client player, int clothesId, int type, int slot)
         {
-            int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
-            int sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
+            int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
+            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
             int products = GetClothesProductsPrice(clothesId, sex, type, slot);
             BusinessModel business = GetBusinessById(businessId);
             int price = (int)Math.Round(products * business.multiplier);
 
             // We check whether the player has enough money
-            int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
 
             if (playerMoney >= price)
             {
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
                 // Substracting paid money
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
+                player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - price);
 
                 // We substract the product and add funds to the business
-                if (business.owner != String.Empty)
+                if (business.owner != string.Empty)
                 {
                     business.funds += price;
                     business.products -= products;
@@ -404,27 +403,27 @@ namespace WiredPlayers.business
                     Globals.clothesList.Add(clothesModel);
 
                     // Confirmation message sent to the player
-                    String purchaseMessage = String.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + purchaseMessage);
+                    string purchaseMessage = string.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    player.SendChatMessage(Constants.COLOR_INFO + purchaseMessage);
                 });
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
             }
         }
 
         [RemoteEvent("changeHairStyle")]
-        public void ChangeHairStyleEvent(Client player, String skinJson)
+        public void ChangeHairStyleEvent(Client player, string skinJson)
         {
-            int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-            int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
+            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
+            int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             BusinessModel business = GetBusinessById(businessId);
             int price = (int)Math.Round(business.multiplier * Constants.PRICE_BARBER_SHOP);
 
             if (playerMoney >= price)
             {
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
                 // Getting the new hairstyle from the JSON
                 dynamic skinModel = NAPI.Util.FromJson(skinJson);
@@ -439,23 +438,23 @@ namespace WiredPlayers.business
                 skin.eyebrowsColor = skinModel.eyebrowsColor;
 
                 // Saving new entity data
-                NAPI.Data.SetEntitySharedData(player, EntityData.HAIR_MODEL, skin.hairModel);
-                NAPI.Data.SetEntitySharedData(player, EntityData.FIRST_HAIR_COLOR, skin.firstHairColor);
-                NAPI.Data.SetEntitySharedData(player, EntityData.SECOND_HAIR_COLOR, skin.secondHairColor);
-                NAPI.Data.SetEntitySharedData(player, EntityData.BEARD_MODEL, skin.beardModel);
-                NAPI.Data.SetEntitySharedData(player, EntityData.BEARD_COLOR, skin.beardColor);
-                NAPI.Data.SetEntitySharedData(player, EntityData.EYEBROWS_MODEL, skin.eyebrowsModel);
-                NAPI.Data.SetEntitySharedData(player, EntityData.EYEBROWS_COLOR, skin.eyebrowsColor);
+                player.SetSharedData(EntityData.HAIR_MODEL, skin.hairModel);
+                player.SetSharedData(EntityData.FIRST_HAIR_COLOR, skin.firstHairColor);
+                player.SetSharedData(EntityData.SECOND_HAIR_COLOR, skin.secondHairColor);
+                player.SetSharedData(EntityData.BEARD_MODEL, skin.beardModel);
+                player.SetSharedData(EntityData.BEARD_COLOR, skin.beardColor);
+                player.SetSharedData(EntityData.EYEBROWS_MODEL, skin.eyebrowsModel);
+                player.SetSharedData(EntityData.EYEBROWS_COLOR, skin.eyebrowsColor);
 
                 // Substract money to the player
-                NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
+                player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - price);
 
                 Task.Factory.StartNew(() => {
                     // We update values in the database
                     Database.UpdateCharacterHair(playerId, skin);
 
                     // We substract the product and add funds to the business
-                    if (business.owner != String.Empty)
+                    if (business.owner != string.Empty)
                     {
                         business.funds += price;
                         business.products -= Constants.PRICE_BARBER_SHOP;
@@ -463,46 +462,46 @@ namespace WiredPlayers.business
                     }
 
                     // Confirmation message sent to the player
-                    String playerMessage = String.Format(Messages.INF_HAIRCUT_PURCHASED, price);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                    string playerMessage = string.Format(Messages.INF_HAIRCUT_PURCHASED, price);
+                    player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                 });
             }
             else
             {
-                String message = String.Format(Messages.ERR_HAIRCUT_MONEY, price);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                string message = string.Format(Messages.ERR_HAIRCUT_MONEY, price);
+                player.SendChatMessage(Constants.COLOR_ERROR + message);
 
                 // Setting the old hairstyle to the player
-                NAPI.ClientEvent.TriggerClientEvent(player, "cancelHairdressersChanges");
+                player.TriggerEvent("cancelHairdressersChanges");
             }
         }
 
         [RemoteEvent("loadZoneTattoos")]
         public void LoadZoneTattoosEvent(Client player, int zone)
         {
-            int sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
+            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
             List<BusinessTattooModel> tattooList = GetBusinessZoneTattoos(sex, zone);
 
             // We update the menu with the tattoos
-            NAPI.ClientEvent.TriggerClientEvent(player, "showZoneTattoos", NAPI.Util.ToJson(tattooList));
+            player.TriggerEvent("showZoneTattoos", NAPI.Util.ToJson(tattooList));
         }
 
         [RemoteEvent("purchaseTattoo")]
         public void PurchaseTattooEvent(Client player, int tattooZone, int tattooIndex)
         {
-            int sex = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_SEX);
-            int businessId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_BUSINESS_ENTERED);
+            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             BusinessModel business = GetBusinessById(businessId);
 
             // Getting the tattoo and its price
             BusinessTattooModel businessTattoo = GetBusinessZoneTattoos(sex, tattooZone).ElementAt(tattooIndex);
-            int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
             int price = (int)Math.Round(business.multiplier * businessTattoo.price);
 
             if (price <= playerMoney)
             {
                 TattooModel tattoo = new TattooModel();
-                tattoo.player = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                tattoo.player = player.GetData(EntityData.PLAYER_SQL_ID);
                 tattoo.slot = tattooZone;
                 tattoo.library = businessTattoo.library;
                 tattoo.hash = sex == Constants.SEX_MALE ? businessTattoo.maleHash : businessTattoo.femaleHash;
@@ -514,10 +513,10 @@ namespace WiredPlayers.business
                         Globals.tattooList.Add(tattoo);
 
                         // Substract player money
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - price);
+                        player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - price);
 
                         // We substract the product and add funds to the business
-                        if (business.owner != String.Empty)
+                        if (business.owner != string.Empty)
                         {
                             business.funds += price;
                             business.products -= businessTattoo.price;
@@ -525,22 +524,22 @@ namespace WiredPlayers.business
                         }
 
                         // Confirmation message sent to the player
-                        String playerMessage = String.Format(Messages.INF_TATTOO_PURCHASED, price);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
+                        string playerMessage = string.Format(Messages.INF_TATTOO_PURCHASED, price);
+                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
 
                         // Reload client tattoo list
-                        NAPI.ClientEvent.TriggerClientEvent(player, "addPurchasedTattoo", NAPI.Util.ToJson(tattoo));
+                        player.TriggerEvent("addPurchasedTattoo", NAPI.Util.ToJson(tattoo));
                     }
                     else
                     {
                         // Player already had that tattoo
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_TATTOO_DUPLICATED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_TATTOO_DUPLICATED);
                     }
                 });
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
             }
         }
 

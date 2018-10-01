@@ -25,7 +25,7 @@ namespace WiredPlayers.fastfood
         private int GetFastFoodOrderAmount(Client player)
         {
             int amount = 0;
-            int orderId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DELIVER_ORDER);
+            int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
             foreach (FastFoodOrderModel order in Globals.fastFoodOrderList)
             {
                 if (order.id == orderId)
@@ -57,27 +57,27 @@ namespace WiredPlayers.fastfood
 
         private void RespawnFastfoodVehicle(Vehicle vehicle)
         {
-            NAPI.Vehicle.RepairVehicle(vehicle);
-            NAPI.Entity.SetEntityPosition(vehicle, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION));
-            NAPI.Entity.SetEntityRotation(vehicle, NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ROTATION));
+            vehicle.Repair();
+            vehicle.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
+            vehicle.Rotation = vehicle.GetData(EntityData.VEHICLE_ROTATION);
         }
 
         private void OnFastFoodTimer(object playerObject)
         {
             Client player = (Client)playerObject;
-            Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_VEHICLE);
+            Vehicle vehicle = player.GetData(EntityData.PLAYER_JOB_VEHICLE);
 
             // Vehicle respawn
             RespawnFastfoodVehicle(vehicle);
 
             // Cancel the order
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DELIVER_ORDER);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_CHECKPOINT);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_VEHICLE);
-            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_WON);
+            player.ResetData(EntityData.PLAYER_DELIVER_ORDER);
+            player.ResetData(EntityData.PLAYER_JOB_CHECKPOINT);
+            player.ResetData(EntityData.PLAYER_JOB_VEHICLE);
+            player.ResetData(EntityData.PLAYER_JOB_WON);
 
             // Delete map blip
-            NAPI.ClientEvent.TriggerClientEvent(player, "fastFoodDeliverFinished");
+            player.TriggerEvent("fastFoodDeliverFinished");
 
             // Remove timer from the list
             Timer fastFoodTimer = fastFoodTimerList[player.Value];
@@ -88,23 +88,23 @@ namespace WiredPlayers.fastfood
             }
 
             // Send the message to the player
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_JOB_VEHICLE_ABANDONED);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_JOB_VEHICLE_ABANDONED);
         }
 
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seat)
         {
-            if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES)
+            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES)
             {
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DELIVER_ORDER) == false && NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_VEHICLE) == false)
+                if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                 {
-                    NAPI.Player.WarpPlayerOutOfVehicle(player);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_DELIVERING_ORDER);
+                    player.WarpOutOfVehicle();
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_DELIVERING_ORDER);
                 }
-                else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_VEHICLE) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_VEHICLE) != vehicle)
+                else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                 {
-                    NAPI.Player.WarpPlayerOutOfVehicle(player);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
+                    player.WarpOutOfVehicle();
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
                 }
                 else
                 {
@@ -113,16 +113,16 @@ namespace WiredPlayers.fastfood
                         fastFoodTimer.Dispose();
                         fastFoodTimerList.Remove(player.Value);
                     }
-                    if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_VEHICLE) == false)
+                    if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                     {
-                        int orderId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DELIVER_ORDER);
+                        int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
                         FastFoodOrderModel order = GetFastfoodOrderFromId(orderId);
                         Checkpoint playerFastFoodCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, order.position, new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
 
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_CHECKPOINT, playerFastFoodCheckpoint);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_VEHICLE, vehicle);
+                        player.SetData(EntityData.PLAYER_JOB_CHECKPOINT, playerFastFoodCheckpoint);
+                        player.SetData(EntityData.PLAYER_JOB_VEHICLE, vehicle);
 
-                        NAPI.ClientEvent.TriggerClientEvent(player, "fastFoodDestinationCheckPoint", order.position);
+                        player.TriggerEvent("fastFoodDestinationCheckPoint", order.position);
                     }
                 }
             }
@@ -131,12 +131,12 @@ namespace WiredPlayers.fastfood
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES && NAPI.Data.HasEntityData(player, EntityData.PLAYER_JOB_VEHICLE) == true)
+            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == true)
             {
-                if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_VEHICLE) == vehicle)
+                if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle)
                 {
-                    String warn = String.Format(Messages.INF_JOB_VEHICLE_LEFT, 60);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + warn);
+                    string warn = string.Format(Messages.INF_JOB_VEHICLE_LEFT, 60);
+                    player.SendChatMessage(Constants.COLOR_INFO + warn);
 
                     // Timer with the time left to get into the vehicle
                     Timer fastFoodTimer = new Timer(OnFastFoodTimer, player, 60000, Timeout.Infinite);
@@ -148,66 +148,66 @@ namespace WiredPlayers.fastfood
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
+            if (player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
             {
                 // Get the player's deliver checkpoint
-                Checkpoint playerDeliverColShape = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_CHECKPOINT);
+                Checkpoint playerDeliverColShape = player.GetData(EntityData.PLAYER_JOB_CHECKPOINT);
 
                 if (playerDeliverColShape == checkpoint)
                 {
-                    if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DELIVER_START) == true)
+                    if (player.HasData(EntityData.PLAYER_DELIVER_START) == true)
                     {
-                        if (NAPI.Player.IsPlayerInAnyVehicle(player) == false)
+                        if (!player.IsInVehicle)
                         {
-                            Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_VEHICLE);
-                            Vector3 vehiclePosition = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_POSITION);
-                            NAPI.Entity.SetEntityPosition(playerDeliverColShape, vehiclePosition);
-                            int elapsed = Globals.GetTotalSeconds() - NAPI.Data.GetEntityData(player, EntityData.PLAYER_DELIVER_START);
-                            int extra = (int)Math.Round((NAPI.Data.GetEntityData(player, EntityData.PLAYER_DELIVER_TIME) - elapsed) / 2.0f);
+                            Vehicle vehicle = player.GetData(EntityData.PLAYER_JOB_VEHICLE);
+                            playerDeliverColShape.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
+
+                            int elapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_DELIVER_START);
+                            int extra = (int)Math.Round((player.GetData(EntityData.PLAYER_DELIVER_TIME) - elapsed) / 2.0f);
                             int amount = GetFastFoodOrderAmount(player) + extra;
 
-                            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DELIVER_START);
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_JOB_WON, amount > 0 ? amount : 25);
+                            player.ResetData(EntityData.PLAYER_DELIVER_START);
+                            player.SetData(EntityData.PLAYER_JOB_WON, amount > 0 ? amount : 25);
 
-                            NAPI.ClientEvent.TriggerClientEvent(player, "fastFoodDeliverBack", vehiclePosition);
+                            player.TriggerEvent("fastFoodDeliverBack", vehiclePosition);
 
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_DELIVER_COMPLETED);
+                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_DELIVER_COMPLETED);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_DELIVER_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_DELIVER_IN_VEHICLE);
                         }
                     }
                     else
                     {
-                        Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_VEHICLE);
-                        if (NAPI.Player.GetPlayerVehicle(player) == vehicle && NAPI.Player.GetPlayerVehicleSeat(player) == (int)VehicleSeat.Driver)
+                        Vehicle vehicle = player.GetData(EntityData.PLAYER_JOB_VEHICLE);
+                        if (player.Vehicle == vehicle && player.VehicleSeat == (int)VehicleSeat.Driver)
                         {
-                            int won = NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB_WON);
-                            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
-                            int orderId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_DELIVER_ORDER);
-                            String message = String.Format(Messages.INF_JOB_WON, won);
+                            int won = player.GetData(EntityData.PLAYER_JOB_WON);
+                            int money = player.GetSharedData(EntityData.PLAYER_MONEY);
+                            int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
+                            string message = string.Format(Messages.INF_JOB_WON, won);
                             Globals.fastFoodOrderList.RemoveAll(order => order.id == orderId);
 
-                            NAPI.Entity.DeleteEntity(playerDeliverColShape);
-                            NAPI.Player.WarpPlayerOutOfVehicle(player);
+                            playerDeliverColShape.Delete();
+                            player.WarpOutOfVehicle();
 
-                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money + won);
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                            player.SetSharedData(EntityData.PLAYER_MONEY, money + won);
+                            player.SendChatMessage(Constants.COLOR_INFO + message);
 
-                            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_DELIVER_ORDER);
-                            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_CHECKPOINT);
-                            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_VEHICLE);
-                            NAPI.Data.ResetEntityData(player, EntityData.PLAYER_JOB_WON);
+                            player.ResetData(EntityData.PLAYER_DELIVER_ORDER);
+                            player.ResetData(EntityData.PLAYER_JOB_CHECKPOINT);
+                            player.ResetData(EntityData.PLAYER_JOB_VEHICLE);
+                            player.ResetData(EntityData.PLAYER_JOB_WON);
 
-                            NAPI.ClientEvent.TriggerClientEvent(player, "fastFoodDeliverFinished");
+                            player.TriggerEvent("fastFoodDeliverFinished");
 
                             // We get the motorcycle to its spawn point
                             RespawnFastfoodVehicle(vehicle);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
                         }
                     }
                 }
@@ -223,7 +223,7 @@ namespace WiredPlayers.fastfood
                 {
                     if (order.taken)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ORDER_TAKEN);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_TAKEN);
                     }
                     else
                     {
@@ -234,40 +234,40 @@ namespace WiredPlayers.fastfood
                         // We take the order
                         order.taken = true;
 
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DELIVER_ORDER, orderId);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DELIVER_START, start);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DELIVER_TIME, time);
+                        player.SetData(EntityData.PLAYER_DELIVER_ORDER, orderId);
+                        player.SetData(EntityData.PLAYER_DELIVER_START, start);
+                        player.SetData(EntityData.PLAYER_DELIVER_TIME, time);
 
                         // Information message sent to the player
-                        String orderMessage = String.Format(Messages.INF_DELIVER_ORDER, time);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + orderMessage);
+                        string orderMessage = string.Format(Messages.INF_DELIVER_ORDER, time);
+                        player.SendChatMessage(Constants.COLOR_INFO + orderMessage);
                     }
                     return;
                 }
             }
 
             // Order has been deleted
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ORDER_TIMEOUT);
+            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_TIMEOUT);
         }
 
         [Command(Messages.COM_ORDERS)]
         public void OrdersCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) != Constants.JOB_FASTFOOD)
+            else if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FASTFOOD)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_FASTFOOD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FASTFOOD);
             }
-            else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_DELIVER_ORDER) == true)
+            else if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == true)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ORDER_DELIVERING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_DELIVERING);
             }
             else
             {
@@ -285,11 +285,11 @@ namespace WiredPlayers.fastfood
                         distancesList.Add(distance);
                     }
 
-                    NAPI.ClientEvent.TriggerClientEvent(player, "showFastfoodOrders", NAPI.Util.ToJson(fastFoodOrders), NAPI.Util.ToJson(distancesList));
+                    player.TriggerEvent("showFastfoodOrders", NAPI.Util.ToJson(fastFoodOrders), NAPI.Util.ToJson(distancesList));
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_ORDER_NONE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_NONE);
                 }
             }
         }

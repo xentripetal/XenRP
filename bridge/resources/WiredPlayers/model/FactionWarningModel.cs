@@ -7,12 +7,12 @@ namespace WiredPlayers.model
     {
         public int faction { get; set; }
         public int playerId { get; set; }
-        public String place { get; set; }
+        public string place { get; set; }
         public Vector3 position { get; set; }
         public int takenBy { get; set; }
-        public String hour { get; set; }
+        public string hour { get; set; }
 
-        public FactionWarningModel(int faction, int playerId, String place, Vector3 position, int takenBy, String hour)
+        public FactionWarningModel(int faction, int playerId, string place, Vector3 position, int takenBy, string hour)
         {
             this.faction = faction;
             this.playerId = playerId;

@@ -49,11 +49,11 @@ namespace WiredPlayers.furniture
         }
         
         [Command(Messages.COM_FURNITURE, Messages.GEN_FURNITURE_COMMAND)]
-        public void FurnitureCommand(Client player, String action)
+        public void FurnitureCommand(Client player, string action)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_HOUSE_ENTERED) == true)
+            if (player.HasData(EntityData.PLAYER_HOUSE_ENTERED) == true)
             {
-                int houseId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_HOUSE_ENTERED);
+                int houseId = player.GetData(EntityData.PLAYER_HOUSE_ENTERED);
                 HouseModel house = House.GetHouseById(houseId);
 
                 if (house != null && house.owner == player.Name)
@@ -70,25 +70,25 @@ namespace WiredPlayers.furniture
                             furnitureList.Add(furniture);
                             break;
                         case Messages.ARG_MOVE:
-                            String furnitureJson = NAPI.Util.ToJson(GetFurnitureInHouse(houseId));
-                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MOVING_FURNITURE, true);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "moveFurniture", furnitureJson);
+                            string furnitureJson = NAPI.Util.ToJson(GetFurnitureInHouse(houseId));
+                            player.SetSharedData(EntityData.PLAYER_MOVING_FURNITURE, true);
+                            player.TriggerEvent("moveFurniture", furnitureJson);
                             break;
                         case Messages.ARG_REMOVE:
                             break;
                         default:
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_FURNITURE_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FURNITURE_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
                 }
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_HOUSE);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_HOUSE);
             }
         }
     }

@@ -8,7 +8,7 @@ namespace WiredPlayers.globals
     public class Constants
     {
         // Gamemode version
-        public const String GM_VERSION = "v1.0.1.3";
+        public const string GM_VERSION = "v1.0.1.3";
 
         public const int MALE_PED_HASH = 1885233650;
         public const int FEMALE_PED_HASH = -1667301416;
@@ -173,41 +173,41 @@ namespace WiredPlayers.globals
         public const int ITEM_OPEN_BEER_AMOUNT = 6;
 
         // 24-7 items
-        public const String ITEM_HASH_FRIES = "1443311452";
-        public const String ITEM_HASH_HOTDOG = "2565741261";
-        public const String ITEM_HASH_CHOCOLATE_BAR = "921283475";
-        public const String ITEM_HASH_BURGER = "2240524752";
-        public const String ITEM_HASH_SANDWICH = "3602873787";
-        public const String ITEM_HASH_CANDY = "3310697493";
+        public const string ITEM_HASH_FRIES = "1443311452";
+        public const string ITEM_HASH_HOTDOG = "2565741261";
+        public const string ITEM_HASH_CHOCOLATE_BAR = "921283475";
+        public const string ITEM_HASH_BURGER = "2240524752";
+        public const string ITEM_HASH_SANDWICH = "3602873787";
+        public const string ITEM_HASH_CANDY = "3310697493";
 
-        public const String ITEM_HASH_CUP_JUICE = "3638960837";
-        public const String ITEM_HASH_ENERGY_DRINK = "582043502";
-        public const String ITEM_HASH_BOTTLE_WATER = "746336278";
-        public const String ITEM_HASH_CUP_COFFEE = "3696781377";
-        public const String ITEM_HASH_CAN_COLA = "1020618269";
+        public const string ITEM_HASH_CUP_JUICE = "3638960837";
+        public const string ITEM_HASH_ENERGY_DRINK = "582043502";
+        public const string ITEM_HASH_BOTTLE_WATER = "746336278";
+        public const string ITEM_HASH_CUP_COFFEE = "3696781377";
+        public const string ITEM_HASH_CAN_COLA = "1020618269";
 
-        public const String ITEM_HASH_CUP_WINE = "2998419875";
-        public const String ITEM_HASH_CUP_CHAMPANGE = "600913159";
-        public const String ITEM_HASH_BOTTLE_BEER_PISSWASSER = "4016900153";
-        public const String ITEM_HASH_BOTTLE_BEER_AM = "1350970027";
-        public const String ITEM_HASH_PACK_BEER_AM = "4241316616";
-        public const String ITEM_HASH_BOTTLE_COGNAC = "1404018125";
-        public const String ITEM_HASH_BOTTLE_CAVA = "3846720762";
+        public const string ITEM_HASH_CUP_WINE = "2998419875";
+        public const string ITEM_HASH_CUP_CHAMPANGE = "600913159";
+        public const string ITEM_HASH_BOTTLE_BEER_PISSWASSER = "4016900153";
+        public const string ITEM_HASH_BOTTLE_BEER_AM = "1350970027";
+        public const string ITEM_HASH_PACK_BEER_AM = "4241316616";
+        public const string ITEM_HASH_BOTTLE_COGNAC = "1404018125";
+        public const string ITEM_HASH_BOTTLE_CAVA = "3846720762";
 
-        public const String ITEM_HASH_CIGARRETES_PACK_OPEN = "1079465856";
+        public const string ITEM_HASH_CIGARRETES_PACK_OPEN = "1079465856";
 
         // Electronic items
-        public const String ITEM_HASH_TELEPHONE = "2277609629";
-        public const String ITEM_HASH_WALKIE = "1806057883";
-        public const String ITEM_HASH_RADIO_CASSETTE = "1060029110";
-        public const String ITEM_HASH_CAMERA = "680380202";
+        public const string ITEM_HASH_TELEPHONE = "2277609629";
+        public const string ITEM_HASH_WALKIE = "1806057883";
+        public const string ITEM_HASH_RADIO_CASSETTE = "1060029110";
+        public const string ITEM_HASH_CAMERA = "680380202";
 
         // Ammunition items
-        public const String ITEM_HASH_PISTOL_AMMO_CLIP = "PistolAmmo";
-        public const String ITEM_HASH_MACHINEGUN_AMMO_CLIP = "SmgAmmo";
-        public const String ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP = "RifleAmmo";
-        public const String ITEM_HASH_SNIPERRIFLE_AMMO_CLIP = "SniperAmmo";
-        public const String ITEM_HASH_SHOTGUN_AMMO_CLIP = "ShotgunAmmo";
+        public const string ITEM_HASH_PISTOL_AMMO_CLIP = "PistolAmmo";
+        public const string ITEM_HASH_MACHINEGUN_AMMO_CLIP = "SmgAmmo";
+        public const string ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP = "RifleAmmo";
+        public const string ITEM_HASH_SNIPERRIFLE_AMMO_CLIP = "SniperAmmo";
+        public const string ITEM_HASH_SHOTGUN_AMMO_CLIP = "ShotgunAmmo";
 
         // Stack of the guns
         public const Int32 STACK_PISTOL_CAPACITY = 32;
@@ -217,14 +217,14 @@ namespace WiredPlayers.globals
         public const Int32 STACK_SNIPERRIFLE_CAPACITY = 8;
 
         // Miscelaneous items
-        public const String ITEM_HASH_ID_CARD = "511938898";
-        public const String ITEM_HASH_CUFFS = "1070220657";
-        public const String ITEM_HASH_JERRYCAN = "1069395324";
-        public const String ITEM_HASH_FISHING_ROD = "2384362703";
-        public const String ITEM_HASH_STOLEN_OBJECTS = "Stolen";
-        public const String ITEM_HASH_BUSINESS_PRODUCTS = "Products";
-        public const String ITEM_HASH_BAIT = "Bait";
-        public const String ITEM_HASH_FISH = "Fish";
+        public const string ITEM_HASH_ID_CARD = "511938898";
+        public const string ITEM_HASH_CUFFS = "1070220657";
+        public const string ITEM_HASH_JERRYCAN = "1069395324";
+        public const string ITEM_HASH_FISHING_ROD = "2384362703";
+        public const string ITEM_HASH_STOLEN_OBJECTS = "Stolen";
+        public const string ITEM_HASH_BUSINESS_PRODUCTS = "Products";
+        public const string ITEM_HASH_BAIT = "Bait";
+        public const string ITEM_HASH_FISH = "Fish";
 
         // Vehicle color types
         public const int VEHICLE_COLOR_TYPE_PREDEFINED = 0;
@@ -304,13 +304,13 @@ namespace WiredPlayers.globals
         public const int JOB_FISHERMAN = 6;
 
         // Database stored items' place
-        public const String ITEM_ENTITY_GROUND = "Ground";
-        public const String ITEM_ENTITY_PLAYER = "Player";
-        public const String ITEM_ENTITY_VEHICLE = "Vehicle";
-        public const String ITEM_ENTITY_HOUSE = "House";
-        public const String ITEM_ENTITY_WHEEL = "Wheel";
-        public const String ITEM_ENTITY_LEFT_HAND = "Left hand";
-        public const String ITEM_ENTITY_RIGHT_HAND = "Right hand";
+        public const string ITEM_ENTITY_GROUND = "Ground";
+        public const string ITEM_ENTITY_PLAYER = "Player";
+        public const string ITEM_ENTITY_VEHICLE = "Vehicle";
+        public const string ITEM_ENTITY_HOUSE = "House";
+        public const string ITEM_ENTITY_WHEEL = "Wheel";
+        public const string ITEM_ENTITY_LEFT_HAND = "Left hand";
+        public const string ITEM_ENTITY_RIGHT_HAND = "Right hand";
 
         // Driving school's licenses
         public const int LICENSE_CAR = 0;
@@ -362,32 +362,32 @@ namespace WiredPlayers.globals
         public const int MESSAGE_RADIO = 12;
 
         // Chat colors
-        public const String COLOR_CHAT_CLOSE = "!{#E6E6E6}";
-        public const String COLOR_CHAT_NEAR = "!{#C8C8C8}";
-        public const String COLOR_CHAT_MEDIUM = "!{#AAAAAA}";
-        public const String COLOR_CHAT_FAR = "!{#8C8C8C}";
-        public const String COLOR_CHAT_LIMIT = "!{#6E6E6E}";
-        public const String COLOR_CHAT_ME = "!{#C2A2DA}";
-        public const String COLOR_CHAT_DO = "!{#0F9622}";
-        public const String COLOR_CHAT_FACTION = "!{#27F7C8}";
-        public const String COLOR_CHAT_PHONE = "!{#27F7C8}";
-        public const String COLOR_OOC_CLOSE = "!{#4C9E9E}";
-        public const String COLOR_OOC_NEAR = "!{#438C8C}";
-        public const String COLOR_OOC_MEDIUM = "!{#2E8787}";
-        public const String COLOR_OOC_FAR = "!{#187373}";
-        public const String COLOR_OOC_LIMIT = "!{#0A5555}";
-        public const String COLOR_ADMIN_INFO = "!{#00FCFF}";
-        public const String COLOR_ADMIN_NEWS = "!{#F93131}";
-        public const String COLOR_ADMIN_MP = "!{#F93131}";
-        public const String COLOR_SUCCESS = "!{#33B517}";
-        public const String COLOR_ERROR = "!{#A80707}";
-        public const String COLOR_INFO = "!{#FDFE8B}";
-        public const String COLOR_HELP = "!{#FFFFFF}";
-        public const String COLOR_SU_POSITIVE = "!{#E3E47D}";
-        public const String COLOR_RADIO = "!{#1598C4}";
-        public const String COLOR_RADIO_POLICE = "!{#4169E1}";
-        public const String COLOR_RADIO_EMERGENCY = "!{#FF9F0F}";
-        public const String COLOR_NEWS = "!{#805CC9}";
+        public const string COLOR_CHAT_CLOSE = "!{#E6E6E6}";
+        public const string COLOR_CHAT_NEAR = "!{#C8C8C8}";
+        public const string COLOR_CHAT_MEDIUM = "!{#AAAAAA}";
+        public const string COLOR_CHAT_FAR = "!{#8C8C8C}";
+        public const string COLOR_CHAT_LIMIT = "!{#6E6E6E}";
+        public const string COLOR_CHAT_ME = "!{#C2A2DA}";
+        public const string COLOR_CHAT_DO = "!{#0F9622}";
+        public const string COLOR_CHAT_FACTION = "!{#27F7C8}";
+        public const string COLOR_CHAT_PHONE = "!{#27F7C8}";
+        public const string COLOR_OOC_CLOSE = "!{#4C9E9E}";
+        public const string COLOR_OOC_NEAR = "!{#438C8C}";
+        public const string COLOR_OOC_MEDIUM = "!{#2E8787}";
+        public const string COLOR_OOC_FAR = "!{#187373}";
+        public const string COLOR_OOC_LIMIT = "!{#0A5555}";
+        public const string COLOR_ADMIN_INFO = "!{#00FCFF}";
+        public const string COLOR_ADMIN_NEWS = "!{#F93131}";
+        public const string COLOR_ADMIN_MP = "!{#F93131}";
+        public const string COLOR_SUCCESS = "!{#33B517}";
+        public const string COLOR_ERROR = "!{#A80707}";
+        public const string COLOR_INFO = "!{#FDFE8B}";
+        public const string COLOR_HELP = "!{#FFFFFF}";
+        public const string COLOR_SU_POSITIVE = "!{#E3E47D}";
+        public const string COLOR_RADIO = "!{#1598C4}";
+        public const string COLOR_RADIO_POLICE = "!{#4169E1}";
+        public const string COLOR_RADIO_EMERGENCY = "!{#FF9F0F}";
+        public const string COLOR_NEWS = "!{#805CC9}";
 
         // Gargabe collector's routes
         public const int NORTH_ROUTE = 0;
@@ -409,7 +409,7 @@ namespace WiredPlayers.globals
             new InteriorModel(Messages.GEN_HOSPITAL, new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, Messages.GEN_HOSPITAL),
             new InteriorModel(Messages.GEN_DRIVING_SCHOOL, new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, Messages.GEN_DRIVING_SCHOOL),
             new InteriorModel(Messages.GEN_WEAZEL_NEWS, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, Messages.GEN_WEAZEL_NEWS),
-            new InteriorModel(Messages.GEN_POLICE_STATION, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), String.Empty, 60, Messages.GEN_POLICE_STATION),
+            new InteriorModel(Messages.GEN_POLICE_STATION, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), string.Empty, 60, Messages.GEN_POLICE_STATION),
         };
 
         // Business IPLs from the game
@@ -2282,18 +2282,18 @@ namespace WiredPlayers.globals
         public static List<BusinessTattooModel> TATTOO_LIST = new List<BusinessTattooModel>
         {
             // Torso
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Refined Hustler", "mpbusiness_overlays", "MP_Buis_M_Stomach_000", String.Empty, 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Rich", "mpbusiness_overlays", "MP_Buis_M_Chest_000", String.Empty, 150),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "$$$", "mpbusiness_overlays", "MP_Buis_M_Chest_001", String.Empty, 150),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Makin' Paper", "mpbusiness_overlays", "MP_Buis_M_Back_000", String.Empty, 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "High Roller", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Chest_000", 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Makin' Money", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Chest_001", 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Love Money", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Chest_002", 100),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Diamond Back", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Stom_000", 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Santo Capra Logo", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Stom_001", 100),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Money Bag", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Stom_002", 100),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Respect", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Back_000", 200),
-            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Gold Digger", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Back_001", 150),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Refined Hustler", "mpbusiness_overlays", "MP_Buis_M_Stomach_000", string.Empty, 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Rich", "mpbusiness_overlays", "MP_Buis_M_Chest_000", string.Empty, 150),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "$$$", "mpbusiness_overlays", "MP_Buis_M_Chest_001", string.Empty, 150),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Makin' Paper", "mpbusiness_overlays", "MP_Buis_M_Back_000", string.Empty, 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "High Roller", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Chest_000", 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Makin' Money", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Chest_001", 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Love Money", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Chest_002", 100),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Diamond Back", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Stom_000", 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Santo Capra Logo", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Stom_001", 100),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Money Bag", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Stom_002", 100),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Respect", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Back_000", 200),
+            new BusinessTattooModel(TATTOO_ZONE_TORSO, "Gold Digger", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Back_001", 150),
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Carp Outline", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_005", "MP_Xmas2_F_Tat_005", 230),
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Carp Shaded", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_006", "MP_Xmas2_F_Tat_006", 350),
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Time To Die", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_009", "MP_Xmas2_F_Tat_009", 250),
@@ -2472,12 +2472,12 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_TORSO, "Skulls and Rose", "multiplayer_overlays", "FM_Tat_M_045", "FM_Tat_F_045", 400),
             
             // Head
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Cash is King", "mpbusiness_overlays", "MP_Buis_M_Neck_000", String.Empty, 100),
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Bold Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_001", String.Empty, 100),
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Script Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_002", String.Empty, 100),
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "$100", "mpbusiness_overlays", "MP_Buis_M_Neck_003", String.Empty, 150),
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Val-de-Grace Logo", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Neck_000", 100),
-            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Money Rose", "mpbusiness_overlays", String.Empty, "MP_Buis_F_Neck_001", 100),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Cash is King", "mpbusiness_overlays", "MP_Buis_M_Neck_000", string.Empty, 100),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Bold Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_001", string.Empty, 100),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Script Dollar Sign", "mpbusiness_overlays", "MP_Buis_M_Neck_002", string.Empty, 100),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "$100", "mpbusiness_overlays", "MP_Buis_M_Neck_003", string.Empty, 150),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Val-de-Grace Logo", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Neck_000", 100),
+            new BusinessTattooModel(TATTOO_ZONE_HEAD, "Money Rose", "mpbusiness_overlays", string.Empty, "MP_Buis_F_Neck_001", 100),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Los Muertos", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_007", "MP_Xmas2_F_Tat_007", 150),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Snake Head Outline", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_024", "MP_Xmas2_F_Tat_024", 100),
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Snake Head Color", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_025", "MP_Xmas2_F_Tat_025", 150),
@@ -2498,9 +2498,9 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_HEAD, "Skull", "multiplayer_overlays", "FM_Tat_Award_M_000", "FM_Tat_Award_F_000", 100),
 
             // Left arm
-            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "$100 Bill", "mpbusiness_overlays", "MP_Buis_M_LeftArm_000", String.Empty, 200),
-            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "All-Seeing Eye", "mpbusiness_overlays", "MP_Buis_M_LeftArm_001", String.Empty, 200),
-            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Greed is Good", "mpbusiness_overlays", String.Empty, "MP_Buis_F_LArm_000", 200),
+            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "$100 Bill", "mpbusiness_overlays", "MP_Buis_M_LeftArm_000", string.Empty, 200),
+            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "All-Seeing Eye", "mpbusiness_overlays", "MP_Buis_M_LeftArm_001", string.Empty, 200),
+            new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Greed is Good", "mpbusiness_overlays", string.Empty, "MP_Buis_F_LArm_000", 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Skull Rider", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_000", "MP_Xmas2_F_Tat_000", 250),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Electric Snake", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_010", "MP_Xmas2_F_Tat_010", 250),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "8 Ball Skull", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_012", "MP_Xmas2_F_Tat_012", 250),
@@ -2570,9 +2570,9 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_LEFT_ARM, "Dope Skull", "multiplayer_overlays", "FM_Tat_M_041", "FM_Tat_F_041", 100),
 
             // Right arm
-            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Skull", "mpbusiness_overlays", "MP_Buis_M_RightArm_000", String.Empty, 150),
-            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Green", "mpbusiness_overlays", "MP_Buis_M_RightArm_001", String.Empty, 150),
-            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Sign", "mpbusiness_overlays", String.Empty, "MP_Buis_F_RArm_000", 100),
+            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Skull", "mpbusiness_overlays", "MP_Buis_M_RightArm_000", string.Empty, 150),
+            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Green", "mpbusiness_overlays", "MP_Buis_M_RightArm_001", string.Empty, 150),
+            new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Dollar Sign", "mpbusiness_overlays", string.Empty, "MP_Buis_F_RArm_000", 100),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Snake Outline", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_003", "MP_Xmas2_F_Tat_003", 150),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Snake Shaded", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_004", "MP_Xmas2_F_Tat_004", 200),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Death Before Dishonor", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_008", "MP_Xmas2_F_Tat_008", 250),
@@ -2642,7 +2642,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_ARM, "Lion", "multiplayer_overlays", "FM_Tat_M_047", "FM_Tat_F_047", 100),
 
             // Left leg
-            new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Single", "mpbusiness_overlays", String.Empty, "MP_Buis_F_LLeg_000", 200),
+            new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Single", "mpbusiness_overlays", string.Empty, "MP_Buis_F_LLeg_000", 200),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Spider Outline", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_001", "MP_Xmas2_F_Tat_001", 300),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Spider Color", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_002", "MP_Xmas2_F_Tat_002", 350),
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Patriot Skull", "mpgunrunning_overlays", "MP_Gunrunning_Tattoo_005_M", "MP_Gunrunning_Tattoo_005_F", 200),
@@ -2682,7 +2682,7 @@ namespace WiredPlayers.globals
             new BusinessTattooModel(TATTOO_ZONE_LEFT_LEG, "Grim Reaper", "multiplayer_overlays", "FM_Tat_M_037", "FM_Tat_F_037", 200),
             
             // Right leg
-            new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Diamond Crown", "mpbusiness_overlays", String.Empty, "MP_Buis_F_RLeg_000", 100),
+            new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Diamond Crown", "mpbusiness_overlays", string.Empty, "MP_Buis_F_RLeg_000", 100),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Floral Dagger", "mpchristmas2_overlays", "MP_Xmas2_M_Tat_014", "MP_Xmas2_F_Tat_014", 250),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Combat Skull", "mpgunrunning_overlays", "MP_Gunrunning_Tattoo_006_M", "MP_Gunrunning_Tattoo_006_F", 150),
             new BusinessTattooModel(TATTOO_ZONE_RIGHT_LEG, "Restless Skull", "mpgunrunning_overlays", "MP_Gunrunning_Tattoo_026_M", "MP_Gunrunning_Tattoo_026_F", 200),

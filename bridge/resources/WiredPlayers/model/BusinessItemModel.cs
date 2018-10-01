@@ -5,8 +5,8 @@ namespace WiredPlayers.model
 {
     public class BusinessItemModel
     {
-        public String description { get; set; }
-        public String hash { get; set; }
+        public string description { get; set; }
+        public string hash { get; set; }
         public int type { get; set; }
         public int products { get; set; }
         public float weight { get; set; }
@@ -17,7 +17,7 @@ namespace WiredPlayers.model
         public int business { get; set; }
         public float alcoholLevel { get; set; }
 
-        public BusinessItemModel(String description, String hash, int type, int products, float weight, int health, int uses, Vector3 position, Vector3 rotation, int business, float alcoholLevel)
+        public BusinessItemModel(string description, string hash, int type, int products, float weight, int health, int uses, Vector3 position, Vector3 rotation, int business, float alcoholLevel)
         {
             this.description = description;
             this.hash = hash;

@@ -21,7 +21,7 @@ namespace WiredPlayers.parking
             parkingList = Database.LoadAllParkings();
             foreach (ParkingModel parking in parkingList)
             {
-                String parkingLabelText = GetParkingLabelText(parking.type);
+                string parkingLabelText = GetParkingLabelText(parking.type);
                 parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(parkingLabelText, parking.position, 30.0f, 0.75f, 4, new Color(255, 255, 255));
             }
         }
@@ -53,9 +53,9 @@ namespace WiredPlayers.parking
             return totalVehicles;
         }
 
-        public static String GetParkingLabelText(int type)
+        public static string GetParkingLabelText(int type)
         {
-            String labelText = String.Empty;
+            string labelText = string.Empty;
             switch (type)
             {
                 case Constants.PARKING_TYPE_PUBLIC:
@@ -104,27 +104,21 @@ namespace WiredPlayers.parking
 
         private void PlayerParkVehicle(Client player, ParkingModel parking)
         {
-            NetHandle vehicle = NAPI.Player.GetPlayerVehicle(player);
-
-            // Get vehicle's colors
-            Color primaryColor = NAPI.Vehicle.GetVehicleCustomPrimaryColor(vehicle);
-            Color secondaryColor = NAPI.Vehicle.GetVehicleCustomSecondaryColor(vehicle);
-
             // Get vehicle data
             VehicleModel vehicleModel = new VehicleModel();
-            vehicleModel.rotation = NAPI.Entity.GetEntityRotation(vehicle);
-            vehicleModel.id = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
-            vehicleModel.model = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
-            vehicleModel.colorType = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_COLOR_TYPE);
-            vehicleModel.firstColor = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FIRST_COLOR);
-            vehicleModel.secondColor = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_SECOND_COLOR);
-            vehicleModel.pearlescent = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PEARLESCENT_COLOR);
-            vehicleModel.faction = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION);
-            vehicleModel.plate = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PLATE);
-            vehicleModel.owner = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_OWNER);
-            vehicleModel.price = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PRICE);
-            vehicleModel.gas = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_GAS);
-            vehicleModel.kms = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_KMS);
+            vehicleModel.rotation = player.Vehicle.Rotation;
+            vehicleModel.id = player.Vehicle.GetData(EntityData.VEHICLE_ID);
+            vehicleModel.model = player.Vehicle.GetData(EntityData.VEHICLE_MODEL);
+            vehicleModel.colorType = player.Vehicle.GetData(EntityData.VEHICLE_COLOR_TYPE);
+            vehicleModel.firstColor = player.Vehicle.GetData(EntityData.VEHICLE_FIRST_COLOR);
+            vehicleModel.secondColor = player.Vehicle.GetData(EntityData.VEHICLE_SECOND_COLOR);
+            vehicleModel.pearlescent = player.Vehicle.GetData(EntityData.VEHICLE_PEARLESCENT_COLOR);
+            vehicleModel.faction = player.Vehicle.GetData(EntityData.VEHICLE_FACTION);
+            vehicleModel.plate = player.Vehicle.GetData(EntityData.VEHICLE_PLATE);
+            vehicleModel.owner = player.Vehicle.GetData(EntityData.VEHICLE_OWNER);
+            vehicleModel.price = player.Vehicle.GetData(EntityData.VEHICLE_PRICE);
+            vehicleModel.gas = player.Vehicle.GetData(EntityData.VEHICLE_GAS);
+            vehicleModel.kms = player.Vehicle.GetData(EntityData.VEHICLE_KMS);
 
             // Update parking values
             vehicleModel.position = parking.position;
@@ -139,8 +133,8 @@ namespace WiredPlayers.parking
             parkedCars.Add(parkedCarModel);
 
             // Save the vehicle and delete it from the game
-            NAPI.Player.WarpPlayerOutOfVehicle(player);
-            NAPI.Entity.DeleteEntity(vehicle);
+            player.WarpOutOfVehicle();
+            player.Vehicle.Delete();
 
             Task.Factory.StartNew(() =>
             {
@@ -152,20 +146,20 @@ namespace WiredPlayers.parking
         [Command(Messages.COM_PARK)]
         public void ParkCommand(Client player)
         {
-            if (NAPI.Player.GetPlayerVehicleSeat(player) != (int)VehicleSeat.Driver)
+            if (player.VehicleSeat != (int)VehicleSeat.Driver)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
             }
-            else if (NAPI.Data.GetEntityData(NAPI.Player.GetPlayerVehicle(player), EntityData.VEHICLE_FACTION) != Constants.FACTION_NONE)
+            else if (player.Vehicle.GetData(EntityData.VEHICLE_FACTION) != Constants.FACTION_NONE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_FACTION_PARK);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_FACTION_PARK);
             }
             else
             {
-                Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-                if (Vehicles.HasPlayerVehicleKeys(player, vehicle) && NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                Vehicle vehicle = player.Vehicle;
+                if (Vehicles.HasPlayerVehicleKeys(player, vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
                 }
                 else
                 {
@@ -176,39 +170,39 @@ namespace WiredPlayers.parking
                             switch (parking.type)
                             {
                                 case Constants.PARKING_TYPE_PUBLIC:
-                                    String message = String.Format(Messages.INF_PARKING_COST, Constants.PRICE_PARKING_PUBLIC);
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                                    string message = string.Format(Messages.INF_PARKING_COST, Constants.PRICE_PARKING_PUBLIC);
+                                    player.SendChatMessage(Constants.COLOR_INFO + message);
                                     PlayerParkVehicle(player, parking);
                                     break;
                                 case Constants.PARKING_TYPE_GARAGE:
                                     HouseModel house = House.GetHouseById(parking.houseId);
                                     if (house == null || House.HasPlayerHouseKeys(player, house) == false)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_GARAGE_ACCESS);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_GARAGE_ACCESS);
                                     }
                                     else if (GetParkedCarAmount(parking) == parking.capacity)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PARKING_FULL);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PARKING_FULL);
                                     }
                                     else
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_VEHICLE_GARAGE_PARKED);
+                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_GARAGE_PARKED);
                                         PlayerParkVehicle(player, parking);
                                     }
                                     break;
                                 case Constants.PARKING_TYPE_DEPOSIT:
-                                    if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                                    if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
                                     }
                                     else
                                     {
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_VEHICLE_DEPOSIT_PARKED);
+                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_DEPOSIT_PARKED);
                                         PlayerParkVehicle(player, parking);
                                     }
                                     break;
                                 default:
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_ALLOWED);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_ALLOWED);
                                     break;
                             }
                             return;
@@ -216,7 +210,7 @@ namespace WiredPlayers.parking
                     }
 
                     // There's no parking near
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
                 }
             }
         }
@@ -229,11 +223,11 @@ namespace WiredPlayers.parking
             if (vehicle == null)
             {
                 // There's no vehicle with that identifier
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
             }
             else if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == false)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
             }
             else
             {
@@ -244,7 +238,7 @@ namespace WiredPlayers.parking
                         // Check whether the vehicle is in this parking
                         if (parking.id == vehicle.parking)
                         {
-                            int playerMoney = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
                             
                             switch (parking.type)
                             {
@@ -256,15 +250,15 @@ namespace WiredPlayers.parking
                                     // Remove player's money
                                     if (playerMoney >= Constants.PRICE_PARKING_DEPOSIT)
                                     {
-                                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, playerMoney - Constants.PRICE_PARKING_DEPOSIT);
+                                        player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - Constants.PRICE_PARKING_DEPOSIT);
                                         
-                                        String message = String.Format(Messages.INF_UNPARK_MONEY, Constants.PRICE_PARKING_DEPOSIT);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                                        string message = string.Format(Messages.INF_UNPARK_MONEY, Constants.PRICE_PARKING_DEPOSIT);
+                                        player.SendChatMessage(Constants.COLOR_INFO + message);
                                     }
                                     else
                                     {
-                                        String message = String.Format(Messages.ERR_PARKING_NOT_MONEY, Constants.PRICE_PARKING_DEPOSIT);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                                        string message = string.Format(Messages.ERR_PARKING_NOT_MONEY, Constants.PRICE_PARKING_DEPOSIT);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                                         return;
                                     }
                                     break;
@@ -275,43 +269,43 @@ namespace WiredPlayers.parking
 
                             // Recreate the vehicle
                             Vehicle newVehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehicle.model), parking.position, vehicle.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
-                            NAPI.Vehicle.SetVehicleNumberPlate(newVehicle, vehicle.plate == String.Empty ? "LS " + (1000 + vehicle.id) : vehicle.plate);
-                            NAPI.Vehicle.SetVehicleEngineStatus(newVehicle, false);
-                            NAPI.Vehicle.SetVehicleLocked(newVehicle, false);
+                            newVehicle.NumberPlate = vehicle.plate == string.Empty ? "LS " + (1000 + vehicle.id) : vehicle.plate;
+                            newVehicle.EngineStatus = false;
+                            newVehicle.Locked = false;
                             
                             if (vehicle.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
                             {
-                                NAPI.Vehicle.SetVehiclePrimaryColor(newVehicle, Int32.Parse(vehicle.firstColor));
-                                NAPI.Vehicle.SetVehicleSecondaryColor(newVehicle, Int32.Parse(vehicle.secondColor));
-                                NAPI.Vehicle.SetVehiclePearlescentColor(newVehicle, vehicle.pearlescent);
+                                newVehicle.PrimaryColor = int.Parse(vehicle.firstColor);
+                                newVehicle.SecondaryColor = int.Parse(vehicle.secondColor);
+                                newVehicle.PearlescentColor = vehicle.pearlescent;
                             }
                             else
                             {
-                                String[] firstColor = vehicle.firstColor.Split(',');
-                                String[] secondColor = vehicle.secondColor.Split(',');
-                                NAPI.Vehicle.SetVehicleCustomPrimaryColor(newVehicle, Int32.Parse(firstColor[0]), Int32.Parse(firstColor[1]), Int32.Parse(firstColor[2]));
-                                NAPI.Vehicle.SetVehicleCustomSecondaryColor(newVehicle, Int32.Parse(secondColor[0]), Int32.Parse(secondColor[1]), Int32.Parse(secondColor[2]));
+                                string[] firstColor = vehicle.firstColor.Split(',');
+                                string[] secondColor = vehicle.secondColor.Split(',');
+                                newVehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
+                                newVehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
                             }
 
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_ID, vehicle.id);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_MODEL, vehicle.model);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_POSITION, parking.position);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_ROTATION, vehicle.rotation);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_COLOR_TYPE, vehicle.colorType);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_FIRST_COLOR, vehicle.firstColor);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_SECOND_COLOR, vehicle.secondColor);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_PEARLESCENT_COLOR, vehicle.pearlescent);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_FACTION, vehicle.faction);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_PLATE, vehicle.plate);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_OWNER, vehicle.owner);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_PRICE, vehicle.price);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_GAS, vehicle.gas);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_KMS, vehicle.kms);
+                            newVehicle.SetData(EntityData.VEHICLE_ID, vehicle.id);
+                            newVehicle.SetData(EntityData.VEHICLE_MODEL, vehicle.model);
+                            newVehicle.SetData(EntityData.VEHICLE_POSITION, parking.position);
+                            newVehicle.SetData(EntityData.VEHICLE_ROTATION, vehicle.rotation);
+                            newVehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehicle.colorType);
+                            newVehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehicle.firstColor);
+                            newVehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehicle.secondColor);
+                            newVehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehicle.pearlescent);
+                            newVehicle.SetData(EntityData.VEHICLE_FACTION, vehicle.faction);
+                            newVehicle.SetData(EntityData.VEHICLE_PLATE, vehicle.plate);
+                            newVehicle.SetData(EntityData.VEHICLE_OWNER, vehicle.owner);
+                            newVehicle.SetData(EntityData.VEHICLE_PRICE, vehicle.price);
+                            newVehicle.SetData(EntityData.VEHICLE_GAS, vehicle.gas);
+                            newVehicle.SetData(EntityData.VEHICLE_KMS, vehicle.kms);
 
                             // Update parking values
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_DIMENSION, 0);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_PARKING, 0);
-                            NAPI.Data.SetEntityData(newVehicle, EntityData.VEHICLE_PARKED, 0);
+                            newVehicle.SetData(EntityData.VEHICLE_DIMENSION, 0);
+                            newVehicle.SetData(EntityData.VEHICLE_PARKING, 0);
+                            newVehicle.SetData(EntityData.VEHICLE_PARKED, 0);
 
                             // Add tunning
                             Mechanic.AddTunningToVehicle(newVehicle);
@@ -323,13 +317,13 @@ namespace WiredPlayers.parking
                         }
 
                         // The vehicle is not in this parking
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_THIS_PARKING);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_THIS_PARKING);
                         return;
                     }
                 }
 
                 // Player's not in any parking
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
             }
         }
     }

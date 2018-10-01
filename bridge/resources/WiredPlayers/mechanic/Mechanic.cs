@@ -6,7 +6,6 @@ using WiredPlayers.model;
 using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Threading.Tasks;
 
 namespace WiredPlayers.mechanic
@@ -19,9 +18,9 @@ namespace WiredPlayers.mechanic
         {
             foreach (TunningModel tunning in tunningList)
             {
-                if (NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID) == tunning.vehicle)
+                if (vehicle.GetData(EntityData.VEHICLE_ID) == tunning.vehicle)
                 {
-                    NAPI.Vehicle.SetVehicleMod(vehicle, tunning.slot, tunning.component);
+                    vehicle.SetMod(tunning.slot, tunning.component);
                 }
             }
         }
@@ -40,7 +39,7 @@ namespace WiredPlayers.mechanic
             // Check if the player has a towtruck near
             foreach (Vehicle vehicle in NAPI.Pools.GetAllVehicles())
             {
-                VehicleHash vehicleHash = (VehicleHash)NAPI.Entity.GetEntityModel(vehicle);
+                VehicleHash vehicleHash = (VehicleHash)vehicle.Model;
                 if (vehicleHash == VehicleHash.TowTruck || vehicleHash == VehicleHash.TowTruck2)
                 {
                     return true;
@@ -65,75 +64,75 @@ namespace WiredPlayers.mechanic
         }
 
         [RemoteEvent("repaintVehicle")]
-        public void RepaintVehicleEvent(Client player, int colorType, String firstColor, String secondColor, int pearlescentColor, int vehiclePaid)
+        public void RepaintVehicleEvent(Client player, int colorType, string firstColor, string secondColor, int pearlescentColor, int vehiclePaid)
         {
             // Get player's vehicle
-            Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_VEHICLE);
+            Vehicle vehicle = player.GetData(EntityData.PLAYER_VEHICLE);
             
             switch (colorType)
             {
                 case 0:
                     // Predefined color
-                    NAPI.Vehicle.SetVehiclePrimaryColor(vehicle, Int32.Parse(firstColor));
-                    NAPI.Vehicle.SetVehicleSecondaryColor(vehicle, Int32.Parse(secondColor));
+                    vehicle.PrimaryColor = int.Parse(firstColor);
+                    vehicle.SecondaryColor = int.Parse(secondColor);
                     
                     if (pearlescentColor >= 0)
                     {
-                        NAPI.Vehicle.SetVehiclePearlescentColor(vehicle, pearlescentColor);
+                        vehicle.PearlescentColor = pearlescentColor;
                     }
                     break;
                 case 1:
                     // Custom color
-                    String[] firstColorArray = firstColor.Split(',');
-                    String[] secondColorArray = secondColor.Split(',');
-                    NAPI.Vehicle.SetVehicleCustomPrimaryColor(vehicle, Int32.Parse(firstColorArray[0]), Int32.Parse(firstColorArray[1]), Int32.Parse(firstColorArray[2]));
-                    NAPI.Vehicle.SetVehicleCustomSecondaryColor(vehicle, Int32.Parse(secondColorArray[0]), Int32.Parse(secondColorArray[1]), Int32.Parse(secondColorArray[2]));
+                    string[] firstColorArray = firstColor.Split(',');
+                    string[] secondColorArray = secondColor.Split(',');
+                    vehicle.CustomPrimaryColor = new Color(int.Parse(firstColorArray[0]), int.Parse(firstColorArray[1]), int.Parse(firstColorArray[2]));
+                    vehicle.CustomSecondaryColor = new Color(int.Parse(secondColorArray[0]), int.Parse(secondColorArray[1]), int.Parse(secondColorArray[2]));
                     break;
             }
             
             if (vehiclePaid > 0)
             {
                 // Check for the product amount
-                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                 ItemModel item = Globals.GetPlayerItemModelFromHash(playerId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
 
                 if (item != null && item.amount >= 250)
                 {
-                    int vehicleFaction = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION);
+                    int vehicleFaction = vehicle.GetData(EntityData.VEHICLE_FACTION);
 
                     // Search for a player with vehicle keys
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
-                        if (Vehicles.HasPlayerVehicleKeys(target, vehicle) || (vehicleFaction > 0 && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == vehicleFaction))
+                        if (Vehicles.HasPlayerVehicleKeys(target, vehicle) || (vehicleFaction > 0 && target.GetData(EntityData.PLAYER_FACTION) == vehicleFaction))
                         {
                             if (target.Position.DistanceTo(player.Position) < 4.0f)
                             {
                                 // Vehicle repaint data
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_JOB_PARTNER, player);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAINT_VEHICLE, vehicle);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAINT_COLOR_TYPE, colorType);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAINT_FIRST_COLOR, firstColor);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAINT_SECOND_COLOR, secondColor);
-                                NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAINT_PEARLESCENT, pearlescentColor);
-                                NAPI.Data.SetEntityData(target, EntityData.JOB_OFFER_PRICE, vehiclePaid);
-                                NAPI.Data.SetEntityData(target, EntityData.JOB_OFFER_PRODUCTS, 250);
+                                target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
+                                target.SetData(EntityData.PLAYER_REPAINT_VEHICLE, vehicle);
+                                target.SetData(EntityData.PLAYER_REPAINT_COLOR_TYPE, colorType);
+                                target.SetData(EntityData.PLAYER_REPAINT_FIRST_COLOR, firstColor);
+                                target.SetData(EntityData.PLAYER_REPAINT_SECOND_COLOR, secondColor);
+                                target.SetData(EntityData.PLAYER_REPAINT_PEARLESCENT, pearlescentColor);
+                                target.SetData(EntityData.JOB_OFFER_PRICE, vehiclePaid);
+                                target.SetData(EntityData.JOB_OFFER_PRODUCTS, 250);
                                 
-                                String playerMessage = String.Format(Messages.INF_MECHANIC_REPAINT_OFFER, target.Name, vehiclePaid);
-                                String targetMessage = String.Format(Messages.INF_MECHANIC_REPAINT_ACCEPT, player.Name, vehiclePaid);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                string playerMessage = string.Format(Messages.INF_MECHANIC_REPAINT_OFFER, target.Name, vehiclePaid);
+                                string targetMessage = string.Format(Messages.INF_MECHANIC_REPAINT_ACCEPT, player.Name, vehiclePaid);
+                                player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                               target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                 return;
                             }
                         }
                     }
 
                     // There's no player with vehicle's keys near
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
                 }
                 else
                 {
-                    String message = String.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, 250);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                    string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, 250);
+                    player.SendChatMessage(Constants.COLOR_ERROR + message);
                 }
             }
         }
@@ -142,26 +141,26 @@ namespace WiredPlayers.mechanic
         public void CancelVehicleRepaintEvent(Client player)
         {
             // Get player's vehicle
-            Vehicle vehicle = NAPI.Data.GetEntityData(player, EntityData.PLAYER_VEHICLE);
+            Vehicle vehicle = player.GetData(EntityData.PLAYER_VEHICLE);
 
             // Get previous colors
-            int vehicleColorType = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_COLOR_TYPE);
-            String primaryVehicleColor = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FIRST_COLOR);
-            String secondaryVehicleColor = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_SECOND_COLOR);
-            int vehiclePearlescentColor = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PEARLESCENT_COLOR);
+            int vehicleColorType = vehicle.GetData(EntityData.VEHICLE_COLOR_TYPE);
+            string primaryVehicleColor = vehicle.GetData(EntityData.VEHICLE_FIRST_COLOR);
+            string secondaryVehicleColor = vehicle.GetData(EntityData.VEHICLE_SECOND_COLOR);
+            int vehiclePearlescentColor = vehicle.GetData(EntityData.VEHICLE_PEARLESCENT_COLOR);
 
             if (vehicleColorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
             {
-                NAPI.Vehicle.SetVehiclePrimaryColor(vehicle, Int32.Parse(primaryVehicleColor));
-                NAPI.Vehicle.SetVehicleSecondaryColor(vehicle, Int32.Parse(secondaryVehicleColor));
-                NAPI.Vehicle.SetVehiclePearlescentColor(vehicle, vehiclePearlescentColor);
+                vehicle.PrimaryColor = int.Parse(primaryVehicleColor);
+                vehicle.SecondaryColor = int.Parse(secondaryVehicleColor);
+                vehicle.PearlescentColor = vehiclePearlescentColor;
             }
             else
             {
-                String[] primaryColor = primaryVehicleColor.Split(',');
-                String[] secondaryColor = secondaryVehicleColor.Split(',');
-                NAPI.Vehicle.SetVehicleCustomPrimaryColor(vehicle, Int32.Parse(primaryColor[0]), Int32.Parse(primaryColor[1]), Int32.Parse(primaryColor[2]));
-                NAPI.Vehicle.SetVehicleCustomSecondaryColor(vehicle, Int32.Parse(secondaryColor[0]), Int32.Parse(secondaryColor[1]), Int32.Parse(secondaryColor[2]));
+                string[] primaryColor = primaryVehicleColor.Split(',');
+                string[] secondaryColor = secondaryVehicleColor.Split(',');
+                vehicle.CustomPrimaryColor = new Color(int.Parse(primaryColor[0]), int.Parse(primaryColor[1]), int.Parse(primaryColor[2]));
+                vehicle.CustomSecondaryColor = new Color(int.Parse(secondaryColor[0]), int.Parse(secondaryColor[1]), int.Parse(secondaryColor[2]));
             }
         }
 
@@ -171,12 +170,11 @@ namespace WiredPlayers.mechanic
             int totalProducts = 0;
 
             // Get the vehicle
-            Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-            int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
+            int vehicleId = player.Vehicle.GetData(EntityData.VEHICLE_ID);
 
             for (int i = 0; i < 49; i++)
             {
-                int vehicleMod = NAPI.Vehicle.GetVehicleMod(vehicle, i);
+                int vehicleMod = player.Vehicle.GetMod(i);
 
                 if (vehicleMod > 0)
                 {
@@ -189,43 +187,42 @@ namespace WiredPlayers.mechanic
             }
 
             // Send the price to the player
-            String priceMessage = String.Format(Messages.INF_TUNNING_PRODUCTS, totalProducts);
-            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + priceMessage);
+            string priceMessage = string.Format(Messages.INF_TUNNING_PRODUCTS, totalProducts);
+            player.SendChatMessage(Constants.COLOR_INFO + priceMessage);
         }
 
         [RemoteEvent("modifyVehicle")]
         public void ModifyVehicleEvent(Client player, int slot, int component)
         {
-            Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
+            Vehicle vehicle = player.Vehicle;
 
             if (component > 0)
             {
-                NAPI.Vehicle.SetVehicleMod(vehicle, slot, component);
+                player.Vehicle.SetMod(slot, component);
             }
             else
             {
-                NAPI.Vehicle.RemoveVehicleMod(vehicle, slot);
+                player.Vehicle.RemoveMod(slot);
             }
         }
 
         [RemoteEvent("cancelVehicleModification")]
         public void CancelVehicleModificationEvent(Client player)
         {
-            Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-            int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
+            int vehicleId = player.Vehicle.GetData(EntityData.VEHICLE_ID);
             
             for (int i = 0; i < 49; i++)
             {
-                int vehicleMod = NAPI.Vehicle.GetVehicleMod(vehicle, i);
+                int vehicleMod = player.Vehicle.GetMod(i);
                 TunningModel tunningModel = GetVehicleTunningComponent(vehicleId, i, vehicleMod);
 
                 if (tunningModel == null)
                 {
-                    NAPI.Vehicle.RemoveVehicleMod(vehicle, i);
+                    player.Vehicle.RemoveMod(i);
                 }
                 else
                 {
-                    NAPI.Vehicle.SetVehicleMod(vehicle, i, vehicleMod);
+                    player.Vehicle.SetMod(i, vehicleMod);
                 }
             }
         }
@@ -234,16 +231,15 @@ namespace WiredPlayers.mechanic
         public void ConfirmVehicleModificationEvent(Client player)
         {
             int totalProducts = 0;
-            Vehicle vehicle = NAPI.Player.GetPlayerVehicle(player);
-            int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
+            int vehicleId = player.Vehicle.GetData(EntityData.VEHICLE_ID);
 
             // Get player's product amount
-            int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             ItemModel item = Globals.GetPlayerItemModelFromHash(playerId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
             
             for (int i = 0; i < 49; i++)
             {
-                int vehicleMod = NAPI.Vehicle.GetVehicleMod(vehicle, i);
+                int vehicleMod = player.Vehicle.GetMod(i);
 
                 if (vehicleMod > 0)
                 {
@@ -259,7 +255,7 @@ namespace WiredPlayers.mechanic
             {
                 for (int i = 0; i < 49; i++)
                 {
-                    int vehicleMod = NAPI.Vehicle.GetVehicleMod(vehicle, i);
+                    int vehicleMod = player.Vehicle.GetMod(i);
 
                     if (vehicleMod > 0)
                     {
@@ -291,47 +287,47 @@ namespace WiredPlayers.mechanic
                 });
 
                 // Close tunning menu
-                NAPI.ClientEvent.TriggerClientEvent(player, "closeTunningMenu");
+                player.TriggerEvent("closeTunningMenu");
                 
                 // Confirmation message
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_VEHICLE_TUNNING);
+                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_TUNNING);
             }
             else
             {
-                String message = String.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, totalProducts);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, totalProducts);
+                player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
         }
 
         [Command(Messages.COM_REPAIR, Messages.GEN_MECHANIC_REPAIR_COMMAND)]
-        public void RepairCommand(Client player, int vehicleId, String type, int price = 0)
+        public void RepairCommand(Client player, int vehicleId, string type, int price = 0)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
+            if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else if (PlayerInValidRepairPlace(player) == false)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_VALID_REPAIR_PLACE);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VALID_REPAIR_PLACE);
             }
             else
             {
                 Vehicle vehicle = Vehicles.GetVehicleById(vehicleId);
                 if (vehicle == null)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
                 }
-                else if (NAPI.Entity.GetEntityPosition(vehicle).DistanceTo(player.Position) > 5.0f)
+                else if (vehicle.Position.DistanceTo(player.Position) > 5.0f)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_WANTED_VEHICLE_FAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WANTED_VEHICLE_FAR);
                 }
                 else
                 {
@@ -345,7 +341,7 @@ namespace WiredPlayers.mechanic
                         case Messages.ARG_DOORS:
                             for (int i = 0; i < 6; i++)
                             {
-                                if (NAPI.Vehicle.IsVehicleDoorBroken(vehicle, i) == true)
+                                if (vehicle.IsDoorBroken(i) == true)
                                 {
                                     spentProducts += Constants.PRICE_VEHICLE_DOORS;
                                 }
@@ -354,7 +350,7 @@ namespace WiredPlayers.mechanic
                         case Messages.ARG_TYRES:
                             for (int i = 0; i < 4; i++)
                             {
-                                if (NAPI.Vehicle.IsVehicleTyrePopped(vehicle, i) == true)
+                                if (vehicle.IsTyrePopped(i) == true)
                                 {
                                     spentProducts += Constants.PRICE_VEHICLE_TYRES;
                                 }
@@ -363,63 +359,63 @@ namespace WiredPlayers.mechanic
                         case Messages.ARG_WINDOWS:
                             for (int i = 0; i < 4; i++)
                             {
-                                if (NAPI.Vehicle.IsVehicleWindowBroken(vehicle, i) == true)
+                                if (vehicle.IsWindowBroken(i) == true)
                                 {
                                     spentProducts += Constants.PRICE_VEHICLE_WINDOWS;
                                 }
                             }
                             break;
                         default:
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_MECHANIC_REPAIR_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_MECHANIC_REPAIR_COMMAND);
                             return;
                     }
 
                     if (price > 0)
                     {
                         // Get player's products
-                        int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                        int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                         ItemModel item = Globals.GetPlayerItemModelFromHash(playerId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
 
                         if (item != null && item.amount >= spentProducts)
                         {
-                            int vehicleFaction = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_FACTION);
+                            int vehicleFaction = vehicle.GetData(EntityData.VEHICLE_FACTION);
 
                             // Check a player with vehicle keys
                             foreach (Client target in NAPI.Pools.GetAllPlayers())
                             {
-                                if (Vehicles.HasPlayerVehicleKeys(target, vehicle) || (vehicleFaction > 0 && NAPI.Data.GetEntityData(target, EntityData.PLAYER_FACTION) == vehicleFaction))
+                                if (Vehicles.HasPlayerVehicleKeys(target, vehicle) || (vehicleFaction > 0 && target.GetData(EntityData.PLAYER_FACTION) == vehicleFaction))
                                 {
                                     if (target.Position.DistanceTo(player.Position) < 4.0f)
                                     {
                                         // Fill repair entity data
-                                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_JOB_PARTNER, player);
-                                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAIR_VEHICLE, vehicle);
-                                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_REPAIR_TYPE, type);
-                                        NAPI.Data.SetEntityData(target, EntityData.JOB_OFFER_PRODUCTS, spentProducts);
-                                        NAPI.Data.SetEntityData(target, EntityData.JOB_OFFER_PRICE, price);
+                                        target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
+                                        target.SetData(EntityData.PLAYER_REPAIR_VEHICLE, vehicle);
+                                        target.SetData(EntityData.PLAYER_REPAIR_TYPE, type);
+                                        target.SetData(EntityData.JOB_OFFER_PRODUCTS, spentProducts);
+                                        target.SetData(EntityData.JOB_OFFER_PRICE, price);
                                         
-                                        String playerMessage = String.Format(Messages.INF_MECHANIC_REPAIR_OFFER, target.Name, price);
-                                        String targetMessage = String.Format(Messages.INF_MECHANIC_REPAIR_ACCEPT, player.Name, price);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                        string playerMessage = string.Format(Messages.INF_MECHANIC_REPAIR_OFFER, target.Name, price);
+                                        string targetMessage = string.Format(Messages.INF_MECHANIC_REPAIR_ACCEPT, player.Name, price);
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         return;
                                     }
                                 }
                             }
 
                             // There's no player with the vehicle's keys near
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
                         }
                         else
                         {
-                            String message = String.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, spentProducts);
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                            string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, spentProducts);
+                            player.SendChatMessage(Constants.COLOR_ERROR + message);
                         }
                     }
                     else
                     {
-                        String message = String.Format(Messages.INF_REPAIR_PRICE, spentProducts);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        string message = string.Format(Messages.INF_REPAIR_PRICE, spentProducts);
+                        player.SendChatMessage(Constants.COLOR_INFO + message);
                     }
                 }
             }
@@ -428,17 +424,17 @@ namespace WiredPlayers.mechanic
         [Command(Messages.COM_REPAINT, Messages.GEN_MECHANIC_REPAINT_COMMAND)]
         public void RepaintCommand(Client player, int vehicleId)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
+            if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
@@ -449,36 +445,36 @@ namespace WiredPlayers.mechanic
                         Vehicle vehicle = Vehicles.GetVehicleById(vehicleId);
                         if (vehicle != null)
                         {
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_VEHICLE, vehicle);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showRepaintMenu");
+                            player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
+                            player.TriggerEvent("showRepaintMenu");
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
                         }
                         return;
                     }
                 }
 
                 // Player is not in any workshop
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
             }
         }
 
         [Command(Messages.COM_TUNNING)]
         public void TunningCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
+            if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
@@ -486,22 +482,22 @@ namespace WiredPlayers.mechanic
                 {
                     if (business.type == Constants.BUSINESS_TYPE_MECHANIC && player.Position.DistanceTo(business.position) < 25.0f)
                     {
-                        NetHandle vehicle = NAPI.Player.GetPlayerVehicle(player);
+                        NetHandle vehicle = player.Vehicle;
                         if (vehicle != null)
                         {
-                            NAPI.Data.SetEntityData(player, EntityData.PLAYER_VEHICLE, vehicle);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showTunningMenu");
+                            player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
+                            player.TriggerEvent("showTunningMenu");
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
                         }
                         return;
                     }
                 }
 
                 // Player is not in any workshop
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
             }
         }
     }

@@ -7,11 +7,11 @@ namespace WiredPlayers.model
     {
         public int id { get; set; }
         public int type { get; set; }
-        public String ipl { get; set; }
-        public String name { get; set; }
+        public string ipl { get; set; }
+        public string name { get; set; }
         public Vector3 position { get; set; }
         public uint dimension { get; set; }
-        public String owner { get; set; }
+        public string owner { get; set; }
         public int funds { get; set; }
         public int products { get; set; }
         public float multiplier { get; set; }

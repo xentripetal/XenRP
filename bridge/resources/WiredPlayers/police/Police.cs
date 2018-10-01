@@ -20,21 +20,21 @@ namespace WiredPlayers.police
 
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_HANDCUFFED) == true)
+            if (player.HasData(EntityData.PLAYER_HANDCUFFED) == true)
             {
                 // Remove player's cuffs
-                GTANetworkAPI.Object cuff = NAPI.Data.GetEntityData(player, EntityData.PLAYER_HANDCUFFED);
-                NAPI.Entity.DetachEntity(cuff);
-                NAPI.Entity.DeleteEntity(cuff);
+                GTANetworkAPI.Object cuff = player.GetData(EntityData.PLAYER_HANDCUFFED);
+                cuff.Detach();
+                cuff.Delete();
             }
         }
 
-        private List<String> GetDifferentPoliceControls()
+        private List<string> GetDifferentPoliceControls()
         {
-            List<String> policeControls = new List<String>();
+            List<string> policeControls = new List<string>();
             foreach (PoliceControlModel policeControl in policeControlList)
             {
-                if (policeControls.Contains(policeControl.name) == false && policeControl.name != String.Empty)
+                if (policeControls.Contains(policeControl.name) == false && policeControl.name != string.Empty)
                 {
                     policeControls.Add(policeControl.name);
                 }
@@ -46,9 +46,9 @@ namespace WiredPlayers.police
         {
             foreach (PoliceControlModel policeControl in policeControlList)
             {
-                if (NAPI.Entity.DoesEntityExist(policeControl.controlObject) && NAPI.Entity.GetEntityPosition(policeControl.controlObject).DistanceTo(player.Position) < 2.0f && policeControl.item == hash)
+                if (policeControl.controlObject.Exists && policeControl.controlObject.Position.DistanceTo(player.Position) < 2.0f && policeControl.item == hash)
                 {
-                    NAPI.Entity.DeleteEntity(policeControl.controlObject);
+                    policeControl.controlObject.Delete();
                     policeControl.controlObject = null;
                     break;
                 }
@@ -58,25 +58,25 @@ namespace WiredPlayers.police
         private void UpdateReinforcesRequests(object unused)
         {
             List<ReinforcesModel> policeReinforces = new List<ReinforcesModel>();
-            List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => NAPI.Data.GetEntityData(x, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
+            List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => x.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
             
             foreach (Client police in policeMembers)
             {
-                if (NAPI.Data.HasEntityData(police, EntityData.PLAYER_REINFORCES) == true)
+                if (police.HasData(EntityData.PLAYER_REINFORCES) == true)
                 {
                     ReinforcesModel reinforces = new ReinforcesModel(police.Value, police.Position);
                     policeReinforces.Add(reinforces);
                 }
             }
             
-            String reinforcesJsonList = NAPI.Util.ToJson(policeReinforces);
+            string reinforcesJsonList = NAPI.Util.ToJson(policeReinforces);
 
             foreach (Client police in policeMembers)
             {
-                if (NAPI.Data.HasEntityData(police, EntityData.PLAYER_PLAYING) == true)
+                if (police.HasData(EntityData.PLAYER_PLAYING) == true)
                 {
                     // Update reinforces position for each policeman
-                    NAPI.ClientEvent.TriggerClientEvent(police, "updatePoliceReinforces", reinforcesJsonList);
+                    police.TriggerEvent("updatePoliceReinforces", reinforcesJsonList);
                 }
             }
         }
@@ -89,10 +89,10 @@ namespace WiredPlayers.police
         }
 
         [RemoteEvent("applyCrimesToPlayer")]
-        public void ApplyCrimesToPlayerEvent(Client player, String crimeJson)
+        public void ApplyCrimesToPlayerEvent(Client player, string crimeJson)
         {
             int fine = 0, jail = 0;
-            Client target = NAPI.Data.GetEntityData(player, EntityData.PLAYER_INCRIMINATED_TARGET);
+            Client target = player.GetData(EntityData.PLAYER_INCRIMINATED_TARGET);
             List<CrimeModel> crimeList = JsonConvert.DeserializeObject<List<CrimeModel>>(crimeJson);
 
             // Calculate fine amount and jail time
@@ -103,38 +103,38 @@ namespace WiredPlayers.police
             }
             
             Random random = new Random();
-            NAPI.Data.SetEntityData(player, EntityData.PLAYER_INCRIMINATED_TARGET, target);
-            NAPI.Entity.SetEntityPosition(target, Constants.JAIL_SPAWNS[random.Next(3)]);
+            target.Position = Constants.JAIL_SPAWNS[random.Next(3)];
+            player.SetData(EntityData.PLAYER_INCRIMINATED_TARGET, target);
 
             // Remove money and jail the player
-            int money = NAPI.Data.GetEntitySharedData(target, EntityData.PLAYER_MONEY);
-            NAPI.Data.SetEntitySharedData(target, EntityData.PLAYER_MONEY, money - fine);
-            NAPI.Data.SetEntityData(target, EntityData.PLAYER_JAIL_TYPE, Constants.JAIL_TYPE_IC);
-            NAPI.Data.SetEntityData(target, EntityData.PLAYER_JAILED, jail);
+            int money = target.GetSharedData(EntityData.PLAYER_MONEY);
+            target.SetSharedData(EntityData.PLAYER_MONEY, money - fine);
+            target.SetData(EntityData.PLAYER_JAIL_TYPE, Constants.JAIL_TYPE_IC);
+            target.SetData(EntityData.PLAYER_JAILED, jail);
         }
 
         [RemoteEvent("policeControlSelected")]
-        public void PoliceControlSelectedEvent(Client player, String policeControl)
+        public void PoliceControlSelectedEvent(Client player, string policeControl)
         {
-            if (NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_LOAD)
+            if (player.GetSharedData(EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_LOAD)
             {
                 foreach (PoliceControlModel policeControlModel in policeControlList)
                 {
-                    if (!NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name == policeControl)
+                    if (!policeControlModel.controlObject.Exists && policeControlModel.name == policeControl)
                     {
                         policeControlModel.controlObject = NAPI.Object.CreateObject(policeControlModel.item, policeControlModel.position, policeControlModel.rotation);
                     }
                 }
             }
-            else if (NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_SAVE)
+            else if (player.GetSharedData(EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_SAVE)
             {
                 List<PoliceControlModel> copiedPoliceControlModels = new List<PoliceControlModel>();
                 List<PoliceControlModel> deletedPoliceControlModels = new List<PoliceControlModel>();
                 foreach (PoliceControlModel policeControlModel in policeControlList)
                 {
-                    if (NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name != policeControl)
+                    if (policeControlModel.controlObject.Exists && policeControlModel.name != policeControl)
                     {
-                        if (policeControlModel.name != String.Empty)
+                        if (policeControlModel.name != string.Empty)
                         {
                             PoliceControlModel policeControlCopy = policeControlModel;
                             policeControlCopy.name = policeControl;
@@ -156,7 +156,7 @@ namespace WiredPlayers.police
                             });
                         }
                     }
-                    else if (!NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name == policeControl)
+                    else if (!policeControlModel.controlObject.Exists && policeControlModel.name == policeControl)
                     {
                         Task.Factory.StartNew(() =>
                         {
@@ -172,9 +172,9 @@ namespace WiredPlayers.police
             {
                 foreach (PoliceControlModel policeControlModel in policeControlList)
                 {
-                    if (NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name == policeControl)
+                    if (policeControlModel.controlObject.Exists && policeControlModel.name == policeControl)
                     {
-                        NAPI.Entity.DeleteEntity(policeControlModel.controlObject);
+                        policeControlModel.controlObject.Delete();
                     }
                 }
                 policeControlList.RemoveAll(control => control.name == policeControl);
@@ -188,17 +188,17 @@ namespace WiredPlayers.police
         }
 
         [RemoteEvent("updatePoliceControlName")]
-        public void UpdatePoliceControlNameEvent(Client player, String policeControlSource, String policeControlTarget)
+        public void UpdatePoliceControlNameEvent(Client player, string policeControlSource, string policeControlTarget)
         {
-            if (NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_SAVE)
+            if (player.GetSharedData(EntityData.PLAYER_POLICE_CONTROL) == Constants.ACTION_SAVE)
             {
                 List<PoliceControlModel> copiedPoliceControlModels = new List<PoliceControlModel>();
                 List<PoliceControlModel> deletedPoliceControlModels = new List<PoliceControlModel>();
                 foreach (PoliceControlModel policeControlModel in policeControlList)
                 {
-                    if (NAPI.Entity.DoesEntityExist(policeControlModel.controlObject) && policeControlModel.name != policeControlTarget)
+                    if (policeControlModel.controlObject.Exists && policeControlModel.name != policeControlTarget)
                     {
-                        if (policeControlModel.name != String.Empty)
+                        if (policeControlModel.name != string.Empty)
                         {
                             PoliceControlModel policeControlCopy = policeControlModel.Copy();
                             policeControlModel.controlObject = null;
@@ -239,167 +239,167 @@ namespace WiredPlayers.police
         [Command(Messages.COM_CHECK)]
         public void CheckCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
                 Vehicle vehicle = Globals.GetClosestVehicle(player, 3.5f);
                 if (vehicle == null)
                 {
-                    int vehicleId = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_ID);
-                    String checkTitle = String.Format(Messages.GEN_VEHICLE_CHECK_TITLE, vehicleId);
-                    String model = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_MODEL);
-                    String plate = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_PLATE);
-                    String owner = NAPI.Data.GetEntityData(vehicle, EntityData.VEHICLE_OWNER);
-                    NAPI.Chat.SendChatMessageToPlayer(player, checkTitle);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_VEHICLE_MODEL + model);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_VEHICLE_PLATE + plate);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Messages.GEN_OWNER + owner);
+                    int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
+                    string checkTitle = string.Format(Messages.GEN_VEHICLE_CHECK_TITLE, vehicleId);
+                    string model = vehicle.GetData(EntityData.VEHICLE_MODEL);
+                    string plate = vehicle.GetData(EntityData.VEHICLE_PLATE);
+                    string owner = vehicle.GetData(EntityData.VEHICLE_OWNER);
+                    player.SendChatMessage(checkTitle);
+                    player.SendChatMessage(Messages.GEN_VEHICLE_MODEL + model);
+                    player.SendChatMessage(Messages.GEN_VEHICLE_PLATE + plate);
+                    player.SendChatMessage(Messages.GEN_OWNER + owner);
 
-                    String message = String.Format(Messages.INF_CHECK_VEHICLE_PLATE, player.Name, model);
+                    string message = string.Format(Messages.INF_CHECK_VEHICLE_PLATE, player.Name, model);
 
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
                         if(player != target && player.Position.DistanceTo(target.Position) < 20.0f)
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_CHAT_ME + message);
+                           target.SendChatMessage(Constants.COLOR_CHAT_ME + message);
                         }
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
                 }
             }
         }
 
         [Command(Messages.COM_FRISK, Messages.GEN_FRISK_COMMAND)]
-        public void FriskCommand(Client player, String targetString)
+        public void FriskCommand(Client player, string targetString)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
                 if (target != null)
                 {
                     if (target == player)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_SEARCHED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_SEARCHED_HIMSELF);
                     }
                     else
                     {
-                        String message = String.Format(Messages.INF_PLAYER_FRISK, player.Name, target.Name);
+                        string message = string.Format(Messages.INF_PLAYER_FRISK, player.Name, target.Name);
                         List<InventoryModel> inventory = Globals.GetPlayerInventoryAndWeapons(target);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_SEARCHED_TARGET, target);
+                        player.SetData(EntityData.PLAYER_SEARCHED_TARGET, target);
 
                         foreach (Client nearPlayer in NAPI.Pools.GetAllPlayers())
                         {
                             if (player != nearPlayer && player.Position.DistanceTo(nearPlayer.Position) < 20.0f)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(nearPlayer, Constants.COLOR_CHAT_ME + message);
+                                nearPlayer.SendChatMessage(Constants.COLOR_CHAT_ME + message);
                             }
                         }
 
                         // Show target's inventory to the player
-                        NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_PLAYER);
+                        player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_PLAYER);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                 }
             }
         }
 
         [Command(Messages.COM_INCRIMINATE, Messages.GEN_INCRIMINATE_COMMAND)]
-        public void IncriminateCommand(Client player, String targetString)
+        public void IncriminateCommand(Client player, string targetString)
         {
-            if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_JAIL_AREA) == false)
+            if (player.HasData(EntityData.PLAYER_JAIL_AREA) == false)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_JAIL_AREA);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_JAIL_AREA);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
                 if (target != null)
                 {
                     if (target == player)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_INCRIMINATED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_INCRIMINATED_HIMSELF);
                     }
                     else
                     {
-                        String crimeList = NAPI.Util.ToJson(Constants.CRIME_LIST);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_INCRIMINATED_TARGET, target);
-                        NAPI.ClientEvent.TriggerClientEvent(player, "showCrimesMenu", crimeList);
+                        string crimeList = NAPI.Util.ToJson(Constants.CRIME_LIST);
+                        player.SetData(EntityData.PLAYER_INCRIMINATED_TARGET, target);
+                        player.TriggerEvent("showCrimesMenu", crimeList);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                 }
             }
         }
 
         [Command(Messages.COM_FINE, Messages.GEN_FINE_COMMAND)]
-        public void FineCommand(Client player, String name = "", String surname = "", String amount = "", String reason = "")
+        public void FineCommand(Client player, string name = "", string surname = "", string amount = "", string reason = "")
         {
-            if (name == String.Empty)
+            if (name == string.Empty)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_FINE_COMMAND);
+                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FINE_COMMAND);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
                 Client target = null;
 
-                if (Int32.TryParse(name, out int targetId) == true)
+                if (int.TryParse(name, out int targetId) == true)
                 {
                     target = Globals.GetPlayerById(targetId);
                     reason = amount;
@@ -409,27 +409,27 @@ namespace WiredPlayers.police
                 {
                     target = NAPI.Player.GetPlayerFromName(name + " " + surname);
                 }
-                if (target != null && NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == true)
+                if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
                 {
                     if (player.Position.DistanceTo(target.Position) > 2.5f)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
                     }
                     else if (target == player)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_FINED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_FINED_HIMSELF);
                     }
                     else
                     {
-                        String playerMessage = String.Format(Messages.INF_FINE_GIVEN, target.Name);
-                        String targetMessage = String.Format(Messages.INF_FINE_RECEIVED, player.Name);
+                        string playerMessage = string.Format(Messages.INF_FINE_GIVEN, target.Name);
+                        string targetMessage = string.Format(Messages.INF_FINE_RECEIVED, player.Name);
                         FineModel fine = new FineModel();
                         fine.officer = player.Name;
                         fine.target = target.Name;
-                        fine.amount = Int32.Parse(amount);
+                        fine.amount = int.Parse(amount);
                         fine.reason = reason;
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                         Task.Factory.StartNew(() =>
                         {
@@ -440,113 +440,116 @@ namespace WiredPlayers.police
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                 }
             }
         }
 
         [Command(Messages.COM_HANDCUFF, Messages.GEN_HANDCUFF_COMMAND)]
-        public void HandcuffCommand(Client player, String targetString)
+        public void HandcuffCommand(Client player, string targetString)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
                 if (target != null)
                 {
                     if (player.Position.DistanceTo(target.Position) > 1.5f)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
                     }
                     else if (target == player)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_HANDCUFFED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HANDCUFFED_HIMSELF);
                     }
-                    else if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_HANDCUFFED) == false)
+                    else if (target.HasData(EntityData.PLAYER_HANDCUFFED) == false)
                     {
-                        String playerMessage = String.Format(Messages.INF_CUFFED, target.Name);
-                        String targetMessage = String.Format(Messages.INF_CUFFED_BY, player.Name);
+                        string playerMessage = string.Format(Messages.INF_CUFFED, target.Name);
+                        string targetMessage = string.Format(Messages.INF_CUFFED_BY, player.Name);
                         GTANetworkAPI.Object cuff = NAPI.Object.CreateObject(-1281059971, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
-                        NAPI.Entity.AttachEntityToEntity(cuff, target, "IK_R_Hand", new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
-                        NAPI.Player.PlayPlayerAnimation(target, (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl), "mp_arresting", "idle");
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_ANIMATION, true);
-                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_HANDCUFFED, cuff);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                        cuff.AttachTo(target, "IK_R_Hand", new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
+                        target.PlayAnimation("mp_arresting", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
+                        player.SetData(EntityData.PLAYER_ANIMATION, true);
+                        target.SetData(EntityData.PLAYER_HANDCUFFED, cuff);
+                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                         // Disable some player movements
-                        NAPI.ClientEvent.TriggerClientEvent(player, "toggleHandcuffed", true);
+                        player.TriggerEvent("toggleHandcuffed", true);
                     }
                     else
                     {
-                        String playerMessage = String.Format(Messages.INF_UNCUFFED, target.Name);
-                        String targetMessage = String.Format(Messages.INF_UNCUFFED_BY, player.Name);
-                        GTANetworkAPI.Object cuff = NAPI.Data.GetEntityData(target, EntityData.PLAYER_HANDCUFFED);
-                        NAPI.Entity.DetachEntity(cuff);
-                        NAPI.Entity.DeleteEntity(cuff);
-                        NAPI.Player.StopPlayerAnimation(target);
-                        NAPI.Data.ResetEntityData(player, EntityData.PLAYER_ANIMATION);
-                        NAPI.Data.ResetEntityData(target, EntityData.PLAYER_HANDCUFFED);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                        GTANetworkAPI.Object cuff = target.GetData(EntityData.PLAYER_HANDCUFFED);
+
+                        cuff.Detach();
+                        cuff.Delete();
+
+                        target.StopAnimation();
+                        player.ResetData(EntityData.PLAYER_ANIMATION);
+                        target.ResetData(EntityData.PLAYER_HANDCUFFED);
+
+                        string playerMessage = string.Format(Messages.INF_UNCUFFED, target.Name);
+                        string targetMessage = string.Format(Messages.INF_UNCUFFED_BY, player.Name);
+                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                         // Enable previously disabled player movements
-                        NAPI.ClientEvent.TriggerClientEvent(player, "toggleHandcuffed", false);
+                        player.TriggerEvent("toggleHandcuffed", false);
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                 }
             }
         }
 
         [Command(Messages.COM_EQUIPMENT, Messages.GEN_EQUIPMENT_COMMAND, GreedyArg = true)]
-        public void EquipmentCommand(Client player, String action, String type = "")
+        public void EquipmentCommand(Client player, string action, string type = "")
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_IN_LSPD_ROOM_LOCKERS_AREA) == false)
+            else if (player.HasData(EntityData.PLAYER_IN_LSPD_ROOM_LOCKERS_AREA) == false)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_ROOM_LOCKERS);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_ROOM_LOCKERS);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
             {
                 switch (action.ToLower())
                 {
                     case Messages.ARG_BASIC:
-                        NAPI.Player.SetPlayerArmor(player, 100);
+                        player.Armor = 100;
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Flashlight, 0, false);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Nightstick, 0, true);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.StunGun, 0, true);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_EQUIP_BASIC_RECEIVED);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_BASIC_RECEIVED);
                         break;
                     case Messages.ARG_AMMUNITION:
-                        if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_RANK) > 1)
+                        if (player.GetData(EntityData.PLAYER_RANK) > 1)
                         {
-                            WeaponHash[] playerWeaps = NAPI.Player.GetPlayerWeapons(player);
+                            WeaponHash[] playerWeaps = player.Weapons;
                             foreach (WeaponHash playerWeap in playerWeaps)
                             {
-                                String ammunition = Weapons.GetGunAmmunitionType(playerWeap);
-                                int playerId = NAPI.Data.GetEntityData(player, EntityData.PLAYER_SQL_ID);
+                                string ammunition = Weapons.GetGunAmmunitionType(playerWeap);
+                                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                                 ItemModel bulletItem = Globals.GetPlayerItemModelFromHash(playerId, ammunition);
                                 if (bulletItem != null)
                                 {
@@ -592,15 +595,15 @@ namespace WiredPlayers.police
                                     });
                                 }
                             }
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_EQUIP_AMMO_RECEIVED);
+                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_AMMO_RECEIVED);
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
                         }
                         break;
                     case Messages.ARG_WEAPON:
-                        if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_RANK) > 1)
+                        if (player.GetData(EntityData.PLAYER_RANK) > 1)
                         {
                             WeaponHash selectedWeap = new WeaponHash();
                             switch (type.ToLower())
@@ -622,177 +625,177 @@ namespace WiredPlayers.police
                                     break;
                                 default:
                                     selectedWeap = 0;
-                                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_WEAP_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_WEAP_COMMAND);
                                     break;
                             }
 
                             if (selectedWeap != 0)
                             {
                                 Weapons.GivePlayerNewWeapon(player, selectedWeap, 0, true);
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_EQUIP_WEAP_RECEIVED);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_WEAP_RECEIVED);
                             }
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
                         }
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_AMMO_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_AMMO_COMMAND);
                         break;
                 }
             }
         }
 
         [Command(Messages.COM_CONTROL, Messages.GEN_POLICE_CONTROL_COMMAND)]
-        public void ControlCommand(Client player, String action)
+        public void ControlCommand(Client player, string action)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
-                List<String> policeControls = GetDifferentPoliceControls();
+                List<string> policeControls = GetDifferentPoliceControls();
                 switch (action.ToLower())
                 {
                     case Messages.ARG_LOAD:
                         if (policeControls.Count > 0)
                         {
-                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_LOAD);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "loadPoliceControlList", NAPI.Util.ToJson(policeControls));
+                            player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_LOAD);
+                            player.TriggerEvent("loadPoliceControlList", NAPI.Util.ToJson(policeControls));
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
                         }
                         break;
                     case Messages.ARG_SAVE:
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_SAVE);
+                        player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_SAVE);
                         if (policeControls.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "loadPoliceControlList", NAPI.Util.ToJson(policeControls));
+                            player.TriggerEvent("loadPoliceControlList", NAPI.Util.ToJson(policeControls));
                         }
                         else
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPoliceControlName");
+                            player.TriggerEvent("showPoliceControlName");
                         }
                         break;
                     case Messages.ARG_RENAME:
                         if (policeControls.Count > 0)
                         {
-                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_RENAME);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "loadPoliceControlList", NAPI.Util.ToJson(policeControls));
+                            player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_RENAME);
+                            player.TriggerEvent("loadPoliceControlList", NAPI.Util.ToJson(policeControls));
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
                         }
                         break;
                     case Messages.ARG_REMOVE:
                         if (policeControls.Count > 0)
                         {
-                            NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_DELETE);
-                            NAPI.ClientEvent.TriggerClientEvent(player, "loadPoliceControlList", NAPI.Util.ToJson(policeControls));
+                            player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_DELETE);
+                            player.TriggerEvent("loadPoliceControlList", NAPI.Util.ToJson(policeControls));
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
                         }
                         break;
                     case Messages.ARG_CLEAR:
                         foreach (PoliceControlModel policeControl in policeControlList)
                         {
-                            if (NAPI.Entity.DoesEntityExist(policeControl.controlObject) == true)
+                            if (policeControl.controlObject.Exists)
                             {
-                                NAPI.Entity.DeleteEntity(policeControl.controlObject);
+                                policeControl.controlObject.Delete();
                             }
                         }
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_POLICE_CONTROL_CLEARED);
+                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_POLICE_CONTROL_CLEARED);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_POLICE_CONTROL_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_CONTROL_COMMAND);
                         break;
                 }
             }
         }
 
         [Command(Messages.COM_PUT, Messages.GEN_POLICE_PUT_COMMAND)]
-        public void PutCommand(Client player, String item)
+        public void PutCommand(Client player, string item)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
             else
             {
                 PoliceControlModel policeControl = null;
-                if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
                     switch (item.ToLower())
                     {
                         case Messages.ARG_CONE:
-                            policeControl = new PoliceControlModel(0, String.Empty, Constants.POLICE_DEPLOYABLE_CONE, player.Position, player.Rotation);
+                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_CONE, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_CONE, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
                         case Messages.ARG_BEACON:
-                            policeControl = new PoliceControlModel(0, String.Empty, Constants.POLICE_DEPLOYABLE_BEACON, player.Position, player.Rotation);
+                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BEACON, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BEACON, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
                         case Messages.ARG_BARRIER:
-                            policeControl = new PoliceControlModel(0, String.Empty, Constants.POLICE_DEPLOYABLE_BARRIER, player.Position, player.Rotation);
+                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BARRIER, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BARRIER, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
                         case Messages.ARG_SPIKES:
-                            policeControl = new PoliceControlModel(0, String.Empty, Constants.POLICE_DEPLOYABLE_SPIKES, player.Position, player.Rotation);
+                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_SPIKES, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_SPIKES, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
                         default:
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_POLICE_PUT_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_PUT_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
                 }
             }
         }
 
         [Command(Messages.COM_REMOVE, Messages.GEN_POLICE_REMOVE_COMMAND)]
-        public void RemoveCommand(Client player, String item)
+        public void RemoveCommand(Client player, string item)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
             else
             {
@@ -811,7 +814,7 @@ namespace WiredPlayers.police
                         RemoveClosestPoliceControlItem(player, Constants.POLICE_DEPLOYABLE_SPIKES);
                         break;
                     default:
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_POLICE_REMOVE_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_REMOVE_COMMAND);
                         break;
                 }
             }
@@ -820,85 +823,85 @@ namespace WiredPlayers.police
         [Command(Messages.COM_REINFORCES)]
         public void ReinforcesCommand(Client player)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_ON_DUTY) == 0)
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
             }
-            else if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_KILLED) != 0)
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
             }
             else
             {
                 // Get police department's members
-                List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => NAPI.Data.GetEntityData(x, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
+                List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => x.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
 
-                if (NAPI.Data.HasEntityData(player, EntityData.PLAYER_REINFORCES) == true)
+                if (player.HasData(EntityData.PLAYER_REINFORCES) == true)
                 {
-                    String targetMessage = String.Format(Messages.INF_TARGET_REINFORCES_CANCELED, player.Name);
+                    string targetMessage = string.Format(Messages.INF_TARGET_REINFORCES_CANCELED, player.Name);
 
                     foreach (Client target in policeMembers)
                     {
-                        if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_ON_DUTY) == 1)
+                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
                         {
                             // Remove the blip from the map
-                            NAPI.ClientEvent.TriggerClientEvent(target, "reinforcesRemove", player.Value);
+                            target.TriggerEvent("reinforcesRemove", player.Value);
                             
                             if (player == target)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_CANCELED);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_CANCELED);
                             }
                             else
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                               target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                             }
                         }
                     }
 
                     // Remove player's reinforces
-                    NAPI.Data.ResetEntityData(player, EntityData.PLAYER_REINFORCES);
+                    player.ResetData(EntityData.PLAYER_REINFORCES);
                 }
                 else
                 {
-                    String targetMessage = String.Format(Messages.INF_TARGET_REINFORCES_ASKED, player.Name);
+                    string targetMessage = string.Format(Messages.INF_TARGET_REINFORCES_ASKED, player.Name);
 
                     foreach (Client target in policeMembers)
                     {
-                        if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) && NAPI.Data.GetEntityData(target, EntityData.PLAYER_ON_DUTY) == 1)
+                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
                         {
                             if (player == target)
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_ASKED);
+                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_ASKED);
                             }
                             else
                             {
-                                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                               target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                             }
                         }
                     }
 
                     // Ask for reinforces
-                    NAPI.Data.SetEntityData(player, EntityData.PLAYER_REINFORCES, true);
+                    player.SetData(EntityData.PLAYER_REINFORCES, true);
                 }
             }
         }
 
         [Command(Messages.COM_LICENSE, Messages.GEN_LICENSE_COMMAND, GreedyArg = true)]
-        public void LicenseCommand(Client player, String args)
+        public void LicenseCommand(Client player, string args)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && NAPI.Data.GetEntityData(player, EntityData.PLAYER_RANK) == 6)
+            if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) == 6)
             {
-                String[] arguments = args.Trim().Split(' ');
+                string[] arguments = args.Trim().Split(' ');
                 if (arguments.Length == 3 || arguments.Length == 4)
                 {
                     Client target = null;
 
                     // Get the target player
-                    if (Int32.TryParse(arguments[2], out int targetId) && arguments.Length == 3)
+                    if (int.TryParse(arguments[2], out int targetId) && arguments.Length == 3)
                     {
                         target = Globals.GetPlayerById(targetId);
                     }
@@ -908,18 +911,18 @@ namespace WiredPlayers.police
                     }
 
                     // Check whether the target player is connected
-                    if (target == null || NAPI.Data.HasEntityData(target, EntityData.PLAYER_PLAYING) == false)
+                    if (target == null || target.HasData(EntityData.PLAYER_PLAYING) == false)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
                     }
                     else if (player.Position.DistanceTo(target.Position) > 2.5f)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
                     }
                     else
                     {
-                        String playerMessage = String.Empty;
-                        String targetMessage = String.Empty;
+                        string playerMessage = string.Empty;
+                        string targetMessage = string.Empty;
 
                         switch (arguments[0].ToLower())
                         {
@@ -928,15 +931,15 @@ namespace WiredPlayers.police
                                 {
                                     case Messages.ARG_WEAPON:
                                         // Add one month to the license
-                                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds() + 2628000);
+                                        target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds() + 2628000);
                                         
-                                        playerMessage = String.Format(Messages.INF_WEAPON_LICENSE_GIVEN, target.Name);
-                                        targetMessage = String.Format(Messages.INF_WEAPON_LICENSE_RECEIVED, player.Name);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                        playerMessage = string.Format(Messages.INF_WEAPON_LICENSE_GIVEN, target.Name);
+                                        targetMessage = string.Format(Messages.INF_WEAPON_LICENSE_RECEIVED, player.Name);
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
                                     default:
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
                                         break;
                                 }
                                 break;
@@ -945,73 +948,73 @@ namespace WiredPlayers.police
                                 {
                                     case Messages.ARG_WEAPON:
                                         // Adjust the date to the current one
-                                        NAPI.Data.SetEntityData(target, EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds());
+                                        target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds());
                                         
-                                        playerMessage = String.Format(Messages.INF_WEAPON_LICENSE_REMOVED, target.Name);
-                                        targetMessage = String.Format(Messages.INF_WEAPON_LICENSE_LOST, player.Name);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                        playerMessage = string.Format(Messages.INF_WEAPON_LICENSE_REMOVED, target.Name);
+                                        targetMessage = string.Format(Messages.INF_WEAPON_LICENSE_LOST, player.Name);
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
                                     case Messages.ARG_CAR:
                                         // Remove car license
                                         DrivingSchool.SetPlayerLicense(target, Constants.LICENSE_CAR, -1);
                                         
-                                        playerMessage = String.Format(Messages.INF_CAR_LICENSE_REMOVED, target.Name);
-                                        targetMessage = String.Format(Messages.INF_CAR_LICENSE_LOST, player.Name);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                        playerMessage = string.Format(Messages.INF_CAR_LICENSE_REMOVED, target.Name);
+                                        targetMessage = string.Format(Messages.INF_CAR_LICENSE_LOST, player.Name);
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
                                     case Messages.ARG_MOTORCYCLE:
                                         // Remove motorcycle license
                                         DrivingSchool.SetPlayerLicense(target, Constants.LICENSE_MOTORCYCLE, -1);
                                         
-                                        playerMessage = String.Format(Messages.INF_MOTO_LICENSE_REMOVED, target.Name);
-                                        targetMessage = String.Format(Messages.INF_MOTO_LICENSE_LOST, player.Name);
-                                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                                        NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                                        playerMessage = string.Format(Messages.INF_MOTO_LICENSE_REMOVED, target.Name);
+                                        targetMessage = string.Format(Messages.INF_MOTO_LICENSE_LOST, player.Name);
+                                        player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+                                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
                                     default:
                                         break;
                                 }
                                 break;
                             default:
-                                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
                 }
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_NOT_POLICE_CHIEF);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_POLICE_CHIEF);
             }
         }
 
         [Command(Messages.COM_BREATHALYZER, Messages.GEN_ALCOHOLIMETER_COMMAND)]
-        public void BreathalyzerCommand(Client player, String targetString)
+        public void BreathalyzerCommand(Client player, string targetString)
         {
-            if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && NAPI.Data.GetEntityData(player, EntityData.PLAYER_RANK) > 0)
+            if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) > 0)
             {
                 float alcoholLevel = 0.0f;
-                Client target = Int32.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (NAPI.Data.HasEntityData(target, EntityData.PLAYER_DRUNK_LEVEL) == true)
+                if (target.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
                 {
-                    alcoholLevel = NAPI.Data.GetEntityData(target, EntityData.PLAYER_DRUNK_LEVEL);
+                    alcoholLevel = target.GetData(EntityData.PLAYER_DRUNK_LEVEL);
                 }
                 
-                String playerMessage = String.Format(Messages.INF_ALCOHOLIMETER_TEST, target.Name, alcoholLevel);
-                String targetMessage = String.Format(Messages.INF_ALCOHOLIMETER_RECEPTOR, player.Name, alcoholLevel);
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + playerMessage);
-                NAPI.Chat.SendChatMessageToPlayer(target, Constants.COLOR_INFO + targetMessage);
+                string playerMessage = string.Format(Messages.INF_ALCOHOLIMETER_TEST, target.Name, alcoholLevel);
+                string targetMessage = string.Format(Messages.INF_ALCOHOLIMETER_RECEPTOR, player.Name, alcoholLevel);
+                player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
+               target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
             }
             else
             {
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
             }
         }
     }

@@ -24,26 +24,26 @@ namespace WiredPlayers.TownHall
         [RemoteEvent("documentOptionSelected")]
         public void DocumentOptionSelectedEvent(Client player, int tramitation)
         {
-            int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+            int money = player.GetSharedData(EntityData.PLAYER_MONEY);
 
             switch (tramitation)
             {
                 case Constants.TRAMITATE_IDENTIFICATION:
-                    if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_DOCUMENTATION) > 0)
+                    if (player.GetData(EntityData.PLAYER_DOCUMENTATION) > 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_IDENTIFICATION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_IDENTIFICATION);
                     }
                     else if (money < Constants.PRICE_IDENTIFICATION)
                     {
-                        String message = String.Format(Messages.ERR_PLAYER_NOT_IDENTIFICATION_MONEY, Constants.PRICE_IDENTIFICATION);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                        string message = string.Format(Messages.ERR_PLAYER_NOT_IDENTIFICATION_MONEY, Constants.PRICE_IDENTIFICATION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                     }
                     else
                     {
-                        String message = String.Format(Messages.INF_PLAYER_HAS_INDENTIFICATION, Constants.PRICE_IDENTIFICATION);
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_IDENTIFICATION);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_DOCUMENTATION, Globals.GetTotalSeconds());
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        string message = string.Format(Messages.INF_PLAYER_HAS_INDENTIFICATION, Constants.PRICE_IDENTIFICATION);
+                        player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_IDENTIFICATION);
+                        player.SetData(EntityData.PLAYER_DOCUMENTATION, Globals.GetTotalSeconds());
+                        player.SendChatMessage(Constants.COLOR_INFO + message);
 
 
                         Task.Factory.StartNew(() =>
@@ -54,21 +54,21 @@ namespace WiredPlayers.TownHall
                     }
                     break;
                 case Constants.TRAMITATE_MEDICAL_INSURANCE:
-                    if (NAPI.Data.GetEntityData(player, EntityData.PLAYER_MEDICAL_INSURANCE) > Globals.GetTotalSeconds())
+                    if (player.GetData(EntityData.PLAYER_MEDICAL_INSURANCE) > Globals.GetTotalSeconds())
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_MEDICAL_INSURANCE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_MEDICAL_INSURANCE);
                     }
                     else if (money < Constants.PRICE_MEDICAL_INSURANCE)
                     {
-                        String message = String.Format(Messages.ERR_PLAYER_NOT_MEDICAL_INSURANCE_MONEY, Constants.PRICE_MEDICAL_INSURANCE);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                        string message = string.Format(Messages.ERR_PLAYER_NOT_MEDICAL_INSURANCE_MONEY, Constants.PRICE_MEDICAL_INSURANCE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                     }
                     else
                     {
-                        String message = String.Format(Messages.INF_PLAYER_HAS_MEDICAL_INSURANCE, Constants.PRICE_MEDICAL_INSURANCE);
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_MEDICAL_INSURANCE);
-                        NAPI.Data.SetEntityData(player, EntityData.PLAYER_MEDICAL_INSURANCE, Globals.GetTotalSeconds() + 1209600);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        string message = string.Format(Messages.INF_PLAYER_HAS_MEDICAL_INSURANCE, Constants.PRICE_MEDICAL_INSURANCE);
+                        player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_MEDICAL_INSURANCE);
+                        player.SetData(EntityData.PLAYER_MEDICAL_INSURANCE, Globals.GetTotalSeconds() + 1209600);
+                        player.SendChatMessage(Constants.COLOR_INFO + message);
 
 
                         Task.Factory.StartNew(() =>
@@ -81,18 +81,18 @@ namespace WiredPlayers.TownHall
                 case Constants.TRAMITATE_TAXI_LICENSE:
                     if (DrivingSchool.GetPlayerLicenseStatus(player, Constants.LICENSE_TAXI) > 0)
                     {
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_TAXI_LICENSE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_TAXI_LICENSE);
                     }
                     else if (money < Constants.PRICE_TAXI_LICENSE)
                     {
-                        String message = String.Format(Messages.ERR_PLAYER_NOT_TAXI_LICENSE_MONEY, Constants.PRICE_TAXI_LICENSE);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + message);
+                        string message = string.Format(Messages.ERR_PLAYER_NOT_TAXI_LICENSE_MONEY, Constants.PRICE_TAXI_LICENSE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + message);
                     }
                     else
                     {
-                        String message = String.Format(Messages.INF_PLAYER_HAS_TAXI_LICENSE, Constants.PRICE_TAXI_LICENSE);
-                        NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - Constants.PRICE_TAXI_LICENSE);
-                        NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                        string message = string.Format(Messages.INF_PLAYER_HAS_TAXI_LICENSE, Constants.PRICE_TAXI_LICENSE);
+                        player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_TAXI_LICENSE);
+                        player.SendChatMessage(Constants.COLOR_INFO + message);
                         DrivingSchool.SetPlayerLicense(player, Constants.LICENSE_TAXI, 1);
 
 
@@ -109,11 +109,11 @@ namespace WiredPlayers.TownHall
                         List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
                         if (fineList.Count > 0)
                         {
-                            NAPI.ClientEvent.TriggerClientEvent(player, "showPlayerFineList", NAPI.Util.ToJson(fineList));
+                            player.TriggerEvent("showPlayerFineList", NAPI.Util.ToJson(fineList));
                         }
                         else
                         {
-                            NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + Messages.INF_PLAYER_NO_FINES);
+                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_NO_FINES);
                         }
                     });
                     break;
@@ -121,14 +121,14 @@ namespace WiredPlayers.TownHall
         }
 
         [RemoteEvent("payPlayerFines")]
-        public void PayPlayerFinesEvent(Client player, String finesJson)
+        public void PayPlayerFinesEvent(Client player, string finesJson)
         {
 
             Task.Factory.StartNew(() =>
             {
                 List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
                 List<FineModel> removedFines = JsonConvert.DeserializeObject<List<FineModel>>(finesJson);
-                int money = NAPI.Data.GetEntitySharedData(player, EntityData.PLAYER_MONEY);
+                int money = player.GetSharedData(EntityData.PLAYER_MONEY);
                 int finesProcessed = 0;
                 int amount = 0;
 
@@ -141,16 +141,16 @@ namespace WiredPlayers.TownHall
 
                 if (amount == 0)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FINES);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FINES);
                 }
                 else if (amount > money)
                 {
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FINE_MONEY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FINE_MONEY);
                 }
                 else
                 {
                     // Remove money from player
-                    NAPI.Data.SetEntitySharedData(player, EntityData.PLAYER_MONEY, money - amount);
+                    player.SetSharedData(EntityData.PLAYER_MONEY, money - amount);
 
                     // Delete paid fines
                     Database.RemoveFines(removedFines);
@@ -160,11 +160,11 @@ namespace WiredPlayers.TownHall
                     if (finesProcessed == fineList.Count)
                     {
                         // Volvemos a la página anterior
-                        NAPI.ClientEvent.TriggerClientEvent(player, "backTownHallIndex");
+                        player.TriggerEvent("backTownHallIndex");
                     }
 
-                    String message = String.Format(Messages.INF_PLAYER_FINES_PAID, amount);
-                    NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_INFO + message);
+                    string message = string.Format(Messages.INF_PLAYER_FINES_PAID, amount);
+                    player.SendChatMessage(Constants.COLOR_INFO + message);
                 }
             });
         }
@@ -174,12 +174,12 @@ namespace WiredPlayers.TownHall
         {
             if (player.Position.DistanceTo(townHallTextLabel.Position) < 2.0f)
             {
-                NAPI.ClientEvent.TriggerClientEvent(player, "showTownHallMenu");
+                player.TriggerEvent("showTownHallMenu");
             }
             else
             {
                 // Player is not in the town hall
-                NAPI.Chat.SendChatMessageToPlayer(player, Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_TOWNHALL);
+                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_TOWNHALL);
             }
         }
     }

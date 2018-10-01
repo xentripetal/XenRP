@@ -8,7 +8,7 @@ namespace WiredPlayers.model
         public string playerName { get; set; }
         public int playerPing { get; set; }
 
-        public ScoreModel(int playerId, String playerName, int playerPing)
+        public ScoreModel(int playerId, string playerName, int playerPing)
         {
             this.playerId = playerId;
             this.playerName = playerName;

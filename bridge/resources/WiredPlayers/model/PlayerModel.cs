@@ -6,9 +6,9 @@ namespace WiredPlayers.model
     public class PlayerModel
     {
         public int id { get; set; }
-        public String realName { get; set; }
+        public string realName { get; set; }
         public int adminRank { get; set; }
-        public String adminName { get; set; }
+        public string adminName { get; set; }
         public Vector3 position { get; set; }
         public Vector3 rotation { get; set; }
         public int money { get; set; }
@@ -24,10 +24,10 @@ namespace WiredPlayers.model
         public int phone { get; set; }
         public int radio { get; set; }
         public int killed { get; set; }
-        public String jailed { get; set; }
-        public String carKeys { get; set; }
+        public string jailed { get; set; }
+        public string carKeys { get; set; }
         public int documentation { get; set; }
-        public String licenses { get; set; }
+        public string licenses { get; set; }
         public int insurance { get; set; }
         public int weaponLicense { get; set; }
         public int status { get; set; }
@@ -38,7 +38,7 @@ namespace WiredPlayers.model
         public int employeeCooldown { get; set; }
         public int jobCooldown { get; set; }
         public int jobDeliver { get; set; }
-        public String jobPoints { get; set; }
+        public string jobPoints { get; set; }
         public int rolePoints { get; set; }
     }
 }
