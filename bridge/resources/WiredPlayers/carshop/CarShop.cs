@@ -4,6 +4,7 @@ using WiredPlayers.model;
 using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace WiredPlayers.carshop
 {
@@ -33,15 +34,8 @@ namespace WiredPlayers.carshop
 
         private List<CarShopVehicleModel> GetVehicleListInCarShop(int carShop)
         {
-            List<CarShopVehicleModel> vehicleList = new List<CarShopVehicleModel>();
-            foreach (CarShopVehicleModel vehicle in Constants.CARSHOP_VEHICLE_LIST)
-            {
-                if (vehicle.carShop == carShop)
-                {
-                    vehicleList.Add(vehicle);
-                }
-            }
-            return vehicleList;
+            // Get all the vehicles in the list
+            return Constants.CARSHOP_VEHICLE_LIST.Where(vehicle => vehicle.carShop == carShop).ToList();
         }
 
         private int GetVehiclePrice(VehicleHash vehicleHash)
@@ -72,6 +66,44 @@ namespace WiredPlayers.carshop
             return model;
         }
 
+        private bool SpawnPurchasedVehicle(Client player, List<Vector3> spawns, VehicleHash vehicleHash, int vehiclePrice, string firstColor, string secondColor)
+        {
+            for (int i = 0; i < spawns.Count; i++)
+            {
+                // Check if the spawn point has a vehicle on it
+                bool spawnOccupied = NAPI.Pools.GetAllVehicles().Where(veh => spawns[i].DistanceTo(veh.Position) < 2.5f).Any();
+
+                if (!spawnOccupied)
+                {
+                    // Basic data for vehicle creation
+                    VehicleModel vehicleModel = new VehicleModel();
+                    vehicleModel.model = GetVehicleModel(vehicleHash);
+                    vehicleModel.plate = string.Empty;
+                    vehicleModel.position = spawns[i];
+                    vehicleModel.rotation = new Vector3(0.0, 0.0, 0.0);
+                    vehicleModel.owner = player.GetData(EntityData.PLAYER_NAME);
+                    vehicleModel.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;
+                    vehicleModel.firstColor = firstColor;
+                    vehicleModel.secondColor = secondColor;
+                    vehicleModel.pearlescent = 0;
+                    vehicleModel.price = vehiclePrice;
+                    vehicleModel.parking = 0;
+                    vehicleModel.parked = 0;
+                    vehicleModel.engine = 0;
+                    vehicleModel.locked = 0;
+                    vehicleModel.gas = 50.0f;
+                    vehicleModel.kms = 0.0f;
+
+                    // Creating the purchased vehicle
+                    Vehicles.CreateVehicle(player, vehicleModel, false);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
@@ -86,15 +118,15 @@ namespace WiredPlayers.carshop
             motorbikeShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_CATALOG, new Vector3(286.76f, -1148.36f, 29.29f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
             TextLabel motorbikeShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(Messages.GEN_CATALOG_HELP, new Vector3(286.76f, -1148.36f, 29.19f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip motorbikeShopBlip = NAPI.Blip.CreateBlip(new Vector3(286.76f, -1148.36f, 29.29f));
-            carShopBlip.Name = Messages.GEN_MOTORCYCLE_DEALER;
-            carShopBlip.Sprite = 226;
+            motorbikeShopBlip.Name = Messages.GEN_MOTORCYCLE_DEALER;
+            motorbikeShopBlip.Sprite = 226;
 
             // Boat dealer creation
             shipShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_CATALOG, new Vector3(-711.6249f, -1299.427f, 5.41f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
             TextLabel shipShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(Messages.GEN_CATALOG_HELP, new Vector3(-711.6249f, -1299.427f, 5.31f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip shipShopBlip = NAPI.Blip.CreateBlip(new Vector3(-711.6249f, -1299.427f, 5.41f));
-            carShopBlip.Name = Messages.GEN_BOAT_DEALER;
-            carShopBlip.Sprite = 455;
+            shipShopBlip.Name = Messages.GEN_BOAT_DEALER;
+            shipShopBlip.Sprite = 455;
         }
 
         [ServerEvent(Event.PlayerEnterCheckpoint)]
@@ -130,137 +162,32 @@ namespace WiredPlayers.carshop
             int carShop = GetClosestCarShop(player);
             VehicleHash vehicleHash = (VehicleHash)uint.Parse(hash);
             int vehiclePrice = GetVehiclePrice(vehicleHash);
+
             if (vehiclePrice > 0 && player.GetSharedData(EntityData.PLAYER_BANK) >= vehiclePrice)
             {
+                bool vehicleSpawned = false;
+
                 switch (carShop)
                 {
                     case 0:
-                        for (int i = 0; i < Constants.CARSHOP_SPAWNS.Count; i++)
-                        {
-                            bool spawnOccupied = false;
-                            foreach (Vehicle veh in NAPI.Pools.GetAllVehicles())
-                            {
-                                Vector3 vehPos = veh.Position;
-                                if (Constants.CARSHOP_SPAWNS[i].DistanceTo(vehPos) < 2.5f)
-                                {
-                                    spawnOccupied = true;
-                                    break;
-                                }
-                            }
-                            if (!spawnOccupied)
-                            {
-                                // Basic data for vehicle creation
-                                VehicleModel vehicleModel = new VehicleModel();
-                                vehicleModel.model = GetVehicleModel(vehicleHash);
-                                vehicleModel.plate = string.Empty;
-                                vehicleModel.position = Constants.CARSHOP_SPAWNS[i];
-                                vehicleModel.rotation = new Vector3(0.0, 0.0, 0.0);
-                                vehicleModel.owner = player.GetData(EntityData.PLAYER_NAME);
-                                vehicleModel.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;
-                                vehicleModel.firstColor = firstColor;
-                                vehicleModel.secondColor = secondColor;
-                                vehicleModel.pearlescent = 0;
-                                vehicleModel.price = vehiclePrice;
-                                vehicleModel.parking = 0;
-                                vehicleModel.parked = 0;
-                                vehicleModel.engine = 0;
-                                vehicleModel.locked = 0;
-                                vehicleModel.gas = 50.0f;
-                                vehicleModel.kms = 0.0f;
-
-                                // Creating the purchased vehicle
-                                Vehicles.CreateVehicle(player, vehicleModel, false);
-
-                                return;
-                            }
-                        }
+                        // Create a new car
+                        vehicleSpawned = SpawnPurchasedVehicle(player, Constants.CARSHOP_SPAWNS, vehicleHash, vehiclePrice, firstColor, secondColor);                        
                         break;
                     case 1:
-                        for (int i = 0; i < Constants.BIKESHOP_SPAWNS.Count; i++)
-                        {
-                            bool spawnOccupied = false;
-                            foreach (Vehicle veh in NAPI.Pools.GetAllVehicles())
-                            {
-                                Vector3 vehPos = veh.Position;
-                                if (Constants.BIKESHOP_SPAWNS[i].DistanceTo(vehPos) < 2.5f)
-                                {
-                                    spawnOccupied = true;
-                                    break;
-                                }
-                            }
-                            if (!spawnOccupied)
-                            {
-                                // Basic data for vehicle creation
-                                VehicleModel vehicleModel = new VehicleModel();
-                                vehicleModel.model = GetVehicleModel(vehicleHash);
-                                vehicleModel.plate = string.Empty;
-                                vehicleModel.position = Constants.BIKESHOP_SPAWNS[i];
-                                vehicleModel.rotation = new Vector3(0.0, 0.0, 0.0);
-                                vehicleModel.owner = player.GetData(EntityData.PLAYER_NAME);
-                                vehicleModel.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;
-                                vehicleModel.firstColor = firstColor;
-                                vehicleModel.secondColor = secondColor;
-                                vehicleModel.pearlescent = 0;
-                                vehicleModel.price = vehiclePrice;
-                                vehicleModel.parking = 0;
-                                vehicleModel.parked = 0;
-                                vehicleModel.engine = 0;
-                                vehicleModel.locked = 0;
-                                vehicleModel.gas = 50.0f;
-                                vehicleModel.kms = 0.0f;
-
-                                // Creating the purchased vehicle
-                                Vehicles.CreateVehicle(player, vehicleModel, false);
-
-                                return;
-                            }
-                        }
+                        // Create a new motorcycle
+                        vehicleSpawned = SpawnPurchasedVehicle(player, Constants.BIKESHOP_SPAWNS, vehicleHash, vehiclePrice, firstColor, secondColor);
                         break;
                     case 2:
-                        for (int i = 0; i < Constants.SHIP_SPAWNS.Count; i++)
-                        {
-                            bool spawnOccupied = false;
-                            foreach (Vehicle veh in NAPI.Pools.GetAllVehicles())
-                            {
-                                Vector3 vehPos = veh.Position;
-                                if (Constants.SHIP_SPAWNS[i].DistanceTo(vehPos) < 2.5f)
-                                {
-                                    spawnOccupied = true;
-                                    break;
-                                }
-                            }
-                            if (!spawnOccupied)
-                            {
-                                // Basic data for vehicle creation
-                                VehicleModel vehicleModel = new VehicleModel();
-                                vehicleModel.model = GetVehicleModel(vehicleHash);
-                                vehicleModel.plate = string.Empty;
-                                vehicleModel.position = Constants.SHIP_SPAWNS[i];
-                                vehicleModel.rotation = new Vector3(0.0, 0.0, 0.0);
-                                vehicleModel.owner = player.GetData(EntityData.PLAYER_NAME);
-                                vehicleModel.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;
-                                vehicleModel.firstColor = firstColor;
-                                vehicleModel.secondColor = secondColor;
-                                vehicleModel.pearlescent = 0;
-                                vehicleModel.price = vehiclePrice;
-                                vehicleModel.parking = 0;
-                                vehicleModel.parked = 0;
-                                vehicleModel.engine = 0;
-                                vehicleModel.locked = 0;
-                                vehicleModel.gas = 50.0f;
-                                vehicleModel.kms = 0.0f;
-
-                                // Creating the purchased vehicle
-                                Vehicles.CreateVehicle(player, vehicleModel, false);
-
-                                return;
-                            }
-                        }
+                        // Create a new ship
+                        vehicleSpawned = SpawnPurchasedVehicle(player, Constants.SHIP_SPAWNS, vehicleHash, vehiclePrice, firstColor, secondColor);
                         break;
                 }
 
-                // Parking places are occupied
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CARSHOP_SPAWN_OCCUPIED);
+                if(!vehicleSpawned)
+                {
+                    // Parking places are occupied
+                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CARSHOP_SPAWN_OCCUPIED);
+                }
             }
             else
             {
@@ -312,6 +239,7 @@ namespace WiredPlayers.carshop
         public void CatalogoCommand(Client player)
         {
             int carShop = GetClosestCarShop(player);
+
             if (carShop > -1)
             {
                 // We get the vehicle list

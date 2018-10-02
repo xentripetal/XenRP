@@ -27,6 +27,9 @@
 		"message": "Welcome back to WiredPlayers. You need to insert your password below in order to log in",
 		"error": "The introduced password is incorrect"
 	},
+	"register": {
+		"message": "Welcome to Wiredplayers, in order to play you'll need to create an account typing below your password"
+	},
 	"phone": {
 		"number": "Number",
 		"sms": "Sending SMS",

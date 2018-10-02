@@ -27,6 +27,12 @@ function loginAccount() {
 	mp.trigger('requestPlayerLogin', pass);
 }
 
+function registerAccount() {
+	// Validate the password
+	let pass = document.getElementById('pass').value;
+	mp.trigger('createPlayerAccount', pass);
+}
+
 function showLoginError() {
 	// Remove hidden class
 	$('#error').removeClass('d-none');

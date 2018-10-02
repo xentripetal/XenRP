@@ -27,6 +27,9 @@
 		"message": "Bem-vindo de volta ao WiredPlayers. Você precisa inserir sua senha abaixo para fazer o login",
 		"error": "A senha introduzida está incorreta"
 	},
+	"register": {
+		"message": "BR_Welcome to Wiredplayers, in order to play you'll need to create an account typing below your password"
+	},
 	"phone": {
 		"number": "Número",
 		"sms": "Enviando SMS",

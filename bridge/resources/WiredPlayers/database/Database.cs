@@ -122,7 +122,7 @@ namespace WiredPlayers.database
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT status FROM accounts WHERE socialName = @socialName AND password = md5(@password) LIMIT 1";
+                command.CommandText = "SELECT status FROM accounts WHERE socialName = @socialName AND password = SHA2(@password, '256') LIMIT 1";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@password", password);
 
@@ -133,6 +133,20 @@ namespace WiredPlayers.database
             }
 
             return login;
+        }
+
+        public static void RegisterAccount(string socialName, string password)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO `accounts` (`socialName`, `password`) VALUES(@socialName, SHA2(@password, '256'))";
+                command.Parameters.AddWithValue("@socialName", socialName);
+                command.Parameters.AddWithValue("@password", password);
+
+                command.ExecuteNonQuery();
+            }
         }
 
         public static int GetPlayerStatus(string name)

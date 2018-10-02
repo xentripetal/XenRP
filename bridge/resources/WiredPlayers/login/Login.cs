@@ -30,9 +30,12 @@ namespace WiredPlayers.login
             player.Position = new Vector3(152.26, -1004.47, -99.00);
             player.Dimension = Convert.ToUInt32(player.Value);
 
+            // Set the default skin
+            NAPI.Player.SetPlayerSkin(player, PedHash.Strperf01SMM);
+
             player.Health = 100;
             player.Armor = 0;
-            player.Transparency = 0;
+            player.Transparency = 255;
 
             // Clear weapons
             player.RemoveAllWeapons();
@@ -79,66 +82,66 @@ namespace WiredPlayers.login
 
         private void InitializePlayerSkin(Client player)
         {
-            player.SetSharedData(EntityData.FIRST_HEAD_SHAPE, 0);
-            player.SetSharedData(EntityData.SECOND_HEAD_SHAPE, 0);
-            player.SetSharedData(EntityData.FIRST_SKIN_TONE, 0);
-            player.SetSharedData(EntityData.SECOND_SKIN_TONE, 0);
-            player.SetSharedData(EntityData.HEAD_MIX, 0.5f);
-            player.SetSharedData(EntityData.SKIN_MIX, 0.5f);
+            player.SetData(EntityData.FIRST_HEAD_SHAPE, 0);
+            player.SetData(EntityData.SECOND_HEAD_SHAPE, 0);
+            player.SetData(EntityData.FIRST_SKIN_TONE, 0);
+            player.SetData(EntityData.SECOND_SKIN_TONE, 0);
+            player.SetData(EntityData.HEAD_MIX, 0.5f);
+            player.SetData(EntityData.SKIN_MIX, 0.5f);
 
             // Hair generation
-            player.SetSharedData(EntityData.HAIR_MODEL, 0);
-            player.SetSharedData(EntityData.FIRST_HAIR_COLOR, 0);
-            player.SetSharedData(EntityData.SECOND_HAIR_COLOR, 0);
+            player.SetData(EntityData.HAIR_MODEL, 0);
+            player.SetData(EntityData.FIRST_HAIR_COLOR, 0);
+            player.SetData(EntityData.SECOND_HAIR_COLOR, 0);
 
             // Beard generation
-            player.SetSharedData(EntityData.BEARD_MODEL, 0);
-            player.SetSharedData(EntityData.BEARD_COLOR, 0);
+            player.SetData(EntityData.BEARD_MODEL, 0);
+            player.SetData(EntityData.BEARD_COLOR, 0);
 
             // Chest hair generation
-            player.SetSharedData(EntityData.CHEST_MODEL, 0);
-            player.SetSharedData(EntityData.CHEST_COLOR, 0);
+            player.SetData(EntityData.CHEST_MODEL, 0);
+            player.SetData(EntityData.CHEST_COLOR, 0);
 
             // Face marks generation
-            player.SetSharedData(EntityData.BLEMISHES_MODEL, -1);
-            player.SetSharedData(EntityData.AGEING_MODEL, -1);
-            player.SetSharedData(EntityData.COMPLEXION_MODEL, -1);
-            player.SetSharedData(EntityData.SUNDAMAGE_MODEL, -1);
-            player.SetSharedData(EntityData.FRECKLES_MODEL, -1);
+            player.SetData(EntityData.BLEMISHES_MODEL, -1);
+            player.SetData(EntityData.AGEING_MODEL, -1);
+            player.SetData(EntityData.COMPLEXION_MODEL, -1);
+            player.SetData(EntityData.SUNDAMAGE_MODEL, -1);
+            player.SetData(EntityData.FRECKLES_MODEL, -1);
 
             // Eyes and eyebrows generation
-            player.SetSharedData(EntityData.EYES_COLOR, 0);
-            player.SetSharedData(EntityData.EYEBROWS_MODEL, 0);
-            player.SetSharedData(EntityData.EYEBROWS_COLOR, 0);
+            player.SetData(EntityData.EYES_COLOR, 0);
+            player.SetData(EntityData.EYEBROWS_MODEL, 0);
+            player.SetData(EntityData.EYEBROWS_COLOR, 0);
 
             // Cosmetics generation
-            player.SetSharedData(EntityData.MAKEUP_MODEL, -1);
-            player.SetSharedData(EntityData.BLUSH_MODEL, -1);
-            player.SetSharedData(EntityData.BLUSH_COLOR, 0);
-            player.SetSharedData(EntityData.LIPSTICK_MODEL, -1);
-            player.SetSharedData(EntityData.LIPSTICK_COLOR, 0);
+            player.SetData(EntityData.MAKEUP_MODEL, -1);
+            player.SetData(EntityData.BLUSH_MODEL, -1);
+            player.SetData(EntityData.BLUSH_COLOR, 0);
+            player.SetData(EntityData.LIPSTICK_MODEL, -1);
+            player.SetData(EntityData.LIPSTICK_COLOR, 0);
 
             // Advanced facial model generation
-            player.SetSharedData(EntityData.NOSE_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.NOSE_HEIGHT, 0.0f);
-            player.SetSharedData(EntityData.NOSE_LENGTH, 0.0f);
-            player.SetSharedData(EntityData.NOSE_BRIDGE, 0.0f);
-            player.SetSharedData(EntityData.NOSE_TIP, 0.0f);
-            player.SetSharedData(EntityData.NOSE_SHIFT, 0.0f);
-            player.SetSharedData(EntityData.BROW_HEIGHT, 0.0f);
-            player.SetSharedData(EntityData.BROW_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.CHEEKBONE_HEIGHT, 0.0f);
-            player.SetSharedData(EntityData.CHEEKBONE_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.CHEEKS_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.EYES, 0.0f);
-            player.SetSharedData(EntityData.LIPS, 0.0f);
-            player.SetSharedData(EntityData.JAW_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.JAW_HEIGHT, 0.0f);
-            player.SetSharedData(EntityData.CHIN_LENGTH, 0.0f);
-            player.SetSharedData(EntityData.CHIN_POSITION, 0.0f);
-            player.SetSharedData(EntityData.CHIN_WIDTH, 0.0f);
-            player.SetSharedData(EntityData.CHIN_SHAPE, 0.0f);
-            player.SetSharedData(EntityData.NECK_WIDTH, 0.0f);
+            player.SetData(EntityData.NOSE_WIDTH, 0.0f);
+            player.SetData(EntityData.NOSE_HEIGHT, 0.0f);
+            player.SetData(EntityData.NOSE_LENGTH, 0.0f);
+            player.SetData(EntityData.NOSE_BRIDGE, 0.0f);
+            player.SetData(EntityData.NOSE_TIP, 0.0f);
+            player.SetData(EntityData.NOSE_SHIFT, 0.0f);
+            player.SetData(EntityData.BROW_HEIGHT, 0.0f);
+            player.SetData(EntityData.BROW_WIDTH, 0.0f);
+            player.SetData(EntityData.CHEEKBONE_HEIGHT, 0.0f);
+            player.SetData(EntityData.CHEEKBONE_WIDTH, 0.0f);
+            player.SetData(EntityData.CHEEKS_WIDTH, 0.0f);
+            player.SetData(EntityData.EYES, 0.0f);
+            player.SetData(EntityData.LIPS, 0.0f);
+            player.SetData(EntityData.JAW_WIDTH, 0.0f);
+            player.SetData(EntityData.JAW_HEIGHT, 0.0f);
+            player.SetData(EntityData.CHIN_LENGTH, 0.0f);
+            player.SetData(EntityData.CHIN_POSITION, 0.0f);
+            player.SetData(EntityData.CHIN_WIDTH, 0.0f);
+            player.SetData(EntityData.CHIN_SHAPE, 0.0f);
+            player.SetData(EntityData.NECK_WIDTH, 0.0f);
         }
 
         private void LoadCharacterData(Client player, PlayerModel character)
@@ -265,9 +268,8 @@ namespace WiredPlayers.login
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Client player)
         {
-            // Initialize the player
+            // Initialize the player data
             InitializePlayerData(player);
-            InitializePlayerSkin(player);
 
             Task.Factory.StartNew(() =>
             {
@@ -280,8 +282,8 @@ namespace WiredPlayers.login
                         player.Kick(Messages.INF_ACCOUNT_DISABLED);
                         break;
                     case 0:
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ACCOUNT_NEW);
-                        player.Kick(Messages.INF_ACCOUNT_NEW);
+                        // Show the register window
+                        player.TriggerEvent("showRegisterWindow");
                         break;
                     default:
                         // Welcome message
@@ -306,14 +308,6 @@ namespace WiredPlayers.login
 
                             Globals.PopulateCharacterClothes(player);
                         }
-                        else
-                        {
-                            // Set the default skin
-                            NAPI.Player.SetPlayerSkin(player, PedHash.Strperf01SMM);
-                        }
-
-                        // Make the player invisible
-                        player.Transparency = 255;
 
                         // Activate the login window
                         player.SetSharedData(EntityData.SERVER_TIME, DateTime.Now.ToString("HH:mm:ss"));
@@ -330,6 +324,16 @@ namespace WiredPlayers.login
             {
                 bool login = Database.LoginAccount(player.SocialClubName, password);
                 player.TriggerEvent(login ? "clearLoginWindow" : "showLoginError");
+            });
+        }
+
+        [RemoteEvent("registerAccount")]
+        public void RegisterAccountEvent(Client player, string password)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Database.RegisterAccount(player.SocialClubName, password);
+                player.TriggerEvent("clearRegisterWindow");
             });
         }
 
@@ -388,7 +392,7 @@ namespace WiredPlayers.login
             NAPI.Player.SetPlayerSkin(player, PedHash.FreemodeMale01);
 
             // Initialize player's face mode
-            InitializePlayerData(player);
+            InitializePlayerSkin(player);
 
             // Remove clothes
             player.SetClothes(11, 15, 0);

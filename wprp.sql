@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE IF NOT EXISTS `accounts` (
   `socialName` varchar(32) NOT NULL,
   `forumName` varchar(32) NOT NULL DEFAULT '',
-  `password` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `lastCharacter` int(11) NOT NULL DEFAULT '-1',
   `lastIp` varchar(16) NOT NULL DEFAULT '',

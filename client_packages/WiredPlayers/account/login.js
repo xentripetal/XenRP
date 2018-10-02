@@ -1,6 +1,6 @@
 ﻿mp.events.add('accountLoginForm', () => {
 	// Create login window
-	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/accountLogin.html']);
+	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/login.html']);
 });
 
 mp.events.add('requestPlayerLogin', (password) => {

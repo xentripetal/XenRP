@@ -27,6 +27,9 @@
 		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña",
 		"error": "La contraseña introducida es incorrecta"
 	},
+	"register": {
+		"message": "Bienvenido a WiredPlayers, para jugar necesitarás crear tu cuenta introduciendo una contraseña"
+	},
 	"phone": {
 		"number": "Número",
 		"sms": "Envío de SMS",

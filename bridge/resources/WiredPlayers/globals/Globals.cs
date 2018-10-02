@@ -98,7 +98,7 @@ namespace WiredPlayers.globals
 
         public static int GetTotalSeconds()
         {
-            return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         private void UpdatePlayerList(object unused)
