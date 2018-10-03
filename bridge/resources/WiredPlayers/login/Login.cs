@@ -79,71 +79,7 @@ namespace WiredPlayers.login
             player.SetData(EntityData.PLAYER_PLAYED, 0);
             player.SetData(EntityData.PLAYER_STATUS, 0);
         }
-
-        private void InitializePlayerSkin(Client player)
-        {
-            player.SetData(EntityData.FIRST_HEAD_SHAPE, 0);
-            player.SetData(EntityData.SECOND_HEAD_SHAPE, 0);
-            player.SetData(EntityData.FIRST_SKIN_TONE, 0);
-            player.SetData(EntityData.SECOND_SKIN_TONE, 0);
-            player.SetData(EntityData.HEAD_MIX, 0.5f);
-            player.SetData(EntityData.SKIN_MIX, 0.5f);
-
-            // Hair generation
-            player.SetData(EntityData.HAIR_MODEL, 0);
-            player.SetData(EntityData.FIRST_HAIR_COLOR, 0);
-            player.SetData(EntityData.SECOND_HAIR_COLOR, 0);
-
-            // Beard generation
-            player.SetData(EntityData.BEARD_MODEL, 0);
-            player.SetData(EntityData.BEARD_COLOR, 0);
-
-            // Chest hair generation
-            player.SetData(EntityData.CHEST_MODEL, 0);
-            player.SetData(EntityData.CHEST_COLOR, 0);
-
-            // Face marks generation
-            player.SetData(EntityData.BLEMISHES_MODEL, -1);
-            player.SetData(EntityData.AGEING_MODEL, -1);
-            player.SetData(EntityData.COMPLEXION_MODEL, -1);
-            player.SetData(EntityData.SUNDAMAGE_MODEL, -1);
-            player.SetData(EntityData.FRECKLES_MODEL, -1);
-
-            // Eyes and eyebrows generation
-            player.SetData(EntityData.EYES_COLOR, 0);
-            player.SetData(EntityData.EYEBROWS_MODEL, 0);
-            player.SetData(EntityData.EYEBROWS_COLOR, 0);
-
-            // Cosmetics generation
-            player.SetData(EntityData.MAKEUP_MODEL, -1);
-            player.SetData(EntityData.BLUSH_MODEL, -1);
-            player.SetData(EntityData.BLUSH_COLOR, 0);
-            player.SetData(EntityData.LIPSTICK_MODEL, -1);
-            player.SetData(EntityData.LIPSTICK_COLOR, 0);
-
-            // Advanced facial model generation
-            player.SetData(EntityData.NOSE_WIDTH, 0.0f);
-            player.SetData(EntityData.NOSE_HEIGHT, 0.0f);
-            player.SetData(EntityData.NOSE_LENGTH, 0.0f);
-            player.SetData(EntityData.NOSE_BRIDGE, 0.0f);
-            player.SetData(EntityData.NOSE_TIP, 0.0f);
-            player.SetData(EntityData.NOSE_SHIFT, 0.0f);
-            player.SetData(EntityData.BROW_HEIGHT, 0.0f);
-            player.SetData(EntityData.BROW_WIDTH, 0.0f);
-            player.SetData(EntityData.CHEEKBONE_HEIGHT, 0.0f);
-            player.SetData(EntityData.CHEEKBONE_WIDTH, 0.0f);
-            player.SetData(EntityData.CHEEKS_WIDTH, 0.0f);
-            player.SetData(EntityData.EYES, 0.0f);
-            player.SetData(EntityData.LIPS, 0.0f);
-            player.SetData(EntityData.JAW_WIDTH, 0.0f);
-            player.SetData(EntityData.JAW_HEIGHT, 0.0f);
-            player.SetData(EntityData.CHIN_LENGTH, 0.0f);
-            player.SetData(EntityData.CHIN_POSITION, 0.0f);
-            player.SetData(EntityData.CHIN_WIDTH, 0.0f);
-            player.SetData(EntityData.CHIN_SHAPE, 0.0f);
-            player.SetData(EntityData.NECK_WIDTH, 0.0f);
-        }
-
+        
         private void LoadCharacterData(Client player, PlayerModel character)
         {
             string[] jail = character.jailed.Split(',');
@@ -187,67 +123,6 @@ namespace WiredPlayers.login
             player.SetData(EntityData.PLAYER_STATUS, character.status);
         }
 
-        private void PopulateCharacterSkin(Client player, SkinModel skinModel)
-        {
-            player.SetSharedData(EntityData.FIRST_HEAD_SHAPE, skinModel.firstHeadShape);
-            player.SetSharedData(EntityData.SECOND_HEAD_SHAPE, skinModel.secondHeadShape);
-            player.SetSharedData(EntityData.FIRST_SKIN_TONE, skinModel.firstSkinTone);
-            player.SetSharedData(EntityData.SECOND_SKIN_TONE, skinModel.secondSkinTone);
-            player.SetSharedData(EntityData.HEAD_MIX, skinModel.headMix);
-            player.SetSharedData(EntityData.SKIN_MIX, skinModel.skinMix);
-
-            player.SetSharedData(EntityData.HAIR_MODEL, skinModel.hairModel);
-            player.SetSharedData(EntityData.FIRST_HAIR_COLOR, skinModel.firstHairColor);
-            player.SetSharedData(EntityData.SECOND_HAIR_COLOR, skinModel.secondHairColor);
-
-            player.SetSharedData(EntityData.BEARD_MODEL, skinModel.beardModel);
-            player.SetSharedData(EntityData.BEARD_COLOR, skinModel.beardColor);
-
-            player.SetSharedData(EntityData.CHEST_MODEL, skinModel.chestModel);
-            player.SetSharedData(EntityData.CHEST_COLOR, skinModel.chestColor);
-
-            player.SetSharedData(EntityData.BLEMISHES_MODEL, skinModel.blemishesModel);
-            player.SetSharedData(EntityData.AGEING_MODEL, skinModel.ageingModel);
-            player.SetSharedData(EntityData.COMPLEXION_MODEL, skinModel.complexionModel);
-            player.SetSharedData(EntityData.SUNDAMAGE_MODEL, skinModel.sundamageModel);
-            player.SetSharedData(EntityData.FRECKLES_MODEL, skinModel.frecklesModel);
-
-            player.SetSharedData(EntityData.EYES_COLOR, skinModel.eyesColor);
-            player.SetSharedData(EntityData.EYEBROWS_MODEL, skinModel.eyebrowsModel);
-            player.SetSharedData(EntityData.EYEBROWS_COLOR, skinModel.eyebrowsColor);
-
-            player.SetSharedData(EntityData.MAKEUP_MODEL, skinModel.makeupModel);
-            player.SetSharedData(EntityData.BLUSH_MODEL, skinModel.blushModel);
-            player.SetSharedData(EntityData.BLUSH_COLOR, skinModel.blushColor);
-            player.SetSharedData(EntityData.LIPSTICK_MODEL, skinModel.lipstickModel);
-            player.SetSharedData(EntityData.LIPSTICK_COLOR, skinModel.lipstickColor);
-
-            player.SetSharedData(EntityData.NOSE_WIDTH, skinModel.noseWidth);
-            player.SetSharedData(EntityData.NOSE_HEIGHT, skinModel.noseHeight);
-            player.SetSharedData(EntityData.NOSE_LENGTH, skinModel.noseLength);
-            player.SetSharedData(EntityData.NOSE_BRIDGE, skinModel.noseBridge);
-            player.SetSharedData(EntityData.NOSE_TIP, skinModel.noseTip);
-            player.SetSharedData(EntityData.NOSE_SHIFT, skinModel.noseShift);
-            player.SetSharedData(EntityData.BROW_HEIGHT, skinModel.browHeight);
-            player.SetSharedData(EntityData.BROW_WIDTH, skinModel.browWidth);
-            player.SetSharedData(EntityData.CHEEKBONE_HEIGHT, skinModel.cheekboneHeight);
-            player.SetSharedData(EntityData.CHEEKBONE_WIDTH, skinModel.cheekboneWidth);
-            player.SetSharedData(EntityData.CHEEKS_WIDTH, skinModel.cheeksWidth);
-            player.SetSharedData(EntityData.EYES, skinModel.eyes);
-            player.SetSharedData(EntityData.LIPS, skinModel.lips);
-            player.SetSharedData(EntityData.JAW_WIDTH, skinModel.jawWidth);
-            player.SetSharedData(EntityData.JAW_HEIGHT, skinModel.jawHeight);
-            player.SetSharedData(EntityData.CHIN_LENGTH, skinModel.chinLength);
-            player.SetSharedData(EntityData.CHIN_POSITION, skinModel.chinPosition);
-            player.SetSharedData(EntityData.CHIN_WIDTH, skinModel.chinWidth);
-            player.SetSharedData(EntityData.CHIN_SHAPE, skinModel.chinShape);
-            player.SetSharedData(EntityData.NECK_WIDTH, skinModel.neckWidth);
-
-            // Timer to update player's face model
-            Timer spawnTimer = new Timer(OnPlayerUpdateTimer, player, 350, Timeout.Infinite);
-            spawnTimerList.Add(player.SocialClubName, spawnTimer);
-        }
-
         public void OnPlayerUpdateTimer(object playerObject)
         {
             Client player = (Client)playerObject;
@@ -262,7 +137,7 @@ namespace WiredPlayers.login
             }
 
             // Update player's face model
-            player.TriggerEvent("updatePlayerCustomSkin", player, NAPI.Util.ToJson(playerTattooList));
+
         }
 
         [ServerEvent(Event.PlayerConnected)]
@@ -303,8 +178,7 @@ namespace WiredPlayers.login
                             NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
                             LoadCharacterData(player, character);
-
-                            PopulateCharacterSkin(player, skin);
+                            skin.ApplyPlayerCustomization(player, character.sex);
 
                             Globals.PopulateCharacterClothes(player);
                         }
@@ -353,16 +227,17 @@ namespace WiredPlayers.login
         }
 
         [RemoteEvent("createCharacter")]
-        public void CreateCharacterEvent(Client player, string playerName, int playerAge, string skinJson)
+        public void CreateCharacterEvent(Client player, string playerName, int playerAge, int playerSex, string skinJson)
         {
             PlayerModel playerModel = new PlayerModel();
             SkinModel skinModel = JsonConvert.DeserializeObject<SkinModel>(skinJson);
 
             playerModel.realName = playerName;
             playerModel.age = playerAge;
-            playerModel.sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            playerModel.sex = playerSex;
 
-            PopulateCharacterSkin(player, skinModel);
+            // Apply the skin to the character
+            skinModel.ApplyPlayerCustomization(player, playerSex);
 
             Task.Factory.StartNew(() =>
             {
@@ -375,6 +250,7 @@ namespace WiredPlayers.login
                     player.SetData(EntityData.PLAYER_SQL_ID, playerId);
                     player.SetData(EntityData.PLAYER_NAME, playerName);
                     player.SetData(EntityData.PLAYER_AGE, playerAge);
+                    player.SetData(EntityData.PLAYER_SEX, playerSex);
                     player.SetSharedData(EntityData.PLAYER_SPAWN_POS, new Vector3(200.6641f, -932.0939f, 30.6868f));
                     player.SetSharedData(EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 0.0f));
 
@@ -390,9 +266,6 @@ namespace WiredPlayers.login
         {
             // Change player's skin
             NAPI.Player.SetPlayerSkin(player, PedHash.FreemodeMale01);
-
-            // Initialize player's face mode
-            InitializePlayerSkin(player);
 
             // Remove clothes
             player.SetClothes(11, 15, 0);
@@ -418,7 +291,7 @@ namespace WiredPlayers.login
                 NAPI.Player.SetPlayerSkin(player, playerModel.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
                 LoadCharacterData(player, playerModel);
-                PopulateCharacterSkin(player, skinModel);
+                skinModel.ApplyPlayerCustomization(player, playerModel.sex);
                 Globals.PopulateCharacterClothes(player);
 
                 // Update last selected character

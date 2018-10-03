@@ -89,42 +89,42 @@
                 <div>
                     <h2 data-i18n="character.father-face"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevFatherFace();"></span>
-                        <span id="face-father-shape" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextFatherFace();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="firstHeadShape" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.mother-face"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevMotherFace();"></span>
-                        <span id="face-mother-shape" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextMotherFace();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="secondHeadShape" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.face-mix"></h2>
-                    <input id="headMix" type="range" min="0" max="99" oninput="updateFaceMix();" />
+                    <input id="headMix" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.father-skin"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevFatherSkin();"></span>
-                        <span id="father-skin" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextFatherSkin();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="firstSkinTone" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.mother-skin"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevMotherSkin();"></span>
-                        <span id="mother-skin" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextMotherSkin();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="secondSkinTone" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.skin-mix"></h2>
-                    <input id="skinMix" type="range" min="0" max="99" oninput="updateSkinMix();" />
+                    <input id="skinMix" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
             </div>
 
@@ -133,57 +133,57 @@
                 <div>
                     <h2 data-i18n="character.hairstyle"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevHairModel();"></span>
-                        <span id="hair-model" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextHairModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="hairModel" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.hair-first-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevHairFirstColor();"></span>
-                        <span id="hair-first-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextHairFirstColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="firstHairColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.hair-second-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevHairSecondColor();"></span>
-                        <span id="hair-second-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextHairSecondColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="secondHairColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.beard-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevBeardModel();"></span>
-                        <span id="beard-model" class="color-lightgrey" data-i18n="character.no-beard"></span>
-                        <span class="right-arrow" onclick="showNextBeardModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="beardModel" class="color-lightgrey" data-i18n="character.no-beard"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.beard-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevBeardColor();"></span>
-                        <span id="beard-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextBeardColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="beardColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.chest-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevChestModel();"></span>
-                        <span id="chest-model" class="color-lightgrey" data-i18n="character.no-hair"></span>
-                        <span class="right-arrow" onclick="showNextChestModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="chestModel" class="color-lightgrey" data-i18n="character.no-hair"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.chest-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevChestColor();"></span>
-                        <span id="chest-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextChestColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="chestColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
             </div>
@@ -193,41 +193,41 @@
                 <div>
                     <h2 data-i18n="character.blemishes"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevBlemishesModel();"></span>
-                        <span id="blemishes-model" class="color-lightgrey" data-i18n="character.no-blemishes"></span>
-                        <span class="right-arrow" onclick="showNextBlemishesModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="blemishesModel" class="color-lightgrey" data-i18n="character.no-blemishes"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.ageing"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevAgeingModel();"></span>
-                        <span id="ageing-model" class="color-lightgrey" data-i18n="character.no-ageing"></span>
-                        <span class="right-arrow" onclick="showNextAgeingModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="ageingModel" class="color-lightgrey" data-i18n="character.no-ageing"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.complexion"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevComplexionModel();"></span>
-                        <span id="complexion-model" class="color-lightgrey" data-i18n="character.no-complexion"></span>
-                        <span class="right-arrow" onclick="showNextComplexionModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="complexionModel" class="color-lightgrey" data-i18n="character.no-complexion"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.sundamage"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevSundamageModel();"></span>
-                        <span id="sundamage-model" class="color-lightgrey" data-i18n="character.no-sundamage"></span>
-                        <span class="right-arrow" onclick="showNextSundamageModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="sundamageModel" class="color-lightgrey" data-i18n="character.no-sundamage"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
-                    <h2 data-i18n="character.sundamage"></h2>
+                    <h2 data-i18n="character.freckles"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevFrecklesModel();"></span>
-                        <span id="freckles-model" class="color-lightgrey" data-i18n="character.no-freckles"></span>
-                        <span class="right-arrow" onclick="showNextFrecklesModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="frecklesModel" class="color-lightgrey" data-i18n="character.no-freckles"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
             </div>
@@ -237,25 +237,25 @@
                 <div>
                     <h2 data-i18n="character.eyes-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevEyesColor();"></span>
-                        <span id="eyes-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextEyesColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="eyesColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.eyebrows-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevEyebrowsModel();"></span>
-                        <span id="eyebrows-model" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextEyebrowsModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="eyebrowsModel" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.eyebrows-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevEyebrowsColor();"></span>
-                        <span id="eyebrows-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextEyebrowsColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="eyebrowsColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
             </div>
@@ -264,83 +264,83 @@
             <div id="face-features" class="no-display overflow-auto">
                 <div>
                     <h2 data-i18n="character.nose-width"></h2>
-                    <input id="noseWidth" type="range" min="0" max="99" oninput="updateFaceFeature('noseWidth');" />
+                    <input id="noseWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.nose-height"></h2>
-                    <input id="noseHeight" type="range" min="0" max="99" oninput="updateFaceFeature('noseHeight');" />
+                    <input id="noseHeight" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.nose-length"></h2>
-                    <input id="noseLength" type="range" min="0" max="99" oninput="updateFaceFeature('noseLength');" />
+                    <input id="noseLength" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.nose-bridge"></h2>
-                    <input id="noseBridge" type="range" min="0" max="99" oninput="updateFaceFeature('noseBridge');" />
+                    <input id="noseBridge" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.nose-tip"></h2>
-                    <input id="noseTip" type="range" min="0" max="99" oninput="updateFaceFeature('noseTip');" />
+                    <input id="noseTip" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.nose-shift"></h2>
-                    <input id="noseShift" type="range" min="0" max="99" oninput="updateFaceFeature('noseShift');" />
+                    <input id="noseShift" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.brow-height"></h2>
-                    <input id="browHeight" type="range" min="0" max="99" oninput="updateFaceFeature('browHeight');" />
+                    <input id="browHeight" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.brow-width"></h2>
-                    <input id="browWidth" type="range" min="0" max="99" oninput="updateFaceFeature('browWidth');" />
+                    <input id="browWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.cheekbone-height"></h2>
-                    <input id="cheekboneHeight" type="range" min="0" max="99" oninput="updateFaceFeature('cheekboneHeight');" />
+                    <input id="cheekboneHeight" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.cheekbone-width"></h2>
-                    <input id="cheekboneWidth" type="range" min="0" max="99" oninput="updateFaceFeature('cheekboneWidth');" />
+                    <input id="cheekboneWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.cheeks-width"></h2>
-                    <input id="cheeksWidth" type="range" min="0" max="99" oninput="updateFaceFeature('cheeksWidth');" />
+                    <input id="cheeksWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.eyes-shape"></h2>
-                    <input id="eyes" type="range" min="0" max="99" oninput="updateFaceFeature('eyes');" />
+                    <input id="eyes" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.lips"></h2>
-                    <input id="lips" type="range" min="0" max="99" oninput="updateFaceFeature('lips');" />
+                    <input id="lips" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.jaw-width"></h2>
-                    <input id="jawWidth" type="range" min="0" max="99" oninput="updateFaceFeature('jawWidth');" />
+                    <input id="jawWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.jaw-height"></h2>
-                    <input id="jawHeight" type="range" min="0" max="99" oninput="updateFaceFeature('jawHeight');" />
+                    <input id="jawHeight" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.chin-length"></h2>
-                    <input id="chinLength" type="range" min="0" max="99" oninput="updateFaceFeature('chinLength');" />
+                    <input id="chinLength" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.chin-position"></h2>
-                    <input id="chinPosition" type="range" min="0" max="99" oninput="updateFaceFeature('chinPosition');" />
+                    <input id="chinPosition" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.chin-width"></h2>
-                    <input id="chinWidth" type="range" min="0" max="99" oninput="updateFaceFeature('chinWidth');" />
+                    <input id="chinWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.chin-shape"></h2>
-                    <input id="chinShape" type="range" min="0" max="99" oninput="updateFaceFeature('chinShape');" />
+                    <input id="chinShape" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
                 <div>
                     <h2 data-i18n="character.neck-width"></h2>
-                    <input id="neckWidth" type="range" min="0" max="99" oninput="updateFaceFeature('neckWidth');" />
+                    <input id="neckWidth" type="range" min="0" max="1" value="0.5" step="0.01" oninput="updateFaceFeature()" />
                 </div>
             </div>
 
@@ -349,41 +349,41 @@
                 <div>
                     <h2 data-i18n="character.makeup-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevMakeupModel();"></span>
-                        <span id="makeup-model" class="color-lightgrey" data-i18n="character.no-makeup"></span>
-                        <span class="right-arrow" onclick="showNextMakeupModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="makeupModel" class="color-lightgrey" data-i18n="character.no-makeup"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.blush-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevBlushModel();"></span>
-                        <span id="blush-model" class="color-lightgrey" data-i18n="character.no-blush"></span>
-                        <span class="right-arrow" onclick="showNextBlushModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="blushModel" class="color-lightgrey" data-i18n="character.no-blush"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.blush-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevBlushColor();"></span>
-                        <span id="blush-color" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextBlushColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="blushColor" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.lipstick-style"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevLipstickModel();"></span>
-                        <span id="lipstick-model" class="color-lightgrey" data-i18n="general.type-one"></span>
-                        <span class="right-arrow" onclick="showNextLipstickModel();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="lipstickModel" class="color-lightgrey" data-i18n="general.type-n" data-i18n-options='{"value": 0}'></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
                 <div>
                     <h2 data-i18n="character.lipstick-color"></h2>
                     <div class="arrow-picker">
-                        <span class="left-arrow" onclick="showPrevLipstickColor();"></span>
-                        <span id="lipstick-color" class="color-lightgrey" data-i18n="character.no-lipstick"></span>
-                        <span class="right-arrow" onclick="showNextLipstickColor();"></span>
+                        <span class="left-arrow" onclick="previousCharacterValue()"></span>
+                        <span id="lipstickColor" class="color-lightgrey" data-i18n="character.no-lipstick"></span>
+                        <span class="right-arrow" onclick="nextCharacterValue()"></span>
                     </div>
                 </div>
             </div>

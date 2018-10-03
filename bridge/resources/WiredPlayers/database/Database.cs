@@ -23,17 +23,21 @@ namespace WiredPlayers.database
 {
     public class Database : Script
     {
-        private const string host = "127.0.0.1";
-        private const string user = "gta";
-        private const string pass = "gta5server-WP";
-        private const string database = "gtav";
-        private static readonly string connectionString = "SERVER=" + host + "; DATABASE=" + database + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
+
+        private static string connectionString;
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
             // Set the encoding
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            // Create the database connection string
+            string host = NAPI.Resource.GetSetting<string>(this, "host");
+            string user = NAPI.Resource.GetSetting<string>(this, "username");
+            string pass = NAPI.Resource.GetSetting<string>(this, "password");
+            string db = NAPI.Resource.GetSetting<string>(this, "database");
+            connectionString = "SERVER=" + host + "; DATABASE=" + db + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
 
             // Business loading
             Business businessClass = new Business();

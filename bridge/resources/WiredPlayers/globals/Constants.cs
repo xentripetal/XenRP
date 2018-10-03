@@ -30,6 +30,7 @@ namespace WiredPlayers.globals
         public const float LEVEL_MULTIPLIER = 3.25f;
         public const int PAID_PER_LEVEL = 30;
         public const float HOUSE_SALE_STATE = 0.7f;
+        public const int MAX_HEAD_OVERLAYS = 11;
 
         // Sex
         public const int SEX_NONE = -1;

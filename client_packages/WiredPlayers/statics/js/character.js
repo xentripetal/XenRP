@@ -1,41 +1,21 @@
-let currentFatherFace = 0;
-let currentMotherFace = 0;
-let currentFatherSkin = 0;
-let currentMotherSkin = 0;
-let currentHairModel = 0;
-let currentHairFirstColor = 0;
-let currentHairSecondColor = 0;
-let currentBeardModel = -1;
-let currentBeardColor = 0;
-let currentChestModel = -1;
-let currentChestColor = 0;
-let currentBlemishesModel = -1;
-let currentAgeingModel = -1;
-let currentComplexionModel = -1;
-let currentSundamageModel = -1;
-let currentFrecklesModel = -1;
-let currentEyesColor = 0;
-let currentEyebrowsModel = 0;
-let currentEyebrowsColor = 0;
-let currentMakeupModel = -1;
-let currentMakeupColor = 0;
-let currentBlushModel = -1;
-let currentBlushColor = 0;
-let currentLipstickModel = -1;
-let currentLipstickColor = 0;
 let messagesLoaded = false;
 let timeout = undefined;
 
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
 		backend: {
-			loadPath: '../i18n/en.json'
+			loadPath: '../i18n/es.json'
 		}
 	}, function(err, t) {
-        jqueryI18next.init(i18next, $);
+		jqueryI18next.init(i18next, $, {
+			optionsAttr: 'i18n-options',
+			useOptionsAttr: true,
+			parseDefaultValueFromContent: true
+		});
 		$(document).localize();
 		messagesLoaded = true;
-	});
+		currentStep = 0;
+    });
 });
 
 function hideError() {
@@ -133,6 +113,81 @@ function showPlayerDuplicatedWarn() {
 	}
 }
 
+function updateFaceFeature() {
+	// Get the data
+	let dataObject = {};
+	let dataKey = event.currentTarget.id;
+	let dataValue = event.currentTarget.value;
+
+	// Populate the object
+	dataObject[dataKey] = parseFloat(dataValue);
+
+	// Update the data on the client
+	mp.trigger('storePlayerData', JSON.stringify(dataObject));
+}
+
+function previousCharacterValue() {
+	// Initialize the value to set
+	let faceValue = undefined;
+
+	// Get the closest div
+	let nodeElement = event.currentTarget.nextElementSibling;
+
+	// Get the maximum, minimum, none values and the current value
+	let values = getMaximumMinimumNoneValues(nodeElement.id);
+	let current = nodeElement.innerText.includes(i18next.t('general.type')) ? parseInt(nodeElement.innerText.split(' ')[1]) : 255;
+
+	if(current === values.min) {
+		// It's the first value, check if it has a default value
+		faceValue = values.none === undefined ? values.max : 255;
+	} else if(current === 255) {
+		// The previous value will be the maximum
+		faceValue = values.max;
+	} else {
+		// Substract one to the value
+		faceValue = current - 1;
+	}
+
+	// Update the text on the element
+	nodeElement.innerText = faceValue === 255 ? i18next.t(values.none) : i18next.t('general.type-n', {value: faceValue}); 
+
+	// Store the data and update the face
+	let dataObject = {};
+	dataObject[nodeElement.id] = faceValue;
+	mp.trigger('storePlayerData', JSON.stringify(dataObject));
+}
+
+function nextCharacterValue() {
+	// Initialize the value to set
+	let faceValue = undefined;
+
+	// Get the closest div
+	let nodeElement = event.currentTarget.previousElementSibling;
+
+	// Get the maximum, minimum, none values and the current value
+	let values = getMaximumMinimumNoneValues(nodeElement.id);
+	let current = nodeElement.innerText.includes(i18next.t('general.type')) ? parseInt(nodeElement.innerText.split(' ')[1]) : 255;
+
+	if(current === values.max) {
+		// It's the first value, check if it has a default value
+		faceValue = values.none === undefined ? values.min : 255;
+	} else if(current === 255) {
+		// The next value will be the minimum
+		faceValue = values.min;
+	} else {
+		// Substract one to the value
+		faceValue = current + 1;
+	}
+
+	// Update the text on the element
+	nodeElement.innerText = faceValue === 255 ? i18next.t(values.none) : i18next.t('general.type-n', {value: faceValue}); 
+
+	// Store the data and update the face
+	let dataObject = {};
+	dataObject[nodeElement.id] = faceValue;
+	mp.trigger('storePlayerData', JSON.stringify(dataObject));
+}
+
 function cameraPointTo(part) {
 	// Change the camera pointing zone
 	mp.trigger('cameraPointTo', part);
@@ -143,583 +198,63 @@ function rotateCharacter() {
 	mp.trigger('rotateCharacter', rotation);
 }
 
-function showPrevFatherFace() {
-	if(currentFatherFace == 0) {
-		currentFatherFace = 41;
-	} else {
-		currentFatherFace--;
-	}
-	$("#face-father-shape").text(i18next.t('general.type', {value: currentFatherFace + 1}));
-	mp.trigger('updatePlayerCreation', 'firstHeadShape', currentFatherFace, false);	
-}
+function getMaximumMinimumNoneValues(elementId) {
+	// Create the return object
+	let values = {'max': undefined, 'min': 0, 'none': undefined};
 
-function showNextFatherFace() {
-	if(currentFatherFace == 41) {
-		currentFatherFace = 0;
-	} else {
-		currentFatherFace++;
+	switch(elementId) {
+		case 'hairModel':
+			values.max = characterSex === 0 ? 73 : 77;
+			break;
+		case 'beardModel':
+			values.max = 28;
+			values.none = 'character.no-beard';
+			break;
+		case 'eyebrowsModel':
+			values.max = 33;
+			break;
+		case 'chestModel':
+			values.max = 17;
+			values.none = 'character.no-hair';
+			break;
+		case 'blemishesModel':
+			values.max = 23;
+			values.none = 'character.no-blemishes';
+			break;
+		case 'ageingModel':
+			values.max = 14;
+			values.none = 'character.no-ageing';
+			break;
+		case 'complexionModel':
+			values.max = 11;
+			values.none = 'character.no-complexion';
+			break;
+		case 'sundamageModel':
+			values.max = 10;
+			values.none = 'character.no-sundamage';
+			break;
+		case 'frecklesModel':
+			values.max = 17;
+			values.none = 'character.no-freckles';
+			break;
+		case 'makeupModel':
+			values.max = 74;
+			values.none = 'character.no-makeup';
+			break;		
+		case 'blushModel':
+			values.max = 6;
+			values.none = 'character.no-blush';
+			break;
+		case 'lipstickModel':
+			values.max = 9;
+			values.none = 'character.no-lipstick';
+			break;
+		default:
+			values.max = 45;
+			break;
 	}
-	$("#face-father-shape").text(i18next.t('general.type', {value: currentFatherFace + 1}));
-	mp.trigger('updatePlayerCreation', 'firstHeadShape', currentFatherFace, false);	
-}
 
-function showPrevMotherFace() {
-	if(currentMotherFace == 0) {
-		currentMotherFace = 41;
-	} else {
-		currentMotherFace--;
-	}
-	$("#face-mother-shape").text(i18next.t('general.type', {value: currentMotherFace + 1}));
-	mp.trigger('updatePlayerCreation', 'secondHeadShape', currentMotherFace, false);	
-}
-
-function showNextMotherFace() {
-	if(currentMotherFace == 41) {
-		currentMotherFace = 0;
-	} else {
-		currentMotherFace++;
-	}
-	$("#face-mother-shape").text(i18next.t('general.type', {value: currentMotherFace + 1}));
-	mp.trigger('updatePlayerCreation', 'secondHeadShape', currentMotherFace, false);
-}
-
-function showPrevFatherSkin() {
-	if(currentFatherSkin == 0) {
-		currentFatherSkin = 45;
-	} else {
-		currentFatherSkin--;
-	}
-	$("#father-skin").text(i18next.t('general.type', {value: currentFatherSkin + 1}));
-	mp.trigger('updatePlayerCreation', 'firstSkinTone', currentFatherSkin, false);
-}
-
-function showNextFatherSkin() {
-	if(currentFatherSkin == 45) {
-		currentFatherSkin = 0;
-	} else {
-		currentFatherSkin++;
-	}
-	$("#father-skin").text(i18next.t('general.type', {value: currentFatherSkin + 1}));
-	mp.trigger('updatePlayerCreation', 'firstSkinTone', currentFatherSkin, false);
-}
-
-function showPrevMotherSkin() {
-	if(currentMotherSkin == 0) {
-		currentMotherSkin = 45;
-	} else {
-		currentMotherSkin--;
-	}
-	$("#mother-skin").text(i18next.t('general.type', {value: currentMotherSkin + 1}));
-	mp.trigger('updatePlayerCreation', 'secondSkinTone', currentMotherSkin, false);
-}
-
-function showNextMotherSkin() {
-	if(currentMotherSkin == 45) {
-		currentMotherSkin = 0;
-	} else {
-		currentMotherSkin++;
-	}
-	$("#mother-skin").text(i18next.t('general.type', {value: currentMotherSkin + 1}));
-	mp.trigger('updatePlayerCreation', 'secondSkinTone', currentMotherSkin, false);
-}
-
-function updateFaceMix() {
-	let faceMixValue = document.getElementById('headMix').value;
-	mp.trigger('updatePlayerCreation', 'headMix', faceMixValue, true);
-}
-
-function updateSkinMix() {
-	let skinMixValue = document.getElementById('skinMix').value;
-	mp.trigger('updatePlayerCreation', 'skinMix', skinMixValue, true);
-}
-
-function showPrevHairModel() {
-	if(currentHairModel == 0) {
-		currentHairModel = 38;
-	} else if(currentHairModel == 24) {
-		currentHairModel = currentHairModel - 2;
-	} else {
-	    currentHairModel--;
-    }
-	$("#hair-model").text(i18next.t('general.type', {value: currentHairModel + 1}));
-	mp.trigger('updatePlayerCreation', 'hairModel', currentHairModel, false);
-}
-
-function showNextHairModel() {
-	if(currentHairModel == 38) {
-		currentHairModel = 0;
-	} else if (currentHairModel == 22) {
-	    currentHairModel = currentHairModel + 2;
-	} else {
-		currentHairModel++;
-	}
-	$("#hair-model").text(i18next.t('general.type', {value: currentHairModel + 1}));
-	mp.trigger('updatePlayerCreation', 'hairModel', currentHairModel, false);
-}
-
-function showPrevHairFirstColor() {
-	if(currentHairFirstColor == 0) {
-		currentHairFirstColor = 63;
-	} else {
-		currentHairFirstColor--;
-	}
-	$("#hair-first-color").text(i18next.t('general.type', {value: currentHairFirstColor + 1}));
-	mp.trigger('updatePlayerCreation', 'firstHairColor', currentHairFirstColor, false);
-}
-
-function showNextHairFirstColor() {
-	if(currentHairFirstColor == 63) {
-		currentHairFirstColor = 0;
-	} else {
-		currentHairFirstColor++;
-	}
-	$("#hair-first-color").text(i18next.t('general.type', {value: currentHairFirstColor + 1}));
-	mp.trigger('updatePlayerCreation', 'firstHairColor', currentHairFirstColor, false);
-}
-
-function showPrevHairSecondColor() {
-	if(currentHairSecondColor == 0) {
-		currentHairSecondColor = 63;
-	} else {
-		currentHairSecondColor--;
-	}
-	$("#hair-second-color").text(i18next.t('general.type', {value: currentHairSecondColor + 1}));
-	mp.trigger('updatePlayerCreation', 'secondHairColor', currentHairSecondColor, false);
-}
-
-function showNextHairSecondColor() {
-	if(currentHairSecondColor == 63) {
-		currentHairSecondColor = 0;
-	} else {
-		currentHairSecondColor++;
-	}
-	$("#hair-second-color").text(i18next.t('general.type', {value: currentHairSecondColor + 1}));
-	mp.trigger('updatePlayerCreation', 'secondHairColor', currentHairSecondColor, false);
-}
-
-function showPrevBeardModel() {
-	if(currentBeardModel == -1) {
-		currentBeardModel = 29;
-	} else {
-		currentBeardModel--;
-	}
-	if(currentBeardModel == -1) {
-		$("#beard-model").text(i18next.t('character.no-beard'));
-	} else {
-		$("#beard-model").text(i18next.t('general.type', {value: currentBeardModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'beardModel', currentBeardModel, false);
-}
-
-function showNextBeardModel() {
-	if(currentBeardModel == 29) {
-		currentBeardModel = -1;
-	} else {
-		currentBeardModel++;
-	}
-	if(currentBeardModel == -1) {
-		$("#beard-model").text(i18next.t('character.no-beard'));
-	} else {
-		$("#beard-model").text(i18next.t('general.type', {value: currentBeardModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'beardModel', currentBeardModel, false);
-}
-
-function showPrevBeardColor() {
-	if(currentBeardColor == 0) {
-		currentBeardColor = 63;
-	} else {
-		currentBeardColor--;
-	}
-	$("#beard-color").text(i18next.t('general.type', {value: currentBeardColor + 1}));
-	mp.trigger('updatePlayerCreation', 'bearColor', currentBeardColor, false);
-}
-
-function showNextBeardColor() {
-	if(currentBeardColor == 63) {
-		currentBeardColor = 0;
-	} else {
-		currentBeardColor++;
-	}
-	$("#beard-color").text(i18next.t('general.type', {value: currentBeardColor + 1}));
-	mp.trigger('updatePlayerCreation', 'bearColor', currentBeardColor, false);
-}
-
-function showPrevChestModel() {
-	if(currentChestModel == -1) {
-		currentChestModel = 17;
-	} else {
-		currentChestModel--;
-	}
-	if(currentChestModel == -1) {
-		$("#chest-model").text(i18next.t('character.no-hair'));
-	} else {
-		$("#chest-model").text(i18next.t('general.type', {value: currentChestModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'chestModel', currentChestModel, false);
-}
-
-function showNextChestModel() {
-	if(currentChestModel == 17) {
-		currentChestModel = -1;
-	} else {
-		currentChestModel++;
-	}
-	if(currentChestModel == -1) {
-		$("#chest-model").text(i18next.t('character.no-hair'));
-	} else {
-		$("#chest-model").text(i18next.t('general.type', {value: currentChestModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'chestModel', currentChestModel, false);
-}
-
-function showPrevChestColor() {
-	if(currentChestColor == 0) {
-		currentChestColor = 63;
-	} else {
-		currentChestColor--;
-	}
-	$("#chest-color").text(i18next.t('general.type', {value: currentChestColor + 1}));
-	mp.trigger('updatePlayerCreation', 'chestColor', currentChestColor, false);
-}
-
-function showNextChestColor() {
-	if(currentChestColor == 63) {
-		currentChestColor = 0;
-	} else {
-		currentChestColor++;
-	}
-	$("#chest-color").text(i18next.t('general.type', {value: currentChestColor + 1}));
-	mp.trigger('updatePlayerCreation', 'chestColor', currentChestColor, false);
-}
-
-function showPrevBlemishesModel() {
-	if(currentBlemishesModel == -1) {
-		currentBlemishesModel = 24;
-	} else {
-		currentBlemishesModel--;
-	}
-	if(currentBlemishesModel == -1) {
-		$("#blemishes-model").text(i18next.t('character.no-blemishes'));
-	} else {
-		$("#blemishes-model").text(i18next.t('general.type', {value: currentBlemishesModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'blemishesModel', currentBlemishesModel, false);
-}
-
-function showNextBlemishesModel() {
-	if(currentBlemishesModel == 24) {
-		currentBlemishesModel = -1;
-	} else {
-		currentBlemishesModel++;
-	}
-	if(currentBlemishesModel == -1) {
-		$("#blemishes-model").text(i18next.t('character.no-blemishes'));
-	} else {
-		$("#blemishes-model").text(i18next.t('general.type', {value: currentBlemishesModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'blemishesModel', currentBlemishesModel, false);
-}
-
-function showPrevAgeingModel() {
-	if(currentAgeingModel == -1) {
-		currentAgeingModel = 15;
-	} else {
-		currentAgeingModel--;
-	}
-	if(currentAgeingModel == -1) {
-		$("#ageing-model").text(i18next.t('character.no-ageing'));
-	} else {
-		$("#ageing-model").text(i18next.t('general.type', {value: currentAgeingModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'ageingModel', currentAgeingModel, false);
-}
-
-function showNextAgeingModel() {
-	if(currentAgeingModel == 15) {
-		currentAgeingModel = -1;
-	} else {
-		currentAgeingModel++;
-	}
-	if(currentAgeingModel == -1) {
-		$("#ageing-model").text(i18next.t('character.no-ageing'));
-	} else {
-		$("#ageing-model").text(i18next.t('general.type', {value: currentAgeingModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'ageingModel', currentAgeingModel, false);
-}
-
-function showPrevComplexionModel() {
-	if(currentComplexionModel == -1) {
-		currentComplexionModel = 12;
-	} else {
-		currentComplexionModel--;
-	}
-	if(currentComplexionModel == -1) {
-		$("#complexion-model").text(i18next.t('character.no-complexion'));
-	} else {
-		$("#complexion-model").text(i18next.t('general.type', {value: currentComplexionModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'complexionModel', currentComplexionModel, false);
-}
-
-function showNextComplexionModel() {
-	if(currentComplexionModel == 12) {
-		currentComplexionModel = -1;
-	} else {
-		currentComplexionModel++;
-	}
-	if(currentComplexionModel == -1) {
-		$("#complexion-model").text(i18next.t('character.no-complexion'));
-	} else {
-		$("#complexion-model").text(i18next.t('general.type', {value: currentComplexionModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'complexionModel', currentComplexionModel, false);
-}
-
-function showPrevSundamageModel() {
-	if(currentSundamageModel == -1) {
-		currentSundamageModel = 11;
-	} else {
-		currentSundamageModel--;
-	}
-	if(currentSundamageModel == -1) {
-		$("#sundamage-model").text(i18next.t('character.no-sundamage'));
-	} else {
-		$("#sundamage-model").text(i18next.t('general.type', {value: currentSundamageModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'sundamageModel', currentSundamageModel, false);
-}
-
-function showNextSundamageModel() {
-	if(currentSundamageModel == 11) {
-		currentSundamageModel = -1;
-	} else {
-		currentSundamageModel++;
-	}
-	if(currentSundamageModel == -1) {
-		$("#sundamage-model").text(i18next.t('character.no-sundamage'));
-	} else {
-		$("#sundamage-model").text(i18next.t('general.type', {value: currentSundamageModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'sundamageModel', currentSundamageModel, false);
-}
-
-function showPrevFrecklesModel() {
-	if(currentFrecklesModel == -1) {
-		currentFrecklesModel = 18;
-	} else {
-		currentFrecklesModel--;
-	}
-	if(currentFrecklesModel == -1) {
-		$("#freckles-model").text(i18next.t('character.no-freckles'));
-	} else {
-		$("#freckles-model").text(i18next.t('general.type', {value: currentFrecklesModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'frecklesModel', currentFrecklesModel, false);
-}
-
-function showNextFrecklesModel() {
-	if(currentFrecklesModel == 18) {
-		currentFrecklesModel = -1;
-	} else {
-		currentFrecklesModel++;
-	}
-	if(currentFrecklesModel == -1) {
-		$("#freckles-model").text(i18next.t('character.no-freckles'));
-	} else {
-		$("#freckles-model").text(i18next.t('general.type', {value: currentFrecklesModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'frecklesModel', currentFrecklesModel, false);
-}
-
-function showPrevEyesColor() {
-	if(currentEyesColor == 0) {
-		currentEyesColor = 31;
-	} else {
-		currentEyesColor--;
-	}
-	$("#eyes-color").text(i18next.t('general.type', {value: currentEyesColor + 1}));
-	mp.trigger('updatePlayerCreation', 'eyesColor', currentEyesColor, false);
-}
-
-function showNextEyesColor() {
-	if(currentEyesColor == 31) {
-		currentEyesColor = 0;
-	} else {
-		currentEyesColor++;
-	}
-	$("#eyes-color").text(i18next.t('general.type', {value: currentEyesColor + 1}));
-	mp.trigger('updatePlayerCreation', 'eyesColor', currentEyesColor, false);
-}
-
-function showPrevEyebrowsModel() {
-	if(currentEyebrowsModel == 0) {
-		currentEyebrowsModel = 33;
-	} else {
-		currentEyebrowsModel--;
-	}
-	$("#eyebrows-model").text(i18next.t('general.type', {value: currentEyebrowsModel + 1}));
-	mp.trigger('updatePlayerCreation', 'eyebrowsModel', currentEyebrowsModel, false);
-}
-
-function showNextEyebrowsModel() {
-	if(currentEyebrowsModel == 33) {
-		currentEyebrowsModel = 0;
-	} else {
-		currentEyebrowsModel++;
-	}
-	$("#eyebrows-model").text(i18next.t('general.type', {value: currentEyebrowsModel + 1}));
-	mp.trigger('updatePlayerCreation', 'eyebrowsModel', currentEyebrowsModel, false);
-}
-
-function showPrevEyebrowsColor() {
-	if(currentEyebrowsColor == 0) {
-		currentEyebrowsColor = 63;
-	} else {
-		currentEyebrowsColor--;
-	}
-	$("#eyebrows-color").text(i18next.t('general.type', {value: currentEyebrowsColor + 1}));
-	mp.trigger('updatePlayerCreation', 'eyebrowsColor', currentEyebrowsColor, false);
-}
-
-function showNextEyebrowsColor() {
-	if(currentEyebrowsColor == 63) {
-		currentEyebrowsColor = 0;
-	} else {
-		currentEyebrowsColor++;
-	}
-	$("#eyebrows-color").text(i18next.t('general.type', {value: currentEyebrowsColor + 1}));
-	mp.trigger('updatePlayerCreation', 'eyebrowsColor', currentEyebrowsColor, false);
-}
-
-function updateFaceFeature(feature) {
-	let faceValue = document.getElementById(feature).value;
-	mp.trigger('updatePlayerCreation', feature, faceValue, true);
-}
-
-function showPrevMakeupModel() {
-	if(currentMakeupModel == -1) {
-		currentMakeupModel = 75;
-	} else {
-		currentMakeupModel--;
-	}
-	if(currentMakeupModel == -1) {
-		$("#makeup-model").text(i18next.t('character.no-makeup'));
-	} else {
-		$("#makeup-model").text(i18next.t('general.type', {value: currentMakeupModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'makeupModel', currentMakeupModel, false);
-}
-
-function showNextMakeupModel() {
-	if(currentMakeupModel == 75) {
-		currentMakeupModel = -1;
-	} else {
-		currentMakeupModel++;
-	}
-	if(currentMakeupModel == -1) {
-		$("#makeup-model").text(i18next.t('character.no-makeup'));
-	} else {
-		$("#makeup-model").text(i18next.t('general.type', {value: currentMakeupModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'makeupModel', currentMakeupModel, false);
-}
-
-function showPrevBlushModel() {
-	if(currentBlushModel == -1) {
-		currentBlushModel = 7;
-	} else {
-		currentBlushModel--;
-	}
-	if(currentBlushModel == -1) {
-		$("#blush-model").text(i18next.t('character.no-blush'));
-	} else {
-		$("#blush-model").text(i18next.t('general.type', {value: currentBlushModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'blushModel', currentBlushModel, false);
-}
-
-function showNextBlushModel() {
-	if(currentBlushModel == 7) {
-		currentBlushModel = -1;
-	} else {
-		currentBlushModel++;
-	}
-	if(currentBlushModel == -1) {
-		$("#blush-model").text(i18next.t('character.no-blush'));
-	} else {
-		$("#blush-model").text(i18next.t('general.type', {value: currentBlushModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'blushModel', currentBlushModel, false);
-}
-
-function showPrevBlushColor() {
-	if(currentBlushColor == 0) {
-		currentBlushColor = 63;
-	} else {
-		currentBlushColor--;
-	}
-	$("#blush-color").text(i18next.t('general.type', {value: currentBlushColor + 1}));
-	mp.trigger('updatePlayerCreation', 'blushColor', currentBlushColor, false);
-}
-
-function showNextBlushColor() {
-	if(currentBlushColor == 63) {
-		currentBlushColor = 0;
-	} else {
-		currentBlushColor++;
-	}
-	$("#blush-color").text(i18next.t('general.type', {value: currentBlushColor + 1}));
-	mp.trigger('updatePlayerCreation', 'blushColor', currentBlushColor, false);
-}
-
-function showPrevLipstickModel() {
-	if(currentLipstickModel == -1) {
-		currentLipstickModel = 10;
-	} else {
-		currentLipstickModel--;
-	}
-	if(currentLipstickModel == -1) {
-		$("#lipstick-model").text(i18next.t('character.no-lipstick'));
-	} else {
-		$("#lipstick-model").text(i18next.t('general.type', {value: currentLipstickModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'lipstickModel', currentLipstickModel, false);
-}
-
-function showNextLipstickModel() {
-	if(currentLipstickModel == 10) {
-		currentLipstickModel = -1;
-	} else {
-		currentLipstickModel++;
-	}
-	if(currentLipstickModel == -1) {
-		$("#lipstick-model").text(i18next.t('character.no-lipstick'));
-	} else {
-		$("#lipstick-model").text(i18next.t('general.type', {value: currentLipstickModel + 1}));
-	}
-	mp.trigger('updatePlayerCreation', 'lipstickModel', currentLipstickModel, false);
-}
-
-function showPrevLipstickColor() {
-	if(currentLipstickColor == 0) {
-		currentLipstickColor = 63;
-	} else {
-		currentLipstickColor--;
-	}
-	$("#lipstick-color").text(i18next.t('general.type', {value: currentLipstickColor + 1}));
-	mp.trigger('updatePlayerCreation', 'lipstickColor', currentLipstickColor, false);
-}
-
-function showNextLipstickColor() {
-	if(currentLipstickColor == 63) {
-		currentLipstickColor = 0;
-	} else {
-		currentLipstickColor++;
-	}
-	$("#lipstick-color").text(i18next.t('general.type', {value: currentLipstickColor + 1}));
-	mp.trigger('updatePlayerCreation', 'lipstickColor', currentLipstickColor, false);
+	return values;
 }
 
 $('.btn-number').click(function(e){
