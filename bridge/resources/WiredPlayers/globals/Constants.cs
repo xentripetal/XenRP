@@ -8,7 +8,7 @@ namespace WiredPlayers.globals
     public class Constants
     {
         // Gamemode version
-        public const string GM_VERSION = "v1.0.1.3";
+        public const string GM_VERSION = "v1.0.1.4";
 
         public const int MALE_PED_HASH = 1885233650;
         public const int FEMALE_PED_HASH = -1667301416;

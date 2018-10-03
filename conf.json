@@ -1,11 +1,11 @@
 {
 	"maxplayers" : 100,
-	"name" : "[ESP] WiredPlayers Development Server", 
+	"name" : "WiredPlayers Development Server", 
 	"url" : "wiredplayers.com",
-	"gamemode" : "WP-RP v1.0.1.3",
+	"gamemode" : "WP-RP v1.0.1.4",
 	"stream-distance" : 500.0,
 	"announce" : true,
-	"language" : "es",
+	"language" : "en",
 	"csharp" : true,
 	"port": 22005
 }
