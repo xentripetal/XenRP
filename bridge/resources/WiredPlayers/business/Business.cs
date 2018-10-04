@@ -312,7 +312,7 @@ namespace WiredPlayers.business
         [RemoteEvent("getClothesByType")]
         public void GetClothesByTypeEvent(Client player, int type, int slot)
         {
-            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int sex = player.GetData(EntityData.PLAYER_SEX);
             List<BusinessClothesModel> clothesList = GetBusinessClothesFromSlotType(sex, type, slot);
             if (clothesList.Count > 0)
             {
@@ -350,17 +350,18 @@ namespace WiredPlayers.business
                 }
                 else
                 {
-                    player.SetAccessories(slot, 0, 0);
+                    player.SetAccessories(slot, 255, 255);
                 }
             }
         }
 
         [RemoteEvent("clothesItemSelected")]
-        public void ClothesItemSelectedEvent(Client player, int clothesId, int type, int slot)
+        public void ClothesItemSelectedEvent(Client player, string clothesJson)
         {
+            ClothesModel clothesModel = NAPI.Util.FromJson<ClothesModel>(clothesJson);
             int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
-            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
-            int products = GetClothesProductsPrice(clothesId, sex, type, slot);
+            int sex = player.GetData(EntityData.PLAYER_SEX);
+            int products = GetClothesProductsPrice(clothesModel.id, sex, clothesModel.type, clothesModel.slot);
             BusinessModel business = GetBusinessById(businessId);
             int price = (int)Math.Round(products * business.multiplier);
 
@@ -387,14 +388,10 @@ namespace WiredPlayers.business
                 }
 
                 // Undress previous clothes
-                Globals.UndressClothes(playerId, type, slot);
+                Globals.UndressClothes(playerId, clothesModel.type, clothesModel.slot);
 
-                // We make the new clothes model
-                ClothesModel clothesModel = new ClothesModel();
+                // Store the remaining data
                 clothesModel.player = playerId;
-                clothesModel.type = type;
-                clothesModel.slot = slot;
-                clothesModel.drawable = clothesId;
                 clothesModel.dressed = true;
 
                 Task.Factory.StartNew(() => {
@@ -479,7 +476,7 @@ namespace WiredPlayers.business
         [RemoteEvent("loadZoneTattoos")]
         public void LoadZoneTattoosEvent(Client player, int zone)
         {
-            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int sex = player.GetData(EntityData.PLAYER_SEX);
             List<BusinessTattooModel> tattooList = GetBusinessZoneTattoos(sex, zone);
 
             // We update the menu with the tattoos
@@ -489,7 +486,7 @@ namespace WiredPlayers.business
         [RemoteEvent("purchaseTattoo")]
         public void PurchaseTattooEvent(Client player, int tattooZone, int tattooIndex)
         {
-            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int sex = player.GetData(EntityData.PLAYER_SEX);
             int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             BusinessModel business = GetBusinessById(businessId);
 

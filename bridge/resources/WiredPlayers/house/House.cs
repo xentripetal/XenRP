@@ -126,7 +126,7 @@ namespace WiredPlayers.house
         public void GetPlayerPurchasedClothesEvent(Client player, int type, int slot)
         {
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-            int sex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int sex = player.GetData(EntityData.PLAYER_SEX);
 
             List<ClothesModel> clothesList = Globals.GetPlayerClothes(playerId).Where(c => c.type == type && c.slot == slot).ToList();
 

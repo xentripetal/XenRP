@@ -925,7 +925,7 @@ function populateTypeClothes(typeClothesJson) {
 		
 		purchaseButton.onclick = (function() {
 			if(selected != undefined) {
-				mp.trigger('purchaseClothes', selected, drawable, purchasedAmount);
+				mp.trigger('purchaseClothes', drawable, purchasedAmount);
 			}
 		});
 		
@@ -934,7 +934,7 @@ function populateTypeClothes(typeClothesJson) {
 			populateClothesShopHome();
 			
 			// Clear player's clothes
-			mp.trigger('clearClothes');
+			mp.trigger('clearClothes', drawable);
 		});
 		
 		options.appendChild(purchaseButton);

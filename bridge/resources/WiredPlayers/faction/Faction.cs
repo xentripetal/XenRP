@@ -26,7 +26,7 @@ namespace WiredPlayers.faction
             {
                 if (factionModel.faction == faction && factionModel.rank == rank)
                 {
-                    rankString = player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? factionModel.descriptionMale : factionModel.descriptionFemale;
+                    rankString = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? factionModel.descriptionMale : factionModel.descriptionFemale;
                     break;
                 }
             }

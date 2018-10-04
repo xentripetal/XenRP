@@ -46,11 +46,28 @@ mp.events.add('replacePlayerClothes', (index, texture) => {
 		player.setComponentVariation(clothesTypes[index].bodyPart, clothesTypes[index].clothesId, texture, 0);
 	} else {
 		// Change player's accessory
-		player.setPropIndex(clothesTypes[index].bodyPart, clothesTypes[index].clothesId, texture, 0);
+		player.setPropIndex(clothesTypes[index].bodyPart, clothesTypes[index].clothesId, texture, true);
 	}
 });
 
-mp.events.add('clearClothes', () => {
-	// TODO remove the clothes
+mp.events.add('purchaseClothes', (index, texture) => {
+	// Create the clothes model
+	let clothesModel = {};
+	clothesModel.type = clothesTypes[index].type;
+	clothesModel.slot = clothesTypes[index].bodyPart;
+	clothesModel.drawable = clothesTypes[index].clothesId;
+	clothesModel.texture = parseInt(texture);
+
+	// Purchase the clothes
+	mp.events.callRemote('clothesItemSelected', JSON.stringify(clothesModel));
+});
+
+mp.events.add('clearClothes', (index) => {
+	// Get the type and slot
+	let type = clothesTypes[index].type;
+	let slot = clothesTypes[index].bodyPart;
+
+	// Clear the not purchased clothes
+	mp.events.callRemote('dressEquipedClothes', type, slot);
 });
 

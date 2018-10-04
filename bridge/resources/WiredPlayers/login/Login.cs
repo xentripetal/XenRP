@@ -3,26 +3,14 @@ using WiredPlayers.model;
 using WiredPlayers.database;
 using WiredPlayers.globals;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 using System;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.login
 {
     public class Login : Script
     {
-        private static Dictionary<string, Timer> spawnTimerList = new Dictionary<string, Timer>();
-
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
-        {
-            if (spawnTimerList.TryGetValue(player.SocialClubName, out Timer spawnTimer) == true)
-            {
-                spawnTimer.Dispose();
-                spawnTimerList.Remove(player.SocialClubName);
-            }
-        }
-
         private void InitializePlayerData(Client player)
         {
             Vector3 worldSpawn = new Vector3(200.6641f, -932.0939f, 30.68681f);
@@ -41,7 +29,7 @@ namespace WiredPlayers.login
             player.RemoveAllWeapons();
 
             // Initialize shared entity data
-            player.SetSharedData(EntityData.PLAYER_SEX, 0);
+            player.SetData(EntityData.PLAYER_SEX, 0);
             player.SetSharedData(EntityData.PLAYER_MONEY, 0);
             player.SetSharedData(EntityData.PLAYER_BANK, 3500);
 
@@ -86,7 +74,7 @@ namespace WiredPlayers.login
 
             player.SetSharedData(EntityData.PLAYER_MONEY, character.money);
             player.SetSharedData(EntityData.PLAYER_BANK, character.bank);
-            player.SetSharedData(EntityData.PLAYER_SEX, character.sex);
+            player.SetData(EntityData.PLAYER_SEX, character.sex);
 
             player.SetData(EntityData.PLAYER_SQL_ID, character.id);
             player.SetData(EntityData.PLAYER_NAME, character.realName);
@@ -121,23 +109,6 @@ namespace WiredPlayers.login
             player.SetData(EntityData.PLAYER_ROLE_POINTS, character.rolePoints);
             player.SetData(EntityData.PLAYER_PLAYED, character.played);
             player.SetData(EntityData.PLAYER_STATUS, character.status);
-        }
-
-        public void OnPlayerUpdateTimer(object playerObject)
-        {
-            Client player = (Client)playerObject;
-            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-            List<TattooModel> playerTattooList = Globals.GetPlayerTattoos(playerId);
-
-            Timer spawnTimer = spawnTimerList[player.SocialClubName];
-            if (spawnTimer != null)
-            {
-                spawnTimer.Dispose();
-                spawnTimerList.Remove(player.SocialClubName);
-            }
-
-            // Update player's face model
-
         }
 
         [ServerEvent(Event.PlayerConnected)]
@@ -223,7 +194,7 @@ namespace WiredPlayers.login
             player.SetClothes(8, 15, 0);
 
             // Save sex entity shared data
-            player.SetSharedData(EntityData.PLAYER_SEX, sex);
+            player.SetData(EntityData.PLAYER_SEX, sex);
         }
 
         [RemoteEvent("createCharacter")]

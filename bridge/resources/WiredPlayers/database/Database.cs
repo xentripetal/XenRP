@@ -2189,6 +2189,7 @@ namespace WiredPlayers.database
                         clothes.type = reader.GetInt32("type");
                         clothes.slot = reader.GetInt32("slot");
                         clothes.drawable = reader.GetInt32("drawable");
+                        clothes.texture = reader.GetInt32("texture");
                         clothes.dressed = reader.GetBoolean("dressed");
 
                         clothesList.Add(clothes);
@@ -2210,14 +2211,16 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO clothes (player, type, slot, drawable, dressed) VALUES (@player, @type, @slot, @drawable, @dressed)";
+                    command.CommandText = "INSERT INTO clothes (player, type, slot, drawable, texture, dressed) VALUES (@player, @type, @slot, @drawable, @texture, @dressed)";
                     command.Parameters.AddWithValue("@player", clothes.player);
                     command.Parameters.AddWithValue("@type", clothes.type);
                     command.Parameters.AddWithValue("@slot", clothes.slot);
                     command.Parameters.AddWithValue("@drawable", clothes.drawable);
+                    command.Parameters.AddWithValue("@texture", clothes.texture);
                     command.Parameters.AddWithValue("@dressed", clothes.dressed);
 
                     command.ExecuteNonQuery();
+
                     clothesId = (int)command.LastInsertedId;
                 }
                 catch (Exception ex)

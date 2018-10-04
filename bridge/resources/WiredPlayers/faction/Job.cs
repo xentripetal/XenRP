@@ -131,7 +131,7 @@ namespace WiredPlayers.faction
         public void DutyCommand(Client player)
         {
             // We get the sex, job and faction from the player
-            int playerSex = player.GetSharedData(EntityData.PLAYER_SEX);
+            int playerSex = player.GetData(EntityData.PLAYER_SEX);
             int playerJob = player.GetData(EntityData.PLAYER_JOB);
             int playerFaction = player.GetData(EntityData.PLAYER_FACTION);
 

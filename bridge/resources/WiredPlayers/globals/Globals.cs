@@ -653,11 +653,11 @@ namespace WiredPlayers.globals
                 {
                     if (clothes.type == 0)
                     {
-                        player.SetClothes(clothes.slot, clothes.drawable, 0);
+                        player.SetClothes(clothes.slot, clothes.drawable, clothes.texture);
                     }
                     else
                     {
-                        player.SetAccessories(clothes.slot, clothes.drawable, 0);
+                        player.SetAccessories(clothes.slot, clothes.drawable, clothes.texture);
                     }
                 }
             }
@@ -672,7 +672,7 @@ namespace WiredPlayers.globals
         public static void GetPlayerBasicData(Client asker, Client player)
         {
             int rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
-            string sex = player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
+            string sex = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
             string age = player.GetData(EntityData.PLAYER_AGE) + Messages.GEN_YEARS;
             string money = player.GetSharedData(EntityData.PLAYER_MONEY) + "$";
             string bank = player.GetSharedData(EntityData.PLAYER_BANK) + "$";
@@ -689,7 +689,7 @@ namespace WiredPlayers.globals
             {
                 if (player.GetData(EntityData.PLAYER_JOB) == jobModel.job)
                 {
-                    job = player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? jobModel.descriptionMale : jobModel.descriptionFemale;
+                    job = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? jobModel.descriptionMale : jobModel.descriptionFemale;
                     break;
                 }
             }
@@ -719,7 +719,7 @@ namespace WiredPlayers.globals
                     }
 
                     // Set player's rank
-                    rank = player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? factionModel.descriptionMale : factionModel.descriptionFemale;
+                    rank = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? factionModel.descriptionMale : factionModel.descriptionFemale;
                     break;
                 }
             }
@@ -841,8 +841,6 @@ namespace WiredPlayers.globals
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
         {
-            Login.OnPlayerDisconnected(player, type, reason);
-
             if (player.HasData(EntityData.PLAYER_PLAYING) == true)
             {
                 // Disconnect from the server
@@ -1656,7 +1654,7 @@ namespace WiredPlayers.globals
                         break;
                     case Constants.BUSINESS_TYPE_TATTOO_SHOP:
                         int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-                        int playerSex = player.GetSharedData(EntityData.PLAYER_SEX);
+                        int playerSex = player.GetData(EntityData.PLAYER_SEX);
 
                         // Remove player's clothes
                         player.SetClothes(11, 15, 0);
@@ -2049,7 +2047,7 @@ namespace WiredPlayers.globals
                 string message = string.Empty;
                 string nameChar = player.GetData(EntityData.PLAYER_NAME);
                 int age = player.GetData(EntityData.PLAYER_AGE);
-                string sexDescription = player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
+                string sexDescription = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
 
                 Client target = int.TryParse(targetString, out int targetId) ? GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
@@ -3277,7 +3275,7 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                if (player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
+                                if (player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
                                 {
                                     player.SetAccessories(Constants.ACCESSORY_HATS, 57, 0);
                                 }
@@ -3318,7 +3316,7 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                if (player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
+                                if (player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
                                 {
                                     player.SetAccessories(Constants.ACCESSORY_GLASSES, 5, 0);
                                 }
@@ -3359,7 +3357,7 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                if (player.GetSharedData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
+                                if (player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_FEMALE)
                                 {
                                     player.SetAccessories(Constants.ACCESSORY_EARS, 12, 0);
                                 }
