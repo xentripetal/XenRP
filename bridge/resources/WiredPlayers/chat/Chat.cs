@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
-using WiredPlayers.weazelNews;
 using WiredPlayers.globals;
+using WiredPlayers.factions;
 using System.Linq;
 using System;
 

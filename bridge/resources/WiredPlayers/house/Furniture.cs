@@ -1,12 +1,11 @@
 ﻿using GTANetworkAPI;
 using WiredPlayers.database;
 using WiredPlayers.globals;
-using WiredPlayers.house;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System;
 
-namespace WiredPlayers.furniture
+namespace WiredPlayers.house
 {
     public class Furniture : Script
     {

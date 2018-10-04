@@ -5,17 +5,11 @@ using WiredPlayers.house;
 using WiredPlayers.business;
 using WiredPlayers.chat;
 using WiredPlayers.weapons;
-using WiredPlayers.hooker;
 using WiredPlayers.parking;
-using WiredPlayers.faction;
 using WiredPlayers.vehicles;
 using WiredPlayers.drivingschool;
-using WiredPlayers.fastfood;
-using WiredPlayers.fishing;
-using WiredPlayers.garbage;
-using WiredPlayers.login;
-using WiredPlayers.police;
-using WiredPlayers.thief;
+using WiredPlayers.factions;
+using WiredPlayers.jobs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
@@ -643,32 +637,7 @@ namespace WiredPlayers.globals
                 }
             }
         }
-
-        public static void PopulateCharacterClothes(Client player)
-        {
-            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-            foreach (ClothesModel clothes in clothesList)
-            {
-                if (clothes.player == playerId && clothes.dressed)
-                {
-                    if (clothes.type == 0)
-                    {
-                        player.SetClothes(clothes.slot, clothes.drawable, clothes.texture);
-                    }
-                    else
-                    {
-                        player.SetAccessories(clothes.slot, clothes.drawable, clothes.texture);
-                    }
-                }
-            }
-        }
-
-        public static List<TattooModel> GetPlayerTattoos(int playerId)
-        {
-            // Get all the tattoos from the player
-            return tattooList.Where(t => t.player == playerId).ToList();
-        }
-
+        
         public static void GetPlayerBasicData(Client asker, Client player)
         {
             int rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
@@ -1509,7 +1478,7 @@ namespace WiredPlayers.globals
         public void GetPlayerTattoosEvent(Client player, Client targetPlayer)
         {
             int targetId = targetPlayer.GetData(EntityData.PLAYER_SQL_ID);
-            List<TattooModel> playerTattooList = GetPlayerTattoos(targetId);
+            List<TattooModel> playerTattooList = tattooList.Where(t => t.player == targetId).ToList();
             player.TriggerEvent("updatePlayerTattoos", NAPI.Util.ToJson(playerTattooList), targetPlayer);
         }
 
@@ -1673,9 +1642,9 @@ namespace WiredPlayers.globals
                         }
 
                         // Load tattoo list
-                        List<TattooModel> tattooList = GetPlayerTattoos(playerId);
-
+                        List<TattooModel> tattooList = Globals.tattooList.Where(t => t.player == playerId).ToList();
                         player.TriggerEvent("showTattooMenu", NAPI.Util.ToJson(tattooList), NAPI.Util.ToJson(Constants.TATTOO_LIST), business.name, business.multiplier);
+
                         break;
                     default:
                         List<BusinessItemModel> businessItems = Business.GetBusinessSoldItems(business.type);

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace WiredPlayers.TownHall
+namespace WiredPlayers.townhall
 {
     public class TownHall : Script
     {

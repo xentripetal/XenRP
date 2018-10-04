@@ -1,11 +1,10 @@
 ﻿using GTANetworkAPI;
-using System.Collections.Generic;
 using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
-using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace WiredPlayers.house
 {

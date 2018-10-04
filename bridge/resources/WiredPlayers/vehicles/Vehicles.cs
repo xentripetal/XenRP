@@ -1,12 +1,12 @@
 ﻿using GTANetworkAPI;
 using WiredPlayers.database;
 using WiredPlayers.globals;
-using WiredPlayers.mechanic;
 using WiredPlayers.model;
 using WiredPlayers.parking;
 using WiredPlayers.business;
 using WiredPlayers.weapons;
 using WiredPlayers.chat;
+using WiredPlayers.jobs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;

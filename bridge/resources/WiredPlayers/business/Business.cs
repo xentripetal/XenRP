@@ -2,6 +2,7 @@
 using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
+using WiredPlayers.character;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -544,7 +545,7 @@ namespace WiredPlayers.business
         public void LoadCharacterClothesEvent(Client player)
         {
             // Generate player's clothes
-            Globals.PopulateCharacterClothes(player);
+            Customization.ApplyPlayerClothes(player);
         }
     }
 }

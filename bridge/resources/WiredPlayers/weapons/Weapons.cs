@@ -3,9 +3,9 @@ using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading;
 using System;
-using System.Threading.Tasks;
 
 namespace WiredPlayers.weapons
 {
