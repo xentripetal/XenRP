@@ -4,8 +4,7 @@
 
 /bridge/resources/WiredPlayers/obj
 /bridge/resources/WiredPlayers/bin/Debug/netcoreapp2.0
-/bridge/resources/WiredPlayers/.vs/WiredPlayers/v15
-/bridge/resources/WiredPlayers
+/bridge/resources/WiredPlayers/.vs
 /bridge/resources/Racing
 /bridge/server_logs.txt
 /bridge/runtime/*
