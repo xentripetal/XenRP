@@ -1645,7 +1645,7 @@ namespace WiredPlayers.globals
 
                         // Load tattoo list
                         List<TattooModel> tattooList = Globals.tattooList.Where(t => t.player == playerId).ToList();
-                        player.TriggerEvent("showTattooMenu", NAPI.Util.ToJson(tattooList), NAPI.Util.ToJson(Constants.TATTOO_LIST), business.name, business.multiplier);
+                        player.TriggerEvent("showTattooMenu", player.GetData(EntityData.PLAYER_SEX), NAPI.Util.ToJson(tattooList), NAPI.Util.ToJson(Constants.TATTOO_LIST), business.name, business.multiplier);
 
                         break;
                     default:

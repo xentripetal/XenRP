@@ -3,11 +3,13 @@
 let playerTattooArray = [];
 let tattooList = [];
 let zoneTattoos = [];
+let playerSex = 0;
 
-mp.events.add('showTattooMenu', (playerTattoos, tattoosJson, business, price) => {
+mp.events.add('showTattooMenu', (sex, playerTattoos, tattoosJson, business, price) => {
 	// Store the variables
 	playerTattooArray = JSON.parse(playerTattoos);
 	tattooList = JSON.parse(tattoosJson);
+	playerSex = sex;
 	
 	// Show tattoos menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateTattooMenu', JSON.stringify(tattooZoneArray), business, price]);
@@ -35,7 +37,6 @@ mp.events.add('addPlayerTattoo', (index) => {
 	loadPlayerTattoos();
 	
 	// Add the tattoo to the player
-	let playerSex = player.getVariable('PLAYER_SEX');
 	player.setDecoration(mp.game.joaat(zoneTattoos[index].library), playerSex === 0 ? mp.game.joaat(zoneTattoos[index].maleHash) : mp.game.joaat(zoneTattoos[index].femaleHash));
 });
 
@@ -44,10 +45,7 @@ mp.events.add('clearTattoos', () => {
 	loadPlayerTattoos();
 });
 
-mp.events.add('purchaseTattoo', (slot, index) => {
-	// Get the player's sex
-	let playerSex = mp.players.local.getVariable('PLAYER_SEX');
-	
+mp.events.add('purchaseTattoo', (slot, index) => {	
 	// Add the new tattoo to the list
 	let tattoo = {};
 	tattoo.slot = slot;
@@ -70,7 +68,6 @@ mp.events.add('exitTattooShop', () => {
 function loadPlayerTattoos() {
 	// Get player's data
 	let player = mp.players.local;
-	let playerSex = player.getVariable('PLAYER_SEX');
 
 	// Clear all the tattoos
 	player.clearDecorations();
