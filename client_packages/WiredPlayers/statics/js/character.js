@@ -1,5 +1,6 @@
 let messagesLoaded = false;
 let timeout = undefined;
+let characterSex = 0;
 
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
@@ -110,6 +111,18 @@ function showPlayerDuplicatedWarn() {
 	} else {
 		clearTimeout(timeout);
 		timeout = setTimeout(function() { showPlayerDuplicatedWarn(); }, 100);
+	}
+}
+
+function changeCharacterSex(sex) {
+	if(characterSex !== sex) {
+		// Change the player's sex
+		characterSex = sex;
+		mp.trigger('changePlayerSex', sex);
+
+		// Change the images
+		document.getElementById('sex-male').src = sex === 0 ? '../img/character/male-enabled.png' : '../img/character/male-disabled.png';
+		document.getElementById('sex-female').src = sex === 1 ? '../img/character/female-enabled.png' : '../img/character/female-disabled.png';
 	}
 }
 

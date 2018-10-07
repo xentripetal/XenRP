@@ -12,23 +12,21 @@ const femaleFaceOptions = [
 ];
 
 let faceHairArray = [];
+let initialHair = undefined;
 
-mp.events.add('showHairdresserMenu', (businessName) => {
-	// Get the player and its sex
-	let player = mp.players.local;
-	let sex = player.getVariable('PLAYER_SEX');
-	
+mp.events.add('showHairdresserMenu', (sex, skin, businessName) => {	
 	// Add the options
 	let faceOptions = JSON.stringify(sex === 0 ? maleFaceOptions : femaleFaceOptions);
 	
 	// Inicializamos los valores
-	faceHairArray.push(player.getVariable('HAIR_MODEL'));
-	faceHairArray.push(player.getVariable('FIRST_HAIR_COLOR'));
-	faceHairArray.push(player.getVariable('SECOND_HAIR_COLOR'));
-	faceHairArray.push(player.getVariable('EYEBROWS_MODEL'));
-	faceHairArray.push(player.getVariable('EYEBROWS_COLOR'));
-	faceHairArray.push(player.getVariable('BEARD_MODEL'));
-	faceHairArray.push(player.getVariable('BEARD_COLOR'));
+	initialHair = JSON.parse(skin);
+	faceHairArray.push(initialHair.hairModel);
+	faceHairArray.push(initialHair.firstHairColor);
+	faceHairArray.push(initialHair.secondHairColor);
+	faceHairArray.push(initialHair.eyebrowsModel);
+	faceHairArray.push(initialHair.eyebrowsColor);
+	faceHairArray.push(initialHair.beardModel);
+	faceHairArray.push(initialHair.beardColor);
 	
 	// Create hairdressers' menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateHairdresserMenu', faceOptions, JSON.stringify(faceHairArray), businessName]);
@@ -67,18 +65,9 @@ mp.events.add('cancelHairdresserChanges', () => {
 	// Get the player
 	let player = mp.players.local;
 
-	// Load the variables
-	let hairModel = player.getVariable('HAIR_MODEL');
-	let firstHairColor = player.getVariable('FIRST_HAIR_COLOR');
-	let secondHairColor = player.getVariable('SECOND_HAIR_COLOR');
-	let eyebrowsModel = player.getVariable('EYEBROWS_MODEL');
-	let eyebrowsColor = player.getVariable('EYEBROWS_COLOR');
-	let beardModel = player.getVariable('BEARD_MODEL');
-	let beardColor = player.getVariable('BEARD_COLOR');
-
 	// Revert the changes
-	player.setComponentVariation(2, hairModel, 0, 0);
-	player.setHairColor(firstHairColor, secondHairColor);
-	player.setHeadOverlay(1, beardModel, 0.99, beardColor, 0);
-	player.setHeadOverlay(2, eyebrowsModel, 0.99, eyebrowsColor, 0);
+	player.setComponentVariation(2, initialHair.hairModel, 0, 0);
+	player.setHairColor(initialHair.firstHairColor, initialHair.secondHairColor);
+	player.setHeadOverlay(1, initialHair.beardModel, 0.99, initialHair.beardColor, 0);
+	player.setHeadOverlay(2, initialHair.eyebrowsModel, 0.99, initialHair.eyebrowsColor, 0);
 });

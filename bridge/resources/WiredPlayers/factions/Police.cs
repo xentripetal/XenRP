@@ -4,7 +4,6 @@ using WiredPlayers.database;
 using WiredPlayers.model;
 using WiredPlayers.drivingschool;
 using WiredPlayers.weapons;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
@@ -93,7 +92,7 @@ namespace WiredPlayers.factions
         {
             int fine = 0, jail = 0;
             Client target = player.GetData(EntityData.PLAYER_INCRIMINATED_TARGET);
-            List<CrimeModel> crimeList = JsonConvert.DeserializeObject<List<CrimeModel>>(crimeJson);
+            List<CrimeModel> crimeList = NAPI.Util.FromJson<List<CrimeModel>>(crimeJson);
 
             // Calculate fine amount and jail time
             foreach (CrimeModel crime in crimeList)

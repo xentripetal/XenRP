@@ -2,8 +2,6 @@
 using WiredPlayers.model;
 using WiredPlayers.database;
 using WiredPlayers.globals;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
@@ -18,12 +16,8 @@ namespace WiredPlayers.character
             player.Position = new Vector3(152.26, -1004.47, -99.00);
             player.Dimension = Convert.ToUInt32(player.Value);
 
-            // Set the default skin
-            NAPI.Player.SetPlayerSkin(player, PedHash.Strperf01SMM);
-
             player.Health = 100;
             player.Armor = 0;
-            player.Transparency = 255;
 
             // Clear weapons
             player.RemoveAllWeapons();
@@ -114,6 +108,10 @@ namespace WiredPlayers.character
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Client player)
         {
+            // Set the default skin and transparency
+            NAPI.Player.SetPlayerSkin(player, PedHash.Strperf01SMM);
+            player.Transparency = 255;
+
             // Initialize the player data
             InitializePlayerData(player);
 
@@ -143,13 +141,14 @@ namespace WiredPlayers.character
                         {
                             // Load selected character
                             PlayerModel character = Database.LoadCharacterInformationById(account.lastCharacter);
-                            SkinModel skin = Database.GetCharacterSkin(account.lastCharacter);
+                            SkinModel skinModel = Database.GetCharacterSkin(account.lastCharacter);
                             
                             player.Name = character.realName;
+                            player.SetData(EntityData.PLAYER_SKIN_MODEL, skinModel);
                             NAPI.Player.SetPlayerSkin(player, character.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
                             LoadCharacterData(player, character);
-                            Customization.ApplyPlayerCustomization(player, skin, character.sex);
+                            Customization.ApplyPlayerCustomization(player, skinModel, character.sex);
                             Customization.ApplyPlayerClothes(player);
                             Customization.ApplyPlayerTattoos(player);
                         }
@@ -201,13 +200,14 @@ namespace WiredPlayers.character
         public void CreateCharacterEvent(Client player, string playerName, int playerAge, int playerSex, string skinJson)
         {
             PlayerModel playerModel = new PlayerModel();
-            SkinModel skinModel = JsonConvert.DeserializeObject<SkinModel>(skinJson);
+            SkinModel skinModel = NAPI.Util.FromJson<SkinModel>(skinJson);
 
             playerModel.realName = playerName;
             playerModel.age = playerAge;
             playerModel.sex = playerSex;
 
             // Apply the skin to the character
+            player.SetData(EntityData.PLAYER_SKIN_MODEL, skinModel);
             Customization.ApplyPlayerCustomization(player, skinModel, playerSex);
 
             Task.Factory.StartNew(() =>
@@ -259,6 +259,7 @@ namespace WiredPlayers.character
 
                 // Load player's model
                 player.Name = playerModel.realName;
+                player.SetData(EntityData.PLAYER_SKIN_MODEL, skinModel);
                 NAPI.Player.SetPlayerSkin(player, playerModel.sex == 0 ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 
                 LoadCharacterData(player, playerModel);

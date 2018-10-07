@@ -2,8 +2,8 @@ exports = class PlayerModel {
     constructor() {
         // Initialize the data
         this.name = undefined;
-        this.age = undefined;
-        this.sex = 12;
+        this.age = 18;
+        this.sex = 0;
         this.firstHeadShape = 0;
         this.secondHeadShape = 0;
         this.firstSkinTone = 0;

@@ -1609,6 +1609,7 @@ namespace WiredPlayers.globals
             {
                 int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
                 BusinessModel business = Business.GetBusinessById(businessId);
+                int playerSex = player.GetData(EntityData.PLAYER_SEX);
 
                 switch (business.type)
                 {
@@ -1619,11 +1620,12 @@ namespace WiredPlayers.globals
                         player.TriggerEvent("showClothesBusinessPurchaseMenu", business.name, business.multiplier);
                         break;
                     case Constants.BUSINESS_TYPE_BARBER_SHOP:
-                        player.TriggerEvent("showHairdresserMenu", business.name);
+                        // Load the players skin model
+                        string skinModel = NAPI.Util.ToJson(player.GetData(EntityData.PLAYER_SKIN_MODEL));
+                        player.TriggerEvent("showHairdresserMenu", playerSex, skinModel, business.name);
                         break;
                     case Constants.BUSINESS_TYPE_TATTOO_SHOP:
                         int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-                        int playerSex = player.GetData(EntityData.PLAYER_SEX);
 
                         // Remove player's clothes
                         player.SetClothes(11, 15, 0);

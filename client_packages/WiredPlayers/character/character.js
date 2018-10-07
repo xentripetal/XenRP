@@ -46,7 +46,7 @@ mp.events.add('showCharacterCreationMenu', () => {
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/characterCreator.html']);
 });
 
-mp.events.add('updatePlayerSex', (sex) => {
+mp.events.add('changePlayerSex', (sex) => {
 	// Store the value into the object
 	playerData.sex = sex;
 

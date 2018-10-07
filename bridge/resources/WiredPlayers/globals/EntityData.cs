@@ -26,6 +26,7 @@ namespace WiredPlayers.globals
         public const string PLAYER_PLAYED = "PLAYER_PLAYED";
         public const string PLAYER_STATUS = "PLAYER_STATUS";
         public const string PLAYER_PHONE = "PLAYER_PHONE";
+        public const string PLAYER_SKIN_MODEL = "PLAYER_SKIN_MODEL";
         public const string PLAYER_HOUSE_ENTERED = "PLAYER_HOUSE_ENTERED";
         public const string PLAYER_BUSINESS_ENTERED = "PLAYER_BUSINESS_ENTERED";
         public const string PLAYER_DRIVING_EXAM = "PLAYER_DRIVING_EXAM";
@@ -106,55 +107,7 @@ namespace WiredPlayers.globals
         public const string PLAYER_DRUNK_LEVEL = "PLAYER_DRUNK_LEVEL";
         public const string PLAYER_WALKING_STYLE = "PLAYER_WALKING_STYLE";
         public const string PLAYER_CREATOR_AREA = "PLAYER_CREATOR_AREA";
-
-        // Datos del personaje creado
-        public const string FIRST_HEAD_SHAPE = "FIRST_HEAD_SHAPE";
-        public const string SECOND_HEAD_SHAPE = "SECOND_HEAD_SHAPE";
-        public const string FIRST_SKIN_TONE = "FIRST_SKIN_TONE";
-        public const string SECOND_SKIN_TONE = "SECOND_SKIN_TONE";
-        public const string HEAD_MIX = "HEAD_MIX";
-        public const string SKIN_MIX = "SKIN_MIX";
-        public const string HAIR_MODEL = "HAIR_MODEL";
-        public const string FIRST_HAIR_COLOR = "FIRST_HAIR_COLOR";
-        public const string SECOND_HAIR_COLOR = "SECOND_HAIR_COLOR";
-        public const string BEARD_MODEL = "BEARD_MODEL";
-        public const string BEARD_COLOR = "BEARD_COLOR";
-        public const string CHEST_MODEL = "CHEST_MODEL";
-        public const string CHEST_COLOR = "CHEST_COLOR";
-        public const string BLEMISHES_MODEL = "BLEMISHES_MODEL";
-        public const string AGEING_MODEL = "AGEING_MODEL";
-        public const string COMPLEXION_MODEL = "COMPLEXION_MODEL";
-        public const string SUNDAMAGE_MODEL = "SUNDAMAGE_MODEL";
-        public const string FRECKLES_MODEL = "FRECKLES_MODEL";
-        public const string EYES_COLOR = "EYES_COLOR";
-        public const string EYEBROWS_MODEL = "EYEBROWS_MODEL";
-        public const string EYEBROWS_COLOR = "EYEBROWS_COLOR";
-        public const string MAKEUP_MODEL = "MAKEUP_MODEL";
-        public const string BLUSH_MODEL = "BLUSH_MODEL";
-        public const string BLUSH_COLOR = "BLUSH_COLOR";
-        public const string LIPSTICK_MODEL = "LIPSTICK_MODEL";
-        public const string LIPSTICK_COLOR = "LIPSTICK_COLOR";
-        public const string NOSE_WIDTH = "NOSE_WIDTH";
-        public const string NOSE_HEIGHT = "NOSE_HEIGHT";
-        public const string NOSE_LENGTH = "NOSE_LENGTH";
-        public const string NOSE_BRIDGE = "NOSE_BRIDGE";
-        public const string NOSE_TIP = "NOSE_TIP";
-        public const string NOSE_SHIFT = "NOSE_SHIFT";
-        public const string BROW_HEIGHT = "BROW_HEIGHT";
-        public const string BROW_WIDTH = "BROW_WIDTH";
-        public const string CHEEKBONE_HEIGHT = "CHEEKBONE_HEIGHT";
-        public const string CHEEKBONE_WIDTH = "CHEEKBONE_WIDTH";
-        public const string CHEEKS_WIDTH = "CHEEKS_WIDTH";
-        public const string EYES = "EYES";
-        public const string LIPS = "LIPS";
-        public const string JAW_WIDTH = "JAW_WIDTH";
-        public const string JAW_HEIGHT = "JAW_HEIGHT";
-        public const string CHIN_LENGTH = "CHIN_LENGTH";
-        public const string CHIN_POSITION = "CHIN_POSITION";
-        public const string CHIN_WIDTH = "CHIN_WIDTH";
-        public const string CHIN_SHAPE = "CHIN_SHAPE";
-        public const string NECK_WIDTH = "NECK_WIDTH";
-
+        
         // Datos del vehículo
         public const string VEHICLE_ID = "VEHICLE_ID";
         public const string VEHICLE_MODEL = "VEHICLE_MODEL";

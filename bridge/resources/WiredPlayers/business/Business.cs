@@ -424,32 +424,17 @@ namespace WiredPlayers.business
                 int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
                 // Getting the new hairstyle from the JSON
-                dynamic skinModel = NAPI.Util.FromJson(skinJson);
-                
-                SkinModel skin = new SkinModel();
-                skin.hairModel = skinModel.hairModel;
-                skin.firstHairColor = skinModel.firstHairColor;
-                skin.secondHairColor = skinModel.secondHairColor;
-                skin.beardModel = skinModel.beardModel;
-                skin.beardColor = skinModel.beardColor;
-                skin.eyebrowsModel = skinModel.eyebrowsModel;
-                skin.eyebrowsColor = skinModel.eyebrowsColor;
+                SkinModel skinModel = NAPI.Util.FromJson<SkinModel>(skinJson);
 
                 // Saving new entity data
-                player.SetSharedData(EntityData.HAIR_MODEL, skin.hairModel);
-                player.SetSharedData(EntityData.FIRST_HAIR_COLOR, skin.firstHairColor);
-                player.SetSharedData(EntityData.SECOND_HAIR_COLOR, skin.secondHairColor);
-                player.SetSharedData(EntityData.BEARD_MODEL, skin.beardModel);
-                player.SetSharedData(EntityData.BEARD_COLOR, skin.beardColor);
-                player.SetSharedData(EntityData.EYEBROWS_MODEL, skin.eyebrowsModel);
-                player.SetSharedData(EntityData.EYEBROWS_COLOR, skin.eyebrowsColor);
+                player.SetData(EntityData.PLAYER_SKIN_MODEL, skinModel);
 
                 // Substract money to the player
                 player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - price);
 
                 Task.Factory.StartNew(() => {
                     // We update values in the database
-                    Database.UpdateCharacterHair(playerId, skin);
+                    Database.UpdateCharacterHair(playerId, skinModel);
 
                     // We substract the product and add funds to the business
                     if (business.owner != string.Empty)
@@ -459,6 +444,9 @@ namespace WiredPlayers.business
                         Database.UpdateBusiness(business);
                     }
 
+                    // Delete the browser
+                    player.TriggerEvent("destroyBrowser");
+
                     // Confirmation message sent to the player
                     string playerMessage = string.Format(Messages.INF_HAIRCUT_PURCHASED, price);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
@@ -466,11 +454,9 @@ namespace WiredPlayers.business
             }
             else
             {
+                // The player has not the required money
                 string message = string.Format(Messages.ERR_HAIRCUT_MONEY, price);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
-
-                // Setting the old hairstyle to the player
-                player.TriggerEvent("cancelHairdressersChanges");
             }
         }
 

@@ -4,7 +4,6 @@ using WiredPlayers.drivingschool;
 using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace WiredPlayers.townhall
@@ -126,7 +125,7 @@ namespace WiredPlayers.townhall
             Task.Factory.StartNew(() =>
             {
                 List<FineModel> fineList = Database.LoadPlayerFines(player.Name);
-                List<FineModel> removedFines = JsonConvert.DeserializeObject<List<FineModel>>(finesJson);
+                List<FineModel> removedFines = NAPI.Util.FromJson<List<FineModel>>(finesJson);
                 int money = player.GetSharedData(EntityData.PLAYER_MONEY);
                 int finesProcessed = 0;
                 int amount = 0;
