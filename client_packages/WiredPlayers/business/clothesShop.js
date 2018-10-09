@@ -2,7 +2,8 @@
 	{type: 0, slot: 1, desc: 'clothes.masks'}, {type: 0, slot: 3, desc: 'clothes.torso'}, {type: 0, slot: 4, desc: 'clothes.legs'}, 
 	{type: 0, slot: 5, desc: 'clothes.bags'}, {type: 0, slot: 6, desc: 'clothes.feet'}, {type: 0, slot: 7, desc: 'clothes.complements'}, 
 	{type: 0, slot: 8, desc: 'clothes.undershirt'}, {type: 0, slot: 11, desc: 'clothes.tops'}, {type: 1, slot: 0, desc: 'clothes.hats'}, 
-	{type: 1, slot: 1, desc: 'clothes.glasses'}, {type: 1, slot: 2, desc: 'clothes.earrings'}
+	{type: 1, slot: 1, desc: 'clothes.glasses'}, {type: 1, slot: 2, desc: 'clothes.earrings'}, {type: 1, slot: 6, desc: 'clothes.watches'}, 
+	{type: 1, slot: 7, desc: 'clothes.bracelets'}
 ];
 
 let selectedIndex = -1;

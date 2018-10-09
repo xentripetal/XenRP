@@ -301,6 +301,7 @@ namespace WiredPlayers.globals
         public const int JOB_GARBAGE = 4;
         public const int JOB_HOOKER = 5;
         public const int JOB_FISHERMAN = 6;
+        public const int JOB_TAXI = 7;
 
         // Database stored items' place
         public const string ITEM_ENTITY_GROUND = "Ground";
@@ -610,32 +611,32 @@ namespace WiredPlayers.globals
             new UniformModel(0, FACTION_POLICE, SEX_FEMALE, 11, 48, 0),
 
             // Male paramedic uniform
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 11, 55, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 4, 33, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 3, 128, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 6, 25, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 0, 96, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 7, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 9, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 8, 15, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 10, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 5, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 0, -1, -1),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 1, 0, 0),
             new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 2, -1, -1),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 3, 90, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 4, 96, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 5, -1, -1),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 6, 51, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 7, 126, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 8, 15, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 9, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 10, 57, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_MALE, 11,249, 0),
 
             // Female paramedic uniform
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 11, 48, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 4, 30, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 3, 138, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 6, 25, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 7, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 9, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 10, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 8, 2, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 5, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 0, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 0, -1, -1),
             new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 1, 0, 0),
-            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 2, -1, -1)
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 2, -1, -1),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 3, 85, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 4, 96, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 5, -1, -1),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 6, 51, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 7, 127, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 8, 129, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 9, 0, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 10, 58, 0),
+            new UniformModel(0, FACTION_EMERGENCY, SEX_FEMALE, 11, 250, 0)
         };
 
         // Guns

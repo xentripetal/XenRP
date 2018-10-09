@@ -107,7 +107,8 @@ namespace WiredPlayers.globals
         public const string PLAYER_DRUNK_LEVEL = "PLAYER_DRUNK_LEVEL";
         public const string PLAYER_WALKING_STYLE = "PLAYER_WALKING_STYLE";
         public const string PLAYER_CREATOR_AREA = "PLAYER_CREATOR_AREA";
-        
+        public const string PLAYER_TAXI_PATH = "PLAYER_TAXI_PATH";
+
         // Datos del vehículo
         public const string VEHICLE_ID = "VEHICLE_ID";
         public const string VEHICLE_MODEL = "VEHICLE_MODEL";

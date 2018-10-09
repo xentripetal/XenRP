@@ -22,12 +22,12 @@ require('./WiredPlayers/character/inventory.js');
 
 require('./WiredPlayers/vehicles/vehicles.js');
 
-require('./WiredPlayers/garbage/garbage.js');
+require('./WiredPlayers/jobs/taxi.js');
+require('./WiredPlayers/jobs/garbage.js');
+require('./WiredPlayers/jobs/mechanic.js');
+require('./WiredPlayers/jobs/fastFood.js');
 
-require('./WiredPlayers/mechanic/mechanic.js');
-
-require('./WiredPlayers/fastfood/fastFood.js');
+require('./WiredPlayers/factions/faction.js');
+require('./WiredPlayers/factions/police.js');
 
 require('./WiredPlayers/townhall/townHall.js');
-
-require('./WiredPlayers/police/police.js');

@@ -816,6 +816,9 @@ namespace WiredPlayers.globals
         public const string ERR_BANK_ACCOUNT_NOT_FOUND = "There's no bank account linked to that person.";
         public const string ERR_BANK_GENERAL_ERROR = "An error occurred while processing the operation.";
         public const string ERR_LOW_BLOOD = "Your blood level is to low to be drawn.";
+        public const string ERR_PLAYER_NOT_TAXI_LICENSE = "You don't own any taxi driving license.";
+        public const string ERR_NO_TAXI_DRIVER = "Nobody is driving this taxi.";
+        public const string ERR_TAXI_HAS_PATH = "The taxi driver already has a destination point.";
 
         // Descriptive commands
         public const string DESC_JOB_HOOKER = "Hooker - Win money selling your body, simple as that. You choose your clients and price.";

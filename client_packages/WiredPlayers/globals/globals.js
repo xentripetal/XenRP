@@ -13,7 +13,7 @@ mp.events.add('guiReady', () => {
 
 	mp.keys.bind(0x45, false, function() {
 		// Key 'E' pressed
-		if(!mp.players.local.vehicle || mp.players.local.seat > 0) {
+		if(!mp.players.local.vehicle || mp.players.local.seat >= 0) {
 			mp.events.callRemote('checkPlayerEventKeyStopAnim');
 		}
 	});
