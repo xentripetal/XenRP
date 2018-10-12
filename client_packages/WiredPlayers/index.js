@@ -19,6 +19,7 @@ require('./WiredPlayers/drivingschool/drivingSchool.js');
 
 require('./WiredPlayers/character/character.js');
 require('./WiredPlayers/character/inventory.js');
+require('./WiredPlayers/character/telephone.js');
 
 require('./WiredPlayers/vehicles/vehicles.js');
 

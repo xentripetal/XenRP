@@ -359,11 +359,6 @@ function namePoliceControl() {
 	mp.trigger('destroyBrowser');
 }
 
-function preloadContact() {
-	// Load selected contact's data
-	mp.trigger('preloadContactData');
-}
-
 function populateContactData(number, name) {
 	document.getElementById('number').value = number;
 	document.getElementById('name').value = name;

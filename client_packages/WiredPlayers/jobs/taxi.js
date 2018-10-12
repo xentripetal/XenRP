@@ -1,16 +1,14 @@
 ﻿mp.events.add('playerCreateWaypoint', (position) => {
-mp.gui.chat.push("asd");
-
 	// Check if the player is in a taxi
 	let vehicle = mp.players.local.vehicle;
 
-	if(vehicle !== undefined && vehicle.getModel() === mp.game.joaat('taxi')) {
+	if(vehicle !== undefined && vehicle.getModel() === mp.game.joaat('taxi') && mp.players.local.seat >= 0) {
 		// Send the destination to the driver
 		mp.events.callRemote('requestTaxiDestination', position);
 	}
 });
 
-mp.events.add("playerReachWaypoint", () => {
+mp.events.add('playerReachWaypoint', () => {
 	// Check if the player is in a taxi
 	let vehicle = mp.players.local.vehicle;
 

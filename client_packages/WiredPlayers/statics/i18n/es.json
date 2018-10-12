@@ -210,6 +210,37 @@
 		"left-leg": "Pierna izquierda",
 		"right-leg": "Pierna derecha"
 	},
+	"mechanic": {
+		"spoiler": "Alerón",
+		"front-bumper": "Parachoques frontal",
+		"rear-bumper": "Parachoques trasero",
+		"side-skirt": "Faldón lateral",
+		"exhaust": "Tubo de escape",
+		"frame": "Antivuelco",
+		"grille": "Parrilla",
+		"hood": "Capó",
+		"fender": "Aleta",
+		"right-fender": "Aleta trasera",
+		"roof": "Techo",
+		"horn": "Claxon",
+		"suspension": "Suspensión",
+		"xenon": "Xenon",
+		"front-wheels": "Ruedas delanteras",
+		"back-wheels": "Ruedas traseras",
+		"plaque": "Matrícula",
+		"trim-design": "Diseño tapicería",
+		"ornaments": "Adornos",
+		"steering-wheel": "Volante",
+		"shift-lever": "Palanca de cambios",
+		"hydraulics": "Suspensión hidráulica",
+		"window-tint": "Lunas tintadas"
+	},
+	"telephone": {
+		"contact-list": "Lista de contactos",
+		"action-modify": "Modificar",
+		"action-delete": "Eliminar",
+		"action-sms": "Enviar SMS"
+	},
 	"townhall": {
 		"title": "Trámites del ayuntamiento",
 		"identification": "Documentación",

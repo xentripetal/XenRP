@@ -225,7 +225,7 @@ namespace WiredPlayers.globals
         public const string GEN_PRIZE_COMMAND = "USAGE: /prize [Player id./Player name] [Amount] [Reason]";
         public const string GEN_PHONE_CALL_COMMAND = "USAGE: /call [Number/Contact]\nService numbers: Police 911 | Emergencies 112 | News 114 | Transport 555";
         public const string GEN_SMS_COMMAND = "USAGE: /sms [Number] [Message]";
-        public const string GEN_CONTACTS_COMMAND = "USAGE: /contacts [Number|View|Add|Remove|SMS]";
+        public const string GEN_CONTACTS_COMMAND = "USAGE: /contacts [Number|View|Add|Modify|Remove|SMS]";
         public const string GEN_DRIVING_SCHOOL_COMMAND = "USAGE: /drivingschool [Car|Motorcycle]";
         public const string GEN_ADMIN_COMMAND = "USAGE: /admin [Message]";
         public const string GEN_MEGAPHONE_COMMAND = "USAGE: /megaphone [Message]";

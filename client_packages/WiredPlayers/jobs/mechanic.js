@@ -3,11 +3,14 @@ let repaintBrowser = null;
 let selected = 0;
 let indexArray = [];
 let slotsArray = [
-	{slot: 0, desc: 'Alerón', products: 250}, {slot: 1, desc: 'Parachoques frontal', products: 250}, {slot: 2, desc: 'Parachoques trasero', products: 250}, {slot: 3, desc: 'Faldón lateral', products: 250}, 
-	{slot: 4, desc: 'Tubo de escape', products: 100}, {slot: 5, desc: 'Antivuelco', products: 500}, {slot: 6, desc: 'Parrilla', products: 200}, {slot: 7, desc: 'Capó', products: 300}, {slot: 8, desc: 'Aleta', products: 100},
-	{slot: 9, desc: 'Aleta trasera', products: 100}, {slot: 10, desc: 'Techo', products: 400}, {slot: 14, desc: 'Claxon', products: 100}, {slot: 15, desc: 'Suspensión', products: 900}, {slot: 22, desc: 'Xenon', products: 150}, 
-	{slot: 23, desc: 'Ruedas delanteras', products: 100}, {slot: 24, desc: 'Ruedas traseras', products: 100}, {slot: 25, desc: 'Matrícula', products: 100}, {slot: 27, desc: 'Diseño tapicería', products: 800},
-	{slot: 28, desc: 'Adornos', products: 150}, {slot: 33, desc: 'Volante', products: 100}, {slot: 34, desc: 'Palanca de cambios', products: 100}, {slot: 38, desc: 'Suspensión hidráulica', products: 1200}
+	{slot: 0, desc: 'mechanic.spoiler', products: 250}, {slot: 1, desc: 'mechanic.front-bumper', products: 250}, {slot: 2, desc: 'mechanic.rear-bumper', products: 250}, 
+	{slot: 3, desc: 'mechanic.side-skirt', products: 250}, {slot: 4, desc: 'mechanic.exhaust', products: 100}, {slot: 5, desc: 'mechanic.frame', products: 500}, 
+	{slot: 6, desc: 'mechanic.grille', products: 200}, {slot: 7, desc: 'mechanic.hood', products: 300}, {slot: 8, desc: 'mechanic.fender', products: 100},
+	{slot: 9, desc: 'mechanic.right-fender', products: 100}, {slot: 10, desc: 'mechanic.roof', products: 400}, {slot: 14, desc: 'mechanic.horn', products: 100}, 
+	{slot: 15, desc: 'mechanic.suspension', products: 900}, {slot: 22, desc: 'mechanic.xenon', products: 150}, {slot: 23, desc: 'mechanic.front-wheels', products: 100}, 
+	{slot: 24, desc: 'mechanic.back-wheels', products: 100}, {slot: 25, desc: 'mechanic.plaque', products: 100}, {slot: 27, desc: 'mechanic.trim-design', products: 800},
+	{slot: 28, desc: 'mechanic.ornaments', products: 150}, {slot: 33, desc: 'mechanic.steering-wheel', products: 100}, {slot: 34, desc: 'mechanic.shift-lever', products: 100}, 
+	{slot: 38, desc: 'mechanic.hydraulics', products: 1200}, {slot: 69, desc: 'mechanic.window-tint', products: 200}
 ];
 
 mp.events.add('showTunningMenu', () => {
@@ -38,8 +41,17 @@ mp.events.add('showTunningMenu', () => {
 		}
 	}
 	
-	// Creamos el menú de tunning
+	// Show the tunning menu
 	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/sideMenu.html', 'populateTunningMenu', JSON.stringify(componentGroups)]);
+});
+
+mp.events.add('showRepaintMenu', () => {
+	// Disable the HUD
+	mp.game.ui.displayHud(false);
+	mp.game.ui.displayRadar(false);
+
+	// Show the paint menu
+	mp.events.call('createBrowser', ['package://WiredPlayers/statics/html/repaintVehicle.html']);
 });
 
 mp.events.add('addVehicleComponent', (slot, component) => {
@@ -47,84 +59,19 @@ mp.events.add('addVehicleComponent', (slot, component) => {
 	mp.players.local.vehicle.setMod(slot, component);
 });
 
-/*
-// Menú de selección de tunning
-var tunningMenu = NAPI.CreateMenu("Modificaciones", "", 0, 0, 6);
-tunningMenu.ResetKey(menuControl.Back);
-tunningMenu.OnItemSelect.connect(function (sender, item, index) {
-	switch(index) {
-		case tunningMenu.Size - 1:
-			// Se ha pulsado la opción de cancelar
-			NAPI.TriggerServerEvent("cancelVehicleModification");
-			tunningMenu.Visible = false;
-			break;
-		case tunningMenu.Size - 2:
-			// Se ha pulsado la opción de aceptar
-			NAPI.TriggerServerEvent("confirmVehicleModification");
-			break;
-		case tunningMenu.Size - 3:
-			// Se ha pulsado la opción de consultar precio
-			NAPI.TriggerServerEvent("calculateTunningCost");
-			break;
-	}
-});
-tunningMenu.OnIndexChange.connect(function (sender, index) {
-	selected = index;
-});
-tunningMenu.Visible = false;
-
-NAPI.OnResourceStart.connect(function () {
-    resolution = NAPI.GetScreenResolution();
+mp.events.add('repaintVehicle', (colorType, firstColor, secondColor, pearlescentColor, paid) => {
+	// Repaint the vehicle
+	mp.events.callRemote('repaintVehicle', colorType, firstColor, secondColor, pearlescentColor, paid);
 });
 
-NAPI.OnServerEventTrigger.connect(function (name, args) {
-	// Miramos el evento que se ha llamado
-	switch(name) {
-		case "showRepaintMenu":
-			// Cargamos la opción de repintar
-            repaintBrowser = NAPI.CreateCefBrowser(resolution.Width, resolution.Height, true);
-            NAPI.SetCefBrowserPosition(repaintBrowser, 0, 0);
-            NAPI.LoadPageCefBrowser(repaintBrowser, "statics/html/repaintVehicle.html");
-            NAPI.WaitUntilCefBrowserLoaded(repaintBrowser);
-			NAPI.SetHudVisible(false);
-            NAPI.ShowCursor(true);
-			break;
-		case "closeRepaintWindow":
-			cancelVehicleRepaint();
-			break;
-		case "showTunningMenu":
-			// Cargamos la opción de tunning
-			indexArray = [];
-			tunningMenu.Clear();
-			populateTunningMenu();
-			tunningMenu.Visible = true;
-			break;
-	}
+mp.events.add('closeRepaintWindow', () => {
+	// Enable the HUD
+	mp.game.ui.displayHud(true);
+	mp.game.ui.displayRadar(true);
+
+	// Destroy the browser
+	mp.events.call('destroyBrowser');
+
+	// Restore the vehicle's colors
+	mp.events.callRemote('cancelVehicleRepaint');
 });
-
-NAPI.OnResourceStop.connect(function () {
-    if (repaintBrowser != null) {
-        NAPI.DestroyCefBrowser(repaintBrowser);
-        repaintBrowser = null;
-    }
-
-	NAPI.SetHudVisible(true);
-});
-
-function repaintVehicle(colorType, firstColor, secondColor, pearlescentColor, paid) {
-	// Repintamos el vehículo
-	NAPI.TriggerServerEvent("repaintVehicle", colorType, firstColor, secondColor, pearlescentColor, paid);
-}
-
-function cancelVehicleRepaint() {
-	// Destruímos el navegador
-    NAPI.DestroyCefBrowser(repaintBrowser);
-    repaintBrowser = null;
-
-	// Restablecemos la interfaz
-	NAPI.SetHudVisible(true);
-    NAPI.ShowCursor(false);
-
-	// Volvemos a poner los colores
-	NAPI.TriggerServerEvent("cancelVehicleRepaint");
-}*/

@@ -1,12 +1,12 @@
 ﻿using GTANetworkAPI;
 using MySql.Data.MySqlClient;
 using WiredPlayers.model;
+using WiredPlayers.character;
 using WiredPlayers.vehicles;
 using WiredPlayers.house;
 using WiredPlayers.globals;
 using WiredPlayers.business;
 using WiredPlayers.parking;
-using WiredPlayers.telephone;
 using WiredPlayers.admin;
 using WiredPlayers.jobs;
 using WiredPlayers.factions;

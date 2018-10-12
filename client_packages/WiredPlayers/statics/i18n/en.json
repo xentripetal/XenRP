@@ -210,6 +210,37 @@
 		"left-leg": "Left leg",
 		"right-leg": "Right leg"
 	},
+	"mechanic": {
+		"spoiler": "Spoiler",
+		"front-bumper": "Front bumper",
+		"rear-bumper": "Rear bumper",
+		"side-skirt": "Side skirt",
+		"exhaust": "Exhaust",
+		"frame": "Frame",
+		"grille": "Grille",
+		"hood": "Hood",
+		"fender": "Fender",
+		"right-fender": "Right fender",
+		"roof": "Roof",
+		"horn": "Horn",
+		"suspension": "Suspension",
+		"xenon": "Xenon",
+		"front-wheels": "Front wheels",
+		"back-wheels": "Back wheels",
+		"plaque": "Plaque",
+		"trim-design": "Trim design",
+		"ornaments": "Ornaments",
+		"steering-wheel": "Steering wheel",
+		"shift-lever": "Shift lever",
+		"hydraulics": "Hydraulics",
+		"window-tint": "Window tint"
+	},
+	"telephone": {
+		"contact-list": "Contact list",
+		"action-modify": "Modify",
+		"action-delete": "Delete",
+		"action-sms": "Send SMS"
+	},
 	"townhall": {
 		"title": "Procedures of the town hall",
 		"identification": "Identification card",

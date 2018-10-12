@@ -4,8 +4,9 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
-namespace WiredPlayers.telephone
+namespace WiredPlayers.character
 {
     public class Telephone : Script
     {
@@ -87,7 +88,7 @@ namespace WiredPlayers.telephone
         }
 
         [RemoteEvent("modifyContact")]
-        public void ModifyContactEvent(Client player, int contactNumber, string contactName, int contactIndex)
+        public void ModifyContactEvent(Client player, int contactIndex, int contactNumber, string contactName)
         {
             // Modify contact data
             ContactModel contact = GetContactFromId(contactIndex);
@@ -171,9 +172,16 @@ namespace WiredPlayers.telephone
             player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PHONE_DISCONNECTED);
         }
 
-        [Command(Messages.COM_CALL, Messages.GEN_PHONE_CALL_COMMAND)]
-        public void CallCommand(Client player, string called)
+        [Command(Messages.COM_CALL, Messages.GEN_PHONE_CALL_COMMAND, GreedyArg = true)]
+        public void CallCommand(Client player, String called)
         {
+            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PHONE_CALL_COMMAND);
+            if (called.Length == 0)
+            {
+                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PHONE_CALL_COMMAND);
+                return;
+            }
+
             if (player.HasData(EntityData.PLAYER_PHONE_TALKING) || player.HasData(EntityData.PLAYER_CALLING) == true)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_PHONE_TALKING);

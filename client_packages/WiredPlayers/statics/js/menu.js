@@ -1746,6 +1746,111 @@ function populateWardrobeClothes(typeClothesJson) {
 	}
 }
 
+function populateContactsMenu(contactsJson, action) {
+	// Check if the messages are loaded
+	if(messagesLoaded) {
+		// Initialize the values
+		purchasedAmount = 1;
+		selected = undefined;
+
+		// Get items to show
+		let contactsArray = JSON.parse(contactsJson);
+		let header = document.getElementById('header');
+		let content = document.getElementById('content');
+		let options = document.getElementById('options');
+		
+		// Show business name
+		header.textContent = i18next.t('telephone.contact-list');
+		
+		for(let i = 0; i < contactsArray.length; i++) {
+			let item = contactsArray[i];
+			
+			let itemContainer = document.createElement('div');
+			let infoContainer = document.createElement('div');
+			let descContainer = document.createElement('div');
+			let purchaseContainer = document.createElement('div');
+			let priceContainer = document.createElement('div');
+			let itemDescription = document.createElement('span');
+			let itemPrice = document.createElement('span');
+			
+			itemContainer.classList.add('item-row');
+			infoContainer.classList.add('item-content');
+			descContainer.classList.add('item-header');
+			purchaseContainer.classList.add('item-purchase');
+			priceContainer.classList.add('item-price-container');
+			itemDescription.classList.add('item-description');
+			itemPrice.classList.add('item-price');
+			
+			itemDescription.textContent = item.contactName;
+			itemPrice.innerHTML = '<b>' + item.contactNumber + '</b>';
+			
+			itemContainer.onclick = (function() {
+				// Check if the item is not selected
+				if(selected !== i) {
+					// Check if there was any item selected
+					if(selected != undefined) {
+						let previousSelected = document.getElementsByClassName('item-row')[selected];
+						previousSelected.classList.remove('active-item');
+					}
+					
+					// Select the item
+					let currentSelected = document.getElementsByClassName('item-row')[i];
+					currentSelected.classList.add('active-item');
+					
+					// Store the item
+					selected = i;
+				}
+			});
+			
+			content.appendChild(itemContainer);
+			itemContainer.appendChild(infoContainer);
+			infoContainer.appendChild(descContainer);
+			descContainer.appendChild(itemDescription);
+			infoContainer.appendChild(purchaseContainer);
+			purchaseContainer.appendChild(priceContainer);
+			priceContainer.appendChild(itemPrice);
+		}
+		
+		// Add option buttons
+		let cancelButton = document.createElement('div');
+		
+		// Add classes for the buttons
+		cancelButton.classList.add('cancel-button');
+		cancelButton.classList.add(parseInt(action) > 0 ? 'double-button' : 'single-button');
+		
+		// Add text for the buttons
+		cancelButton.textContent = i18next.t('general.exit');
+		
+		if(parseInt(action) > 0) {
+			let actionButton = document.createElement('div');
+			actionButton.classList.add('double-button', 'accept-button');
+			actionButton.textContent = getContactActionText(action);
+	
+			actionButton.onclick = (function() {
+				// Check if the user purchased anything
+				if(selected != undefined) {
+					mp.trigger('executePhoneAction', selected);
+				}
+			});
+
+			options.appendChild(actionButton);
+		}
+		
+		cancelButton.onclick = (function() {
+			// Close the purchase window
+			mp.trigger('destroyBrowser');
+		});
+		
+		options.appendChild(cancelButton);
+		
+		clearTimeout(timeout);
+	} else {
+		// Wait for the messages to be loaded
+		clearTimeout(timeout);
+		timeout = setTimeout(function() { populateContactsMenu(contactsJson, action); }, 100);
+	}
+}
+
 function findFirstChildByClass(element, className) {
 	let foundElement = undefined, found;
 	function recurse(element, className, found) {
@@ -1767,3 +1872,21 @@ function findFirstChildByClass(element, className) {
 	recurse(element, className, false);
 	return foundElement;
 }		
+
+function getContactActionText(action) {
+	let text = undefined;
+
+	switch(parseInt(action)) {
+		case 2:
+			text = i18next.t('telephone.action-modify');
+			break;
+		case 3:
+			text = i18next.t('telephone.action-delete');
+			break;
+		case 5:
+			text = i18next.t('telephone.action-sms');
+			break;
+	}
+
+	return text;
+}

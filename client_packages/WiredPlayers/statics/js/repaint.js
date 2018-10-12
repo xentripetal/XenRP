@@ -86,7 +86,7 @@ $('.tabs-menu').on('click', 'div', function() {
 				$('#predefined').removeClass('no-display');
 
 				// Repintamos el vehículo
-				resourceCall("repaintVehicle", index, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+				mp.trigger("repaintVehicle", index, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 				break;
 			case 1:
 				// Cargamos la pestaña de colores personalizados
@@ -97,7 +97,7 @@ $('.tabs-menu').on('click', 'div', function() {
 				$('#custom').removeClass('no-display');
 
 				// Repintamos el vehículo
-				resourceCall("repaintVehicle", index, selectedFirstCustomColor, selectedSecondCustomColor, -1, 0);
+				mp.trigger("repaintVehicle", index, selectedFirstCustomColor, selectedSecondCustomColor, -1, 0);
 				break;
 		}
 
@@ -180,7 +180,7 @@ function showPrevColorType(colorOrder) {
 			}
 
 			// Cambiamos el color del vehículo
-			resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+			mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 
 			break;
 		}
@@ -215,7 +215,7 @@ function showNextColorType(colorOrder) {
 			}
 
 			// Cambiamos el color del vehículo
-			resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+			mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 
 			break;
 		}
@@ -251,7 +251,7 @@ function showPrevColorDesc(colorOrder) {
 			}
 
 			// Cambiamos el color del vehículo
-			resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+			mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 
 			break;
 		}
@@ -287,7 +287,7 @@ function showNextColorDesc(colorOrder) {
 			}
 
 			// Cambiamos el color del vehículo
-			resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+			mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 
 			break;
 		}
@@ -299,7 +299,7 @@ function selectPearlescentColor() {
 	selectedPearlescentColor = $('#pearlescent-color').val();
 	
 	// Cambiamos el color del vehículo
-	resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
+	mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, 0);
 }
 
 function acceptRepaint() {
@@ -308,12 +308,12 @@ function acceptRepaint() {
 
 	if(price > 0) {
 		// Cambiamos el color del vehículo y cobramos
-		resourceCall("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, price);
+		mp.trigger("repaintVehicle", selectedColorType, selectedFirstColor, selectedSecondColor, selectedPearlescentColor, price);
 	}
 }
 
 function cancelRepaint() {
-	resourceCall("cancelVehicleRepaint");
+	mp.trigger("closeRepaintWindow");
 }
 
 function hexToRgb(hex) {

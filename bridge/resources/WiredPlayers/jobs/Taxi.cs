@@ -69,7 +69,7 @@ namespace WiredPlayers.jobs
                 amount = Math.Abs(customerMoney);
                 customerMoney = 0;
 
-                // Get the rest of the money from the player's bank account
+                // Get the remaining money from the bank account
                 customer.SetData(EntityData.PLAYER_BANK, customer.GetData(EntityData.PLAYER_BANK) - amount);
             }
 
