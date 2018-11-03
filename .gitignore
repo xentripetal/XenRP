@@ -2,6 +2,11 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
+/*.exe
+/*.zip
+/plugins
+/node.dll
+/bt.dat
 /bridge/resources/WiredPlayers/obj
 /bridge/resources/WiredPlayers/bin/Debug/netcoreapp2.0
 /bridge/resources/WiredPlayers/.vs
@@ -9,11 +14,7 @@
 /bridge/server_logs.txt
 /bridge/runtime/*
 /bridge/acl.xml
-/server.exe
-/plugins
-/node.dll
-/bt.dat
-/bridge/server_exceptions.txt
+/bridge/*.txt
 /client_packages/*
 !/client_packages/index.js
 !/client_packages/WiredPlayers

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.factions
 {
@@ -235,20 +238,20 @@ namespace WiredPlayers.factions
             }
         }
 
-        [Command(Messages.COM_CHECK)]
+        [Command(Commands.COM_CHECK)]
         public void CheckCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
@@ -256,16 +259,16 @@ namespace WiredPlayers.factions
                 if (vehicle == null)
                 {
                     int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
-                    string checkTitle = string.Format(Messages.GEN_VEHICLE_CHECK_TITLE, vehicleId);
+                    string checkTitle = string.Format(GenRes.vehicle_check_title, vehicleId);
                     string model = vehicle.GetData(EntityData.VEHICLE_MODEL);
                     string plate = vehicle.GetData(EntityData.VEHICLE_PLATE);
                     string owner = vehicle.GetData(EntityData.VEHICLE_OWNER);
                     player.SendChatMessage(checkTitle);
-                    player.SendChatMessage(Messages.GEN_VEHICLE_MODEL + model);
-                    player.SendChatMessage(Messages.GEN_VEHICLE_PLATE + plate);
-                    player.SendChatMessage(Messages.GEN_OWNER + owner);
+                    player.SendChatMessage(GenRes.vehicle_model + model);
+                    player.SendChatMessage(GenRes.vehicle_plate + plate);
+                    player.SendChatMessage(GenRes.owner + owner);
 
-                    string message = string.Format(Messages.INF_CHECK_VEHICLE_PLATE, player.Name, model);
+                    string message = string.Format(InfoRes.check_vehicle_plate, player.Name, model);
 
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
@@ -277,25 +280,25 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                 }
             }
         }
 
-        [Command(Messages.COM_FRISK, Messages.GEN_FRISK_COMMAND)]
+        [Command(Commands.COM_FRISK, Commands.HLP_FRISK_COMMAND)]
         public void FriskCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
@@ -305,11 +308,11 @@ namespace WiredPlayers.factions
                 {
                     if (target == player)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_SEARCHED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_searched_himself);
                     }
                     else
                     {
-                        string message = string.Format(Messages.INF_PLAYER_FRISK, player.Name, target.Name);
+                        string message = string.Format(InfoRes.player_frisk, player.Name, target.Name);
                         List<InventoryModel> inventory = Globals.GetPlayerInventoryAndWeapons(target);
                         player.SetData(EntityData.PLAYER_SEARCHED_TARGET, target);
 
@@ -327,29 +330,29 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_INCRIMINATE, Messages.GEN_INCRIMINATE_COMMAND)]
+        [Command(Commands.COM_INCRIMINATE, Commands.HLP_INCRIMINATE_COMMAND)]
         public void IncriminateCommand(Client player, string targetString)
         {
             if (player.HasData(EntityData.PLAYER_JAIL_AREA) == false)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_JAIL_AREA);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_jail_area);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
@@ -359,7 +362,7 @@ namespace WiredPlayers.factions
                 {
                     if (target == player)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_INCRIMINATED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_incriminated_himself);
                     }
                     else
                     {
@@ -370,29 +373,29 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_FINE, Messages.GEN_FINE_COMMAND)]
+        [Command(Commands.COM_FINE, Commands.HLP_FINE_COMMAND)]
         public void FineCommand(Client player, string name = "", string surname = "", string amount = "", string reason = "")
         {
             if (name == string.Empty)
             {
-                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FINE_COMMAND);
+                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FINE_COMMAND);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
@@ -412,16 +415,16 @@ namespace WiredPlayers.factions
                 {
                     if (player.Position.DistanceTo(target.Position) > 2.5f)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                     }
                     else if (target == player)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_FINED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_fined_himself);
                     }
                     else
                     {
-                        string playerMessage = string.Format(Messages.INF_FINE_GIVEN, target.Name);
-                        string targetMessage = string.Format(Messages.INF_FINE_RECEIVED, player.Name);
+                        string playerMessage = string.Format(InfoRes.fine_given, target.Name);
+                        string targetMessage = string.Format(InfoRes.fine_received, player.Name);
                         FineModel fine = new FineModel();
                         fine.officer = player.Name;
                         fine.target = target.Name;
@@ -439,25 +442,25 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_HANDCUFF, Messages.GEN_HANDCUFF_COMMAND)]
+        [Command(Commands.COM_HANDCUFF, Commands.HLP_HANDCUFF_COMMAND)]
         public void HandcuffCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
@@ -467,16 +470,16 @@ namespace WiredPlayers.factions
                 {
                     if (player.Position.DistanceTo(target.Position) > 1.5f)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                     }
                     else if (target == player)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HANDCUFFED_HIMSELF);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_handcuffed_himself);
                     }
                     else if (target.HasData(EntityData.PLAYER_HANDCUFFED) == false)
                     {
-                        string playerMessage = string.Format(Messages.INF_CUFFED, target.Name);
-                        string targetMessage = string.Format(Messages.INF_CUFFED_BY, player.Name);
+                        string playerMessage = string.Format(InfoRes.cuffed, target.Name);
+                        string targetMessage = string.Format(InfoRes.cuffed_by, player.Name);
                         GTANetworkAPI.Object cuff = NAPI.Object.CreateObject(-1281059971, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
                         cuff.AttachTo(target, "IK_R_Hand", new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
                         target.PlayAnimation("mp_arresting", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
@@ -499,8 +502,8 @@ namespace WiredPlayers.factions
                         player.ResetData(EntityData.PLAYER_ANIMATION);
                         target.ResetData(EntityData.PLAYER_HANDCUFFED);
 
-                        string playerMessage = string.Format(Messages.INF_UNCUFFED, target.Name);
-                        string targetMessage = string.Format(Messages.INF_UNCUFFED_BY, player.Name);
+                        string playerMessage = string.Format(InfoRes.uncuffed, target.Name);
+                        string targetMessage = string.Format(InfoRes.uncuffed_by, player.Name);
                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                         target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
@@ -510,38 +513,38 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_EQUIPMENT, Messages.GEN_EQUIPMENT_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_EQUIPMENT, Commands.HLP_EQUIPMENT_COMMAND, GreedyArg = true)]
         public void EquipmentCommand(Client player, string action, string type = "")
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.HasData(EntityData.PLAYER_IN_LSPD_ROOM_LOCKERS_AREA) == false)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_ROOM_LOCKERS);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_room_lockers);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
             {
                 switch (action.ToLower())
                 {
-                    case Messages.ARG_BASIC:
+                    case Commands.ARG_BASIC:
                         player.Armor = 100;
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Flashlight, 0, false);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Nightstick, 0, true);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.StunGun, 0, true);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_BASIC_RECEIVED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.equip_basic_received);
                         break;
-                    case Messages.ARG_AMMUNITION:
+                    case Commands.ARG_AMMUNITION:
                         if (player.GetData(EntityData.PLAYER_RANK) > 1)
                         {
                             WeaponHash[] playerWeaps = player.Weapons;
@@ -594,79 +597,79 @@ namespace WiredPlayers.factions
                                     });
                                 }
                             }
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_AMMO_RECEIVED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.equip_ammo_received);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_police_rank);
                         }
                         break;
-                    case Messages.ARG_WEAPON:
+                    case Commands.ARG_WEAPON:
                         if (player.GetData(EntityData.PLAYER_RANK) > 1)
                         {
                             WeaponHash selectedWeap = new WeaponHash();
                             switch (type.ToLower())
                             {
-                                case Messages.ARG_PISTOL:
+                                case Commands.ARG_PISTOL:
                                     selectedWeap = WeaponHash.CombatPistol;
                                     break;
-                                case Messages.ARG_MACHINE_GUN:
+                                case Commands.ARG_MACHINE_GUN:
                                     selectedWeap = WeaponHash.SMG;
                                     break;
-                                case Messages.ARG_ASSAULT:
+                                case Commands.ARG_ASSAULT:
                                     selectedWeap = WeaponHash.CarbineRifle;
                                     break;
-                                case Messages.ARG_SNIPER:
+                                case Commands.ARG_SNIPER:
                                     selectedWeap = WeaponHash.SniperRifle;
                                     break;
-                                case Messages.ARG_SHOTGUN:
+                                case Commands.ARG_SHOTGUN:
                                     selectedWeap = WeaponHash.PumpShotgun;
                                     break;
                                 default:
                                     selectedWeap = 0;
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_WEAP_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_EQUIPMENT_WEAP_COMMAND);
                                     break;
                             }
 
                             if (selectedWeap != 0)
                             {
                                 Weapons.GivePlayerNewWeapon(player, selectedWeap, 0, true);
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EQUIP_WEAP_RECEIVED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.equip_weap_received);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_POLICE_RANK);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_police_rank);
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_EQUIPMENT_AMMO_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_EQUIPMENT_AMMO_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_CONTROL, Messages.GEN_POLICE_CONTROL_COMMAND)]
+        [Command(Commands.COM_CONTROL, Commands.HLP_POLICE_CONTROL_COMMAND)]
         public void ControlCommand(Client player, string action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
                 List<string> policeControls = GetDifferentPoliceControls();
                 switch (action.ToLower())
                 {
-                    case Messages.ARG_LOAD:
+                    case Commands.ARG_LOAD:
                         if (policeControls.Count > 0)
                         {
                             player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_LOAD);
@@ -674,10 +677,10 @@ namespace WiredPlayers.factions
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_police_controls);
                         }
                         break;
-                    case Messages.ARG_SAVE:
+                    case Commands.ARG_SAVE:
                         player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_SAVE);
                         if (policeControls.Count > 0)
                         {
@@ -688,7 +691,7 @@ namespace WiredPlayers.factions
                             player.TriggerEvent("showPoliceControlName");
                         }
                         break;
-                    case Messages.ARG_RENAME:
+                    case Commands.ARG_RENAME:
                         if (policeControls.Count > 0)
                         {
                             player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_RENAME);
@@ -696,10 +699,10 @@ namespace WiredPlayers.factions
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_police_controls);
                         }
                         break;
-                    case Messages.ARG_REMOVE:
+                    case Commands.ARG_REMOVE:
                         if (policeControls.Count > 0)
                         {
                             player.SetSharedData(EntityData.PLAYER_POLICE_CONTROL, Constants.ACTION_DELETE);
@@ -707,10 +710,10 @@ namespace WiredPlayers.factions
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_POLICE_CONTROLS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_police_controls);
                         }
                         break;
-                    case Messages.ARG_CLEAR:
+                    case Commands.ARG_CLEAR:
                         foreach (PoliceControlModel policeControl in policeControlList)
                         {
                             if (policeControl.controlObject.Exists)
@@ -718,25 +721,25 @@ namespace WiredPlayers.factions
                                 policeControl.controlObject.Delete();
                             }
                         }
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_POLICE_CONTROL_CLEARED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.police_control_cleared);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_CONTROL_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POLICE_CONTROL_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PUT, Messages.GEN_POLICE_PUT_COMMAND)]
+        [Command(Commands.COM_PUT, Commands.HLP_POLICE_PUT_COMMAND)]
         public void PutCommand(Client player, string item)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else
             {
@@ -745,94 +748,94 @@ namespace WiredPlayers.factions
                 {
                     switch (item.ToLower())
                     {
-                        case Messages.ARG_CONE:
+                        case Commands.ARG_CONE:
                             policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_CONE, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_CONE, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
-                        case Messages.ARG_BEACON:
+                        case Commands.ARG_BEACON:
                             policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BEACON, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BEACON, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
-                        case Messages.ARG_BARRIER:
+                        case Commands.ARG_BARRIER:
                             policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BARRIER, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BARRIER, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
-                        case Messages.ARG_SPIKES:
+                        case Commands.ARG_SPIKES:
                             policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_SPIKES, player.Position, player.Rotation);
                             policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
                             policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_SPIKES, policeControl.position, policeControl.rotation);
                             policeControlList.Add(policeControl);
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_PUT_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POLICE_PUT_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
                 }
             }
         }
 
-        [Command(Messages.COM_REMOVE, Messages.GEN_POLICE_REMOVE_COMMAND)]
+        [Command(Commands.COM_REMOVE, Commands.HLP_POLICE_REMOVE_COMMAND)]
         public void RemoveCommand(Client player, string item)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else
             {
                 switch (item.ToLower())
                 {
-                    case Messages.ARG_CONE:
+                    case Commands.ARG_CONE:
                         RemoveClosestPoliceControlItem(player, Constants.POLICE_DEPLOYABLE_CONE);
                         break;
-                    case Messages.ARG_BEACON:
+                    case Commands.ARG_BEACON:
                         RemoveClosestPoliceControlItem(player, Constants.POLICE_DEPLOYABLE_BEACON);
                         break;
-                    case Messages.ARG_BARRIER:
+                    case Commands.ARG_BARRIER:
                         RemoveClosestPoliceControlItem(player, Constants.POLICE_DEPLOYABLE_BARRIER);
                         break;
-                    case Messages.ARG_SPIKES:
+                    case Commands.ARG_SPIKES:
                         RemoveClosestPoliceControlItem(player, Constants.POLICE_DEPLOYABLE_SPIKES);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POLICE_REMOVE_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POLICE_REMOVE_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_REINFORCES)]
+        [Command(Commands.COM_REINFORCES)]
         public void ReinforcesCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -841,7 +844,7 @@ namespace WiredPlayers.factions
 
                 if (player.HasData(EntityData.PLAYER_REINFORCES) == true)
                 {
-                    string targetMessage = string.Format(Messages.INF_TARGET_REINFORCES_CANCELED, player.Name);
+                    string targetMessage = string.Format(InfoRes.target_reinforces_canceled, player.Name);
 
                     foreach (Client target in policeMembers)
                     {
@@ -852,7 +855,7 @@ namespace WiredPlayers.factions
                             
                             if (player == target)
                             {
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_CANCELED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_reinforces_canceled);
                             }
                             else
                             {
@@ -866,7 +869,7 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    string targetMessage = string.Format(Messages.INF_TARGET_REINFORCES_ASKED, player.Name);
+                    string targetMessage = string.Format(InfoRes.target_reinforces_asked, player.Name);
 
                     foreach (Client target in policeMembers)
                     {
@@ -874,7 +877,7 @@ namespace WiredPlayers.factions
                         {
                             if (player == target)
                             {
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_REINFORCES_ASKED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_reinforces_asked);
                             }
                             else
                             {
@@ -889,7 +892,7 @@ namespace WiredPlayers.factions
             }
         }
 
-        [Command(Messages.COM_LICENSE, Messages.GEN_LICENSE_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_LICENSE, Commands.HLP_LICENSE_COMMAND, GreedyArg = true)]
         public void LicenseCommand(Client player, string args)
         {
             if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) == 6)
@@ -912,11 +915,11 @@ namespace WiredPlayers.factions
                     // Check whether the target player is connected
                     if (target == null || target.HasData(EntityData.PLAYER_PLAYING) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                     }
                     else if (player.Position.DistanceTo(target.Position) > 2.5f)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                     }
                     else
                     {
@@ -925,50 +928,50 @@ namespace WiredPlayers.factions
 
                         switch (arguments[0].ToLower())
                         {
-                            case Messages.ARG_GIVE:
+                            case Commands.ARG_GIVE:
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_WEAPON:
+                                    case Commands.ARG_WEAPON:
                                         // Add one month to the license
                                         target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds() + 2628000);
                                         
-                                        playerMessage = string.Format(Messages.INF_WEAPON_LICENSE_GIVEN, target.Name);
-                                        targetMessage = string.Format(Messages.INF_WEAPON_LICENSE_RECEIVED, player.Name);
+                                        playerMessage = string.Format(InfoRes.weapon_license_given, target.Name);
+                                        targetMessage = string.Format(InfoRes.weapon_license_received, player.Name);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
                                     default:
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_LICENSE_COMMAND);
                                         break;
                                 }
                                 break;
-                            case Messages.ARG_REMOVE:
+                            case Commands.ARG_REMOVE:
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_WEAPON:
+                                    case Commands.ARG_WEAPON:
                                         // Adjust the date to the current one
                                         target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds());
                                         
-                                        playerMessage = string.Format(Messages.INF_WEAPON_LICENSE_REMOVED, target.Name);
-                                        targetMessage = string.Format(Messages.INF_WEAPON_LICENSE_LOST, player.Name);
+                                        playerMessage = string.Format(InfoRes.weapon_license_removed, target.Name);
+                                        targetMessage = string.Format(InfoRes.weapon_license_lost, player.Name);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
-                                    case Messages.ARG_CAR:
+                                    case Commands.ARG_CAR:
                                         // Remove car license
                                         DrivingSchool.SetPlayerLicense(target, Constants.LICENSE_CAR, -1);
                                         
-                                        playerMessage = string.Format(Messages.INF_CAR_LICENSE_REMOVED, target.Name);
-                                        targetMessage = string.Format(Messages.INF_CAR_LICENSE_LOST, player.Name);
+                                        playerMessage = string.Format(InfoRes.car_license_removed, target.Name);
+                                        targetMessage = string.Format(InfoRes.car_license_lost, player.Name);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
-                                    case Messages.ARG_MOTORCYCLE:
+                                    case Commands.ARG_MOTORCYCLE:
                                         // Remove motorcycle license
                                         DrivingSchool.SetPlayerLicense(target, Constants.LICENSE_MOTORCYCLE, -1);
                                         
-                                        playerMessage = string.Format(Messages.INF_MOTO_LICENSE_REMOVED, target.Name);
-                                        targetMessage = string.Format(Messages.INF_MOTO_LICENSE_LOST, player.Name);
+                                        playerMessage = string.Format(InfoRes.moto_license_removed, target.Name);
+                                        targetMessage = string.Format(InfoRes.moto_license_lost, player.Name);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         break;
@@ -977,23 +980,23 @@ namespace WiredPlayers.factions
                                 }
                                 break;
                             default:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_LICENSE_COMMAND);
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LICENSE_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_LICENSE_COMMAND);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_POLICE_CHIEF);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_police_chief);
             }
         }
 
-        [Command(Messages.COM_BREATHALYZER, Messages.GEN_ALCOHOLIMETER_COMMAND)]
+        [Command(Commands.COM_BREATHALYZER, Commands.HLP_ALCOHOLIMETER_COMMAND)]
         public void BreathalyzerCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) > 0)
@@ -1006,14 +1009,14 @@ namespace WiredPlayers.factions
                     alcoholLevel = target.GetData(EntityData.PLAYER_DRUNK_LEVEL);
                 }
                 
-                string playerMessage = string.Format(Messages.INF_ALCOHOLIMETER_TEST, target.Name, alcoholLevel);
-                string targetMessage = string.Format(Messages.INF_ALCOHOLIMETER_RECEPTOR, player.Name, alcoholLevel);
+                string playerMessage = string.Format(InfoRes.alcoholimeter_test, target.Name, alcoholLevel);
+                string targetMessage = string.Format(InfoRes.alcoholimeter_receptor, player.Name, alcoholLevel);
                 player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
         }
     }

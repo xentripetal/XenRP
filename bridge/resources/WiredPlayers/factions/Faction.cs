@@ -9,6 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.factions
 {
@@ -109,7 +112,7 @@ namespace WiredPlayers.factions
             }
         }
 
-        [Command(Messages.COM_F, Messages.GEN_F_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_F, Commands.HLP_F_COMMAND, GreedyArg = true)]
         public void FCommand(Client player, string message)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -140,16 +143,16 @@ namespace WiredPlayers.factions
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_STATE_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_state_faction);
             }
         }
 
-        [Command(Messages.COM_R, Messages.GEN_R_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_R, Commands.HLP_R_COMMAND, GreedyArg = true)]
         public void RCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -172,7 +175,7 @@ namespace WiredPlayers.factions
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && (target.GetData(EntityData.PLAYER_FACTION) == faction || CheckInternalAffairs(faction, target) == true))
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
@@ -186,17 +189,17 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_STATE_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_state_faction);
                 }
             }
         }
 
-        [Command(Messages.COM_DP, Messages.GEN_DP_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_DP, Commands.HLP_DP_COMMAND, GreedyArg = true)]
         public void DpCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -217,7 +220,7 @@ namespace WiredPlayers.factions
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
@@ -225,7 +228,7 @@ namespace WiredPlayers.factions
                         }
                         else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO_POLICE + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO_POLICE + secondMessage);
@@ -238,17 +241,17 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_EMERGENCY_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_emergency_faction);
                 }
             }
         }
 
-        [Command(Messages.COM_DE, Messages.GEN_DE_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_DE, Commands.HLP_DE_COMMAND, GreedyArg = true)]
         public void DeCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -269,7 +272,7 @@ namespace WiredPlayers.factions
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO_POLICE + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO_POLICE + secondMessage);
@@ -277,7 +280,7 @@ namespace WiredPlayers.factions
                         }
                         else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO + Messages.GEN_RADIO + rank + " " + player.Name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
@@ -290,17 +293,17 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_EMERGENCY_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_emergency_faction);
                 }
             }
         }
 
-        [Command(Messages.COM_FR, Messages.GEN_FR_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_FR, Commands.HLP_FR_COMMAND, GreedyArg = true)]
         public void FrCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -322,7 +325,7 @@ namespace WiredPlayers.factions
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_RADIO) == radio)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + Messages.GEN_RADIO + name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_RADIO + Messages.GEN_RADIO + name + Messages.GEN_CHAT_SAY + message);
+                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + name + GenRes.chat_say + message);
                             if (secondMessage.Length > 0)
                             {
                                target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
@@ -335,12 +338,12 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RADIO_FREQUENCY_NONE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.radio_frequency_none);
                 }
             }
         }
 
-        [Command(Messages.COM_FREQUENCY, Messages.GEN_FREQUENCY_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_FREQUENCY, Commands.HLP_FREQUENCY_COMMAND, GreedyArg = true)]
         public void FrequencyCommand(Client player, string args)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -354,7 +357,7 @@ namespace WiredPlayers.factions
                     string[] arguments = args.Trim().Split(' ');
                     switch (arguments[0].ToLower())
                     {
-                        case Messages.ARG_CREATE:
+                        case Commands.ARG_CREATE:
                             if (arguments.Length == 2)
                             {
                                 if (ownedChannel == null)
@@ -373,21 +376,21 @@ namespace WiredPlayers.factions
                                         channelList.Add(channel);
 
                                         // Sending the message with created channel
-                                        string message = string.Format(Messages.INF_CHANNEL_CREATED, channel.id);
+                                        string message = string.Format(InfoRes.channel_created, channel.id);
                                         player.SendChatMessage(Constants.COLOR_INFO + message);
                                     });
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_OWNED_CHANNEL);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_owned_channel);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FREQUENCY_CREATE_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FREQUENCY_CREATE_COMMAND);
                             }
                             break;
-                        case Messages.ARG_MODIFY:
+                        case Commands.ARG_MODIFY:
                             if (arguments.Length == 2)
                             {
                                 if (ownedChannel != null)
@@ -402,7 +405,7 @@ namespace WiredPlayers.factions
                                         if (target.GetData(EntityData.PLAYER_RADIO) == ownedChannel.id && targetId != ownedChannel.owner)
                                         {
                                             target.SetData(EntityData.PLAYER_RADIO, 0);
-                                           target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CHANNEL_DISCONNECTED);
+                                           target.SendChatMessage(Constants.COLOR_INFO + InfoRes.channel_disconnected);
                                         }
                                     }
 
@@ -414,20 +417,20 @@ namespace WiredPlayers.factions
                                         Database.DisconnectFromChannel(ownedChannel.id);
 
                                         // Message sent with the confirmation
-                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CHANNEL_UPDATED);
+                                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.channel_updated);
                                     });
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_OWNED_CHANNEL);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_owned_channel);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FREQUENCY_MODIFY_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FREQUENCY_MODIFY_COMMAND);
                             }
                             break;
-                        case Messages.ARG_REMOVE:
+                        case Commands.ARG_REMOVE:
                             if (ownedChannel != null)
                             {
                                 // We kick all the players from the channel
@@ -439,7 +442,7 @@ namespace WiredPlayers.factions
                                         target.SetData(EntityData.PLAYER_RADIO, 0);
                                         if (ownedChannel.owner != targetId)
                                         {
-                                           target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CHANNEL_DISCONNECTED);
+                                           target.SendChatMessage(Constants.COLOR_INFO + InfoRes.channel_disconnected);
                                         }
                                     }
                                 }
@@ -454,15 +457,15 @@ namespace WiredPlayers.factions
                                     channelList.Remove(ownedChannel);
 
                                     // Message sent with the confirmation
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CHANNEL_DELETED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.channel_deleted);
                                 });
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_OWNED_CHANNEL);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_owned_channel);
                             }
                             break;
-                        case Messages.ARG_CONNECT:
+                        case Commands.ARG_CONNECT:
                             if (arguments.Length == 3)
                             {
                                 if (int.TryParse(arguments[1], out int frequency) == true)
@@ -475,7 +478,7 @@ namespace WiredPlayers.factions
                                     {
                                         if (channel.id == frequency && channel.password == password)
                                         {
-                                            string message = string.Format(Messages.INF_CHANNEL_CONNECTED, channel.id);
+                                            string message = string.Format(InfoRes.channel_connected, channel.id);
                                             player.SetData(EntityData.PLAYER_RADIO, channel.id);
                                             player.SendChatMessage(Constants.COLOR_INFO + message);
                                             return;
@@ -483,39 +486,39 @@ namespace WiredPlayers.factions
                                     }
 
                                     // Couldn't find any channel with that id
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CHANNEL_NOT_FOUND);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.channel_not_found);
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FREQUENCY_CONNECT_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FREQUENCY_CONNECT_COMMAND);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FREQUENCY_CONNECT_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FREQUENCY_CONNECT_COMMAND);
                             }
                             break;
-                        case Messages.ARG_DISCONNECT:
+                        case Commands.ARG_DISCONNECT:
                             player.SetData(EntityData.PLAYER_RADIO, 0);
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_CHANNEL_DISCONNECTED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.channel_disconnected);
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FREQUENCY_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FREQUENCY_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_WALKIE_IN_HAND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_walkie_in_hand);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_RECRUIT, Messages.GEN_RECRUIT_COMMAND)]
+        [Command(Commands.COM_RECRUIT, Commands.HLP_RECRUIT_COMMAND)]
         public void RecruitCommand(Client player, string targetString)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -526,11 +529,11 @@ namespace WiredPlayers.factions
 
                 if (target == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
                 else if (target.GetData(EntityData.PLAYER_FACTION) > 0)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_faction);
                 }
                 else
                 {
@@ -541,15 +544,15 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_POLICE:
                             if (target.GetData(EntityData.PLAYER_JOB) > 0)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_JOB);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
                             }
                             else if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, Messages.GEN_FACTION_LSPD);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.faction_lspd);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_POLICE);
@@ -562,15 +565,15 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_EMERGENCY:
                             if (target.GetData(EntityData.PLAYER_JOB) > 0)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_JOB);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
                             }
                             else if (rank < 10)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, Messages.GEN_FACTION_EMS);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.faction_ems);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_EMERGENCY);
@@ -583,15 +586,15 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_NEWS:
                             if (target.GetData(EntityData.PLAYER_JOB) > 0)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_JOB);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
                             }
                             else if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, Messages.GEN_FACTION_NEWS);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.faction_news);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_NEWS);
@@ -604,15 +607,15 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TOWNHALL:
                             if (target.GetData(EntityData.PLAYER_JOB) > 0)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_JOB);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
                             }
                             else if (rank < 3)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, Messages.GEN_FACTION_TOWNHALL);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.faction_townhall);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_TOWNHALL);
@@ -625,15 +628,15 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TAXI_DRIVER:
                             if (target.GetData(EntityData.PLAYER_JOB) > 0)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_JOB);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
                             }
                             else if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, Messages.GEN_FACTION_TRANSPORT);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.faction_transport);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_TAXI_DRIVER);
@@ -646,11 +649,11 @@ namespace WiredPlayers.factions
                         default:
                             if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RECRUIT);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
                             }
                             else
                             {
-                                string targetMessage = string.Format(Messages.INF_FACTION_RECRUITED, faction);
+                                string targetMessage = string.Format(InfoRes.faction_recruited, faction);
 
                                 // We get the player into the faction
                                 target.SetData(EntityData.PLAYER_FACTION, faction);
@@ -663,17 +666,17 @@ namespace WiredPlayers.factions
                     }
 
                     // We send the message to the recruiter
-                    string playerMessage = string.Format(Messages.INF_PLAYER_RECRUITED, target.Name);
+                    string playerMessage = string.Format(InfoRes.player_recruited, target.Name);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_faction);
             }
         }
 
-        [Command(Messages.COM_DISMISS, Messages.GEN_DISMISS_COMMAND)]
+        [Command(Commands.COM_DISMISS, Commands.HLP_DISMISS_COMMAND)]
         public void DismissCommand(Client player, string targetString)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -684,11 +687,11 @@ namespace WiredPlayers.factions
 
                 if (target == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
                 else if (target.GetData(EntityData.PLAYER_FACTION) != faction)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_SAME_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_same_faction);
                 }
                 else
                 {
@@ -699,7 +702,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_POLICE:
                             if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -711,7 +714,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_EMERGENCY:
                             if (rank < 10)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -723,7 +726,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_NEWS:
                             if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -735,7 +738,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TOWNHALL:
                             if (rank < 3)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -747,7 +750,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TAXI_DRIVER:
                             if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -759,7 +762,7 @@ namespace WiredPlayers.factions
                         default:
                             if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_DISMISS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
                             else
                             {
@@ -770,8 +773,8 @@ namespace WiredPlayers.factions
                             break;
                     }
 
-                    string playerMessage = string.Format(Messages.INF_PLAYER_DISMISSED, target.Name);
-                    string targetMessage = string.Format(Messages.INF_FACTION_DISMISSED, player.Name);
+                    string playerMessage = string.Format(InfoRes.player_dismissed, target.Name);
+                    string targetMessage = string.Format(InfoRes.faction_dismissed, player.Name);
 
                     // Send the messages to both players
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
@@ -780,11 +783,11 @@ namespace WiredPlayers.factions
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_faction);
             }
         }
 
-        [Command(Messages.COM_RANK, Messages.GEN_RANK_COMMAND)]
+        [Command(Commands.COM_RANK, Commands.HLP_RANK_COMMAND)]
         public void RankCommand(Client player, string arguments)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -798,11 +801,11 @@ namespace WiredPlayers.factions
 
                 if (target == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
                 else if (target.GetData(EntityData.PLAYER_FACTION) != faction)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_SAME_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_same_faction);
                 }
                 else
                 {
@@ -814,7 +817,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_POLICE:
                             if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -825,7 +828,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_EMERGENCY:
                             if (rank < 10)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -836,7 +839,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_NEWS:
                             if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -847,7 +850,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TOWNHALL:
                             if (rank < 3)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -858,7 +861,7 @@ namespace WiredPlayers.factions
                         case Constants.FACTION_TAXI_DRIVER:
                             if (rank < 5)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -869,7 +872,7 @@ namespace WiredPlayers.factions
                         default:
                             if (rank < 6)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RANK_TOO_LOW_RANK);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
                             }
                             else
                             {
@@ -879,8 +882,8 @@ namespace WiredPlayers.factions
                             break;
                     }
 
-                    string playerMessage = string.Format(Messages.INF_PLAYER_RANK_CHANGED, target.Name, givenRank);
-                    string targetMessage = string.Format(Messages.INF_FACTION_RANK_CHANGED, player.Name, givenRank);
+                    string playerMessage = string.Format(InfoRes.player_rank_changed, target.Name, givenRank);
+                    string targetMessage = string.Format(InfoRes.faction_rank_changed, player.Name, givenRank);
 
                     // Send the message to both players
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
@@ -889,11 +892,11 @@ namespace WiredPlayers.factions
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_faction);
             }
         }
 
-        [Command(Messages.COM_REPORTS)]
+        [Command(Commands.COM_REPORTS)]
         public void ReportsCommand(Client player)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -904,7 +907,7 @@ namespace WiredPlayers.factions
                 int totalWarnings = 0;
 
                 // Reports' header
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_REPORTS_HEADER);
+                player.SendChatMessage(Constants.COLOR_INFO + GenRes.reports_header);
 
                 foreach (FactionWarningModel factionWarning in factionWarningList)
                 {
@@ -913,22 +916,22 @@ namespace WiredPlayers.factions
                         string message = string.Empty;
                         if (factionWarning.place.Length > 0)
                         {
-                            message = currentElement + ". " + Messages.GEN_TIME + factionWarning.hour + ", " + Messages.GEN_PLACE + factionWarning.place;
+                            message = currentElement + ". " + GenRes.time + factionWarning.hour + ", " + GenRes.place + factionWarning.place;
                         }
                         else
                         {
-                            message = currentElement + ". " + Messages.GEN_TIME + factionWarning.hour;
+                            message = currentElement + ". " + GenRes.time + factionWarning.hour;
                         }
 
                         // Check if attended
                         if (factionWarning.takenBy > -1)
                         {
                             Client target = Globals.GetPlayerById(factionWarning.takenBy);
-                            message += ", " + Messages.GEN_ATTENDED_BY + target.Name;
+                            message += ", " + GenRes.attended_by + target.Name;
                         }
                         else
                         {
-                            message += ", " + Messages.GEN_UNATTENDED;
+                            message += ", " + GenRes.unattended;
                         }
 
                         // We send the message to the player
@@ -943,16 +946,16 @@ namespace WiredPlayers.factions
                 if (totalWarnings == 0)
                 {
                     // There are no reports in the list
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_NOT_FACTION_WARNING);
+                    player.SendChatMessage(Constants.COLOR_HELP + GenRes.not_faction_warning);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_EMERGENCY_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_emergency_faction);
             }
         }
 
-        [Command(Messages.COM_ATTEND, Messages.GEN_ATTEND_COMMAND)]
+        [Command(Commands.COM_ATTEND, Commands.HLP_ATTEND_COMMAND)]
         public void AttendCommand(Client player, int warning)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -966,15 +969,15 @@ namespace WiredPlayers.factions
                     // Check the faction and whether the report is attended
                     if (factionWarning.faction != faction)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FACTION_WARNING_NOT_FOUND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_not_found);
                     }
                     else if (factionWarning.takenBy > -1)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FACTION_WARNING_TAKEN);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_taken);
                     }
                     else if (player.HasData(EntityData.PLAYER_FACTION_WARNING) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAVE_FACTION_WARNING);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_have_faction_warning);
                     }
                     else
                     {
@@ -982,23 +985,23 @@ namespace WiredPlayers.factions
                         player.SetData(EntityData.PLAYER_FACTION_WARNING, factionWarningCheckpoint);
                         factionWarning.takenBy = player.Value;
 
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FACTION_WARNING_TAKEN);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.faction_warning_taken);
 
                         player.TriggerEvent("showFactionWarning", factionWarning.position);
                     }
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FACTION_WARNING_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_not_found);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_EMERGENCY_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_emergency_faction);
             }
         }
 
-        [Command(Messages.COM_CLEAR_REPORTS, Messages.GEN_CLEAR_REPORTS_COMMAND)]
+        [Command(Commands.COM_CLEAR_REPORTS, Commands.HLP_CLEAR_REPORTS_COMMAND)]
         public void ClearReportsCommand(Client player, int warning)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -1012,7 +1015,7 @@ namespace WiredPlayers.factions
                     // Check the faction and whether the report is attended
                     if (factionWarning.faction != faction)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FACTION_WARNING_NOT_FOUND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_not_found);
                     }
                     else
                     {
@@ -1020,28 +1023,28 @@ namespace WiredPlayers.factions
                         factionWarningList.Remove(factionWarning);
 
                         // Send the message to the user
-                        string message = string.Format(Messages.INF_FACTION_WARNING_DELETED, warning);
+                        string message = string.Format(InfoRes.faction_warning_deleted, warning);
                         player.SendChatMessage(Constants.COLOR_INFO + message);
                     }
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FACTION_WARNING_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_not_found);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_EMERGENCY_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_emergency_faction);
             }
         }
 
-        [Command(Messages.COM_MEMBERS)]
+        [Command(Commands.COM_MEMBERS)]
         public void MembersCommand(Client player)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
             if (faction > 0)
             {
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_MEMBERS_ONLINE);
+                player.SendChatMessage(Constants.COLOR_INFO + GenRes.members_online);
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
                     if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == faction)
@@ -1061,7 +1064,7 @@ namespace WiredPlayers.factions
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_faction);
             }
         }
     }

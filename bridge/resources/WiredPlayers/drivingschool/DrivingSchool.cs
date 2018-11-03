@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using WiredPlayers.messages.success;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.drivingschool
 {
@@ -41,7 +45,7 @@ namespace WiredPlayers.drivingschool
             }
 
             // Confirmation message sent to the player
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_FAILED_NOT_IN_VEHICLE);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.license_failed_not_in_vehicle);
         }
 
         private void FinishDrivingExam(Client player, Vehicle vehicle)
@@ -117,7 +121,7 @@ namespace WiredPlayers.drivingschool
                     else
                     {
                         player.WarpOutOfVehicle();
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_driving_not_suitable);
                     }
                 }
                 else if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
@@ -141,13 +145,13 @@ namespace WiredPlayers.drivingschool
                     else
                     {
                         player.WarpOutOfVehicle();
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_DRIVING_NOT_SUITABLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_driving_not_suitable);
                     }
                 }
                 else
                 {
                     player.WarpOutOfVehicle();
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_CAR_PRACTICE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_car_practice);
                 }
             }
         }
@@ -160,7 +164,7 @@ namespace WiredPlayers.drivingschool
                 // Checking if is a valid vehicle
                 if (player.GetData(EntityData.PLAYER_VEHICLE) == vehicle && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
                 {
-                    string warn = string.Format(Messages.INF_LICENSE_VEHICLE_EXIT, 15);
+                    string warn = string.Format(InfoRes.license_vehicle_exit, 15);
                     Checkpoint playerDrivingCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
                     playerDrivingCheckpoint.Delete();
                     player.SendChatMessage(Constants.COLOR_INFO + warn);
@@ -224,7 +228,7 @@ namespace WiredPlayers.drivingschool
                             SetPlayerLicense(player, Constants.LICENSE_CAR, 12);
 
                             // Confirmation message sent to the player
-                            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
+                            player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.license_drive_passed);
                         }
                     }
                 }
@@ -272,7 +276,7 @@ namespace WiredPlayers.drivingschool
                             SetPlayerLicense(player, Constants.LICENSE_MOTORCYCLE, 12);
 
                             // Confirmation message sent to the player
-                            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_DRIVE_PASSED);
+                            player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.license_drive_passed);
                         }
                     }
                 }
@@ -291,7 +295,7 @@ namespace WiredPlayers.drivingschool
                     FinishDrivingExam(player, vehicle);
 
                     // Inform the player about his failure
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.license_drive_failed);
                 }
             }
         }
@@ -317,7 +321,7 @@ namespace WiredPlayers.drivingschool
                                 FinishDrivingExam(player, vehicle);
 
                                 // Inform the player about his failure
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_DRIVE_FAILED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.license_drive_failed);
                             }
                         }
                     }
@@ -352,7 +356,7 @@ namespace WiredPlayers.drivingschool
                         player.ResetSharedData(EntityData.PLAYER_LICENSE_QUESTION);
 
                         // Send the message to the player
-                        player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LICENSE_EXAM_PASSED);
+                        player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.license_exam_passed);
 
                         // Exam window close
                         player.TriggerEvent("finishLicenseExam");
@@ -361,7 +365,7 @@ namespace WiredPlayers.drivingschool
                 else
                 {
                     // Player failed the exam
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_LICENSE_EXAM_FAILED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.license_exam_failed);
 
                     // Reset the entity data
                     player.ResetData(EntityData.PLAYER_LICENSE_TYPE);
@@ -373,13 +377,13 @@ namespace WiredPlayers.drivingschool
             });
         }
 
-        [Command(Messages.COM_DRIVING_SCHOOL, Messages.GEN_DRIVING_SCHOOL_COMMAND)]
+        [Command(Commands.COM_DRIVING_SCHOOL, Commands.HLP_DRIVING_SCHOOL_COMMAND)]
         public void DrivingSchoolCommand(Client player, string type)
         {
             int licenseStatus = 0;
             foreach (InteriorModel interior in Constants.INTERIOR_LIST)
             {
-                if (interior.captionMessage == Messages.GEN_DRIVING_SCHOOL && player.Position.DistanceTo(interior.entrancePosition) < 2.5f)
+                if (interior.captionMessage == GenRes.driving_school && player.Position.DistanceTo(interior.entrancePosition) < 2.5f)
                 {
                     List<TestModel> questions = new List<TestModel>();
                     List<TestModel> answers = new List<TestModel>();
@@ -389,7 +393,7 @@ namespace WiredPlayers.drivingschool
 
                     switch (type.ToLower())
                     {
-                        case Messages.ARG_CAR:
+                        case Commands.ARG_CAR:
                             // Check for the status if the license
                             licenseStatus = GetPlayerLicenseStatus(player, Constants.LICENSE_CAR);
 
@@ -419,7 +423,7 @@ namespace WiredPlayers.drivingschool
                                     }
                                     else
                                     {
-                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
+                                        string message = string.Format(ErrRes.driving_school_money, Constants.PRICE_DRIVING_THEORICAL);
                                         player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
@@ -433,21 +437,21 @@ namespace WiredPlayers.drivingschool
 
                                         player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
 
-                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_CAR_VEHICLE);
+                                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.enter_license_car_vehicle);
                                     }
                                     else
                                     {
-                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
+                                        string message = string.Format(ErrRes.driving_school_money, Constants.PRICE_DRIVING_PRACTICAL);
                                         player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 default:
                                     // License up to date
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_license);
                                     break;
                             }
                             break;
-                        case Messages.ARG_MOTORCYCLE:
+                        case Commands.ARG_MOTORCYCLE:
                             // Check for the status if the license
                             licenseStatus = GetPlayerLicenseStatus(player, Constants.LICENSE_MOTORCYCLE);
 
@@ -477,7 +481,7 @@ namespace WiredPlayers.drivingschool
                                     }
                                     else
                                     {
-                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_THEORICAL);
+                                        string message = string.Format(ErrRes.driving_school_money, Constants.PRICE_DRIVING_THEORICAL);
                                         player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
@@ -491,22 +495,22 @@ namespace WiredPlayers.drivingschool
 
                                         player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_DRIVING_PRACTICAL);
 
-                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ENTER_LICENSE_BIKE_VEHICLE);
+                                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.enter_license_bike_vehicle);
                                     }
                                     else
                                     {
-                                        string message = string.Format(Messages.ERR_DRIVING_SCHOOL_MONEY, Constants.PRICE_DRIVING_PRACTICAL);
+                                        string message = string.Format(ErrRes.driving_school_money, Constants.PRICE_DRIVING_PRACTICAL);
                                         player.SendChatMessage(Constants.COLOR_ERROR + message);
                                     }
                                     break;
                                 default:
                                     // License up to date
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_LICENSE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_license);
                                     break;
                             }
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_DRIVING_SCHOOL_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_DRIVING_SCHOOL_COMMAND);
                             break;
                     }
                     return;
@@ -514,16 +518,16 @@ namespace WiredPlayers.drivingschool
             }
 
             // Player's not in the driving school
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DRIVING_SCHOOL);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_driving_school);
         }
 
-        [Command(Messages.COM_LICENSES)]
+        [Command(Commands.COM_LICENSES)]
         public void LicensesCommand(Client player)
         {
             int currentLicense = 0;
             string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
             string[] playerLicensesArray = playerLicenses.Split(',');
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_LICENSE_LIST);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.license_list);
             foreach (string license in playerLicensesArray)
             {
                 int currentLicenseStatus = int.Parse(license);
@@ -533,13 +537,13 @@ namespace WiredPlayers.drivingschool
                         switch (currentLicenseStatus)
                         {
                             case -1:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_NOT_AVAILABLE);
+                                player.SendChatMessage(Constants.COLOR_HELP + InfoRes.car_license_not_available);
                                 break;
                             case 0:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_PRACTICAL_PENDING);
+                                player.SendChatMessage(Constants.COLOR_HELP + InfoRes.car_license_practical_pending);
                                 break;
                             default:
-                                string message = string.Format(Messages.INF_CAR_LICENSE_POINTS + currentLicenseStatus);
+                                string message = string.Format(InfoRes.car_license_points + currentLicenseStatus);
                                 player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
@@ -548,13 +552,13 @@ namespace WiredPlayers.drivingschool
                         switch (currentLicenseStatus)
                         {
                             case -1:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_NOT_AVAILABLE);
+                                player.SendChatMessage(Constants.COLOR_HELP + InfoRes.motorcycle_license_not_available);
                                 break;
                             case 0:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_PRACTICAL_PENDING);
+                                player.SendChatMessage(Constants.COLOR_HELP + InfoRes.motorcycle_license_practical_pending);
                                 break;
                             default:
-                                string message = string.Format(Messages.INF_MOTORCYCLE_LICENSE_POINTS + currentLicenseStatus);
+                                string message = string.Format(InfoRes.motorcycle_license_points + currentLicenseStatus);
                                 player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
@@ -562,11 +566,11 @@ namespace WiredPlayers.drivingschool
                     case Constants.LICENSE_TAXI:
                         if (currentLicenseStatus == -1)
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_NOT_AVAILABLE);
+                            player.SendChatMessage(Constants.COLOR_HELP + InfoRes.taxi_license_not_available);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_UP_TO_DATE);
+                            player.SendChatMessage(Constants.COLOR_HELP + InfoRes.taxi_license_up_to_date);
                         }
                         break;
                 }

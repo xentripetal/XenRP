@@ -7,6 +7,8 @@ using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.jobs
 {
@@ -117,8 +119,8 @@ namespace WiredPlayers.jobs
                                 target.SetData(EntityData.JOB_OFFER_PRICE, vehiclePaid);
                                 target.SetData(EntityData.JOB_OFFER_PRODUCTS, 250);
                                 
-                                string playerMessage = string.Format(Messages.INF_MECHANIC_REPAINT_OFFER, target.Name, vehiclePaid);
-                                string targetMessage = string.Format(Messages.INF_MECHANIC_REPAINT_ACCEPT, player.Name, vehiclePaid);
+                                string playerMessage = string.Format(InfoRes.mechanic_repaint_offer, target.Name, vehiclePaid);
+                                string targetMessage = string.Format(InfoRes.mechanic_repaint_accept, player.Name, vehiclePaid);
                                 player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                 return;
@@ -127,11 +129,11 @@ namespace WiredPlayers.jobs
                     }
 
                     // There's no player with vehicle's keys near
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                 }
                 else
                 {
-                    string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, 250);
+                    string message = string.Format(ErrRes.not_required_products, 250);
                     player.SendChatMessage(Constants.COLOR_ERROR + message);
                 }
             }
@@ -187,7 +189,7 @@ namespace WiredPlayers.jobs
             }
 
             // Send the price to the player
-            string priceMessage = string.Format(Messages.INF_TUNNING_PRODUCTS, totalProducts);
+            string priceMessage = string.Format(InfoRes.tunning_products, totalProducts);
             player.SendChatMessage(Constants.COLOR_INFO + priceMessage);
         }
 
@@ -290,44 +292,44 @@ namespace WiredPlayers.jobs
                 player.TriggerEvent("closeTunningMenu");
                 
                 // Confirmation message
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_TUNNING);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_tunning);
             }
             else
             {
-                string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, totalProducts);
+                string message = string.Format(ErrRes.not_required_products, totalProducts);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
         }
 
-        [Command(Messages.COM_REPAIR, Messages.GEN_MECHANIC_REPAIR_COMMAND)]
+        [Command(Commands.COM_REPAIR, Commands.HLP_MECHANIC_REPAIR_COMMAND)]
         public void RepairCommand(Client player, int vehicleId, string type, int price = 0)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_mechanic);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (PlayerInValidRepairPlace(player) == false)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VALID_REPAIR_PLACE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_valid_repair_place);
             }
             else
             {
                 Vehicle vehicle = Vehicles.GetVehicleById(vehicleId);
                 if (vehicle == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                 }
                 else if (vehicle.Position.DistanceTo(player.Position) > 5.0f)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WANTED_VEHICLE_FAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.wanted_vehicle_far);
                 }
                 else
                 {
@@ -335,10 +337,10 @@ namespace WiredPlayers.jobs
 
                     switch (type.ToLower())
                     {
-                        case Messages.ARG_CHASSIS:
+                        case Commands.ARG_CHASSIS:
                             spentProducts = Constants.PRICE_VEHICLE_CHASSIS;
                             break;
-                        case Messages.ARG_DOORS:
+                        case Commands.ARG_DOORS:
                             for (int i = 0; i < 6; i++)
                             {
                                 if (vehicle.IsDoorBroken(i) == true)
@@ -347,7 +349,7 @@ namespace WiredPlayers.jobs
                                 }
                             }
                             break;
-                        case Messages.ARG_TYRES:
+                        case Commands.ARG_TYRES:
                             for (int i = 0; i < 4; i++)
                             {
                                 if (vehicle.IsTyrePopped(i) == true)
@@ -356,7 +358,7 @@ namespace WiredPlayers.jobs
                                 }
                             }
                             break;
-                        case Messages.ARG_WINDOWS:
+                        case Commands.ARG_WINDOWS:
                             for (int i = 0; i < 4; i++)
                             {
                                 if (vehicle.IsWindowBroken(i) == true)
@@ -366,7 +368,7 @@ namespace WiredPlayers.jobs
                             }
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_MECHANIC_REPAIR_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_MECHANIC_REPAIR_COMMAND);
                             return;
                     }
 
@@ -394,8 +396,8 @@ namespace WiredPlayers.jobs
                                         target.SetData(EntityData.JOB_OFFER_PRODUCTS, spentProducts);
                                         target.SetData(EntityData.JOB_OFFER_PRICE, price);
                                         
-                                        string playerMessage = string.Format(Messages.INF_MECHANIC_REPAIR_OFFER, target.Name, price);
-                                        string targetMessage = string.Format(Messages.INF_MECHANIC_REPAIR_ACCEPT, player.Name, price);
+                                        string playerMessage = string.Format(InfoRes.mechanic_repair_offer, target.Name, price);
+                                        string targetMessage = string.Format(InfoRes.mechanic_repair_accept, player.Name, price);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                         target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         return;
@@ -404,37 +406,37 @@ namespace WiredPlayers.jobs
                             }
 
                             // There's no player with the vehicle's keys near
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                         }
                         else
                         {
-                            string message = string.Format(Messages.ERR_NOT_REQUIRED_PRODUCTS, spentProducts);
+                            string message = string.Format(ErrRes.not_required_products, spentProducts);
                             player.SendChatMessage(Constants.COLOR_ERROR + message);
                         }
                     }
                     else
                     {
-                        string message = string.Format(Messages.INF_REPAIR_PRICE, spentProducts);
+                        string message = string.Format(InfoRes.repair_price, spentProducts);
                         player.SendChatMessage(Constants.COLOR_INFO + message);
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_REPAINT, Messages.GEN_MECHANIC_REPAINT_COMMAND)]
+        [Command(Commands.COM_REPAINT, Commands.HLP_MECHANIC_REPAINT_COMMAND)]
         public void RepaintCommand(Client player, int vehicleId)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_mechanic);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -450,31 +452,31 @@ namespace WiredPlayers.jobs
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                         }
                         return;
                     }
                 }
 
                 // Player is not in any workshop
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_mechanic_workshop);
             }
         }
 
-        [Command(Messages.COM_TUNNING)]
+        [Command(Commands.COM_TUNNING)]
         public void TunningCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MECHANIC);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_mechanic);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -490,14 +492,14 @@ namespace WiredPlayers.jobs
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
                         }
                         return;
                     }
                 }
 
                 // Player is not in any workshop
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_MECHANIC_WORKSHOP);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_mechanic_workshop);
             }
         }
     }

@@ -1,16 +1,18 @@
 ﻿using GTANetworkAPI;
 using WiredPlayers.globals;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.character
 {
     public class Animations : Script
     {
-        [Command(Messages.COM_GRAB)]
+        [Command(Commands.COM_GRAB)]
         public void GrabCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -19,12 +21,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_FACEPALM)]
+        [Command(Commands.COM_FACEPALM)]
         public void FacepalmCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -33,12 +35,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_LOCO)]
+        [Command(Commands.COM_LOCO)]
         public void LocoCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -47,12 +49,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_FREAKOUT)]
+        [Command(Commands.COM_FREAKOUT)]
         public void FreakoutCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -61,12 +63,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_THUMB_ON_EARS)]
+        [Command(Commands.COM_THUMB_ON_EARS)]
         public void ThumbOnEarsCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -75,12 +77,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_VICTORY)]
+        [Command(Commands.COM_VICTORY)]
         public void VictoryCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -89,12 +91,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_CROUCH)]
+        [Command(Commands.COM_CROUCH)]
         public void CrouchCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -103,12 +105,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_DJ)]
+        [Command(Commands.COM_DJ)]
         public void DjCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -117,12 +119,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_KNEEL)]
+        [Command(Commands.COM_KNEEL)]
         public void KneelCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -131,12 +133,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_SPEAK)]
+        [Command(Commands.COM_SPEAK)]
         public void SpeakCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -145,12 +147,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_MECHANIC, Messages.GEN_ANIMS_MECHANIC)]
+        [Command(Commands.COM_MECHANIC, Commands.HLP_ANIMS_MECHANIC)]
         public void MechanicCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -169,18 +171,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("missheistdockssetup1ig_10@laugh", "laugh_pipe_worker1", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_MECHANIC);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_MECHANIC);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_DIG)]
+        [Command(Commands.COM_DIG)]
         public void DigCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -189,12 +191,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_CRY)]
+        [Command(Commands.COM_CRY)]
         public void CryCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -203,12 +205,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_CLEAN, Messages.GEN_ANIMS_CLEAN)]
+        [Command(Commands.COM_CLEAN, Commands.HLP_ANIMS_CLEAN)]
         public void CleanCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -235,18 +237,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_bum_wash@male@low@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CLEAN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_CLEAN);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_SHOWER, Messages.GEN_ANIMS_SHOWER)]
+        [Command(Commands.COM_SHOWER, Commands.HLP_ANIMS_SHOWER)]
         public void ShowerCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -261,18 +263,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("anim@mp_yacht@shower@female@", "shower_idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SHOWER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SHOWER);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_HURRY_UP)]
+        [Command(Commands.COM_HURRY_UP)]
         public void HurryUpCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -281,12 +283,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_SPORTS, Messages.GEN_ANIMS_SPORTS)]
+        [Command(Commands.COM_SPORTS, Commands.HLP_ANIMS_SPORTS)]
         public void SportsCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -353,18 +355,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_sit_ups@male@base", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SPORTS);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SPORTS);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_TYPE)]
+        [Command(Commands.COM_TYPE)]
         public void TypeCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -373,12 +375,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_KNOCK_DOOR)]
+        [Command(Commands.COM_KNOCK_DOOR)]
         public void KnockDoorCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -387,12 +389,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_TAGGING)]
+        [Command(Commands.COM_TAGGING)]
         public void TaggingCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -401,12 +403,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_STRIPTEASE, Messages.GEN_ANIMS_STRIPTEASE)]
+        [Command(Commands.COM_STRIPTEASE, Commands.HLP_ANIMS_STRIPTEASE)]
         public void StripteaseCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -469,18 +471,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("mp_am_stripper", "lap_dance_girl", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_STRIPTEASE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_STRIPTEASE);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_DRINK)]
+        [Command(Commands.COM_DRINK)]
         public void DrinkCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -489,12 +491,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_KISS)]
+        [Command(Commands.COM_KISS)]
         public void KissCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -503,12 +505,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_AIM)]
+        [Command(Commands.COM_AIM)]
         public void AimCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -517,12 +519,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_SALUTE, Messages.GEN_ANIMS_SALUTE)]
+        [Command(Commands.COM_SALUTE, Commands.HLP_ANIMS_SALUTE)]
         public void SaluteCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -554,18 +556,18 @@ namespace WiredPlayers.character
                         break;
                     default:
                         player.StopAnimation();
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SALUTE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SALUTE);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_FUCKU)]
+        [Command(Commands.COM_FUCKU)]
         public void FuckUCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -574,12 +576,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_WALK, Messages.GEN_ANIMS_WALK)]
+        [Command(Commands.COM_WALK, Commands.HLP_ANIMS_WALK)]
         public void WalkCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -670,18 +672,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("switch@franklin@dispensary", "exit_dispensary_outro_ped_f_a", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_WALK);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_WALK);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_KNUCKLES)]
+        [Command(Commands.COM_KNUCKLES)]
         public void KnucklesCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -690,12 +692,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_SURRENDER, Messages.GEN_ANIMS_SURRENDER)]
+        [Command(Commands.COM_SURRENDER, Commands.HLP_ANIMS_SURRENDER)]
         public void SurrenderCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -746,18 +748,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("misstrevor1", "threaten_ortega_endloop_ort", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SURRENDER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SURRENDER);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_EAT)]
+        [Command(Commands.COM_EAT)]
         public void EatCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -766,12 +768,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_PUKE)]
+        [Command(Commands.COM_PUKE)]
         public void PukeCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -780,12 +782,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_PLANT)]
+        [Command(Commands.COM_PLANT)]
         public void PlantCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -794,12 +796,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_CPR, Messages.GEN_ANIMS_CPR)]
+        [Command(Commands.COM_CPR, Commands.HLP_ANIMS_CPR)]
         public void CprCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -822,22 +824,22 @@ namespace WiredPlayers.character
                         player.PlayAnimation("mini@cpr@char_a@cpr_str", "cpr_success", 0);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CPR);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_CPR);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_CAR_SEX, Messages.GEN_ANIMS_CAR_SEX)]
+        [Command(Commands.COM_CAR_SEX, Commands.HLP_ANIMS_CAR_SEX)]
         public void CarSexCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (!player.IsInVehicle)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
             }
             else
             {
@@ -846,7 +848,7 @@ namespace WiredPlayers.character
 
                 if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_CYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_MOTORCYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_BOATS)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_CAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_car);
                 }
                 else
                 {
@@ -855,7 +857,7 @@ namespace WiredPlayers.character
                         case 1:
                             if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                             }
                             else
                             {
@@ -866,7 +868,7 @@ namespace WiredPlayers.character
                         case 2:
                             if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                             }
                             else
                             {
@@ -877,7 +879,7 @@ namespace WiredPlayers.character
                         case 3:
                             if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_passenger);
                             }
                             else
                             {
@@ -888,7 +890,7 @@ namespace WiredPlayers.character
                         case 4:
                             if (player.VehicleSeat != (int)VehicleSeat.Driver)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                             }
                             else
                             {
@@ -899,7 +901,7 @@ namespace WiredPlayers.character
                         case 5:
                             if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_passenger);
                             }
                             else
                             {
@@ -910,7 +912,7 @@ namespace WiredPlayers.character
                         case 6:
                             if (player.VehicleSeat != (int)VehicleSeat.RightFront)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_passenger);
                             }
                             else
                             {
@@ -919,19 +921,19 @@ namespace WiredPlayers.character
                             }
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CAR_SEX);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_CAR_SEX);
                             break;
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_SEXY_DANCE, Messages.GEN_ANIMS_SEXY_DANCE)]
+        [Command(Commands.COM_SEXY_DANCE, Commands.HLP_ANIMS_SEXY_DANCE)]
         public void SexyDanceCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -962,18 +964,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("mini@hookers_spvanilla", "idle_b", 0);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SEXY_DANCE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SEXY_DANCE);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_SIT, Messages.GEN_ANIMS_SIT)]
+        [Command(Commands.COM_SIT, Commands.HLP_ANIMS_SIT)]
         public void SitCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1024,18 +1026,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("rcm_barry3", "barry_3_sit_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SIT);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SIT);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_SMOKE, Messages.GEN_ANIMS_SMOKING)]
+        [Command(Commands.COM_SMOKE, Commands.HLP_ANIMS_SMOKING)]
         public void SmokeCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1054,18 +1056,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("mini@hookers_spfrench", "idle_wait", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_SMOKING);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_SMOKING);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_LIE_DOWN, Messages.GEN_ANIMS_LIE_DOWN)]
+        [Command(Commands.COM_LIE_DOWN, Commands.HLP_ANIMS_LIE_DOWN)]
         public void LieDownCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1096,18 +1098,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("missfra0_chop_fchase", "ballasog_rollthroughtraincar_ig6_loop", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_LIE_DOWN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_LIE_DOWN);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_ARMS, Messages.GEN_ANIMS_ARMS)]
+        [Command(Commands.COM_ARMS, Commands.HLP_ANIMS_ARMS)]
         public void ArmsCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1130,18 +1132,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("mini@hookers_sp", "idle_reject", (int)(Constants.AnimationFlags.AllowPlayerControl | Constants.AnimationFlags.OnlyAnimateUpperBody));
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_ARMS);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_ARMS);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_GUARD, Messages.GEN_ANIMS_GUARD)]
+        [Command(Commands.COM_GUARD, Commands.HLP_ANIMS_GUARD)]
         public void GuardCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1164,18 +1166,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("missbigscore1", "idle_e", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_GUARD);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_GUARD);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_DEAD, Messages.GEN_ANIMS_DEAD)]
+        [Command(Commands.COM_DEAD, Commands.HLP_ANIMS_DEAD)]
         public void DeadCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1202,18 +1204,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("missfra2", "lamar_base_idle", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_DEAD);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_DEAD);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_IDLE, Messages.GEN_ANIMS_IDLE)]
+        [Command(Commands.COM_IDLE, Commands.HLP_ANIMS_IDLE)]
         public void IdleCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1256,18 +1258,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_cop_idles@male@idle_b", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_IDLE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_IDLE);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PHONE, Messages.GEN_ANIMS_TLF)]
+        [Command(Commands.COM_PHONE, Commands.HLP_ANIMS_TLF)]
         public void PhoneCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1294,18 +1296,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_mobile_film_shocking@female@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_TLF);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_TLF);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_LEAN, Messages.GEN_ANIMS_LEAN)]
+        [Command(Commands.COM_LEAN, Commands.HLP_ANIMS_LEAN)]
         public void LeanCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1360,18 +1362,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("misscarsteal1car_1_ext_leadin", "base_driver1", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_LEAN);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_LEAN);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_CHEER, Messages.GEN_ANIMS_CHEER)]
+        [Command(Commands.COM_CHEER, Commands.HLP_ANIMS_CHEER)]
         public void CheerCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1406,18 +1408,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_cheering@male_e", "base", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_CHEER);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_CHEER);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_DANCE, Messages.GEN_ANIMS_DANCE)]
+        [Command(Commands.COM_DANCE, Commands.HLP_ANIMS_DANCE)]
         public void DanceCommand(Client player, int action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1448,18 +1450,18 @@ namespace WiredPlayers.character
                         player.PlayAnimation("amb@world_human_partying@female@partying_beer@idle_a", "idle_a", (int)Constants.AnimationFlags.Loop);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_ANIMS_DANCE);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_ANIMS_DANCE);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PISS)]
+        [Command(Commands.COM_PISS)]
         public void PissCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1468,12 +1470,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_APLAUSE)]
+        [Command(Commands.COM_APLAUSE)]
         public void AplauseCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1482,12 +1484,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_DRUNK)]
+        [Command(Commands.COM_DRUNK)]
         public void DrunkCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1496,12 +1498,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_SHRUG)]
+        [Command(Commands.COM_SHRUG)]
         public void ShrugCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1510,12 +1512,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_DESPERATE)]
+        [Command(Commands.COM_DESPERATE)]
         public void DesperateCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1524,12 +1526,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_PENSIVE)]
+        [Command(Commands.COM_PENSIVE)]
         public void PensiveCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1538,12 +1540,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_HANDS_HEAT)]
+        [Command(Commands.COM_HANDS_HEAT)]
         public void HandsHeatCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1552,12 +1554,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_ROCK)]
+        [Command(Commands.COM_ROCK)]
         public void RockCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1566,12 +1568,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_INJURED)]
+        [Command(Commands.COM_INJURED)]
         public void InjuredCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -1580,12 +1582,12 @@ namespace WiredPlayers.character
             }
         }
 
-        [Command(Messages.COM_STUMBLE)]
+        [Command(Commands.COM_STUMBLE)]
         public void StumbleCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {

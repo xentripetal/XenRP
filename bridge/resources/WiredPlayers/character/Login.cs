@@ -4,6 +4,8 @@ using WiredPlayers.database;
 using WiredPlayers.globals;
 using System.Threading.Tasks;
 using System;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.character
 {
@@ -122,8 +124,8 @@ namespace WiredPlayers.character
                 switch (account.status)
                 {
                     case -1:
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ACCOUNT_DISABLED);
-                        player.Kick(Messages.INF_ACCOUNT_DISABLED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.account_disabled);
+                        player.Kick(InfoRes.account_disabled);
                         break;
                     case 0:
                         // Show the register window
@@ -131,11 +133,11 @@ namespace WiredPlayers.character
                         break;
                     default:
                         // Welcome message
-                        string welcomeMessage = string.Format(Messages.GEN_WELCOME_MESSAGE, player.SocialClubName);
+                        string welcomeMessage = string.Format(GenRes.welcome_message, player.SocialClubName);
                         player.SendChatMessage(welcomeMessage);
-                        player.SendChatMessage(Messages.GEN_WELCOME_HINT);
-                        player.SendChatMessage(Messages.GEN_HELP_HINT);
-                        player.SendChatMessage(Messages.GEN_TICKET_HINT);
+                        player.SendChatMessage(GenRes.welcome_hint);
+                        player.SendChatMessage(GenRes.help_hint);
+                        player.SendChatMessage(GenRes.ticket_hint);
 
                         if (account.lastCharacter > 0)
                         {

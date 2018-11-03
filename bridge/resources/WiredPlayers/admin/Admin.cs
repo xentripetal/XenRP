@@ -12,6 +12,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.administration;
+using WiredPlayers.messages.success;
 
 namespace WiredPlayers.admin
 {
@@ -42,16 +47,16 @@ namespace WiredPlayers.admin
 
         private void SendHouseInfo(Client player, HouseModel house)
         {
-            string title = string.Format(Messages.GEN_HOUSE_CHECK_TITLE, house.id);
+            string title = string.Format(GenRes.house_check_title, house.id);
             player.SendChatMessage(title);
-            player.SendChatMessage(Messages.GEN_NAME + house.name);
-            player.SendChatMessage(Messages.GEN_IPL + house.ipl);
-            player.SendChatMessage(Messages.GEN_OWNER + house.owner);
-            player.SendChatMessage(Messages.GEN_PRICE + house.price);
-            player.SendChatMessage(Messages.GEN_STATUS + house.status);
+            player.SendChatMessage(GenRes.name + house.name);
+            player.SendChatMessage(GenRes.ipl + house.ipl);
+            player.SendChatMessage(GenRes.owner + house.owner);
+            player.SendChatMessage(GenRes.price + house.price);
+            player.SendChatMessage(GenRes.status + house.status);
         }
 
-        [Command(Messages.COM_SKIN, Messages.GEN_SKIN_COMMAND)]
+        [Command(Commands.COM_SKIN, Commands.HLP_SKIN_COMMAND)]
         public void SkinCommand(Client player, string pedModel)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -61,7 +66,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_ADMIN, Messages.GEN_ADMIN_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_ADMIN, Commands.HLP_ADMIN_COMMAND, GreedyArg = true)]
         public void AdminCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -77,7 +82,7 @@ namespace WiredPlayers.admin
                 }
 
                 // We send the message to all the players in the server
-                NAPI.Chat.SendChatMessageToAll(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + Messages.GEN_ADMIN_NOTICE + message + "..." : Constants.COLOR_ADMIN_INFO + Messages.GEN_ADMIN_NOTICE + message);
+                NAPI.Chat.SendChatMessageToAll(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + GenRes.admin_notice + message + "..." : Constants.COLOR_ADMIN_INFO + GenRes.admin_notice + message);
                 if (secondMessage.Length > 0)
                 {
                     NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + secondMessage);
@@ -85,7 +90,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_COORD, Messages.GEN_COORD_COMMAND)]
+        [Command(Commands.COM_COORD, Commands.HLP_COORD_COMMAND)]
         public void CoordCommand(Client player, float posX, float posY, float posZ)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -97,7 +102,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_TP, Messages.GEN_TP_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_TP, Commands.HLP_TP_COMMAND, GreedyArg = true)]
         public void TpCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -107,7 +112,7 @@ namespace WiredPlayers.admin
 
                 if (target != null)
                 {
-                    string message = string.Format(Messages.ADM_GOTO_PLAYER, target.Name);
+                    string message = string.Format(AdminRes.goto_player, target.Name);
 
                     // We get interior variables from the target player
                     int targetHouse = target.GetData(EntityData.PLAYER_HOUSE_ENTERED);
@@ -124,12 +129,12 @@ namespace WiredPlayers.admin
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_BRING, Messages.GEN_BRING_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_BRING, Commands.HLP_BRING_COMMAND, GreedyArg = true)]
         public void BringCommand(Client player, string targetString)
         {
 
@@ -140,7 +145,7 @@ namespace WiredPlayers.admin
 
                 if (target != null)
                 {
-                    string message = string.Format(Messages.ADM_BRING_PLAYER, player.SocialClubName);
+                    string message = string.Format(AdminRes.bring_player, player.SocialClubName);
 
                     // We get interior variables from the player
                     int playerHouse = player.GetData(EntityData.PLAYER_HOUSE_ENTERED);
@@ -157,12 +162,12 @@ namespace WiredPlayers.admin
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_GUN, Messages.GEN_GUN_COMMAND)]
+        [Command(Commands.COM_GUN, Commands.HLP_GUN_COMMAND)]
         public void GunCommand(Client player, string targetString, string weaponName, int ammo)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
@@ -175,7 +180,7 @@ namespace WiredPlayers.admin
                     WeaponHash weapon = NAPI.Util.WeaponNameToModel(weaponName);
                     if (weapon == 0)
                     {
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_GUN_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_GUN_COMMAND);
                     }
                     else
                     {
@@ -185,12 +190,12 @@ namespace WiredPlayers.admin
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_VEHICLE, Messages.GEN_VEHICLE_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_VEHICLE, Commands.HLP_VEHICLE_COMMAND, GreedyArg = true)]
         public void VehicleCommand(Client player, string args)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -203,28 +208,28 @@ namespace WiredPlayers.admin
                     string[] arguments = args.Split(' ');
                     switch (arguments[0].ToLower())
                     {
-                        case Messages.ARG_INFO:
+                        case Commands.ARG_INFO:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 veh = Globals.GetClosestVehicle(player);
                                 if (veh == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                                 }
                                 else
                                 {
                                     vehicleId = veh.GetData(EntityData.VEHICLE_ID);
-                                    string title = string.Format(Messages.GEN_VEHICLE_CHECK_TITLE, vehicleId);
+                                    string title = string.Format(GenRes.vehicle_check_title, vehicleId);
                                     string model = veh.GetData(EntityData.VEHICLE_MODEL);
                                     string owner = veh.GetData(EntityData.VEHICLE_OWNER);
 
                                     player.SendChatMessage(title);
-                                    player.SendChatMessage(Messages.GEN_VEHICLE_MODEL + model);
-                                    player.SendChatMessage(Messages.GEN_OWNER + owner);
+                                    player.SendChatMessage(GenRes.vehicle_model + model);
+                                    player.SendChatMessage(GenRes.owner + owner);
                                 }
                             }
                             break;
-                        case Messages.ARG_CREATE:
+                        case Commands.ARG_CREATE:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
                                 if (arguments.Length == 4)
@@ -257,21 +262,21 @@ namespace WiredPlayers.admin
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_CREATE_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_CREATE_COMMAND);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_CREATE_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_CREATE_COMMAND);
                                 }
                             }
                             break;
-                        case Messages.ARG_MODIFY:
+                        case Commands.ARG_MODIFY:
                             if (arguments.Length > 1)
                             {
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_COLOR:
+                                    case Commands.ARG_COLOR:
                                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             if (arguments.Length == 4)
@@ -279,7 +284,7 @@ namespace WiredPlayers.admin
                                                 veh = Globals.GetClosestVehicle(player);
                                                 if (veh == null)
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                                                 }
                                                 else
                                                 {
@@ -300,22 +305,22 @@ namespace WiredPlayers.admin
                                                         catch (Exception ex)
                                                         {
                                                             NAPI.Util.ConsoleOutput("[EXCEPTION Vehicle modify color] " + ex.Message);
-                                                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_COLOR_COMMAND);
+                                                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_COLOR_COMMAND);
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_COLOR_COMMAND);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_COLOR_COMMAND);
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_COLOR_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_COLOR_COMMAND);
                                             }
                                         }
                                         break;
-                                    case Messages.ARG_DIMENSION:
+                                    case Commands.ARG_DIMENSION:
                                         if (arguments.Length == 4)
                                         {
                                             if (int.TryParse(arguments[2], out vehicleId) == true)
@@ -323,20 +328,21 @@ namespace WiredPlayers.admin
                                                 veh = Vehicles.GetVehicleById(vehicleId);
                                                 if (veh == null)
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                                                 }
                                                 else
                                                 {
                                                     // Obtenemos la dimension
                                                     if (uint.TryParse(arguments[3], out uint dimension) == true)
                                                     {
-                                                        string message = string.Format(Messages.ADM_VEHICLE_DIMENSION_MODIFIED, dimension);
+                                                        string message = string.Format(AdminRes.vehicle_dimension_modified, dimension);
 
                                                         veh.Dimension = dimension;
                                                         vehicleId = veh.GetData(EntityData.VEHICLE_ID);
                                                         veh.SetData(EntityData.VEHICLE_DIMENSION, dimension);
 
-                                                        Task.Factory.StartNew(() => {
+                                                        Task.Factory.StartNew(() =>
+                                                        {
                                                             // Update the vehicle's dimension into the database
                                                             Database.UpdateVehicleSingleValue("dimension", Convert.ToInt32(dimension), vehicleId);
                                                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
@@ -344,21 +350,21 @@ namespace WiredPlayers.admin
                                                     }
                                                     else
                                                     {
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_DIMENSION_COMMAND);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_DIMENSION_COMMAND);
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_DIMENSION_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_DIMENSION_COMMAND);
                                             }
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_DIMENSION_COMMAND);
+                                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_DIMENSION_COMMAND);
                                         }
                                         break;
-                                    case Messages.ARG_FACTION:
+                                    case Commands.ARG_FACTION:
                                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
 
@@ -367,18 +373,19 @@ namespace WiredPlayers.admin
                                                 veh = Globals.GetClosestVehicle(player);
                                                 if (veh == null)
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                                                 }
                                                 else
                                                 {
                                                     // Obtenemos la facción
                                                     if (int.TryParse(arguments[2], out int faction) == true)
                                                     {
-                                                        string message = string.Format(Messages.ADM_VEHICLE_FACTION_MODIFIED, faction);
+                                                        string message = string.Format(AdminRes.vehicle_faction_modified, faction);
                                                         vehicleId = veh.GetData(EntityData.VEHICLE_ID);
                                                         veh.SetData(EntityData.VEHICLE_FACTION, faction);
 
-                                                        Task.Factory.StartNew(() => {
+                                                        Task.Factory.StartNew(() =>
+                                                        {
                                                             // Update the vehicle's faction into the database
                                                             Database.UpdateVehicleSingleValue("faction", faction, vehicleId);
                                                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
@@ -386,17 +393,17 @@ namespace WiredPlayers.admin
                                                     }
                                                     else
                                                     {
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_FACTION_COMMAND);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_FACTION_COMMAND);
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_FACTION_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_FACTION_COMMAND);
                                             }
                                         }
                                         break;
-                                    case Messages.ARG_POSITION:
+                                    case Commands.ARG_POSITION:
                                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             if (player.IsInVehicle)
@@ -407,19 +414,20 @@ namespace WiredPlayers.admin
                                                 player.Vehicle.SetData(EntityData.VEHICLE_POSITION, vehicle.position);
                                                 player.Vehicle.SetData(EntityData.VEHICLE_ROTATION, vehicle.rotation);
 
-                                                Task.Factory.StartNew(() => {
+                                                Task.Factory.StartNew(() =>
+                                                {
                                                     // Update the vehicle's position into the database
                                                     Database.UpdateVehiclePosition(vehicle);
-                                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_VEHICLE_POS_UPDATED);
+                                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.vehicle_pos_updated);
                                                 });
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
                                             }
                                         }
                                         break;
-                                    case Messages.ARG_OWNER:
+                                    case Commands.ARG_OWNER:
                                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             if (arguments.Length == 4)
@@ -427,16 +435,17 @@ namespace WiredPlayers.admin
                                                 veh = Globals.GetClosestVehicle(player);
                                                 if (veh == null)
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                                                 }
                                                 else
                                                 {
                                                     string owner = arguments[2] + " " + arguments[3];
-                                                    string message = string.Format(Messages.ADM_VEHICLE_OWNER_MODIFIED, owner);
+                                                    string message = string.Format(AdminRes.vehicle_owner_modified, owner);
                                                     vehicleId = veh.GetData(EntityData.VEHICLE_ID);
                                                     veh.SetData(EntityData.VEHICLE_OWNER, owner);
 
-                                                    Task.Factory.StartNew(() => {
+                                                    Task.Factory.StartNew(() =>
+                                                    {
                                                         // Update the vehicle's owner into the database
                                                         Database.UpdateVehicleSingleString("owner", owner, vehicleId);
                                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
@@ -445,21 +454,21 @@ namespace WiredPlayers.admin
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_OWNER_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_VEHICLE_OWNER_COMMAND);
                                             }
                                         }
                                         break;
                                     default:
-                                        player.SendChatMessage(Messages.GEN_VEHICLE_MODIFY_COMMAND);
+                                        player.SendChatMessage(Commands.HLP_VEHICLE_MODIFY_COMMAND);
                                         break;
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Messages.GEN_VEHICLE_MODIFY_COMMAND);
+                                player.SendChatMessage(Commands.HLP_VEHICLE_MODIFY_COMMAND);
                             }
                             break;
-                        case Messages.ARG_REMOVE:
+                        case Commands.ARG_REMOVE:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
                                 if (arguments.Length == 2 && int.TryParse(arguments[1], out vehicleId) == true)
@@ -467,7 +476,8 @@ namespace WiredPlayers.admin
                                     veh = Vehicles.GetVehicleById(vehicleId);
                                     if (veh != null)
                                     {
-                                        Task.Factory.StartNew(() => {
+                                        Task.Factory.StartNew(() =>
+                                        {
                                             NAPI.Task.Run(() =>
                                             {
                                                 // Remove the vehicle
@@ -479,38 +489,33 @@ namespace WiredPlayers.admin
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Messages.GEN_VEHICLE_DELETE_COMMAND);
+                                    player.SendChatMessage(Commands.HLP_VEHICLE_DELETE_COMMAND);
                                 }
                             }
                             break;
-                        case Messages.ARG_REPAIR:
+                        case Commands.ARG_REPAIR:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
                                 player.Vehicle.Repair();
-                                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_VEHICLE_REPAIRED);
+                                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.vehicle_repaired);
                             }
                             break;
-                        case Messages.ARG_LOCK:
+                        case Commands.ARG_LOCK:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 veh = Globals.GetClosestVehicle(player);
                                 if (veh == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
-                                }
-                                else if (veh.Locked)
-                                {
-                                    veh.Locked = false;
-                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.SUC_VEH_UNLOCKED);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                                 }
                                 else
                                 {
-                                    veh.Locked = true;
-                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.SUC_VEH_LOCKED);
+                                    veh.Locked = !veh.Locked;
+                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + (veh.Locked ? SuccRes.veh_locked : SuccRes.veh_unlocked));
                                 }
                             }
                             break;
-                        case Messages.ARG_START:
+                        case Commands.ARG_START:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 if (player.VehicleSeat == (int)VehicleSeat.Driver)
@@ -519,11 +524,11 @@ namespace WiredPlayers.admin
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                                 }
                             }
                             break;
-                        case Messages.ARG_BRING:
+                        case Commands.ARG_BRING:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 if (arguments.Length == 2 && int.TryParse(arguments[1], out vehicleId) == true)
@@ -536,21 +541,21 @@ namespace WiredPlayers.admin
                                         veh.SetData(EntityData.VEHICLE_POSITION, veh.Position);
 
                                         // Send the message to the player
-                                        string message = string.Format(Messages.ADM_VEHICLE_BRING, vehicleId);
+                                        string message = string.Format(AdminRes.vehicle_bring, vehicleId);
                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Messages.GEN_VEHICLE_BRING_COMMAND);
+                                    player.SendChatMessage(Commands.HLP_VEHICLE_BRING_COMMAND);
                                 }
                             }
                             break;
-                        case Messages.ARG_TP:
+                        case Commands.ARG_TP:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 if (arguments.Length == 2 && int.TryParse(arguments[1], out vehicleId) == true)
@@ -562,7 +567,7 @@ namespace WiredPlayers.admin
 
                                         if (vehModel == null)
                                         {
-                                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                                         }
                                         else
                                         {
@@ -571,7 +576,7 @@ namespace WiredPlayers.admin
                                             player.Position = parking.position;
 
                                             // Send the message to the player
-                                            string message = string.Format(Messages.ADM_VEHICLE_GOTO, vehicleId);
+                                            string message = string.Format(AdminRes.vehicle_goto, vehicleId);
                                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                         }
                                     }
@@ -581,109 +586,109 @@ namespace WiredPlayers.admin
                                         player.Position = veh.Position;
 
                                         // Send the message to the player
-                                        string message = string.Format(Messages.ADM_VEHICLE_GOTO, vehicleId);
+                                        string message = string.Format(AdminRes.vehicle_goto, vehicleId);
                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Messages.GEN_VEHICLE_GOTO_COMMAND);
+                                    player.SendChatMessage(Commands.HLP_VEHICLE_GOTO_COMMAND);
                                 }
                             }
                             break;
                         default:
-                            player.SendChatMessage(Messages.GEN_VEHICLE_COMMAND);
+                            player.SendChatMessage(Commands.HLP_VEHICLE_COMMAND);
                             break;
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_GO, Messages.GEN_GO_COMMAND)]
+        [Command(Commands.COM_GO, Commands.HLP_GO_COMMAND)]
         public void GoCommand(Client player, string location)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
                 switch (location.ToLower())
                 {
-                    case Messages.ARG_WORKSHOP:
+                    case Commands.ARG_WORKSHOP:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1204.13f, -1489.49f, 4.34967f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_ELECTRONICS:
+                    case Commands.ARG_ELECTRONICS:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1148.98f, -1608.94f, 4.41592f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_POLICE:
+                    case Commands.ARG_POLICE:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1111.952f, -824.9194f, 19.31578f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_TOWNHALL:
+                    case Commands.ARG_TOWNHALL:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1285.544f, -567.0439f, 31.71239f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_LICENSE:
+                    case Commands.ARG_LICENSE:
                         player.Dimension = 0;
                         player.Position = new Vector3(-70f, -1100f, 28f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_VANILLA:
+                    case Commands.ARG_VANILLA:
                         player.Dimension = 0;
                         player.Position = new Vector3(120f, -1400f, 30f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_HOSPITAL:
+                    case Commands.ARG_HOSPITAL:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1385.481f, -976.4036f, 9.273162f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_NEWS:
+                    case Commands.ARG_NEWS:
                         player.Dimension = 0;
                         player.Position = new Vector3(-600f, -950f, 25f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_BAHAMA:
+                    case Commands.ARG_BAHAMA:
                         player.Dimension = 0;
                         player.Position = new Vector3(-1400f, -590f, 30f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_MECHANIC:
+                    case Commands.ARG_MECHANIC:
                         player.Dimension = 0;
                         player.Position = new Vector3(492f, -1300f, 30f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
-                    case Messages.ARG_GARBAGE:
+                    case Commands.ARG_GARBAGE:
                         player.Dimension = 0;
                         player.Position = new Vector3(-320f, -1550f, 30f);
                         player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, 0);
                         player.SetData(EntityData.PLAYER_HOUSE_ENTERED, 0);
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_GO_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_GO_COMMAND);
                         break;
 
                 }
             }
         }
 
-        [Command(Messages.COM_BUSINESS, Messages.GEN_BUSINESS_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_BUSINESS, Commands.HLP_BUSINESS_COMMAND, GreedyArg = true)]
         public void BusinessCommand(Client player, string args)
         {
-            if (HasUserCommandPermission(player, Messages.COM_BUSINESS) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+            if (HasUserCommandPermission(player, Commands.COM_BUSINESS) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
                 if (args.Trim().Length > 0)
                 {
@@ -692,10 +697,10 @@ namespace WiredPlayers.admin
                     string message = string.Empty;
                     switch (arguments[0].ToLower())
                     {
-                        case Messages.ARG_INFO:
+                        case Commands.ARG_INFO:
                             break;
-                        case Messages.ARG_CREATE:
-                            if (HasUserCommandPermission(player, Messages.COM_BUSINESS, Messages.ARG_CREATE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
+                        case Commands.ARG_CREATE:
+                            if (HasUserCommandPermission(player, Commands.COM_BUSINESS, Commands.ARG_CREATE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
                                 if (arguments.Length == 2)
                                 {
@@ -709,13 +714,14 @@ namespace WiredPlayers.admin
                                         business.multiplier = 3.0f;
                                         business.owner = string.Empty;
                                         business.locked = false;
-                                        business.name = Messages.GEN_BUSINESS;
+                                        business.name = GenRes.business;
 
-                                        Task.Factory.StartNew(() => {
+                                        Task.Factory.StartNew(() =>
+                                        {
                                             NAPI.Task.Run(() =>
                                             {
                                                 // Get the id from the business
-                                                business.id = Database.AddNewBusiness(business); 
+                                                business.id = Database.AddNewBusiness(business);
                                                 business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name, business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, business.dimension);
                                                 Business.businessList.Add(business);
                                             });
@@ -723,23 +729,23 @@ namespace WiredPlayers.admin
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_COMMAND);
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_COMMAND);
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
                                 }
                             }
                             break;
-                        case Messages.ARG_MODIFY:
-                            if (HasUserCommandPermission(player, Messages.COM_BUSINESS, Messages.ARG_MODIFY) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+                        case Commands.ARG_MODIFY:
+                            if (HasUserCommandPermission(player, Commands.COM_BUSINESS, Commands.ARG_MODIFY) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                             {
                                 business = Business.GetClosestBusiness(player);
                                 if (business != null)
@@ -748,16 +754,17 @@ namespace WiredPlayers.admin
                                     {
                                         switch (arguments[1].ToLower())
                                         {
-                                            case Messages.ARG_NAME:
+                                            case Commands.ARG_NAME:
                                                 if (arguments.Length > 2)
                                                 {
                                                     // We change business name
                                                     string businessName = string.Join(" ", arguments.Skip(2));
                                                     business.name = businessName;
                                                     business.businessLabel.Text = businessName;
-                                                    message = string.Format(Messages.ADM_BUSINESS_NAME_MODIFIED, businessName);
+                                                    message = string.Format(AdminRes.business_name_modified, businessName);
 
-                                                    Task.Factory.StartNew(() => {
+                                                    Task.Factory.StartNew(() =>
+                                                    {
                                                         // Update the business information
                                                         Database.UpdateBusiness(business);
                                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
@@ -765,10 +772,10 @@ namespace WiredPlayers.admin
                                                 }
                                                 else
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_MODIFY_NAME_COMMAND);
+                                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_MODIFY_NAME_COMMAND);
                                                 }
                                                 break;
-                                            case Messages.ARG_TYPE:
+                                            case Commands.ARG_TYPE:
                                                 if (arguments.Length == 3)
                                                 {
                                                     // We get business type
@@ -777,9 +784,10 @@ namespace WiredPlayers.admin
                                                         // Changing business type
                                                         business.type = businessType;
                                                         business.ipl = Business.GetBusinessTypeIpl(businessType);
-                                                        message = string.Format(Messages.ADM_BUSINESS_TYPE_MODIFIED, businessType);
+                                                        message = string.Format(AdminRes.business_type_modified, businessType);
 
-                                                        Task.Factory.StartNew(() => {
+                                                        Task.Factory.StartNew(() =>
+                                                        {
                                                             // Update the business information
                                                             Database.UpdateBusiness(business);
                                                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
@@ -787,39 +795,40 @@ namespace WiredPlayers.admin
                                                     }
                                                     else
                                                     {
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_MODIFY_TYPE_COMMAND);
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
-                                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_MODIFY_TYPE_COMMAND);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
+                                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_MODIFY_TYPE_COMMAND);
-                                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
-                                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
-                                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
+                                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_MODIFY_TYPE_COMMAND);
+                                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND);
+                                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND2);
+                                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_CREATE_TYPES_FIRST_COMMAND3);
                                                 }
                                                 break;
                                             default:
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_MODIFY_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_MODIFY_COMMAND);
                                                 break;
                                         }
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_MODIFY_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_MODIFY_COMMAND);
                                     }
                                 }
                             }
                             break;
-                        case Messages.ARG_REMOVE:
+                        case Commands.ARG_REMOVE:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
                                 business = Business.GetClosestBusiness(player);
                                 if (business != null)
                                 {
-                                    Task.Factory.StartNew(() => {
+                                    Task.Factory.StartNew(() =>
+                                    {
                                         NAPI.Task.Run(() =>
                                         {
                                             // Delete the business
@@ -832,18 +841,18 @@ namespace WiredPlayers.admin
                             }
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BUSINESS_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_BUSINESS_COMMAND);
                 }
             }
         }
 
-        [Command(Messages.COM_CHARACTER, Messages.GEN_CHARACTER_COMMAND)]
+        [Command(Commands.COM_CHARACTER, Commands.HLP_CHARACTER_COMMAND)]
         public void CharacterCommand(Client player, string action, string name = "", string surname = "", string amount = "")
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -870,78 +879,78 @@ namespace WiredPlayers.admin
                         string message = string.Empty;
                         switch (action.ToLower())
                         {
-                            case Messages.ARG_BANK:
+                            case Commands.ARG_BANK:
                                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                                 {
                                     target.SetSharedData(EntityData.PLAYER_BANK, value);
-                                    message = string.Format(Messages.ADM_PLAYER_BANK_MODIFIED, value, target.Name);
+                                    message = string.Format(AdminRes.player_bank_modified, value, target.Name);
                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 }
                                 break;
-                            case Messages.ARG_MONEY:
+                            case Commands.ARG_MONEY:
                                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                                 {
                                     target.SetSharedData(EntityData.PLAYER_MONEY, value);
-                                    message = string.Format(Messages.ADM_PLAYER_MONEY_MODIFIED, value, target.Name);
+                                    message = string.Format(AdminRes.player_money_modified, value, target.Name);
                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 }
                                 break;
-                            case Messages.ARG_FACTION:
+                            case Commands.ARG_FACTION:
                                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                 {
                                     target.SetData(EntityData.PLAYER_FACTION, value);
-                                    message = string.Format(Messages.ADM_PLAYER_FACTION_MODIFIED, value, target.Name);
+                                    message = string.Format(AdminRes.player_faction_modified, value, target.Name);
                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 }
                                 break;
-                            case Messages.ARG_JOB:
+                            case Commands.ARG_JOB:
                                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                 {
                                     target.SetData(EntityData.PLAYER_JOB, value);
-                                    message = string.Format(Messages.ADM_PLAYER_JOB_MODIFIED, value, target.Name);
+                                    message = string.Format(AdminRes.player_job_modified, value, target.Name);
                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 }
                                 break;
-                            case Messages.ARG_RANK:
+                            case Commands.ARG_RANK:
                                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                 {
                                     target.SetData(EntityData.PLAYER_RANK, value);
-                                    message = string.Format(Messages.ADM_PLAYER_RANK_MODIFIED, value, target.Name);
+                                    message = string.Format(AdminRes.player_rank_modified, value, target.Name);
                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 }
                                 break;
-                            case Messages.ARG_DIMENSION:
+                            case Commands.ARG_DIMENSION:
                                 target.Dimension = Convert.ToUInt32(value);
-                                message = string.Format(Messages.ADM_PLAYER_DIMENSION_MODIFIED, value, target.Name);
+                                message = string.Format(AdminRes.player_dimension_modified, value, target.Name);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                 break;
                             default:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_CHARACTER_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_CHARACTER_COMMAND);
                                 break;
                         }
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_CHARACTER_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_CHARACTER_COMMAND);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_HOUSE, Messages.GEN_HOUSE_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_HOUSE, Commands.HLP_HOUSE_COMMAND, GreedyArg = true)]
         public void HouseCommand(Client player, string args)
         {
-            if (HasUserCommandPermission(player, Messages.COM_HOUSE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+            if (HasUserCommandPermission(player, Commands.COM_HOUSE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
                 HouseModel house = House.GetClosestHouse(player);
                 string[] arguments = args.Split(' ');
                 switch (arguments[0].ToLower())
                 {
-                    case Messages.ARG_INFO:
+                    case Commands.ARG_INFO:
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                         {
                             // We get house identifier
@@ -954,7 +963,7 @@ namespace WiredPlayers.admin
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_EXISTS);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_exists);
                                 }
                             }
                             else if (arguments.Length == 1)
@@ -963,17 +972,17 @@ namespace WiredPlayers.admin
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_HOUSE_INFO_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_HOUSE_INFO_COMMAND);
                             }
                         }
                         break;
-                    case Messages.ARG_CREATE:
-                        if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_CREATE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
+                    case Commands.ARG_CREATE:
+                        if (HasUserCommandPermission(player, Commands.COM_HOUSE, Commands.ARG_CREATE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                         {
                             string houseLabel = string.Empty;
                             house = new HouseModel();
                             house.ipl = Constants.HOUSE_IPL_LIST[0].ipl;
-                            house.name = Messages.GEN_HOUSE;
+                            house.name = GenRes.house;
                             house.position = player.Position;
                             house.dimension = player.Dimension;
                             house.price = 10000;
@@ -983,7 +992,8 @@ namespace WiredPlayers.admin
                             house.rental = 0;
                             house.locked = true;
 
-                            Task.Factory.StartNew(() => {
+                            Task.Factory.StartNew(() =>
+                            {
                                 NAPI.Task.Run(() =>
                                 {
                                     // Add a new house
@@ -992,12 +1002,12 @@ namespace WiredPlayers.admin
                                     House.houseList.Add(house);
 
                                     // Send the confirmation message
-                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_CREATED);
+                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.house_created);
                                 });
                             });
                         }
                         break;
-                    case Messages.ARG_MODIFY:
+                    case Commands.ARG_MODIFY:
                         if (arguments.Length > 2)
                         {
                             string message = string.Empty;
@@ -1007,31 +1017,32 @@ namespace WiredPlayers.admin
                                 // Numeric modifications
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_INTERIOR:
-                                        if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_INTERIOR) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+                                    case Commands.ARG_INTERIOR:
+                                        if (HasUserCommandPermission(player, Commands.COM_HOUSE, Commands.ARG_INTERIOR) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             if (value >= 0 && value < Constants.HOUSE_IPL_LIST.Count)
                                             {
                                                 house.ipl = Constants.HOUSE_IPL_LIST[value].ipl;
 
-                                                Task.Factory.StartNew(() => {
+                                                Task.Factory.StartNew(() =>
+                                                {
                                                     // Update the house's information
                                                     Database.UpdateHouse(house);
 
                                                     // Confirmation message sent to the player
-                                                    message = string.Format(Messages.ADM_HOUSE_INTERIOR_MODIFIED, value);
+                                                    message = string.Format(AdminRes.house_interior_modified, value);
                                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                                 });
                                             }
                                             else
                                             {
-                                                message = string.Format(Messages.ERR_HOUSE_INTERIOR_MODIFY, Constants.HOUSE_IPL_LIST.Count - 1);
+                                                message = string.Format(ErrRes.house_interior_modify, Constants.HOUSE_IPL_LIST.Count - 1);
                                                 player.SendChatMessage(Constants.COLOR_ERROR + message);
                                             }
                                         }
                                         break;
-                                    case Messages.ARG_PRICE:
-                                        if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_PRICE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+                                    case Commands.ARG_PRICE:
+                                        if (HasUserCommandPermission(player, Commands.COM_HOUSE, Commands.ARG_PRICE) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             if (value > 0)
                                             {
@@ -1039,64 +1050,67 @@ namespace WiredPlayers.admin
                                                 house.status = Constants.HOUSE_STATE_BUYABLE;
                                                 house.houseLabel.Text = House.GetHouseLabelText(house);
 
-                                                Task.Factory.StartNew(() => {
+                                                Task.Factory.StartNew(() =>
+                                                {
                                                     // Update the house's information
                                                     Database.UpdateHouse(house);
 
                                                     // Confirmation message sent to the player
-                                                    message = string.Format(Messages.ADM_HOUSE_PRICE_MODIFIED, value);
+                                                    message = string.Format(AdminRes.house_price_modified, value);
                                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                                 });
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_PRICE_MODIFY);
+                                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_price_modify);
                                             }
                                         }
                                         break;
-                                    case Messages.ARG_STATE:
+                                    case Commands.ARG_STATE:
                                         if (value >= 0 && value < 3)
                                         {
                                             house.status = value;
                                             house.houseLabel.Text = House.GetHouseLabelText(house);
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the house's information
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(Messages.ADM_HOUSE_STATUS_MODIFIED, value);
+                                                message = string.Format(AdminRes.house_status_modified, value);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_STATUS_MODIFY);
+                                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_status_modify);
                                         }
                                         break;
-                                    case Messages.ARG_RENT:
+                                    case Commands.ARG_RENT:
                                         if (value > 0)
                                         {
                                             house.rental = value;
                                             house.status = Constants.HOUSE_STATE_RENTABLE;
                                             house.houseLabel.Text = House.GetHouseLabelText(house);
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the house's information
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(Messages.ADM_HOUSE_RENTAL_MODIFIED, value);
+                                                message = string.Format(AdminRes.house_rental_modified, value);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_RENTAL_MODIFY);
+                                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_rental_modify);
                                         }
                                         break;
                                     default:
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSE_MODIFY_INT_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_HOUSE_MODIFY_INT_COMMAND);
                                         break;
                                 }
                             }
@@ -1111,39 +1125,41 @@ namespace WiredPlayers.admin
                                 // Text based modifications
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_OWNER:
-                                        if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_OWNER) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+                                    case Commands.ARG_OWNER:
+                                        if (HasUserCommandPermission(player, Commands.COM_HOUSE, Commands.ARG_OWNER) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             house.owner = name.Trim();
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the house's information
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(Messages.ADM_HOUSE_OWNER_MODIFIED, value);
+                                                message = string.Format(AdminRes.house_owner_modified, value);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         break;
-                                    case Messages.ARG_NAME:
-                                        if (HasUserCommandPermission(player, Messages.COM_HOUSE, Messages.ARG_NAME) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
+                                    case Commands.ARG_NAME:
+                                        if (HasUserCommandPermission(player, Commands.COM_HOUSE, Commands.ARG_NAME) || player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                                         {
                                             house.name = name.Trim();
                                             house.houseLabel.Text = House.GetHouseLabelText(house);
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the house's information
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(Messages.ADM_HOUSE_NAME_MODIFIED, value);
+                                                message = string.Format(AdminRes.house_name_modified, value);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         break;
                                     default:
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSE_MODIFY_String_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_HOUSE_MODIFY_String_COMMAND);
                                         break;
 
                                 }
@@ -1151,15 +1167,16 @@ namespace WiredPlayers.admin
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSE_MODIFY_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_HOUSE_MODIFY_COMMAND);
                         }
                         break;
-                    case Messages.ARG_REMOVE:
+                    case Commands.ARG_REMOVE:
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                         {
                             if (house != null)
                             {
-                                Task.Factory.StartNew(() => {
+                                Task.Factory.StartNew(() =>
+                                {
                                     NAPI.Task.Run(() =>
                                     {
                                         // Remove the house
@@ -1167,17 +1184,17 @@ namespace WiredPlayers.admin
                                         Database.DeleteHouse(house.id);
                                         House.houseList.Remove(house);
 
-                                        player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_HOUSE_DELETED);
+                                        player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.house_deleted);
                                     });
                                 });
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_HOUSE_NEAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_house_near);
                             }
                         }
                         break;
-                    case Messages.ARG_TP:
+                    case Commands.ARG_TP:
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
                         {
                             // We get the house
@@ -1191,23 +1208,23 @@ namespace WiredPlayers.admin
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_EXISTS);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_exists);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Messages.GEN_HOUSE_GOTO_COMMAND);
+                                player.SendChatMessage(Commands.HLP_HOUSE_GOTO_COMMAND);
                             }
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSE_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_HOUSE_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PARKING, Messages.GEN_PARKING_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_PARKING, Commands.HLP_PARKING_COMMAND, GreedyArg = true)]
         public void ParkingCommand(Client player, string args)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1216,12 +1233,12 @@ namespace WiredPlayers.admin
                 ParkingModel parking = Parking.GetClosestParking(player);
                 switch (arguments[0].ToLower())
                 {
-                    case Messages.ARG_INFO:
+                    case Commands.ARG_INFO:
                         if (parking != null)
                         {
                             int vehicles = 0;
                             string vehicleList = string.Empty;
-                            string info = string.Format(Messages.ADM_PARKING_INFO, parking.id);
+                            string info = string.Format(AdminRes.parking_info, parking.id);
                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + info);
                             foreach (ParkedCarModel parkedCar in Parking.parkedCars)
                             {
@@ -1231,24 +1248,16 @@ namespace WiredPlayers.admin
                                     vehicles++;
                                 }
                             }
-                            
-                            if (vehicles > 0)
-                            {
-                                // We show all the vehicles in this parking
-                                player.SendChatMessage(Constants.COLOR_HELP + vehicleList);
-                            }
-                            else
-                            {
-                                // There are no vehicles in this parking
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PARKING_EMPTY);
-                            }
+
+                            // We send the message with the vehicles in the parking, if any
+                            player.SendChatMessage(vehicles > 0 ? Constants.COLOR_HELP + vehicleList : Constants.COLOR_INFO + InfoRes.parking_empty);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_near);
                         }
                         break;
-                    case Messages.ARG_CREATE:
+                    case Commands.ARG_CREATE:
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                         {
                             if (arguments.Length == 2)
@@ -1258,7 +1267,7 @@ namespace WiredPlayers.admin
                                 {
                                     if (type < Constants.PARKING_TYPE_PUBLIC || type > Constants.PARKING_TYPE_DEPOSIT)
                                     {
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_CREATE_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_CREATE_COMMAND);
                                     }
                                     else
                                     {
@@ -1266,7 +1275,8 @@ namespace WiredPlayers.admin
                                         parking.type = type;
                                         parking.position = player.Position;
 
-                                        Task.Factory.StartNew(() => {
+                                        Task.Factory.StartNew(() =>
+                                        {
                                             NAPI.Task.Run(() =>
                                             {
                                                 // Create the new parking
@@ -1275,30 +1285,30 @@ namespace WiredPlayers.admin
                                                 Parking.parkingList.Add(parking);
 
                                                 // Send the confirmation message to the player
-                                                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_CREATED);
+                                                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.parking_created);
                                             });
                                         });
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_CREATE_COMMAND);
+                                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_CREATE_COMMAND);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_CREATE_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_CREATE_COMMAND);
                             }
                         }
                         break;
-                    case Messages.ARG_MODIFY:
+                    case Commands.ARG_MODIFY:
                         if (arguments.Length == 3)
                         {
                             if (parking != null)
                             {
                                 switch (arguments[1].ToLower())
                                 {
-                                    case Messages.ARG_HOUSE:
+                                    case Commands.ARG_HOUSE:
                                         if (parking.type == Constants.PARKING_TYPE_GARAGE)
                                         {
                                             // We link the house to this parking
@@ -1306,87 +1316,91 @@ namespace WiredPlayers.admin
                                             {
                                                 parking.houseId = houseId;
 
-                                                Task.Factory.StartNew(() => {
+                                                Task.Factory.StartNew(() =>
+                                                {
                                                     // Update the parking's information
                                                     Database.UpdateParking(parking);
 
                                                     // Confirmation message sent to the player
-                                                    string message = string.Format(Messages.ADM_PARKING_HOUSE_MODIFIED, houseId);
+                                                    string message = string.Format(AdminRes.parking_house_modified, houseId);
                                                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                                 });
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_MODIFY_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_MODIFY_COMMAND);
                                             }
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PARKING_NOT_GARAGE);
+                                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.parking_not_garage);
                                         }
                                         break;
-                                    case Messages.ARG_PLACES:
+                                    case Commands.ARG_PLACES:
                                         int slots = 0;
                                         if (int.TryParse(arguments[2], out slots) == true)
                                         {
                                             parking.capacity = slots;
                                             parking.parkingLabel = NAPI.TextLabel.CreateTextLabel(Parking.GetParkingLabelText(parking.type), parking.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the parking's information
                                                 Database.UpdateParking(parking);
 
                                                 // Confirmation message sent to the player
-                                                string message = string.Format(Messages.ADM_PARKING_SLOTS_MODIFIED, slots);
+                                                string message = string.Format(AdminRes.parking_slots_modified, slots);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_MODIFY_COMMAND);
+                                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_MODIFY_COMMAND);
                                         }
                                         break;
-                                    case Messages.ARG_TYPE:
+                                    case Commands.ARG_TYPE:
                                         int type = 0;
                                         if (int.TryParse(arguments[2], out type) == true)
                                         {
                                             parking.type = type;
 
-                                            Task.Factory.StartNew(() => {
+                                            Task.Factory.StartNew(() =>
+                                            {
                                                 // Update the parking's information
                                                 Database.UpdateParking(parking);
 
                                                 // Confirmation message sent to the player
-                                                string message = string.Format(Messages.ADM_PARKING_TYPE_MODIFIED, type);
+                                                string message = string.Format(AdminRes.parking_type_modified, type);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
                                         else
                                         {
-                                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_MODIFY_COMMAND);
+                                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_MODIFY_COMMAND);
                                         }
                                         break;
                                     default:
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_MODIFY_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_MODIFY_COMMAND);
                                         break;
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_near);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_MODIFY_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_MODIFY_COMMAND);
                         }
                         break;
-                    case Messages.ARG_REMOVE:
+                    case Commands.ARG_REMOVE:
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                         {
                             if (parking != null)
                             {
-                                Task.Factory.StartNew(() => {
+                                Task.Factory.StartNew(() =>
+                                {
                                     NAPI.Task.Run(() =>
                                     {
                                         // Update the parking's information
@@ -1395,24 +1409,24 @@ namespace WiredPlayers.admin
                                         Parking.parkingList.Remove(parking);
 
                                         // Confirmation message sent to the player
-                                        player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_PARKING_DELETED);
+                                        player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.parking_deleted);
                                     });
                                 });
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_near);
                             }
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PARKING_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_PARKING_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_POS)]
+        [Command(Commands.COM_POS)]
         public void PosCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1422,7 +1436,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_REVIVE, Messages.GEN_REVIVE_COMMAND)]
+        [Command(Commands.COM_REVIVE, Commands.HLP_REVIVE_COMMAND)]
         public void ReviveCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1435,43 +1449,43 @@ namespace WiredPlayers.admin
                     if (target.GetData(EntityData.PLAYER_KILLED) != 0)
                     {
                         Emergency.CancelPlayerDeath(target);
-                        string playerMessage = string.Format(Messages.ADM_PLAYER_REVIVED, target.Name);
-                        string targetMessage = string.Format(Messages.SUC_ADMIN_REVIVED, player.SocialClubName);
+                        string playerMessage = string.Format(AdminRes.player_revived, target.Name);
+                        string targetMessage = string.Format(SuccRes.admin_revived, player.SocialClubName);
                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
                         target.SendChatMessage(Constants.COLOR_SUCCESS + targetMessage);
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DEAD);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_dead);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_WEATHER, Messages.GEN_WEATHER_COMMAND)]
+        [Command(Commands.COM_WEATHER, Commands.HLP_WEATHER_COMMAND)]
         public void WeatherCommand(Client player, int weather)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
                 if (weather < 0 || weather > 13)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WEATHER_VALUE_INVALID);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.weather_value_invalid);
                 }
                 else
                 {
                     NAPI.World.SetWeather(weather.ToString());
 
-                    string message = string.Format(Messages.ADM_WEATHER_CHANGED, player.Name, weather);
+                    string message = string.Format(AdminRes.weather_changed, player.Name, weather);
                     NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
                 }
             }
         }
 
-        [Command(Messages.COM_JAIL, Messages.GEN_JAIL_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_JAIL, Commands.HLP_JAIL_COMMAND, GreedyArg = true)]
         public void JailCommand(Client player, string args)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1493,7 +1507,7 @@ namespace WiredPlayers.admin
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JAIL_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_JAIL_COMMAND);
                         }
                     }
                     else if (arguments.Length > 3)
@@ -1505,12 +1519,12 @@ namespace WiredPlayers.admin
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JAIL_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_JAIL_COMMAND);
                         }
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JAIL_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_JAIL_COMMAND);
                         return;
                     }
 
@@ -1523,22 +1537,23 @@ namespace WiredPlayers.admin
                     target.SetData(EntityData.PLAYER_JAIL_TYPE, Constants.JAIL_TYPE_OOC);
 
                     // Message sent to the whole server
-                    string message = string.Format(Messages.ADM_PLAYER_JAILED, target.Name, jailTime, reason);
+                    string message = string.Format(AdminRes.player_jailed, target.Name, jailTime, reason);
                     NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
 
-                    Task.Factory.StartNew(() => {
+                    Task.Factory.StartNew(() =>
+                    {
                         // We add the log in the database
                         Database.AddAdminLog(player.SocialClubName, target.Name, "jail", jailTime, reason);
                     });
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JAIL_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_JAIL_COMMAND);
                 }
             }
         }
 
-        [Command(Messages.COM_KICK, Messages.GEN_KICK_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_KICK, Commands.HLP_KICK_COMMAND, GreedyArg = true)]
         public void KickCommand(Client player, string targetString, string reason)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1549,35 +1564,31 @@ namespace WiredPlayers.admin
                 target.Kick(reason);
 
                 //  Message sent to the whole server
-                string message = string.Format(Messages.ADM_PLAYER_KICKED, player.Name, target.Name, reason);
+                string message = string.Format(AdminRes.player_kicked, player.Name, target.Name, reason);
                 NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
 
-                Task.Factory.StartNew(() => {
+                Task.Factory.StartNew(() =>
+                {
                     // We add the log in the database
                     Database.AddAdminLog(player.SocialClubName, target.Name, "kick", 0, reason);
                 });
             }
         }
 
-        [Command(Messages.COM_KICKALL)]
+        [Command(Commands.COM_KICKALL)]
         public void KickAllCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
-                foreach (Client target in NAPI.Pools.GetAllPlayers())
-                {
-                    if (target != player)
-                    {
-                        target.Kick();
-                    }
-                }
+                // Kick all the players only but the command sender
+                NAPI.Pools.GetAllPlayers().Where(t => t != player).ToList().ForEach(t => t.Kick());
 
                 // Confirmation message sent to the player
-                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_KICKED_ALL);
+                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.kicked_all);
             }
         }
 
-        [Command(Messages.COM_BAN, Messages.GEN_BAN_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_BAN, Commands.HLP_BAN_COMMAND, GreedyArg = true)]
         public void BanCommand(Client player, string targetString, string reason)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
@@ -1587,17 +1598,18 @@ namespace WiredPlayers.admin
 
                 target.Ban(reason);
 
-                string message = string.Format(Messages.ADM_PLAYER_BANNED, player.Name, target.Name, reason);
+                string message = string.Format(AdminRes.player_banned, player.Name, target.Name, reason);
                 NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);
-                
-                Task.Factory.StartNew(() => {
+
+                Task.Factory.StartNew(() =>
+                {
                     // We add the log in the database
                     Database.AddAdminLog(player.SocialClubName, target.Name, "ban", 0, reason);
                 });
             }
         }
 
-        [Command(Messages.COM_HEALTH, Messages.GEN_HEAL_COMMAND)]
+        [Command(Commands.COM_HEALTH, Commands.HLP_HEAL_COMMAND)]
         public void HealthCommand(Client player, string targetString, int health)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
@@ -1608,14 +1620,14 @@ namespace WiredPlayers.admin
                 target.Health = health;
 
                 // We send the confirmation message to both players
-                string playerMessage = string.Format(Messages.ADM_PLAYER_HEALTH, target.Name, health);
-                string targetMessage = string.Format(Messages.ADM_TARGET_HEALTH, player.Name, health);
+                string playerMessage = string.Format(AdminRes.player_health, target.Name, health);
+                string targetMessage = string.Format(AdminRes.target_health, player.Name, health);
                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
                 target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
             }
         }
 
-        [Command(Messages.COM_SAVE)]
+        [Command(Commands.COM_SAVE)]
         public void SaveCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1623,12 +1635,12 @@ namespace WiredPlayers.admin
                 string message = string.Empty;
 
                 // We print a message saying when the command starts
-                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_SAVE_START);
+                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.save_start);
 
                 // Saving all business
                 Database.UpdateAllBusiness(Business.businessList);
 
-                message = string.Format(Messages.ADM_SAVE_BUSINESS, Business.businessList.Count);
+                message = string.Format(AdminRes.save_business, Business.businessList.Count);
                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
 
                 // Saving all connected players
@@ -1677,7 +1689,7 @@ namespace WiredPlayers.admin
                 }
 
                 // All the characters saved
-                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_CHARACTERS_SAVED);
+                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.characters_saved);
 
                 // Vehicles saving
                 List<VehicleModel> vehicleList = new List<VehicleModel>();
@@ -1716,14 +1728,14 @@ namespace WiredPlayers.admin
                 Database.SaveAllVehicles(vehicleList);
 
                 // All vehicles saved
-                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_VEHICLES_SAVED);
+                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.vehicles_saved);
 
                 // End of the command
-                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_SAVE_FINISH);
+                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.save_finish);
             }
         }
 
-        [Command(Messages.COM_ADUTY)]
+        [Command(Commands.COM_ADUTY)]
         public void ADutyCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -1733,24 +1745,24 @@ namespace WiredPlayers.admin
                     player.Invincible = false;
                     player.ResetNametagColor();
                     player.ResetData(EntityData.PLAYER_ADMIN_ON_DUTY);
-                    player.SendNotification(Messages.INF_PLAYER_ADMIN_FREE_TIME);
+                    player.SendNotification(InfoRes.player_admin_free_time);
                 }
                 else
                 {
                     player.Invincible = true;
                     player.NametagColor = new Color(231, 133, 46);
                     player.SetData(EntityData.PLAYER_ADMIN_ON_DUTY, true);
-                    player.SendNotification(Messages.INF_PLAYER_ADMIN_ON_DUTY);
+                    player.SendNotification(InfoRes.player_admin_on_duty);
                 }
             }
         }
 
-        [Command(Messages.COM_TICKETS)]
+        [Command(Commands.COM_TICKETS)]
         public void TicketsCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
             {
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TICKET_LIST);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.ticket_list);
                 foreach (AdminTicketModel adminTicket in Globals.adminTicketList)
                 {
                     Client target = Globals.GetPlayerById(adminTicket.playerId);
@@ -1760,7 +1772,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_ATICKET, Messages.GEN_ANSWER_HELP_REQUEST, GreedyArg = true)]
+        [Command(Commands.COM_ATICKET, Commands.HLP_ANSWER_HELP_REQUEST, GreedyArg = true)]
         public void ATicketCommand(Client player, int ticket, string message)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -1772,11 +1784,11 @@ namespace WiredPlayers.admin
                         Client target = Globals.GetPlayerById(adminTicket.playerId);
 
                         // We send the answer to the player
-                        string targetMessage = string.Format(Messages.INF_TICKET_ANSWER, message);
-                       target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
+                        string targetMessage = string.Format(InfoRes.ticket_answer, message);
+                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                         // We send the confirmation to the staff
-                        string playerMessage = string.Format(Messages.ADM_TICKET_ANSWERED, ticket);
+                        string playerMessage = string.Format(AdminRes.ticket_answered, ticket);
                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
 
                         // Ticket removed
@@ -1786,11 +1798,11 @@ namespace WiredPlayers.admin
                 }
 
                 // There's no ticket with that identifier
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ADMIN_TICKET_NOT_FOUND);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.admin_ticket_not_found);
             }
         }
 
-        [Command(Messages.COM_A, Messages.GEN_ADMIN_TEXT_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_A, Commands.HLP_ADMIN_TEXT_COMMAND, GreedyArg = true)]
         public void ACommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
@@ -1808,7 +1820,7 @@ namespace WiredPlayers.admin
                 {
                     if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
                     {
-                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "))");
+                        target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "))");
                         if (secondMessage.Length > 0)
                         {
                             player.SendChatMessage(Constants.COLOR_ADMIN_INFO + secondMessage + "))");
@@ -1818,7 +1830,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Messages.COM_RECON, Messages.GEN_RECON_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_RECON, Commands.HLP_RECON_COMMAND, GreedyArg = true)]
         public void ReconCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1827,43 +1839,43 @@ namespace WiredPlayers.admin
 
                 if (target.HasData(EntityData.PLAYER_PLAYING) == false)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
                 else if (target.Spectating)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_SPECTATING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_spectating);
                 }
                 else if (target == player)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CANT_SPECT_SELF);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.cant_spect_self);
                 }
                 else
                 {
                     player.Spectate(target);
-                    string message = string.Format(Messages.ADM_SPECTATING_PLAYER, target.Name);
+                    string message = string.Format(AdminRes.spectating_player, target.Name);
                     player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                 }
             }
         }
 
-        [Command(Messages.COM_RECOFF)]
+        [Command(Commands.COM_RECOFF)]
         public void RecoffCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
                 if (!player.Spectating)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_SPECTATING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_spectating);
                 }
                 else
                 {
                     player.StopSpectating();
-                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_SPECT_STOPPED);
+                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.spect_stopped);
                 }
             }
         }
 
-        [Command(Messages.COM_INFO, Messages.GEN_INFO_COMMAND)]
+        [Command(Commands.COM_INFO, Commands.HLP_INFO_COMMAND)]
         public void InfoCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
@@ -1877,12 +1889,12 @@ namespace WiredPlayers.admin
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_POINTS, Messages.GEN_POINTS_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_POINTS, Commands.HLP_POINTS_COMMAND, GreedyArg = true)]
         public void PuntosCommand(Client player, string arguments)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
@@ -1913,47 +1925,47 @@ namespace WiredPlayers.admin
 
                         switch (args[0].ToLower())
                         {
-                            case Messages.ARG_GIVE:
+                            case Commands.ARG_GIVE:
                                 // We give role points to the player
                                 target.SetData(EntityData.PLAYER_ROLE_POINTS, targetRolePoints + rolePoints);
 
-                                playerMessage = string.Format(Messages.ADM_ROLE_POINTS_GIVEN, target.Name, rolePoints);
-                                targetMessage = string.Format(Messages.ADM_ROLE_POINTS_RECEIVED, player.SocialClubName, rolePoints);
+                                playerMessage = string.Format(AdminRes.role_points_given, target.Name, rolePoints);
+                                targetMessage = string.Format(AdminRes.role_points_received, player.SocialClubName, rolePoints);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
-                               target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
+                                target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
 
                                 break;
-                            case Messages.ARG_REMOVE:
+                            case Commands.ARG_REMOVE:
                                 // We remove role points to the player
                                 target.SetData(EntityData.PLAYER_ROLE_POINTS, targetRolePoints - rolePoints);
 
-                                playerMessage = string.Format(Messages.ADM_ROLE_POINTS_REMOVED, target.Name, rolePoints);
-                                targetMessage = string.Format(Messages.ADM_ROLE_POINTS_LOST, player.SocialClubName, rolePoints);
+                                playerMessage = string.Format(AdminRes.role_points_removed, target.Name, rolePoints);
+                                targetMessage = string.Format(AdminRes.role_points_lost, player.SocialClubName, rolePoints);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
-                               target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
+                                target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
                                 break;
-                            case Messages.ARG_SET:
+                            case Commands.ARG_SET:
                                 // We set player's role points
                                 target.SetData(EntityData.PLAYER_ROLE_POINTS, rolePoints);
 
-                                playerMessage = string.Format(Messages.ADM_ROLE_POINTS_SET, target.Name, rolePoints);
-                                targetMessage = string.Format(Messages.ADM_ROLE_POINTS_ESTABLISHED, player.SocialClubName, rolePoints);
+                                playerMessage = string.Format(AdminRes.role_points_set, target.Name, rolePoints);
+                                targetMessage = string.Format(AdminRes.role_points_established, player.SocialClubName, rolePoints);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
-                               target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
+                                target.SendChatMessage(Constants.COLOR_ADMIN_INFO + targetMessage);
                                 break;
                             default:
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POINTS_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POINTS_COMMAND);
                                 break;
                         }
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_POINTS_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POINTS_COMMAND);
                 }
             }
         }

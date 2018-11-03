@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using WiredPlayers.messages.administration;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.weapons
 {
@@ -137,7 +140,7 @@ namespace WiredPlayers.weapons
             {
                 if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_PREWARN);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_prewarn);
                 }
             }
 
@@ -245,7 +248,7 @@ namespace WiredPlayers.weapons
             {
                 if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_spawn_island);
                 }
             }
 
@@ -262,7 +265,7 @@ namespace WiredPlayers.weapons
             {
                 if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_SPAWN_ISLAND);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_spawn_island);
                 }
             }
 
@@ -304,7 +307,7 @@ namespace WiredPlayers.weapons
                 if (player.GetData(EntityData.PLAYER_VEHICLE) == vehicle)
                 {
                     player.ResetData(EntityData.PLAYER_VEHICLE);
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPONS_UNPACKED);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapons_unpacked);
                     break;
                 }
             }
@@ -361,7 +364,7 @@ namespace WiredPlayers.weapons
                     Vector3 weaponPosition = new Vector3(-2085.543f, 2600.857f, -0.4712417f);
                     Checkpoint weaponCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, weaponPosition, new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
                     player.SetData(EntityData.PLAYER_JOB_COLSHAPE, weaponCheckpoint);
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_POSITION_MARK);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_position_mark);
                     player.TriggerEvent("showWeaponCheckpoint", weaponPosition);
                 }
             }
@@ -404,7 +407,7 @@ namespace WiredPlayers.weapons
 
                         vehicleWeaponTimer.Add(new Timer(OnVehicleUnpackWeapons, vehicle, 60000, Timeout.Infinite));
                         
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WAIT_FOR_WEAPONS);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.wait_for_weapons);
                     }
                 }
             }
@@ -522,7 +525,7 @@ namespace WiredPlayers.weapons
             }
         }
 
-        [Command(Messages.COM_WEAPONS_EVENT)]
+        [Command(Commands.COM_WEAPONS_EVENT)]
         public void WeaponsEventCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_S_GAME_MASTER)
@@ -530,11 +533,11 @@ namespace WiredPlayers.weapons
                 if (weaponTimer == null)
                 {
                     WeaponsPrewarn();
-                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_WEAPON_EVENT_STARTED);
+                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.weapon_event_started);
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WEAPON_EVENT_ON_COURSE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.weapon_event_on_course);
                 }
             }
         }

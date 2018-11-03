@@ -4,10 +4,13 @@ using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.vehicles;
 using WiredPlayers.house;
-using WiredPlayers.jobs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.parking
 {
@@ -59,16 +62,16 @@ namespace WiredPlayers.parking
             switch (type)
             {
                 case Constants.PARKING_TYPE_PUBLIC:
-                    labelText = Messages.GEN_PUBLIC_PARKING;
+                    labelText = GenRes.public_parking;
                     break;
                 case Constants.PARKING_TYPE_GARAGE:
-                    labelText = Messages.GEN_GARAGE;
+                    labelText = GenRes.garage;
                     break;
                 case Constants.PARKING_TYPE_SCRAPYARD:
-                    labelText = Messages.GEN_SCRAPYARD;
+                    labelText = GenRes.scrapyard;
                     break;
                 case Constants.PARKING_TYPE_DEPOSIT:
-                    labelText = Messages.GEN_POLICE_DEPOT;
+                    labelText = GenRes.police_depot;
                     break;
             }
             return labelText;
@@ -143,79 +146,78 @@ namespace WiredPlayers.parking
             });
         }
 
-        [Command(Messages.COM_PARK)]
+        [Command(Commands.COM_PARK)]
         public void ParkCommand(Client player)
         {
             if (player.VehicleSeat != (int)VehicleSeat.Driver)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
             }
             else if (player.Vehicle.GetData(EntityData.VEHICLE_FACTION) != Constants.FACTION_NONE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_FACTION_PARK);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_faction_park);
             }
             else
             {
-                Vehicle vehicle = player.Vehicle;
-                if (Vehicles.HasPlayerVehicleKeys(player, vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                if (Vehicles.HasPlayerVehicleKeys(player, player.Vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
                 else
                 {
-                    foreach (ParkingModel parking in parkingList)
+                    // Get the closest parking
+                    ParkingModel parking = parkingList.Where(p => player.Position.DistanceTo(p.position) < 3.5f).FirstOrDefault();
+
+                    if (parking == null)
                     {
-                        if (player.Position.DistanceTo(parking.position) < 3.5f)
-                        {
-                            switch (parking.type)
-                            {
-                                case Constants.PARKING_TYPE_PUBLIC:
-                                    string message = string.Format(Messages.INF_PARKING_COST, Constants.PRICE_PARKING_PUBLIC);
-                                    player.SendChatMessage(Constants.COLOR_INFO + message);
-                                    PlayerParkVehicle(player, parking);
-                                    break;
-                                case Constants.PARKING_TYPE_GARAGE:
-                                    HouseModel house = House.GetHouseById(parking.houseId);
-                                    if (house == null || House.HasPlayerHouseKeys(player, house) == false)
-                                    {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_GARAGE_ACCESS);
-                                    }
-                                    else if (GetParkedCarAmount(parking) == parking.capacity)
-                                    {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PARKING_FULL);
-                                    }
-                                    else
-                                    {
-                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_GARAGE_PARKED);
-                                        PlayerParkVehicle(player, parking);
-                                    }
-                                    break;
-                                case Constants.PARKING_TYPE_DEPOSIT:
-                                    if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
-                                    {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_POLICE_FACTION);
-                                    }
-                                    else
-                                    {
-                                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_DEPOSIT_PARKED);
-                                        PlayerParkVehicle(player, parking);
-                                    }
-                                    break;
-                                default:
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_ALLOWED);
-                                    break;
-                            }
-                            return;
-                        }
+                        // Player's not in any parking
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_near);
+                        return;
                     }
 
-                    // There's no parking near
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                    switch (parking.type)
+                    {
+                        case Constants.PARKING_TYPE_PUBLIC:
+                            string message = string.Format(InfoRes.parking_cost, Constants.PRICE_PARKING_PUBLIC);
+                            player.SendChatMessage(Constants.COLOR_INFO + message);
+                            PlayerParkVehicle(player, parking);
+                            break;
+                        case Constants.PARKING_TYPE_GARAGE:
+                            HouseModel house = House.GetHouseById(parking.houseId);
+                            if (house == null || House.HasPlayerHouseKeys(player, house) == false)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_garage_access);
+                            }
+                            else if (GetParkedCarAmount(parking) == parking.capacity)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.parking_full);
+                            }
+                            else
+                            {
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_garage_parked);
+                                PlayerParkVehicle(player, parking);
+                            }
+                            break;
+                        case Constants.PARKING_TYPE_DEPOSIT:
+                            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
+                            }
+                            else
+                            {
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_deposit_parked);
+                                PlayerParkVehicle(player, parking);
+                            }
+                            break;
+                        default:
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_allowed);
+                            break;
+                    }
                 }
             }
         }
 
-        [Command(Messages.COM_UNPARK, Messages.GEN_UNPARK_COMMAND)]
+        [Command(Commands.COM_UNPARK, Commands.HLP_UNPARK_COMMAND)]
         public void UnparkCommand(Client player, int vehicleId)
         {
             VehicleModel vehicle = Vehicles.GetParkedVehicleById(vehicleId);
@@ -223,107 +225,71 @@ namespace WiredPlayers.parking
             if (vehicle == null)
             {
                 // There's no vehicle with that identifier
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
             }
             else if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == false)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
             }
             else
             {
-                foreach (ParkingModel parking in parkingList)
+                // Get the closest parking
+                ParkingModel parking = parkingList.Where(p => player.Position.DistanceTo(p.position) < 2.5f).FirstOrDefault();
+
+                if (parking == null)
                 {
-                    if (player.Position.DistanceTo(parking.position) < 2.5f)
-                    {
-                        // Check whether the vehicle is in this parking
-                        if (parking.id == vehicle.parking)
-                        {
-                            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
-                            
-                            switch (parking.type)
-                            {
-                                case Constants.PARKING_TYPE_PUBLIC:
-                                    break;
-                                case Constants.PARKING_TYPE_SCRAPYARD:
-                                    break;
-                                case Constants.PARKING_TYPE_DEPOSIT:
-                                    // Remove player's money
-                                    if (playerMoney >= Constants.PRICE_PARKING_DEPOSIT)
-                                    {
-                                        player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - Constants.PRICE_PARKING_DEPOSIT);
-                                        
-                                        string message = string.Format(Messages.INF_UNPARK_MONEY, Constants.PRICE_PARKING_DEPOSIT);
-                                        player.SendChatMessage(Constants.COLOR_INFO + message);
-                                    }
-                                    else
-                                    {
-                                        string message = string.Format(Messages.ERR_PARKING_NOT_MONEY, Constants.PRICE_PARKING_DEPOSIT);
-                                        player.SendChatMessage(Constants.COLOR_ERROR + message);
-                                        return;
-                                    }
-                                    break;
-                            }
-
-                            // Get parked vehicle model
-                            ParkedCarModel parkedCar = GetParkedVehicle(vehicleId);
-
-                            // Recreate the vehicle
-                            Vehicle newVehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehicle.model), parking.position, vehicle.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
-                            newVehicle.NumberPlate = vehicle.plate == string.Empty ? "LS " + (1000 + vehicle.id) : vehicle.plate;
-                            newVehicle.EngineStatus = false;
-                            newVehicle.Locked = false;
-                            
-                            if (vehicle.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
-                            {
-                                newVehicle.PrimaryColor = int.Parse(vehicle.firstColor);
-                                newVehicle.SecondaryColor = int.Parse(vehicle.secondColor);
-                                newVehicle.PearlescentColor = vehicle.pearlescent;
-                            }
-                            else
-                            {
-                                string[] firstColor = vehicle.firstColor.Split(',');
-                                string[] secondColor = vehicle.secondColor.Split(',');
-                                newVehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
-                                newVehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
-                            }
-
-                            newVehicle.SetData(EntityData.VEHICLE_ID, vehicle.id);
-                            newVehicle.SetData(EntityData.VEHICLE_MODEL, vehicle.model);
-                            newVehicle.SetData(EntityData.VEHICLE_POSITION, parking.position);
-                            newVehicle.SetData(EntityData.VEHICLE_ROTATION, vehicle.rotation);
-                            newVehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehicle.colorType);
-                            newVehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehicle.firstColor);
-                            newVehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehicle.secondColor);
-                            newVehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehicle.pearlescent);
-                            newVehicle.SetData(EntityData.VEHICLE_FACTION, vehicle.faction);
-                            newVehicle.SetData(EntityData.VEHICLE_PLATE, vehicle.plate);
-                            newVehicle.SetData(EntityData.VEHICLE_OWNER, vehicle.owner);
-                            newVehicle.SetData(EntityData.VEHICLE_PRICE, vehicle.price);
-                            newVehicle.SetData(EntityData.VEHICLE_GAS, vehicle.gas);
-                            newVehicle.SetData(EntityData.VEHICLE_KMS, vehicle.kms);
-
-                            // Update parking values
-                            newVehicle.SetData(EntityData.VEHICLE_DIMENSION, 0);
-                            newVehicle.SetData(EntityData.VEHICLE_PARKING, 0);
-                            newVehicle.SetData(EntityData.VEHICLE_PARKED, 0);
-
-                            // Add tunning
-                            Mechanic.AddTunningToVehicle(newVehicle);
-
-                            // Unlink from the parking
-                            parkedCars.Remove(parkedCar);
-
-                            return;
-                        }
-
-                        // The vehicle is not in this parking
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_THIS_PARKING);
-                        return;
-                    }
+                    // Player's not in any parking
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_parking_near);
+                    return;
                 }
 
-                // Player's not in any parking
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_PARKING_NEAR);
+                // Check whether the vehicle is in this parking
+                if (parking.id != vehicle.parking)
+                {
+                    // The vehicle is not in this parking
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_this_parking);
+                    return;
+                }
+
+                int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
+
+                switch (parking.type)
+                {
+                    case Constants.PARKING_TYPE_PUBLIC:
+                        break;
+                    case Constants.PARKING_TYPE_SCRAPYARD:
+                        break;
+                    case Constants.PARKING_TYPE_DEPOSIT:
+                        // Remove player's money
+                        if (playerMoney >= Constants.PRICE_PARKING_DEPOSIT)
+                        {
+                            player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - Constants.PRICE_PARKING_DEPOSIT);
+
+                            string message = string.Format(InfoRes.unpark_money, Constants.PRICE_PARKING_DEPOSIT);
+                            player.SendChatMessage(Constants.COLOR_INFO + message);
+                        }
+                        else
+                        {
+                            string message = string.Format(ErrRes.parking_not_money, Constants.PRICE_PARKING_DEPOSIT);
+                            player.SendChatMessage(Constants.COLOR_ERROR + message);
+                            return;
+                        }
+                        break;
+                }
+
+                // Get parked vehicle model
+                ParkedCarModel parkedCar = GetParkedVehicle(vehicleId);
+
+                // Recreate the vehicle
+                Vehicle newVehicle = Vehicles.CreateIngameVehicle(vehicle);
+
+                // Update parking values
+                newVehicle.SetData(EntityData.VEHICLE_DIMENSION, 0);
+                newVehicle.SetData(EntityData.VEHICLE_PARKING, 0);
+                newVehicle.SetData(EntityData.VEHICLE_PARKED, 0);
+
+                // Unlink from the parking
+                parkedCars.Remove(parkedCar);
             }
         }
     }

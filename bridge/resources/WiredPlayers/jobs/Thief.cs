@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using WiredPlayers.messages.success;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.error;
 
 namespace WiredPlayers.jobs
 {
@@ -43,7 +47,7 @@ namespace WiredPlayers.jobs
                 robberyTimerList.Remove(player.Value);
             }
             
-            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_LOCKPICKED);
+            player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.lockpicked);
         }
 
         private void OnHotwireTimer(object playerObject)
@@ -67,12 +71,12 @@ namespace WiredPlayers.jobs
             {
                 if (target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
-                   target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_POLICE_WARNING);
+                   target.SendChatMessage(Constants.COLOR_INFO + InfoRes.police_warning);
                     target.SetData(EntityData.PLAYER_EMERGENCY_WITH_WARN, player.Position);
                 }
             }
             
-            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_VEH_HOTWIREED);
+            player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.veh_hotwireed);
         }
 
         private void OnPlayerRob(object playerObject)
@@ -127,7 +131,7 @@ namespace WiredPlayers.jobs
             }
 
             // Avisamos de los objetos robados
-            string message = string.Format(Messages.INF_PLAYER_ROBBED, totalStolenItems);
+            string message = string.Format(InfoRes.player_robbed, totalStolenItems);
             player.SendChatMessage(Constants.COLOR_INFO + message);
 
             // Check if the player commited the maximum thefts allowed
@@ -137,7 +141,7 @@ namespace WiredPlayers.jobs
                 // Apply a cooldown to the player
                 player.SetData(EntityData.PLAYER_JOB_DELIVER, 0);
                 player.SetData(EntityData.PLAYER_JOB_COOLDOWN, 60);
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_ROB_PRESSURE);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_rob_pressure);
             }
             else
             {
@@ -175,7 +179,7 @@ namespace WiredPlayers.jobs
             FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_POLICE, player.Value, robberyPlace, robberyPosition, -1, robberyHour);
             Faction.factionWarningList.Add(factionWarning);
             
-            string warnMessage = string.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
+            string warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
             
             foreach (Client target in NAPI.Pools.GetAllPlayers())
             {
@@ -192,7 +196,7 @@ namespace WiredPlayers.jobs
             foreach (Vector3 pawnShop in Constants.PAWN_SHOP)
             {
                 // Create pawn shops
-                NAPI.TextLabel.CreateTextLabel(Messages.GEN_PAWN_SHOP, pawnShop, 10.0f, 0.5f, 4, new Color(255, 255, 255), false, 0);
+                NAPI.TextLabel.CreateTextLabel(GenRes.pawn_shop, pawnShop, 10.0f, 0.5f, 4, new Color(255, 255, 255), false, 0);
             }
         }
 
@@ -213,7 +217,7 @@ namespace WiredPlayers.jobs
                         robberyTimerList.Remove(player.Value);
                     }
                     
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_STOPPED_HOTWIRE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_stopped_hotwire);
                 }
                 else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
                 {
@@ -222,37 +226,37 @@ namespace WiredPlayers.jobs
             }
         }
 
-        [Command(Messages.COM_FORCE)]
+        [Command(Commands.COM_FORCE)]
         public void ForceCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
                 if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_THIEF)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_THIEF);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
                 }
                 else if (player.HasData(EntityData.PLAYER_LOCKPICKING) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_LOCKPICKING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_lockpicking);
                 }
                 else
                 {
                     Vehicle vehicle = Globals.GetClosestVehicle(player);
                     if (vehicle == null)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                     }
                     else if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_LOCKPICK_OWN_VEHICLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_lockpick_own_vehicle);
                     }
                     else if (!vehicle.Locked)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEH_ALREADY_UNLOCKED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.veh_already_unlocked);
                     }
                     else
                     {
@@ -272,29 +276,29 @@ namespace WiredPlayers.jobs
             }
         }
 
-        [Command(Messages.COM_STEAL)]
+        [Command(Commands.COM_STEAL)]
         public void StealCommand(Client player)
         {
             if (player.Position.DistanceTo(new Vector3(-286.7586f, -849.3693f, 31.74337f)) > 1150.0f)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_THIEF_AREA);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_thief_area);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_THIEF)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_THIEF);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
             }
             else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_STEALING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_stealing);
             }
             else if (player.GetData(EntityData.PLAYER_JOB_COOLDOWN) > 0)
             {
                 int timeLeft = player.GetData(EntityData.PLAYER_JOB_COOLDOWN) - Globals.GetTotalSeconds();
-                string message = string.Format(Messages.ERR_PLAYER_COOLDOWN_THIEF, timeLeft);
+                string message = string.Format(ErrRes.player_cooldown_thief, timeLeft);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
             else
@@ -305,7 +309,7 @@ namespace WiredPlayers.jobs
                     HouseModel house = House.GetHouseById(houseId);
                     if (house != null && House.HasPlayerHouseKeys(player, house) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_ROB_OWN_HOUSE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_rob_own_house);
                     }
                     else
                     {
@@ -315,7 +319,7 @@ namespace WiredPlayers.jobs
                         // Start stealing items
                         player.PlayAnimation("misscarstealfinalecar_5_ig_3", "crouchloop", (int)Constants.AnimationFlags.Loop);
                         player.SetData(EntityData.PLAYER_ROBBERY_START, Globals.GetTotalSeconds());
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SEARCHING_VALUE_ITEMS);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.searching_value_items);
                         player.SetData(EntityData.PLAYER_ANIMATION, true);
                         player.Freeze(true);
 
@@ -329,11 +333,11 @@ namespace WiredPlayers.jobs
                     Vehicle vehicle = player.Vehicle;
                     if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_ROB_OWN_VEHICLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_rob_own_vehicle);
                     }
                     else if (vehicle.EngineStatus)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ENGINE_ON);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_on);
                     }
                     else
                     {
@@ -343,7 +347,7 @@ namespace WiredPlayers.jobs
                         // Start stealing items
                         player.PlayAnimation("veh@plane@cuban@front@ds@base", "hotwire", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
                         player.SetData(EntityData.PLAYER_ROBBERY_START, Globals.GetTotalSeconds());
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SEARCHING_VALUE_ITEMS);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.searching_value_items);
                         player.SetData(EntityData.PLAYER_ANIMATION, true);
 
                         // Timer to finish the robbery
@@ -353,44 +357,44 @@ namespace WiredPlayers.jobs
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_ROB);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_rob);
                 }
             }
         }
 
-        [Command(Messages.COM_HOTWIRE)]
+        [Command(Commands.COM_HOTWIRE)]
         public void HotwireCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_THIEF)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_THIEF);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
             }
             else if (player.HasData(EntityData.PLAYER_HOTWIRING) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_HOTWIRING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_hotwiring);
             }
             else if (!player.IsInVehicle)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
             }
             else
             {
                 Vehicle vehicle = player.Vehicle;
                 if (player.VehicleSeat != (int)VehicleSeat.Driver)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                 }
                 else if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_HOTWIRE_OWN_VEHICLE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_hotwire_own_vehicle);
                 }
                 else if (vehicle.EngineStatus)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ENGINE_ALREADY_STARTED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_already_started);
                 }
                 else
                 {
@@ -405,7 +409,7 @@ namespace WiredPlayers.jobs
                     Timer robberyTimer = new Timer(OnHotwireTimer, player, 15000, Timeout.Infinite);
                     robberyTimerList.Add(player.Value, robberyTimer);
                     
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOTWIRE_STARTED);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hotwire_started);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -416,12 +420,12 @@ namespace WiredPlayers.jobs
             }
         }
 
-        [Command(Messages.COM_PAWN)]
+        [Command(Commands.COM_PAWN)]
         public void PawnCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_THIEF)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_THIEF);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
             }
             else
             {
@@ -435,7 +439,7 @@ namespace WiredPlayers.jobs
                         {
                             // Calculate the earnings
                             int wonAmount = stolenItems.amount * Constants.PRICE_STOLEN;
-                            string message = string.Format(Messages.INF_PLAYER_PAWNED_ITEMS, wonAmount);
+                            string message = string.Format(InfoRes.player_pawned_items, wonAmount);
                             int money = player.GetSharedData(EntityData.PLAYER_MONEY) + wonAmount;
 
                             Task.Factory.StartNew(() =>
@@ -450,12 +454,12 @@ namespace WiredPlayers.jobs
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_STOLEN_ITEMS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_stolen_items);
                         }
                         return;
                     }
                 }
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_PAWN_SHOW);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_pawn_show);
             }
         }
     }

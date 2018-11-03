@@ -10,11 +10,16 @@ using WiredPlayers.vehicles;
 using WiredPlayers.drivingschool;
 using WiredPlayers.factions;
 using WiredPlayers.jobs;
+using WiredPlayers.messages.general;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.success;
+using WiredPlayers.messages.administration;
 
 namespace WiredPlayers.globals
 {
@@ -139,7 +144,7 @@ namespace WiredPlayers.globals
                     {
                         if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds)
                         {
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_CAN_DIE);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_can_die);
                         }
                     }
 
@@ -169,7 +174,7 @@ namespace WiredPlayers.globals
                             player.SetData(EntityData.PLAYER_JAILED, 0);
                             player.SetData(EntityData.PLAYER_JAIL_TYPE, 0);
 
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_UNJAILED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_unjailed);
                         }
                         else if (jailTime > 0)
                         {
@@ -310,7 +315,7 @@ namespace WiredPlayers.globals
             int playerJob = player.GetData(EntityData.PLAYER_JOB);
             int playerRank = player.GetData(EntityData.PLAYER_RANK);
             int playerFaction = player.GetData(EntityData.PLAYER_FACTION);
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PAYDAY_TITLE);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.payday_title);
 
             // Generate the salary
             if (playerFaction > 0 && playerFaction <= Constants.LAST_STATE_FACTION)
@@ -335,14 +340,14 @@ namespace WiredPlayers.globals
                     }
                 }
             }
-            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SALARY + total + "$");
+            player.SendChatMessage(Constants.COLOR_HELP + GenRes.salary + total + "$");
 
             // Extra income from the level
             int levelEarnings = GetPlayerLevel(player) * Constants.PAID_PER_LEVEL;
             total += levelEarnings;
             if (levelEarnings > 0)
             {
-                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_EXTRA_INCOME + levelEarnings + "$");
+                player.SendChatMessage(Constants.COLOR_HELP + GenRes.extra_income + levelEarnings + "$");
             }
 
             // Bank interest
@@ -350,7 +355,7 @@ namespace WiredPlayers.globals
             total += bankInterest;
             if (bankInterest > 0)
             {
-                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_BANK_INTEREST + bankInterest + "$");
+                player.SendChatMessage(Constants.COLOR_HELP + GenRes.bank_interest + bankInterest + "$");
             }
 
             // Generación de impuestos por vehículos
@@ -363,7 +368,7 @@ namespace WiredPlayers.globals
                     int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
                     string vehicleModel = vehicle.GetData(EntityData.VEHICLE_MODEL);
                     string vehiclePlate = vehicle.GetData(EntityData.VEHICLE_PLATE) == string.Empty ? "LS " + (1000 + vehicleId) : vehicle.GetData(EntityData.VEHICLE_PLATE);
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_TAXES_FROM + vehicleModel + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
+                    player.SendChatMessage(Constants.COLOR_HELP + GenRes.vehicle_taxes_from + vehicleModel + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
                     total -= vehicleTaxes;
                 }
             }
@@ -376,7 +381,7 @@ namespace WiredPlayers.globals
                 {
                     int vehicleTaxes = (int)Math.Round(parkedCar.vehicle.price * Constants.TAXES_VEHICLE);
                     string vehiclePlate = parkedCar.vehicle.plate == string.Empty ? "LS " + (1000 + parkedCar.vehicle.id) : parkedCar.vehicle.plate;
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_VEHICLE_TAXES_FROM + parkedCar.vehicle.model + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
+                    player.SendChatMessage(Constants.COLOR_HELP + GenRes.vehicle_taxes_from + parkedCar.vehicle.model + " (" + vehiclePlate + "): -" + vehicleTaxes + "$");
                     total -= vehicleTaxes;
                 }
             }
@@ -387,14 +392,14 @@ namespace WiredPlayers.globals
                 if (house.owner == player.Name)
                 {
                     int houseTaxes = (int)Math.Round(house.price * Constants.TAXES_HOUSE);
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSE_TAXES_FROM + house.name + ": -" + houseTaxes + "$");
+                    player.SendChatMessage(Constants.COLOR_HELP + GenRes.house_taxes_from + house.name + ": -" + houseTaxes + "$");
                     total -= houseTaxes;
                 }
             }
 
             // Calculate the total balance
             player.SendChatMessage(Constants.COLOR_HELP + "=====================");
-            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_TOTAL + total + "$");
+            player.SendChatMessage(Constants.COLOR_HELP + GenRes.total + total + "$");
             player.SetSharedData(EntityData.PLAYER_BANK, bank + total);
 
             Task.Factory.StartNew(() =>
@@ -641,13 +646,13 @@ namespace WiredPlayers.globals
         public static void GetPlayerBasicData(Client asker, Client player)
         {
             int rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
-            string sex = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
-            string age = player.GetData(EntityData.PLAYER_AGE) + Messages.GEN_YEARS;
+            string sex = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? GenRes.sex_male : GenRes.sex_female;
+            string age = player.GetData(EntityData.PLAYER_AGE) + GenRes.years;
             string money = player.GetSharedData(EntityData.PLAYER_MONEY) + "$";
             string bank = player.GetSharedData(EntityData.PLAYER_BANK) + "$";
-            string job = Messages.GEN_UNEMPLOYED;
-            string faction = Messages.GEN_NO_FACTION;
-            string rank = Messages.GEN_NO_RANK;
+            string job = GenRes.unemployed;
+            string faction = GenRes.no_faction;
+            string rank = GenRes.no_rank;
             string houses = string.Empty;
             string ownedVehicles = string.Empty;
             string lentVehicles = player.GetData(EntityData.PLAYER_VEHICLE_KEYS);
@@ -671,19 +676,19 @@ namespace WiredPlayers.globals
                     switch (factionModel.faction)
                     {
                         case Constants.FACTION_POLICE:
-                            faction = Messages.GEN_POLICE_FACTION;
+                            faction = GenRes.police_faction;
                             break;
                         case Constants.FACTION_EMERGENCY:
-                            faction = Messages.GEN_EMERGENCY_FACTION;
+                            faction = GenRes.emergency_faction;
                             break;
                         case Constants.FACTION_NEWS:
-                            faction = Messages.GEN_NEWS_FACTION;
+                            faction = GenRes.news_faction;
                             break;
                         case Constants.FACTION_TOWNHALL:
-                            faction = Messages.GEN_TOWNHALL_FACTION;
+                            faction = GenRes.townhall_faction;
                             break;
                         case Constants.FACTION_TAXI_DRIVER:
-                            faction = Messages.GEN_TRANSPORT_FACTION;
+                            faction = GenRes.transport_faction;
                             break;
                     }
 
@@ -726,19 +731,19 @@ namespace WiredPlayers.globals
             }
 
             // Show all the information
-            asker.SendChatMessage(Constants.COLOR_INFO + Messages.INF_BASIC_DATA);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_NAME + player.Name + "; " + Messages.GEN_SEX + sex + "; " + Messages.GEN_AGE + age + "; " + Messages.GEN_MONEY + money + "; " + Messages.GEN_BANK + bank);
+            asker.SendChatMessage(Constants.COLOR_INFO + InfoRes.basic_data);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.name + player.Name + "; " + GenRes.sex + sex + "; " + GenRes.age + age + "; " + GenRes.money + money + "; " + GenRes.bank + bank);
             asker.SendChatMessage(Constants.COLOR_INFO + " ");
-            asker.SendChatMessage(Constants.COLOR_INFO + Messages.INF_JOB_DATA);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JOB + job + "; " + Messages.GEN_FACTION + faction + "; " + Messages.GEN_RANK + rank);
+            asker.SendChatMessage(Constants.COLOR_INFO + InfoRes.job_data);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.job + job + "; " + GenRes.faction + faction + "; " + GenRes.rank + rank);
             asker.SendChatMessage(Constants.COLOR_INFO + " ");
-            asker.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PROPERTIES);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_HOUSES + houses);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_OWNED_VEHICLES + ownedVehicles);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_LENT_VEHICLES + lentVehicles);
+            asker.SendChatMessage(Constants.COLOR_INFO + InfoRes.properties);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.houses + houses);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.owned_vehicles + ownedVehicles);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.lent_vehicles + lentVehicles);
             asker.SendChatMessage(Constants.COLOR_INFO + " ");
-            asker.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ADDITIONAL_DATA);
-            asker.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_PLAYED_TIME + (int)played.TotalHours + "h " + played.Minutes + "m; " + Messages.GEN_ROLE_POINTS + rolePoints);
+            asker.SendChatMessage(Constants.COLOR_INFO + InfoRes.additional_data);
+            asker.SendChatMessage(Constants.COLOR_HELP + GenRes.played_time + (int)played.TotalHours + "h " + played.Minutes + "m; " + GenRes.role_points + rolePoints);
         }
 
         private int GetPlayerLevel(Client player)
@@ -761,7 +766,7 @@ namespace WiredPlayers.globals
             fastFoodOrderList = new List<FastFoodOrderModel>();
 
             // Area in the lobby to change the character
-            NAPI.TextLabel.CreateTextLabel(Messages.GEN_CHARACTER_HELP, new Vector3(152.2911f, -1001.088f, -99f), 20.0f, 0.75f, 4, new Color(255, 255, 255), false);
+            NAPI.TextLabel.CreateTextLabel(GenRes.character_help, new Vector3(152.2911f, -1001.088f, -99f), 20.0f, 0.75f, 4, new Color(255, 255, 255), false);
 
             // Add car dealer's interior
             NAPI.World.RequestIpl("shr_int");
@@ -879,7 +884,7 @@ namespace WiredPlayers.globals
                 character.bank = player.GetSharedData(EntityData.PLAYER_BANK);
 
                 // Warnt the players near to the disconnected one
-                string message = string.Format(Messages.INF_PLAYER_DISCONNECTED, player.Name, reason);
+                string message = string.Format(InfoRes.player_disconnected, player.Name, reason);
                 Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_DISCONNECT, 10.0f);
 
                 Task.Factory.StartNew(() =>
@@ -909,7 +914,7 @@ namespace WiredPlayers.globals
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ITEMS_INVENTORY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_items_inventory);
             }
         }
 
@@ -935,7 +940,7 @@ namespace WiredPlayers.globals
                     {
                         if (!Business.HasPlayerBusinessKeys(player, business) && business.locked)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BUSINESS_LOCKED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.business_locked);
                         }
                         else
                         {
@@ -954,11 +959,11 @@ namespace WiredPlayers.globals
                         {
                             if (!Business.HasPlayerBusinessKeys(player, business) && business.locked)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BUSINESS_LOCKED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.business_locked);
                             }
                             else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_STEALING_PROGRESS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.stealing_progress);
                             }
                             else
                             {
@@ -991,7 +996,7 @@ namespace WiredPlayers.globals
                     {
                         if (!House.HasPlayerHouseKeys(player, house) && house.locked)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_LOCKED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_locked);
                         }
                         else
                         {
@@ -1010,11 +1015,11 @@ namespace WiredPlayers.globals
                         {
                             if (!House.HasPlayerHouseKeys(player, house) && house.locked)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_LOCKED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_locked);
                             }
                             else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_STEALING_PROGRESS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.stealing_progress);
                             }
                             else
                             {
@@ -1065,7 +1070,7 @@ namespace WiredPlayers.globals
                     // Player must have a character selected
                     if (player.HasData(EntityData.PLAYER_SQL_ID) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_CHARACTER_SELECTED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_character_selected);
                     }
                     else
                     {
@@ -1162,7 +1167,7 @@ namespace WiredPlayers.globals
                             FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace, deathPosition, -1, deathHour);
                             Faction.factionWarningList.Add(factionWarning);
 
-                            string warnMessage = string.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
+                            string warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
 
                             foreach (Client target in NAPI.Pools.GetAllPlayers())
                             {
@@ -1174,7 +1179,7 @@ namespace WiredPlayers.globals
 
                             player.Invincible =true;
                             player.SetData(EntityData.TIME_HOSPITAL_RESPAWN, GetTotalSeconds() + 240);
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EMERGENCY_WARN);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.emergency_warn);
                         }
 
                         // Toggle connection flag
@@ -1202,9 +1207,9 @@ namespace WiredPlayers.globals
 
             switch (action.ToLower())
             {
-                case Messages.COM_CONSUME:
+                case Commands.COM_CONSUME:
                     item.amount--;
-                    message = string.Format(Messages.INF_PLAYER_INVENTORY_CONSUME, businessItem.description.ToLower());
+                    message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
                     player.SendChatMessage(Constants.COLOR_INFO + message);
 
                     // Check if it grows alcohol level
@@ -1253,7 +1258,7 @@ namespace WiredPlayers.globals
                     List<InventoryModel> inventory = GetPlayerInventory(player);
                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
                     break;
-                case Messages.ARG_OPEN:
+                case Commands.ARG_OPEN:
                     switch (item.hash)
                     {
                         case Constants.ITEM_HASH_PACK_BEER_AM:
@@ -1295,17 +1300,17 @@ namespace WiredPlayers.globals
                     // Substract container amount
                     SubstractPlayerItems(item);
 
-                    message = string.Format(Messages.INF_PLAYER_INVENTORY_OPEN, businessItem.description.ToLower());
+                    message = string.Format(InfoRes.player_inventory_open, businessItem.description.ToLower());
                     player.SendChatMessage(Constants.COLOR_INFO + message);
 
                     // Update the inventory
                     inventory = GetPlayerInventory(player);
                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
                     break;
-                case Messages.ARG_EQUIP:
+                case Commands.ARG_EQUIP:
                     if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_OCCUPIED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_occupied);
                     }
                     else
                     {
@@ -1315,11 +1320,11 @@ namespace WiredPlayers.globals
                         item.objectHandle.AttachTo(player, "PH_R_Hand", businessItem.position, businessItem.rotation);
                         player.SetData(EntityData.PLAYER_RIGHT_HAND, itemId);
 
-                        message = string.Format(Messages.INF_PLAYER_INVENTORY_EQUIP, businessItem.description.ToLower());
+                        message = string.Format(InfoRes.player_inventory_equip, businessItem.description.ToLower());
                         player.SendChatMessage(Constants.COLOR_INFO + message);
                     }
                     break;
-                case Messages.COM_DROP:
+                case Commands.COM_DROP:
                     item.amount--;
 
                     // Check if there are items of the same type near
@@ -1371,14 +1376,14 @@ namespace WiredPlayers.globals
                         });
                     }
 
-                    message = string.Format(Messages.INF_PLAYER_INVENTORY_DROP, businessItem.description.ToLower());
+                    message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
                     player.SendChatMessage(Constants.COLOR_INFO + message);
 
                     // Update the inventory
                     inventory = GetPlayerInventory(player);
                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
                     break;
-                case Messages.ARG_CONFISCATE:
+                case Commands.ARG_CONFISCATE:
                     Client target = player.GetData(EntityData.PLAYER_SEARCHED_TARGET);
 
                     // Transfer the item from the target to the player
@@ -1391,8 +1396,8 @@ namespace WiredPlayers.globals
                         Database.UpdateItem(item);
                     });
 
-                    string playerMessage = string.Format(Messages.INF_POLICE_RETIRED_ITEMS_TO, target.Name);
-                    string targetMessage = string.Format(Messages.INF_POLICE_RETIRED_ITEMS_FROM, player.Name);
+                    string playerMessage = string.Format(InfoRes.police_retired_items_to, target.Name);
+                    string targetMessage = string.Format(InfoRes.police_retired_items_from, player.Name);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                    target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
@@ -1400,7 +1405,7 @@ namespace WiredPlayers.globals
                     inventory = GetPlayerInventoryAndWeapons(target);
                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_PLAYER);
                     break;
-                case Messages.ARG_STORE:
+                case Commands.ARG_STORE:
                     Vehicle targetVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
 
                     // Transfer the item from the player to the vehicle
@@ -1423,13 +1428,13 @@ namespace WiredPlayers.globals
                         Database.UpdateItem(item);
                     });
 
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_STORED_ITEMS);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_stored_items);
 
                     // Update the inventory
                     inventory = GetPlayerInventoryAndWeapons(player);
                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_PLAYER);
                     break;
-                case Messages.ARG_WITHDRAW:
+                case Commands.ARG_WITHDRAW:
                     Vehicle sourceVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
 
                     WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
@@ -1456,8 +1461,8 @@ namespace WiredPlayers.globals
                         Database.UpdateItem(item);
                     });
 
-                    Chat.SendMessageToNearbyPlayers(player, Messages.INF_TRUNK_ITEM_WITHDRAW, Constants.MESSAGE_ME, 20.0f);
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_WITHDRAW_ITEMS);
+                    Chat.SendMessageToNearbyPlayers(player, InfoRes.trunk_item_withdraw, Constants.MESSAGE_ME, 20.0f);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_withdraw_items);
 
                     // Update the inventory
                     inventory = GetVehicleTrunkInventory(sourceVehicle);
@@ -1482,7 +1487,7 @@ namespace WiredPlayers.globals
             player.TriggerEvent("updatePlayerTattoos", NAPI.Util.ToJson(playerTattooList), targetPlayer);
         }
 
-        [Command(Messages.COM_STORE)]
+        [Command(Commands.COM_STORE)]
         public void StoreCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -1511,11 +1516,11 @@ namespace WiredPlayers.globals
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_CONSUME)]
+        [Command(Commands.COM_CONSUME)]
         public void ConsumeCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -1528,7 +1533,7 @@ namespace WiredPlayers.globals
                 // Check if it's consumable
                 if (businessItem.type == Constants.ITEM_TYPE_CONSUMABLE)
                 {
-                    string message = string.Format(Messages.INF_PLAYER_INVENTORY_CONSUME, businessItem.description.ToLower());
+                    string message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
 
                     item.amount--;
 
@@ -1578,16 +1583,16 @@ namespace WiredPlayers.globals
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ITEM_NOT_CONSUMABLE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.item_not_consumable);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_INVENTORY)]
+        [Command(Commands.COM_INVENTORY)]
         public void InventoryCommand(Client player)
         {
             if (GetPlayerInventoryTotal(player) > 0)
@@ -1597,11 +1602,11 @@ namespace WiredPlayers.globals
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ITEMS_INVENTORY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_items_inventory);
             }
         }
 
-        [Command(Messages.COM_PURCHASE)]
+        [Command(Commands.COM_PURCHASE)]
         public void PurchaseCommand(Client player, int amount = 0)
         {
             // Check if the player is inside a business
@@ -1614,9 +1619,9 @@ namespace WiredPlayers.globals
                 switch (business.type)
                 {
                     case Constants.BUSINESS_TYPE_CLOTHES:
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ABOUT_COMPLEMENTS);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FOR_AVOID_CLIPPING1);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FOR_AVOID_CLIPPING2);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.about_complements);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping1);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping2);
                         player.TriggerEvent("showClothesBusinessPurchaseMenu", business.name, business.multiplier);
                         break;
                     case Constants.BUSINESS_TYPE_BARBER_SHOP:
@@ -1710,17 +1715,17 @@ namespace WiredPlayers.globals
 
                                 player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - amount);
 
-                                string message = string.Format(Messages.INF_PRODUCTS_BOUGHT, amount, amount);
+                                string message = string.Format(InfoRes.products_bought, amount, amount);
                                 player.SendChatMessage(Constants.COLOR_INFO + message);
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_COMMAND_PURCHASE);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_COMMAND_PURCHASE);
                         }
                         return;
                     }
@@ -1729,7 +1734,7 @@ namespace WiredPlayers.globals
 
         }
 
-        [Command(Messages.COM_SELL, Messages.GEN_SELL_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_SELL, Commands.HLP_SELL_COMMAND, GreedyArg = true)]
         public void SellCommand(Client player, string args)
         {
             string[] arguments = args.Split(' ');
@@ -1742,7 +1747,7 @@ namespace WiredPlayers.globals
             {
                 switch (arguments[0].ToLower())
                 {
-                    case Messages.ARG_VEHICLE:
+                    case Commands.ARG_VEHICLE:
                         if (arguments.Length > 3)
                         {
                             if (int.TryParse(arguments[2], out targetId) == true)
@@ -1757,7 +1762,7 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_VEH_COMMAND);
                                 return;
                             }
 
@@ -1777,8 +1782,8 @@ namespace WiredPlayers.globals
                                             {
                                                 if (vehModel.owner == player.Name)
                                                 {
-                                                    string playerString = string.Format(Messages.INF_VEHICLE_SELL, vehModel.model, target.Name, price);
-                                                    string targetString = string.Format(Messages.INF_VEHICLE_SOLD, player.Name, vehModel.model, price);
+                                                    string playerString = string.Format(InfoRes.vehicle_sell, vehModel.model, target.Name, price);
+                                                    string targetString = string.Format(InfoRes.vehicle_sold, player.Name, vehModel.model, price);
 
                                                     target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                                                     target.SetData(EntityData.PLAYER_SELLING_PRICE, price);
@@ -1789,12 +1794,12 @@ namespace WiredPlayers.globals
                                                 }
                                                 else
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_VEH_OWNER);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_veh_owner);
                                                 }
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                                             }
                                         }
                                         else
@@ -1806,8 +1811,8 @@ namespace WiredPlayers.globals
                                                     if (vehicle.GetData(EntityData.VEHICLE_OWNER) == player.Name)
                                                     {
                                                         string vehicleModel = vehicle.GetData(EntityData.VEHICLE_MODEL);
-                                                        string playerString = string.Format(Messages.INF_VEHICLE_SELL, vehicleModel, target.Name, price);
-                                                        string targetString = string.Format(Messages.INF_VEHICLE_SOLD, player.Name, vehicleModel, price);
+                                                        string playerString = string.Format(InfoRes.vehicle_sell, vehicleModel, target.Name, price);
+                                                        string targetString = string.Format(InfoRes.vehicle_sold, player.Name, vehicleModel, price);
 
                                                         target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                                                         target.SetData(EntityData.PLAYER_SELLING_PRICE, price);
@@ -1818,7 +1823,7 @@ namespace WiredPlayers.globals
                                                     }
                                                     else
                                                     {
-                                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_VEH_OWNER);
+                                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_veh_owner);
                                                     }
                                                     break;
                                                 }
@@ -1827,28 +1832,28 @@ namespace WiredPlayers.globals
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
+                                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_VEH_COMMAND);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PRICE_POSITIVE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.price_positive);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_VEH_COMMAND);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_VEH_COMMAND);
                         }
                         break;
-                    case Messages.ARG_HOUSE:
+                    case Commands.ARG_HOUSE:
                         if (arguments.Length < 2)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_SELL_HOUSE_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_SELL_HOUSE_COMMAND);
                         }
                         else
                         {
@@ -1863,14 +1868,14 @@ namespace WiredPlayers.globals
                                         {
                                             if (rndPlayer.HasData(EntityData.PLAYER_PLAYING) && rndPlayer.GetData(EntityData.PLAYER_HOUSE_ENTERED) == house.id)
                                             {
-                                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_OCCUPIED);
+                                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_occupied);
                                                 return;
                                             }
                                         }
                                         if (arguments.Length == 2)
                                         {
                                             int sellValue = (int)Math.Round(house.price * 0.7);
-                                            string playerString = string.Format(Messages.INF_HOUSE_SELL_STATE, sellValue);
+                                            string playerString = string.Format(InfoRes.house_sell_state, sellValue);
                                             player.SetData(EntityData.PLAYER_SELLING_HOUSE_STATE, objectId);
                                             player.SendChatMessage(Constants.COLOR_INFO + playerString);
                                         }
@@ -1888,7 +1893,7 @@ namespace WiredPlayers.globals
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_HOUSE_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_HOUSE_COMMAND);
                                                 return;
                                             }
 
@@ -1896,8 +1901,8 @@ namespace WiredPlayers.globals
                                             {
                                                 if (price > 0)
                                                 {
-                                                    string playerString = string.Format(Messages.INF_HOUSE_SELL, target.Name, price);
-                                                    string targetString = string.Format(Messages.INF_HOUSE_SOLD, player.Name, price);
+                                                    string playerString = string.Format(InfoRes.house_sell, target.Name, price);
+                                                    string targetString = string.Format(InfoRes.house_sold, player.Name, price);
 
                                                     target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                                                     target.SetData(EntityData.PLAYER_SELLING_PRICE, price);
@@ -1908,36 +1913,36 @@ namespace WiredPlayers.globals
                                                 }
                                                 else
                                                 {
-                                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PRICE_POSITIVE);
+                                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.price_positive);
                                                 }
                                             }
                                             else
                                             {
-                                                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_VEH_COMMAND);
+                                                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_VEH_COMMAND);
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_house_owner);
                                     }
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_EXISTS);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_exists);
                                 }
 
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_SELL_HOUSE_COMMAND);
+                                player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_SELL_HOUSE_COMMAND);
                             }
                         }
                         break;
-                    case Messages.ARG_WEAPON:
+                    case Commands.ARG_WEAPON:
                         // Pending TODO
                         break;
-                    case Messages.ARG_FISH:
+                    case Commands.ARG_FISH:
                         if (player.GetData(EntityData.PLAYER_BUSINESS_ENTERED) > 0)
                         {
                             int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
@@ -1950,7 +1955,7 @@ namespace WiredPlayers.globals
 
                                 if (fishModel == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_FISH_SELLABLE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_fish_sellable);
                                 }
                                 else
                                 {
@@ -1966,51 +1971,51 @@ namespace WiredPlayers.globals
 
                                     player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney + amount);
 
-                                    string message = string.Format(Messages.INF_FISHING_WON, amount);
+                                    string message = string.Format(InfoRes.fishing_won, amount);
                                     player.SendChatMessage(Constants.COLOR_INFO + message);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_BUSINESS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_business);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_BUSINESS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_business);
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_SELL_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_SELL_COMMAND);
                         break;
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_SELL_COMMAND);
+                player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_SELL_COMMAND);
             }
         }
 
-        [Command(Messages.COM_HELP)]
+        [Command(Commands.COM_HELP)]
         public void HelpCommand(Client player)
         {
             player.SendChatMessage(Constants.COLOR_ERROR + "Command not implemented.");
             //player.TriggerEvent("helptext");
         }
 
-        [Command(Messages.COM_WELCOME)]
+        [Command(Commands.COM_WELCOME)]
         public void WelcomeCommand(Client player)
         {
             player.SendChatMessage(Constants.COLOR_ERROR + "Command not implemented.");
             //player.TriggerEvent("welcomeHelp");
         }
 
-        [Command(Messages.COM_SHOW, Messages.GEN_SHOW_DOC_COMMAND)]
+        [Command(Commands.COM_SHOW, Commands.HLP_SHOW_DOC_COMMAND)]
         public void ShowCommand(Client player, string targetString, string documentation)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -2018,18 +2023,18 @@ namespace WiredPlayers.globals
                 string message = string.Empty;
                 string nameChar = player.GetData(EntityData.PLAYER_NAME);
                 int age = player.GetData(EntityData.PLAYER_AGE);
-                string sexDescription = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? Messages.GEN_SEX_MALE : Messages.GEN_SEX_FEMALE;
+                string sexDescription = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? GenRes.sex_male : GenRes.sex_female;
 
                 Client target = int.TryParse(targetString, out int targetId) ? GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
                 switch (documentation.ToLower())
                 {
-                    case Messages.ARG_LICENSES:
+                    case Commands.ARG_LICENSES:
                         string licenseMessage = string.Empty;
                         string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
                         string[] playerLicensesArray = playerLicenses.Split(',');
 
-                        message = string.Format(Messages.INF_LICENSES_SHOW, target.Name);
+                        message = string.Format(InfoRes.licenses_show, target.Name);
                         Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_ME, 20.0f);
 
                         foreach (string license in playerLicensesArray)
@@ -2041,13 +2046,13 @@ namespace WiredPlayers.globals
                                     switch (currentLicenseStatus)
                                     {
                                         case -1:
-                                           target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_NOT_AVAILABLE);
+                                           target.SendChatMessage(Constants.COLOR_HELP + InfoRes.car_license_not_available);
                                             break;
                                         case 0:
-                                           target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_CAR_LICENSE_PRACTICAL_PENDING);
+                                           target.SendChatMessage(Constants.COLOR_HELP + InfoRes.car_license_practical_pending);
                                             break;
                                         default:
-                                            licenseMessage = string.Format(Messages.INF_CAR_LICENSE_POINTS, currentLicenseStatus);
+                                            licenseMessage = string.Format(InfoRes.car_license_points, currentLicenseStatus);
                                            target.SendChatMessage(Constants.COLOR_HELP + licenseMessage);
                                             break;
                                     }
@@ -2056,13 +2061,13 @@ namespace WiredPlayers.globals
                                     switch (currentLicenseStatus)
                                     {
                                         case -1:
-                                           target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_NOT_AVAILABLE);
+                                           target.SendChatMessage(Constants.COLOR_HELP + InfoRes.motorcycle_license_not_available);
                                             break;
                                         case 0:
-                                           target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_MOTORCYCLE_LICENSE_PRACTICAL_PENDING);
+                                           target.SendChatMessage(Constants.COLOR_HELP + InfoRes.motorcycle_license_practical_pending);
                                             break;
                                         default:
-                                            licenseMessage = string.Format(Messages.INF_MOTORCYCLE_LICENSE_POINTS, currentLicenseStatus);
+                                            licenseMessage = string.Format(InfoRes.motorcycle_license_points, currentLicenseStatus);
                                            target.SendChatMessage(Constants.COLOR_HELP + licenseMessage);
                                             break;
                                     }
@@ -2070,86 +2075,86 @@ namespace WiredPlayers.globals
                                 case Constants.LICENSE_TAXI:
                                     if (currentLicenseStatus == -1)
                                     {
-                                       target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_NOT_AVAILABLE);
+                                       target.SendChatMessage(Constants.COLOR_HELP + InfoRes.taxi_license_not_available);
                                     }
                                     else
                                     {
-                                       target.SendChatMessage(Constants.COLOR_HELP + Messages.INF_TAXI_LICENSE_UP_TO_DATE);
+                                       target.SendChatMessage(Constants.COLOR_HELP + InfoRes.taxi_license_up_to_date);
                                     }
                                     break;
                             }
                             currentLicense++;
                         }
                         break;
-                    case Messages.ARG_INSURANCE:
+                    case Commands.ARG_INSURANCE:
                         int playerMedicalInsurance = player.GetData(EntityData.PLAYER_MEDICAL_INSURANCE);
                         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
                         dateTime = dateTime.AddSeconds(playerMedicalInsurance);
 
                         if (playerMedicalInsurance > 0)
                         {
-                            message = string.Format(Messages.INF_INSURANCE_SHOW, target.Name);
+                            message = string.Format(InfoRes.insurance_show, target.Name);
                             Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_ME, 20.0f);
 
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_NAME + nameChar);
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_AGE + age);
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_SEX + sexDescription);
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_EXPIRY + dateTime.ToShortDateString());
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.name + nameChar);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.age + age);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.sex + sexDescription);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.expiry + dateTime.ToShortDateString());
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_MEDICAL_INSURANCE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_medical_insurance);
                         }
 
                         break;
-                    case Messages.ARG_IDENTIFICATION:
+                    case Commands.ARG_IDENTIFICATION:
                         int playerDocumentation = player.GetData(EntityData.PLAYER_DOCUMENTATION);
                         if (playerDocumentation > 0)
                         {
-                            message = string.Format(Messages.INF_IDENTIFICATION_SHOW, target.Name);
+                            message = string.Format(InfoRes.identification_show, target.Name);
                             Chat.SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_ME, 20.0f);
 
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_NAME + nameChar);
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_AGE + age);
-                           target.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_SEX + sexDescription);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.name + nameChar);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.age + age);
+                           target.SendChatMessage(Constants.COLOR_INFO + GenRes.sex + sexDescription);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_UNDOCUMENTED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_undocumented);
                         }
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PAY, Messages.GEN_PAY_COMMAND)]
+        [Command(Commands.COM_PAY, Commands.HLP_PAY_COMMAND)]
         public void PayCommand(Client player, string targetString, int price)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
                 Client target = int.TryParse(targetString, out int targetId) ? GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
                 if (target == player)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOOKER_OFFERED_HIMSELF);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.hooker_offered_himself);
                 }
                 else
                 {
                     target.SetData(EntityData.PLAYER_PAYMENT, player);
                     target.SetData(EntityData.JOB_OFFER_PRICE, price);
 
-                    string playerMessage = string.Format(Messages.INF_PAYMENT_OFFER, price, target.Name);
-                    string targetMessage = string.Format(Messages.INF_PAYMENT_RECEIVED, player.Name, price);
+                    string playerMessage = string.Format(InfoRes.payment_offer, price, target.Name);
+                    string targetMessage = string.Format(InfoRes.payment_received, player.Name, price);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                    target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                 }
             }
         }
 
-        [Command(Messages.COM_GIVE, Messages.GEN_GIVE_COMMAND)]
+        [Command(Commands.COM_GIVE, Commands.HLP_GIVE_COMMAND)]
         public void GiveCommand(Client player, string targetString)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -2158,15 +2163,15 @@ namespace WiredPlayers.globals
 
                 if (target == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
                 else if (player.Position.DistanceTo(target.Position) > 2.0f)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                 }
                 else if (target.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_TARGET_RIGHT_HAND_NOT_EMPTY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.target_right_hand_not_empty);
                 }
                 else
                 {
@@ -2185,8 +2190,8 @@ namespace WiredPlayers.globals
                         target.SetWeaponAmmo(weaponHash, item.amount);
                         target.RemoveWeapon(weaponHash);
 
-                        playerMessage = string.Format(Messages.INF_ITEM_GIVEN, item.hash.ToLower(), target.Name);
-                        targetMessage = string.Format(Messages.INF_ITEM_RECEIVED, player.Name, item.hash.ToLower());
+                        playerMessage = string.Format(InfoRes.item_given, item.hash.ToLower(), target.Name);
+                        targetMessage = string.Format(InfoRes.item_received, player.Name, item.hash.ToLower());
                     }
                     else
                     {
@@ -2194,8 +2199,8 @@ namespace WiredPlayers.globals
                         item.objectHandle.Detach();
                         item.objectHandle.AttachTo(target, "PH_R_Hand", businessItem.position, businessItem.rotation);
 
-                        playerMessage = string.Format(Messages.INF_ITEM_GIVEN, businessItem.description.ToLower(), target.Name);
-                        targetMessage = string.Format(Messages.INF_ITEM_RECEIVED, player.Name, businessItem.description.ToLower());
+                        playerMessage = string.Format(InfoRes.item_given, businessItem.description.ToLower(), target.Name);
+                        targetMessage = string.Format(InfoRes.item_received, player.Name, businessItem.description.ToLower());
                     }
 
                     // Change item's owner
@@ -2215,40 +2220,40 @@ namespace WiredPlayers.globals
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_CANCEL, Messages.GEN_GLOBALS_CANCEL_COMMAND)]
+        [Command(Commands.COM_CANCEL, Commands.HLP_GLOBALS_CANCEL_COMMAND)]
         public void CancelCommand(Client player, string cancel)
         {
             switch (cancel.ToLower())
             {
-                case Messages.ARG_INTERVIEW:
+                case Commands.ARG_INTERVIEW:
                     if (player.HasData(EntityData.PLAYER_ON_AIR) == true)
                     {
                         player.ResetData(EntityData.PLAYER_ON_AIR);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ON_AIR_CANCELED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.on_air_canceled);
                     }
                     break;
-                case Messages.ARG_SERVICE:
+                case Commands.ARG_SERVICE:
                     if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == false)
                     {
                         player.ResetData(EntityData.PLAYER_ALREADY_FUCKING);
                         player.ResetData(EntityData.PLAYER_JOB_PARTNER);
                         player.ResetData(EntityData.HOOKER_TYPE_SERVICE);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOOKER_SERVICE_CANCELED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hooker_service_canceled);
                     }
                     break;
-                case Messages.ARG_MONEY:
+                case Commands.ARG_MONEY:
                     if (player.HasData(EntityData.PLAYER_PAYMENT) == true)
                     {
                         player.ResetData(EntityData.PLAYER_PAYMENT);
                         player.ResetData(EntityData.PLAYER_JOB_PARTNER);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PAYMENT_CANCELED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.payment_canceled);
                     }
                     break;
-                case Messages.ARG_ORDER:
+                case Commands.ARG_ORDER:
                     if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == true)
                     {
                         player.ResetData(EntityData.PLAYER_DELIVER_ORDER);
@@ -2259,10 +2264,10 @@ namespace WiredPlayers.globals
                         // Remove the checkpoints
                         player.TriggerEvent("fastFoodDeliverFinished");
 
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_DELIVERER_ORDER_CANCELED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.deliverer_order_canceled);
                     }
                     break;
-                case Messages.ARG_REPAINT:
+                case Commands.ARG_REPAINT:
                     if (player.HasData(EntityData.PLAYER_REPAINT_VEHICLE) == true)
                     {
                         // Get the mechanic and the vehicle
@@ -2299,27 +2304,27 @@ namespace WiredPlayers.globals
                         // Remove repaint window
                         target.TriggerEvent("closeRepaintWindow");
 
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_REPAINT_CANCELED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.repaint_canceled);
                     }
                     break;
                 default:
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_GLOBALS_CANCEL_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_GLOBALS_CANCEL_COMMAND);
                     break;
             }
         }
 
-        [Command(Messages.COM_ACCEPT, Messages.GEN_GLOBALS_ACCEPT_COMMAND)]
+        [Command(Commands.COM_ACCEPT, Commands.HLP_GLOBALS_ACCEPT_COMMAND)]
         public void AcceptCommand(Client player, string accept)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
                 switch (accept.ToLower())
                 {
-                    case Messages.ARG_REPAIR:
+                    case Commands.ARG_REPAIR:
                         if (player.HasData(EntityData.PLAYER_REPAIR_VEHICLE) == true)
                         {
                             Client mechanic = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2341,10 +2346,10 @@ namespace WiredPlayers.globals
 
                                     switch (type.ToLower())
                                     {
-                                        case Messages.ARG_CHASSIS:
+                                        case Commands.ARG_CHASSIS:
                                             vehicle.Repair();
                                             break;
-                                        case Messages.ARG_DOORS:
+                                        case Commands.ARG_DOORS:
                                             for (int i = 0; i < 6; i++)
                                             {
                                                 if (vehicle.IsDoorBroken(i) == true)
@@ -2353,7 +2358,7 @@ namespace WiredPlayers.globals
                                                 }
                                             }
                                             break;
-                                        case Messages.ARG_TYRES:
+                                        case Commands.ARG_TYRES:
                                             for (int i = 0; i < 4; i++)
                                             {
                                                 if (vehicle.IsTyrePopped(i) == true)
@@ -2362,7 +2367,7 @@ namespace WiredPlayers.globals
                                                 }
                                             }
                                             break;
-                                        case Messages.ARG_WINDOWS:
+                                        case Commands.ARG_WINDOWS:
                                             for (int i = 0; i < 4; i++)
                                             {
                                                 if (vehicle.IsWindowBroken(i) == true)
@@ -2405,34 +2410,34 @@ namespace WiredPlayers.globals
                                     player.ResetData(EntityData.JOB_OFFER_PRODUCTS);
                                     player.ResetData(EntityData.JOB_OFFER_PRICE);
 
-                                    string playerMessage = string.Format(Messages.INF_VEHICLE_REPAIRED_BY, mechanic.Name, price);
-                                    string mechanicMessage = string.Format(Messages.INF_VEHICLE_REPAIRED_BY, player.Name, price);
+                                    string playerMessage = string.Format(InfoRes.vehicle_repaired_by, mechanic.Name, price);
+                                    string mechanicMessage = string.Format(InfoRes.vehicle_repaired_by, player.Name, price);
                                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                     mechanic.SendChatMessage(Constants.COLOR_INFO + mechanicMessage);
 
                                     Task.Factory.StartNew(() =>
                                     {
                                         // Save the log into the database
-                                        Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAIR, price);
+                                        Database.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAIR, price);
                                     });
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_REPAIR_OFFERED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_repair_offered);
 
                         }
                         break;
-                    case Messages.ARG_REPAINT:
+                    case Commands.ARG_REPAINT:
                         if (player.HasData(EntityData.PLAYER_REPAINT_VEHICLE) == true)
                         {
                             Client mechanic = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2508,8 +2513,8 @@ namespace WiredPlayers.globals
                                     player.ResetData(EntityData.JOB_OFFER_PRODUCTS);
                                     player.ResetData(EntityData.JOB_OFFER_PRICE);
 
-                                    string playerMessage = string.Format(Messages.INF_VEHICLE_REPAINTED_BY, mechanic.Name, price);
-                                    string mechanicMessage = string.Format(Messages.INF_VEHICLE_REPAINTED_TO, player.Name, price);
+                                    string playerMessage = string.Format(InfoRes.vehicle_repainted_by, mechanic.Name, price);
+                                    string mechanicMessage = string.Format(InfoRes.vehicle_repainted_to, player.Name, price);
                                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                     mechanic.SendChatMessage(Constants.COLOR_INFO + mechanicMessage);
 
@@ -2519,44 +2524,44 @@ namespace WiredPlayers.globals
                                     Task.Factory.StartNew(() =>
                                     {
                                         // Save the log into the database
-                                        Database.LogPayment(player.Name, mechanic.Name, Messages.COM_REPAINT, price);
+                                        Database.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAINT, price);
                                     });
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_REPAINT_OFFERED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_repaint_offered);
                         }
 
                         break;
-                    case Messages.ARG_SERVICE:
+                    case Commands.ARG_SERVICE:
 
                         if (player.HasData(EntityData.HOOKER_TYPE_SERVICE) == false)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_SERVICE_OFFERED);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_service_offered);
                         }
                         else  if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_FUCKING);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_fucking);
                         }
                         else if (player.VehicleSeat != (int)VehicleSeat.Driver)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
                         }
                         else
                         {
                             if (player.Vehicle.EngineStatus)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ENGINE_ON);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_on);
                             }
                             else
                             {
@@ -2570,7 +2575,7 @@ namespace WiredPlayers.globals
                                     {
                                         if (amount > money)
                                         {
-                                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                                         }
                                         else
                                         {
@@ -2578,8 +2583,8 @@ namespace WiredPlayers.globals
                                             player.SetSharedData(EntityData.PLAYER_MONEY, money - amount);
                                             target.SetSharedData(EntityData.PLAYER_MONEY, targetMoney + amount);
 
-                                            string playerMessage = string.Format(Messages.INF_SERVICE_PAID, amount);
-                                            string targetMessage = string.Format(Messages.INF_SERVICE_RECEIVED, amount);
+                                            string playerMessage = string.Format(InfoRes.service_paid, amount);
+                                            string targetMessage = string.Format(InfoRes.service_received, amount);
                                             player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                            target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
@@ -2614,40 +2619,40 @@ namespace WiredPlayers.globals
                                             Task.Factory.StartNew(() =>
                                             {
                                                 // Save the log into the database
-                                                Database.LogPayment(player.Name, target.Name, Messages.GEN_HOOKER, amount);
+                                                Database.LogPayment(player.Name, target.Name, GenRes.hooker, amount);
                                             });
                                         }
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                                     }
                                 }
                             }
                         }
                         break;
-                    case Messages.ARG_INTERVIEW:
+                    case Commands.ARG_INTERVIEW:
                         if (!player.IsInVehicle)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
                         }
                         else
                         {
                             NetHandle vehicle = player.Vehicle;
                             if (player.VehicleSeat != (int)VehicleSeat.RightRear)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_RIGHT_REAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_right_rear);
                             }
                             else
                             {
                                 Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
                                 player.SetData(EntityData.PLAYER_ON_AIR, true);
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ALREADY_ON_AIR);
-                               target.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_INTERVIEW_ACCEPTED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.already_on_air);
+                               target.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.interview_accepted);
                             }
                         }
                         break;
-                    case Messages.ARG_MONEY:
+                    case Commands.ARG_MONEY:
                         if (player.HasData(EntityData.PLAYER_PAYMENT) == true)
                         {
                             Client target = player.GetData(EntityData.PLAYER_PAYMENT);
@@ -2668,29 +2673,29 @@ namespace WiredPlayers.globals
                                     player.ResetData(EntityData.PLAYER_PAYMENT);
 
                                     // Send the messages to both players
-                                    string playerMessage = string.Format(Messages.INF_PLAYER_PAID, target.Name, amount);
-                                    string targetMessage = string.Format(Messages.INF_TARGET_PAID, amount, player.Name);
+                                    string playerMessage = string.Format(InfoRes.player_paid, target.Name, amount);
+                                    string targetMessage = string.Format(InfoRes.target_paid, amount, player.Name);
                                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                    target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                                     Task.Factory.StartNew(() =>
                                     {
                                         // Save the logs into database
-                                        Database.LogPayment(target.Name, player.Name, Messages.GEN_PAYMENT_PLAYERS, amount);
+                                        Database.LogPayment(target.Name, player.Name, GenRes.payment_players, amount);
                                     });
                                 }
                                 else
                                 {
-                                   target.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                   target.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                             }
                         }
                         break;
-                    case Messages.ARG_VEHICLE:
+                    case Commands.ARG_VEHICLE:
                         if (player.HasData(EntityData.PLAYER_SELLING_VEHICLE) == true)
                         {
                             Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2725,30 +2730,30 @@ namespace WiredPlayers.globals
                                     player.ResetData(EntityData.PLAYER_SELLING_VEHICLE);
                                     player.ResetData(EntityData.PLAYER_SELLING_PRICE);
 
-                                    string playerString = string.Format(Messages.INF_VEHICLE_BUY, target.Name, vehicleModel, amount);
-                                    string targetString = string.Format(Messages.INF_VEHICLE_BOUGHT, player.Name, vehicleModel, amount);
+                                    string playerString = string.Format(InfoRes.vehicle_buy, target.Name, vehicleModel, amount);
+                                    string targetString = string.Format(InfoRes.vehicle_bought, player.Name, vehicleModel, amount);
                                     player.SendChatMessage(Constants.COLOR_INFO + playerString);
                                    target.SendChatMessage(Constants.COLOR_INFO + targetString);
 
                                     Task.Factory.StartNew(() =>
                                     {
                                         // Save the logs into database
-                                        Database.LogPayment(target.Name, player.Name, Messages.GEN_VEHICLE_SALE, amount);
+                                        Database.LogPayment(target.Name, player.Name, GenRes.vehicle_sale, amount);
                                     });
                                 }
                                 else
                                 {
-                                    string message = string.Format(Messages.ERR_CARSHOP_NO_MONEY, amount);
+                                    string message = string.Format(ErrRes.carshop_no_money, amount);
                                     player.SendChatMessage(Constants.COLOR_ERROR + message);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                             }
                         }
                         break;
-                    case Messages.ARG_HOUSE:
+                    case Commands.ARG_HOUSE:
                         if (player.HasData(EntityData.PLAYER_SELLING_HOUSE) == true)
                         {
                             Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2775,8 +2780,8 @@ namespace WiredPlayers.globals
                                         player.ResetData(EntityData.PLAYER_SELLING_HOUSE);
                                         player.ResetData(EntityData.PLAYER_SELLING_PRICE);
 
-                                        string playerString = string.Format(Messages.INF_HOUSE_BUYTO, target.Name, amount);
-                                        string targetString = string.Format(Messages.INF_HOUSE_BOUGHT, player.Name, amount);
+                                        string playerString = string.Format(InfoRes.house_buyto, target.Name, amount);
+                                        string targetString = string.Format(InfoRes.house_bought, player.Name, amount);
                                         player.SendChatMessage(Constants.COLOR_INFO + playerString);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetString);
 
@@ -2787,24 +2792,24 @@ namespace WiredPlayers.globals
                                             Database.UpdateHouse(house);
 
                                             // Log the payment into database
-                                            Database.LogPayment(target.Name, player.Name, Messages.GEN_HOUSE_SALE, amount);
+                                            Database.LogPayment(target.Name, player.Name, GenRes.house_sale, amount);
                                         });
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Messages.ERR_HOUSE_SELL_GENERIC);
-                                       target.SendChatMessage(Messages.ERR_HOUSE_SELL_GENERIC);
+                                        player.SendChatMessage(ErrRes.house_sell_generic);
+                                       target.SendChatMessage(ErrRes.house_sell_generic);
                                     }
                                 }
                                 else
                                 {
-                                    string message = string.Format(Messages.ERR_CARSHOP_NO_MONEY, amount);
+                                    string message = string.Format(ErrRes.carshop_no_money, amount);
                                    target.SendChatMessage(Constants.COLOR_ERROR + message);
                                 }
                             }
                         }
                         break;
-                    case Messages.ARG_STATE_HOUSE:
+                    case Commands.ARG_STATE_HOUSE:
                         if (player.HasData(EntityData.PLAYER_SELLING_HOUSE_STATE) == true)
                         {
                             HouseModel house = House.GetHouseById(player.GetData(EntityData.PLAYER_SELLING_HOUSE_STATE));
@@ -2824,7 +2829,7 @@ namespace WiredPlayers.globals
                                     int playerMoney = player.GetSharedData(EntityData.PLAYER_BANK);
                                     player.SetSharedData(EntityData.PLAYER_BANK, playerMoney + amount);
 
-                                    player.SendChatMessage(Constants.COLOR_SUCCESS + string.Format(Messages.SUC_HOUSE_SOLD, amount));
+                                    player.SendChatMessage(Constants.COLOR_SUCCESS + string.Format(SuccRes.house_sold, amount));
 
                                     Task.Factory.StartNew(() =>
                                     {
@@ -2833,33 +2838,33 @@ namespace WiredPlayers.globals
                                         Database.UpdateHouse(house);
 
                                         // Log the payment into the database
-                                        Database.LogPayment(player.Name, Messages.GEN_STATE, Messages.GEN_HOUSE_SALE, amount);
+                                        Database.LogPayment(player.Name, GenRes.state, GenRes.house_sale, amount);
                                     });
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Messages.ERR_HOUSE_SELL_GENERIC);
+                                    player.SendChatMessage(ErrRes.house_sell_generic);
                                 }
                             }
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_GLOBALS_ACCEPT_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_GLOBALS_ACCEPT_COMMAND);
                         break;
                 }
             }
         }
 
-        [Command(Messages.COM_PICK_UP)]
+        [Command(Commands.COM_PICK_UP)]
         public void PickUpCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_OCCUPIED);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_occupied);
             }
             else if (player.HasSharedData(EntityData.PLAYER_WEAPON_CRATE) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BOTH_HAND_OCCUPIED);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.both_hand_occupied);
             }
             else
             {
@@ -2903,7 +2908,7 @@ namespace WiredPlayers.globals
                         Database.UpdateItem(item);
                     });
 
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_PICKED_ITEM);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_picked_item);
                 }
                 else
                 {
@@ -2919,13 +2924,13 @@ namespace WiredPlayers.globals
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ITEMS_NEAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_items_near);
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_DROP)]
+        [Command(Commands.COM_DROP)]
         public void DropCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -2989,7 +2994,7 @@ namespace WiredPlayers.globals
                     });
                 }
 
-                string message = string.Format(Messages.INF_PLAYER_INVENTORY_DROP, businessItem.description.ToLower());
+                string message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
                 player.SendChatMessage(Constants.COLOR_INFO + message);
             }
             else if (player.HasSharedData(EntityData.PLAYER_WEAPON_CRATE) == true)
@@ -3006,17 +3011,17 @@ namespace WiredPlayers.globals
                     weaponCrate.crateObject.Detach();
                     weaponCrate.crateObject.Position = weaponCrate.position;
 
-                    string message = string.Format(Messages.INF_PLAYER_INVENTORY_DROP, Messages.GEN_WEAPON_CRATE);
+                    string message = string.Format(InfoRes.player_inventory_drop, GenRes.weapon_crate);
                     player.SendChatMessage(Constants.COLOR_INFO + message);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_TICKET, Messages.GEN_HELP_REQUEST, GreedyArg = true)]
+        [Command(Commands.COM_TICKET, Commands.HLP_HELP_REQUEST, GreedyArg = true)]
         public void TicketCommand(Client player, string message)
         {
             foreach (AdminTicketModel ticket in adminTicketList)
@@ -3039,16 +3044,16 @@ namespace WiredPlayers.globals
             {
                 if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ADMIN_RANK) > 0)
                 {
-                   target.SendChatMessage(Constants.COLOR_ADMIN_INFO + Messages.ADM_NEW_ADMIN_TICKET);
+                   target.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.new_admin_ticket);
                 }
                 else if (target == player)
                 {
-                    player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_HELP_REQUEST_SENT);
+                    player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.help_request_sent);
                 }
             }
         }
 
-        [Command(Messages.COM_DOOR)]
+        [Command(Commands.COM_DOOR)]
         public void DoorCommand(Client player)
         {
             // Check if the player's in his house
@@ -3058,7 +3063,7 @@ namespace WiredPlayers.globals
                 {
                     if (House.HasPlayerHouseKeys(player, house) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_house_owner);
                     }
                     else
                     {
@@ -3070,7 +3075,7 @@ namespace WiredPlayers.globals
                             Database.UpdateHouse(house);
                         });
 
-                        player.SendChatMessage(house.locked ? Constants.COLOR_INFO + Messages.INF_HOUSE_LOCKED : Constants.COLOR_INFO + Messages.INF_HOUSE_OPENED);
+                        player.SendChatMessage(house.locked ? Constants.COLOR_INFO + InfoRes.house_locked : Constants.COLOR_INFO + InfoRes.house_opened);
                     }
                     return;
                 }
@@ -3083,7 +3088,7 @@ namespace WiredPlayers.globals
                 {
                     if (Business.HasPlayerBusinessKeys(player, business) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_BUSINESS_OWNER);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_business_owner);
                     }
                     else
                     {
@@ -3095,36 +3100,36 @@ namespace WiredPlayers.globals
                             Database.UpdateBusiness(business);
                         });
 
-                        player.SendChatMessage(business.locked ? Constants.COLOR_INFO + Messages.INF_BUSINESS_LOCKED : Constants.COLOR_INFO + Messages.INF_BUSINESS_OPENED);
+                        player.SendChatMessage(business.locked ? Constants.COLOR_INFO + InfoRes.business_locked : Constants.COLOR_INFO + InfoRes.business_opened);
                     }
                     return;
                 }
             }
 
             // He's not in any house or business
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_HOUSE_BUSINESS);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_house_business);
         }
 
-        [Command(Messages.COM_COMPLEMENT, Messages.GEN_COMPLEMENT_COMMAND)]
+        [Command(Commands.COM_COMPLEMENT, Commands.HLP_COMPLEMENT_COMMAND)]
         public void ComplementCommand(Client player, string type, string action)
         {
             ClothesModel clothes = null;
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
-            if (action.ToLower() == Messages.ARG_WEAR || action.ToLower() == Messages.ARG_REMOVE)
+            if (action.ToLower() == Commands.ARG_WEAR || action.ToLower() == Commands.ARG_REMOVE)
             {
                 switch (type.ToLower())
                 {
-                    case Messages.ARG_MASK:
+                    case Commands.ARG_MASK:
                         clothes = GetDressedClothesInSlot(playerId, 0, Constants.CLOTHES_MASK);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.CLOTHES_MASK && c.type == 0).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_MASK_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_mask_bought);
                                 }
                                 else
                                 {
@@ -3133,14 +3138,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_MASK_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.mask_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_MASK_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_mask_equiped);
                             }
                             else
                             {
@@ -3149,16 +3154,16 @@ namespace WiredPlayers.globals
                             }
                         }
                         break;
-                    case Messages.ARG_BAG:
+                    case Commands.ARG_BAG:
                         clothes = GetDressedClothesInSlot(playerId, 0, Constants.CLOTHES_BAGS);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.CLOTHES_BAGS && c.type == 0).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_BAG_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_bag_bought);
                                 }
                                 else
                                 {
@@ -3167,14 +3172,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BAG_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.bag_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_BAG_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_bag_equiped);
                             }
                             else
                             {
@@ -3183,16 +3188,16 @@ namespace WiredPlayers.globals
                             }
                         }
                         break;
-                    case Messages.ARG_ACCESSORY:
+                    case Commands.ARG_ACCESSORY:
                         clothes = GetDressedClothesInSlot(playerId, 0, Constants.CLOTHES_ACCESSORIES);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.CLOTHES_ACCESSORIES && c.type == 0).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ACCESSORY_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_accessory_bought);
                                 }
                                 else
                                 {
@@ -3201,14 +3206,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ACCESSORY_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.accessory_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ACCESSORY_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_accessory_equiped);
                             }
                             else
                             {
@@ -3217,16 +3222,16 @@ namespace WiredPlayers.globals
                             }
                         }
                         break;
-                    case Messages.ARG_HAT:
+                    case Commands.ARG_HAT:
                         clothes = GetDressedClothesInSlot(playerId, 1, Constants.ACCESSORY_HATS);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.ACCESSORY_HATS && c.type == 1).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_HAT_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_hat_bought);
                                 }
                                 else
                                 {
@@ -3235,14 +3240,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HAT_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.hat_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_HAT_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_hat_equiped);
                             }
                             else
                             {
@@ -3258,16 +3263,16 @@ namespace WiredPlayers.globals
                             }
                         }
                         break;
-                    case Messages.ARG_GLASSES:
+                    case Commands.ARG_GLASSES:
                         clothes = GetDressedClothesInSlot(playerId, 1, Constants.ACCESSORY_GLASSES);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.ACCESSORY_GLASSES && c.type == 1).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_GLASSES_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_glasses_bought);
                                 }
                                 else
                                 {
@@ -3276,14 +3281,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_GLASSES_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.glasses_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_GLASSES_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_glasses_equiped);
                             }
                             else
                             {
@@ -3299,16 +3304,16 @@ namespace WiredPlayers.globals
                             }
                         }
                         break;
-                    case Messages.ARG_EARRINGS:
+                    case Commands.ARG_EARRINGS:
                         clothes = GetDressedClothesInSlot(playerId, 1, Constants.ACCESSORY_EARS);
-                        if (action.ToLower() == Messages.ARG_WEAR)
+                        if (action.ToLower() == Commands.ARG_WEAR)
                         {
                             if (clothes == null)
                             {
                                 clothes = GetPlayerClothes(playerId).Where(c => c.slot == Constants.ACCESSORY_EARS && c.type == 1).First();
                                 if (clothes == null)
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_EAR_BOUGHT);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_ear_bought);
                                 }
                                 else
                                 {
@@ -3317,14 +3322,14 @@ namespace WiredPlayers.globals
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_EAR_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.ear_equiped);
                             }
                         }
                         else
                         {
                             if (clothes == null)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_EAR_EQUIPED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_ear_equiped);
                             }
                             else
                             {
@@ -3341,17 +3346,17 @@ namespace WiredPlayers.globals
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_COMPLEMENT_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_COMPLEMENT_COMMAND);
                         break;
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_COMPLEMENT_COMMAND);
+                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_COMPLEMENT_COMMAND);
             }
         }
 
-        [Command(Messages.COM_PLAYER)]
+        [Command(Commands.COM_PLAYER)]
         public void PlayerCommand(Client player)
         {
             // Get players basic data

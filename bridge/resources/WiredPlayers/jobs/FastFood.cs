@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.jobs
 {
@@ -88,7 +90,7 @@ namespace WiredPlayers.jobs
             }
 
             // Send the message to the player
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_JOB_VEHICLE_ABANDONED);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.job_vehicle_abandoned);
         }
 
         [ServerEvent(Event.PlayerEnterVehicle)]
@@ -99,12 +101,12 @@ namespace WiredPlayers.jobs
                 if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                 {
                     player.WarpOutOfVehicle();
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_DELIVERING_ORDER);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_delivering_order);
                 }
                 else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                 {
                     player.WarpOutOfVehicle();
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                 }
                 else
                 {
@@ -135,7 +137,7 @@ namespace WiredPlayers.jobs
             {
                 if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle)
                 {
-                    string warn = string.Format(Messages.INF_JOB_VEHICLE_LEFT, 60);
+                    string warn = string.Format(InfoRes.job_vehicle_left, 60);
                     player.SendChatMessage(Constants.COLOR_INFO + warn);
 
                     // Timer with the time left to get into the vehicle
@@ -171,11 +173,11 @@ namespace WiredPlayers.jobs
 
                             player.TriggerEvent("fastFoodDeliverBack", playerDeliverColShape.Position);
 
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_DELIVER_COMPLETED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.deliver_completed);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_DELIVER_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.deliver_in_vehicle);
                         }
                     }
                     else
@@ -186,7 +188,7 @@ namespace WiredPlayers.jobs
                             int won = player.GetData(EntityData.PLAYER_JOB_WON);
                             int money = player.GetSharedData(EntityData.PLAYER_MONEY);
                             int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
-                            string message = string.Format(Messages.INF_JOB_WON, won);
+                            string message = string.Format(InfoRes.job_won, won);
                             Globals.fastFoodOrderList.RemoveAll(order => order.id == orderId);
 
                             playerDeliverColShape.Delete();
@@ -207,7 +209,7 @@ namespace WiredPlayers.jobs
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                         }
                     }
                 }
@@ -223,7 +225,7 @@ namespace WiredPlayers.jobs
                 {
                     if (order.taken)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_TAKEN);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_taken);
                     }
                     else
                     {
@@ -239,7 +241,7 @@ namespace WiredPlayers.jobs
                         player.SetData(EntityData.PLAYER_DELIVER_TIME, time);
 
                         // Information message sent to the player
-                        string orderMessage = string.Format(Messages.INF_DELIVER_ORDER, time);
+                        string orderMessage = string.Format(InfoRes.deliver_order, time);
                         player.SendChatMessage(Constants.COLOR_INFO + orderMessage);
                     }
                     return;
@@ -247,27 +249,27 @@ namespace WiredPlayers.jobs
             }
 
             // Order has been deleted
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_TIMEOUT);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_timeout);
         }
 
-        [Command(Messages.COM_ORDERS)]
+        [Command(Commands.COM_ORDERS)]
         public void OrdersCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FASTFOOD)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FASTFOOD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fastfood);
             }
             else if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_DELIVERING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_delivering);
             }
             else
             {
@@ -289,7 +291,7 @@ namespace WiredPlayers.jobs
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ORDER_NONE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_none);
                 }
             }
         }

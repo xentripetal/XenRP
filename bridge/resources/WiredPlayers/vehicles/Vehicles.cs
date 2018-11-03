@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.success;
 
 namespace WiredPlayers.vehicles
 {
@@ -59,12 +62,58 @@ namespace WiredPlayers.vehicles
                     if (!adminCreated)
                     {
                         int moneyLeft = player.GetSharedData(EntityData.PLAYER_BANK) - vehModel.price;
-                        string purchaseMssage = string.Format(Messages.SUC_VEHICLE_PURCHASED, vehModel.model, vehModel.price);
+                        string purchaseMssage = string.Format(SuccRes.vehicle_purchased, vehModel.model, vehModel.price);
                         player.SendChatMessage(Constants.COLOR_SUCCESS + purchaseMssage);
                         player.SetSharedData(EntityData.PLAYER_BANK, moneyLeft);
                     }
                 });
             });
+        }
+
+        public static Vehicle CreateIngameVehicle(VehicleModel vehModel)
+        {
+            Vehicle vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehModel.model), vehModel.position, vehModel.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
+            vehicle.NumberPlate = vehModel.plate == string.Empty ? "LS " + (1000 + vehModel.id) : vehModel.plate;
+            vehicle.EngineStatus = vehModel.engine != 0;
+            vehicle.Locked = vehModel.locked != 0;
+            vehicle.Dimension = Convert.ToUInt32(vehModel.dimension);
+
+            if (vehModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
+            {
+                vehicle.PrimaryColor = int.Parse(vehModel.firstColor);
+                vehicle.SecondaryColor = int.Parse(vehModel.secondColor);
+                vehicle.PearlescentColor = vehModel.pearlescent;
+            }
+            else
+            {
+                string[] firstColor = vehModel.firstColor.Split(',');
+                string[] secondColor = vehModel.secondColor.Split(',');
+                vehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
+                vehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
+            }
+
+            vehicle.SetData(EntityData.VEHICLE_ID, vehModel.id);
+            vehicle.SetData(EntityData.VEHICLE_MODEL, vehModel.model);
+            vehicle.SetData(EntityData.VEHICLE_POSITION, vehModel.position);
+            vehicle.SetData(EntityData.VEHICLE_ROTATION, vehModel.rotation);
+            vehicle.SetData(EntityData.VEHICLE_DIMENSION, vehModel.dimension);
+            vehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehModel.colorType);
+            vehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehModel.firstColor);
+            vehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehModel.secondColor);
+            vehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehModel.pearlescent);
+            vehicle.SetData(EntityData.VEHICLE_FACTION, vehModel.faction);
+            vehicle.SetData(EntityData.VEHICLE_PLATE, vehModel.plate);
+            vehicle.SetData(EntityData.VEHICLE_OWNER, vehModel.owner);
+            vehicle.SetData(EntityData.VEHICLE_PRICE, vehModel.price);
+            vehicle.SetData(EntityData.VEHICLE_PARKING, vehModel.parking);
+            vehicle.SetData(EntityData.VEHICLE_PARKED, vehModel.parked);
+            vehicle.SetData(EntityData.VEHICLE_GAS, vehModel.gas);
+            vehicle.SetData(EntityData.VEHICLE_KMS, vehModel.kms);
+
+            // Set vehicle's tunning
+            Mechanic.AddTunningToVehicle(vehicle);
+
+            return vehicle;
         }
 
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
@@ -143,50 +192,6 @@ namespace WiredPlayers.vehicles
             }
 
             return trunkUsed;
-        }
-
-        private static void CreateIngameVehicle(VehicleModel vehModel)
-        {
-            Vehicle vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.VehicleNameToModel(vehModel.model), vehModel.position, vehModel.rotation.Z, new Color(0, 0, 0), new Color(0, 0, 0));
-            vehicle.NumberPlate = vehModel.plate == string.Empty ? "LS " + (1000 + vehModel.id) : vehModel.plate;
-            vehicle.EngineStatus = vehModel.engine != 0;
-            vehicle.Locked = vehModel.locked != 0;
-            vehicle.Dimension = Convert.ToUInt32(vehModel.dimension);
-
-            if (vehModel.colorType == Constants.VEHICLE_COLOR_TYPE_PREDEFINED)
-            {
-                vehicle.PrimaryColor = int.Parse(vehModel.firstColor);
-                vehicle.SecondaryColor = int.Parse(vehModel.secondColor);
-                vehicle.PearlescentColor = vehModel.pearlescent;
-            }
-            else
-            {
-                string[] firstColor = vehModel.firstColor.Split(',');
-                string[] secondColor = vehModel.secondColor.Split(',');
-                vehicle.CustomPrimaryColor = new Color(int.Parse(firstColor[0]), int.Parse(firstColor[1]), int.Parse(firstColor[2]));
-                vehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
-            }
-
-            vehicle.SetData(EntityData.VEHICLE_ID, vehModel.id);
-            vehicle.SetData(EntityData.VEHICLE_MODEL, vehModel.model);
-            vehicle.SetData(EntityData.VEHICLE_POSITION, vehModel.position);
-            vehicle.SetData(EntityData.VEHICLE_ROTATION, vehModel.rotation);
-            vehicle.SetData(EntityData.VEHICLE_DIMENSION, vehModel.dimension);
-            vehicle.SetData(EntityData.VEHICLE_COLOR_TYPE, vehModel.colorType);
-            vehicle.SetData(EntityData.VEHICLE_FIRST_COLOR, vehModel.firstColor);
-            vehicle.SetData(EntityData.VEHICLE_SECOND_COLOR, vehModel.secondColor);
-            vehicle.SetData(EntityData.VEHICLE_PEARLESCENT_COLOR, vehModel.pearlescent);
-            vehicle.SetData(EntityData.VEHICLE_FACTION, vehModel.faction);
-            vehicle.SetData(EntityData.VEHICLE_PLATE, vehModel.plate);
-            vehicle.SetData(EntityData.VEHICLE_OWNER, vehModel.owner);
-            vehicle.SetData(EntityData.VEHICLE_PRICE, vehModel.price);
-            vehicle.SetData(EntityData.VEHICLE_PARKING, vehModel.parking);
-            vehicle.SetData(EntityData.VEHICLE_PARKED, vehModel.parked);
-            vehicle.SetData(EntityData.VEHICLE_GAS, vehModel.gas);
-            vehicle.SetData(EntityData.VEHICLE_KMS, vehModel.kms);
-
-            // Set vehicle's tunning
-            Mechanic.AddTunningToVehicle(vehicle);
         }
 
         private void OnVehicleDeathTimer(object vehicleObject)
@@ -270,7 +275,7 @@ namespace WiredPlayers.vehicles
                 gasTimerList.Remove(player.Value);
             }
             
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_REFUELED);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_refueled);
         }
 
         [ServerEvent(Event.PlayerEnterCheckpoint)]
@@ -303,14 +308,14 @@ namespace WiredPlayers.vehicles
                         if (vehicle != testingVehicle)
                         {
                             player.WarpOutOfVehicle();
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_TESTING_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                             return;
                         }
                     }
                     else
                     {
                         player.WarpOutOfVehicle();
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_TESTING_VEHICLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                         return;
                     }
                 }
@@ -327,26 +332,26 @@ namespace WiredPlayers.vehicles
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && vehFaction == Constants.FACTION_ADMIN)
                         {
                             player.WarpOutOfVehicle();
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ADMIN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.admin_vehicle);
                             return;
                         }
                         else if (vehFaction > 0 && vehFaction < Constants.MAX_FACTION_VEHICLES && playerFaction != vehFaction && vehFaction != Constants.FACTION_DRIVING_SCHOOL && vehFaction != Constants.FACTION_ADMIN)
                         {
                             player.WarpOutOfVehicle();
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE_FACTION);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_faction);
                             return;
                         }
                         else if (vehFaction > Constants.MAX_FACTION_VEHICLES && playerJob != vehFaction)
                         {
                             player.WarpOutOfVehicle();
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE_JOB);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
                             return;
                         }
                     }
                 }
 
                 // Engine toggle message
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOW_TO_START_ENGINE);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.how_to_start_engine);
 
                 // Initialize speedometer and engine status
                 float kms = vehicle.GetData(EntityData.VEHICLE_KMS);
@@ -361,8 +366,8 @@ namespace WiredPlayers.vehicles
             if (player.Seatbelt)
             {
                 player.Seatbelt = false;
-                Chat.SendMessageToNearbyPlayers(player, Messages.INF_SEATBELT_UNFASTEN, Constants.MESSAGE_ME, 20.0f);
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_WITHDRAW_ITEMS);
+                Chat.SendMessageToNearbyPlayers(player, InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_withdraw_items);
             }
 
             // Save gas and kms values
@@ -399,36 +404,36 @@ namespace WiredPlayers.vehicles
 
                 if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CANT_TOOGLE_ENGINE_WHILE_FUCKING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.cant_toogle_engine_while_fucking);
                 }
                 else if (vehicle.HasData(EntityData.VEHICLE_REFUELING) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_START_REFUELING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_start_refueling);
                 }
                 else if (vehicle.HasData(EntityData.VEHICLE_WEAPON_UNPACKING) == true)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_START_WEAPON_UNPACKING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_start_weapon_unpacking);
                 }
                 else if (!HasPlayerVehicleKeys(player, vehicle) && vehicleFaction == Constants.FACTION_NONE)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
                 else if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && vehicleFaction == Constants.FACTION_ADMIN)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ADMIN_VEHICLE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.admin_vehicle);
                 }
                 else if (vehicleFaction > 0 && vehicleFaction < Constants.MAX_FACTION_VEHICLES && playerFaction != vehicleFaction && vehicleFaction != Constants.FACTION_DRIVING_SCHOOL && vehicleFaction != Constants.FACTION_ADMIN)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE_FACTION);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_faction);
                 }
                 else if (vehicleFaction > Constants.MAX_FACTION_VEHICLES && playerJob != vehicleFaction)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE_JOB);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
                 }
                 else
                 {
                     vehicle.EngineStatus = !vehicle.EngineStatus;
-                    player.SendNotification(vehicle.EngineStatus ? Messages.INF_VEHICLE_TURNED_ON : Messages.INF_VEHICLE_TURNED_OFF);
+                    player.SendNotification(vehicle.EngineStatus ? InfoRes.vehicle_turned_on : InfoRes.vehicle_turned_off);
                 }
             }
         }
@@ -441,37 +446,37 @@ namespace WiredPlayers.vehicles
             vehicle.SetData(EntityData.VEHICLE_GAS, gas);
         }
 
-        [Command(Messages.COM_SEATBELT)]
+        [Command(Commands.COM_SEATBELT)]
         public void SeatbeltCommand(Client player)
         {
             if (!player.IsInVehicle)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
             }
             else
             {
                 player.Seatbelt = !player.Seatbelt;
-                Chat.SendMessageToNearbyPlayers(player, player.Seatbelt ? Messages.INF_SEATBELT_FASTEN : Messages.INF_SEATBELT_UNFASTEN, Constants.MESSAGE_ME, 20.0f);
+                Chat.SendMessageToNearbyPlayers(player, player.Seatbelt ? InfoRes.seatbelt_fasten : InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
             }
         }
 
-        [Command(Messages.COM_LOCK)]
+        [Command(Commands.COM_LOCK)]
         public void LockCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
                 Vehicle vehicle = Globals.GetClosestVehicle(player);
                 if (vehicle == null)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                 }
                 else if (HasPlayerVehicleKeys(player, vehicle) == false)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
                 else
                 {
@@ -479,23 +484,23 @@ namespace WiredPlayers.vehicles
                     VehicleHash vehicleHash = NAPI.Util.VehicleNameToModel(vehicleModel);
                     if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_CYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_MOTORCYCLES || NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_BOATS)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_LOCKABLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_lockable);
                     }
                     else
                     {
                         vehicle.Locked = !vehicle.Locked;
-                        Chat.SendMessageToNearbyPlayers(player, vehicle.Locked ? Messages.SUC_VEH_LOCKED : Messages.SUC_VEH_UNLOCKED, Constants.MESSAGE_ME, 20.0f);
+                        Chat.SendMessageToNearbyPlayers(player, vehicle.Locked ? SuccRes.veh_locked : SuccRes.veh_unlocked, Constants.MESSAGE_ME, 20.0f);
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_HOOD)]
+        [Command(Commands.COM_HOOD)]
         public void HoodCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -504,32 +509,32 @@ namespace WiredPlayers.vehicles
                 {
                     if (HasPlayerVehicleKeys(player, vehicle) == false && player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     }
                     else if (vehicle.IsDoorOpen(Constants.VEHICLE_HOOD) == false)
                     {
                         vehicle.OpenDoor(Constants.VEHICLE_HOOD);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOOD_OPENED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hood_opened);
                     }
                     else
                     {
                         vehicle.CloseDoor(Constants.VEHICLE_HOOD);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOOD_CLOSED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hood_closed);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                 }
             }
         }
 
-        [Command(Messages.COM_TRUNK, Messages.GEN_TRUNK_COMMAND)]
+        [Command(Commands.COM_TRUNK, Commands.HLP_TRUNK_COMMAND)]
         public void TrunkCommand(Client player, string action)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -542,44 +547,44 @@ namespace WiredPlayers.vehicles
 
                     switch (action.ToLower())
                     {
-                        case Messages.ARG_OPEN:
+                        case Commands.ARG_OPEN:
                             if (!HasPlayerVehicleKeys(player, vehicle) && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_NONE)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                             }
                             else if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == true)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_OPENED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_opened);
                             }
                             else
                             {
                                 vehicle.OpenDoor(Constants.VEHICLE_TRUNK);
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_OPENED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_opened);
                             }
                             break;
-                        case Messages.ARG_CLOSE:
+                        case Commands.ARG_CLOSE:
                             if (!HasPlayerVehicleKeys(player, vehicle) && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_NONE)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                             }
                             else if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_CLOSED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
                             else
                             {
                                 vehicle.CloseDoor(Constants.VEHICLE_TRUNK);
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_CLOSED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_closed);
                             }
                             break;
-                        case Messages.ARG_STORE:
+                        case Commands.ARG_STORE:
                             if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_CLOSED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
                             else if (IsVehicleTrunkInUse(vehicle) == true)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_IN_USE);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_in_use);
                             }
                             else
                             {
@@ -620,14 +625,14 @@ namespace WiredPlayers.vehicles
                                                 Vector3 weaponPosition = new Vector3(-2085.543f, 2600.857f, -0.4712417f);
                                                 Checkpoint weaponCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, weaponPosition, new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
                                                 target.SetData(EntityData.PLAYER_JOB_CHECKPOINT, weaponCheckpoint);
-                                                target.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WEAPON_POSITION_MARK);
+                                                target.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_position_mark);
                                                 target.TriggerEvent("showWeaponCheckpoint", weaponPosition);
                                             }
                                         }
                                     }
 
                                     // Send the message to the player
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_STORED_ITEMS);
+                                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_stored_items);
                                 }
                                 else if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
                                 {
@@ -650,7 +655,7 @@ namespace WiredPlayers.vehicles
                                     });
 
                                     // Send the message to the player
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_TRUNK_STORED_ITEMS);
+                                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_stored_items);
                                 }
                                 else
                                 {
@@ -665,19 +670,19 @@ namespace WiredPlayers.vehicles
                                     }
                                     else
                                     {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ITEMS_INVENTORY);
+                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_items_inventory);
                                     }
                                 }
                             }
                             break;
-                        case Messages.ARG_WITHDRAW:
+                        case Commands.ARG_WITHDRAW:
                             if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_CLOSED);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
                             else if (IsVehicleTrunkInUse(vehicle) == true)
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_TRUNK_IN_USE);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_in_use);
                             }
                             else
                             {
@@ -691,24 +696,24 @@ namespace WiredPlayers.vehicles
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_ITEMS_TRUNK);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_items_trunk);
                                 }
                             }
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_TRUNK_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_TRUNK_COMMAND);
                             break;
                     }
                 }
                 else
                 {
                     // There's no vehicle near
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                 }
             }
         }
 
-        [Command(Messages.COM_KEYS, Messages.GEN_KEYS_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_KEYS, Commands.HLP_KEYS_COMMAND, GreedyArg = true)]
         public void KeysCommand(Client player, string action, int vehicleId, string targetString = "")
         {
             Vehicle vehicle = null;
@@ -719,7 +724,7 @@ namespace WiredPlayers.vehicles
 
             switch (action.ToLower())
             {
-                case Messages.ARG_SEE:
+                case Commands.ARG_SEE:
                     foreach (string key in playerKeysArray)
                     {
                         if (int.Parse(key) == vehicleId)
@@ -730,7 +735,7 @@ namespace WiredPlayers.vehicles
                             {
                                 string model = vehicle.GetData(EntityData.VEHICLE_MODEL);
                                 string owner = vehicle.GetData(EntityData.VEHICLE_OWNER);
-                                player.SendChatMessage(Constants.COLOR_INFO + string.Format(Messages.INF_VEHICLE_KEYS_INFO, vehicleId, model, owner));
+                                player.SendChatMessage(Constants.COLOR_INFO + string.Format(InfoRes.vehicle_keys_info, vehicleId, model, owner));
                             }
                             else
                             {
@@ -739,12 +744,12 @@ namespace WiredPlayers.vehicles
 
                                 if (vehicleModel != null)
                                 {
-                                    string message = string.Format(Messages.INF_VEHICLE_KEYS_INFO, vehicleId, vehicleModel.model, vehicleModel.owner);
+                                    string message = string.Format(InfoRes.vehicle_keys_info, vehicleId, vehicleModel.model, vehicleModel.owner);
                                     player.SendChatMessage(Constants.COLOR_INFO + message);
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                                 }
                             }
                             return;
@@ -752,9 +757,9 @@ namespace WiredPlayers.vehicles
                     }
 
                     // The player doesn't have the keys
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     break;
-                case Messages.ARG_LEND:
+                case Commands.ARG_LEND:
                     vehicle = GetVehicleById(vehicleId);
 
                     if (vehicle == null)
@@ -764,14 +769,14 @@ namespace WiredPlayers.vehicles
 
                         if (vehicle == null)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                             return;
                         }
                     }
 
                     if (!HasPlayerVehicleKeys(player, vehicle))
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     }
                     else
                     {
@@ -788,28 +793,28 @@ namespace WiredPlayers.vehicles
                                     if (int.Parse(targetKeysArray[i]) == 0)
                                     {
                                         targetKeysArray[i] = vehicleId.ToString();
-                                        string playerMessage = string.Format(Messages.INF_VEHICLE_KEYS_GIVEN, target.Name);
-                                        string targetMessage = string.Format(Messages.INF_VEHICLE_KEYS_RECEIVED, player.Name);
+                                        string playerMessage = string.Format(InfoRes.vehicle_keys_given, target.Name);
+                                        string targetMessage = string.Format(InfoRes.vehicle_keys_received, player.Name);
                                         target.SetData(EntityData.PLAYER_VEHICLE_KEYS, string.Join(",", targetKeysArray));
                                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                                        target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                                         return;
                                     }
                                 }
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_KEYS_FULL);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_keys_full);
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_TOO_FAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_too_far);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_KEYS_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_KEYS_COMMAND);
                         }
                     }
                     break;
-                case Messages.ARG_DROP:
+                case Commands.ARG_DROP:
                     for (int i = 0; i < playerKeysArray.Length; i++)
                     {
                         if (playerKeysArray[i] == vehicleId.ToString())
@@ -818,21 +823,21 @@ namespace WiredPlayers.vehicles
                             Array.Sort(playerKeysArray);
                             Array.Reverse(playerKeysArray);
                             player.SetData(EntityData.PLAYER_VEHICLE_KEYS, string.Join(",", playerKeysArray));
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_KEYS_THROWN);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_keys_thrown);
                             return;
                         }
                     }
 
                     // Send a message telling that keys are not found
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     break;
                 default:
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_KEYS_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_KEYS_COMMAND);
                     break;
             }
         }
 
-        [Command(Messages.COM_LOCATE, Messages.GEN_LOCATE_COMMAND)]
+        [Command(Commands.COM_LOCATE, Commands.HLP_LOCATE_COMMAND)]
         public void LocateCommand(Client player, int vehicleId)
         {
             Vehicle vehicle = GetVehicleById(vehicleId);
@@ -846,7 +851,7 @@ namespace WiredPlayers.vehicles
                 {
                     if (HasPlayerVehicleKeys(player, vehModel) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     }
                     else
                     {
@@ -857,19 +862,19 @@ namespace WiredPlayers.vehicles
                         player.SetData(EntityData.PLAYER_PARKED_VEHICLE, locationCheckpoint);
                         player.TriggerEvent("locateVehicle", parking.position);
 
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_PARKED);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_parked);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_EXISTS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
                 }
             }
             else
             {
                 if (HasPlayerVehicleKeys(player, vehicle) == false)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
                 else
                 {
@@ -883,7 +888,7 @@ namespace WiredPlayers.vehicles
                             player.SetData(EntityData.PLAYER_PARKED_VEHICLE, locationCheckpoint);
                             player.TriggerEvent("locateVehicle", vehiclePosition);
                             
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_PARKED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_parked);
                             break;
                         }
                     }
@@ -891,7 +896,7 @@ namespace WiredPlayers.vehicles
             }
         }
 
-        [Command(Messages.COM_REFUEL, Messages.GEN_FUEL_COMMAND)]
+        [Command(Commands.COM_REFUEL, Commands.HLP_FUEL_COMMAND)]
         public void RefuelCommand(Client player, int amount)
         {
             foreach (BusinessModel business in Business.businessList)
@@ -905,19 +910,19 @@ namespace WiredPlayers.vehicles
 
                     if (vehicle == null)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                     }
                     else if (vehicle.HasData(EntityData.VEHICLE_REFUELING) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_REFUELING);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_refueling);
                     }
                     else if (player.HasData(EntityData.PLAYER_REFUELING) == true)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_REFUELING);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_refueling);
                     }
                     else if (vehicle.EngineStatus)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ENGINE_ON);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_on);
                     }
                     else
                     {
@@ -952,16 +957,16 @@ namespace WiredPlayers.vehicles
                                 Timer gasTimer = new Timer(OnVehicleRefueled, vehicle, (int)Math.Round(gasLeft * 1000), Timeout.Infinite);
                                 gasTimerList.Add(player.Value, gasTimer);
                                 
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_REFUELING);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_refueling);
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                             }
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                         }
                     }
 
@@ -969,10 +974,10 @@ namespace WiredPlayers.vehicles
                 }
             }
             
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FUEL_STATION_NEAR);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fuel_station_near);
         }
 
-        [Command(Messages.COM_FILL)]
+        [Command(Commands.COM_FILL)]
         public void FillCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -1001,30 +1006,30 @@ namespace WiredPlayers.vehicles
                                 Globals.itemList.Remove(item);
                             });
                             
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_VEHICLE_REFILLED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_refilled);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_CAR_KEYS);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                         }
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_VEHICLES_NEAR);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JERRYCAN);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_jerrycan);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_RIGHT_HAND_EMPTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.right_hand_empty);
             }
         }
 
-        [Command(Messages.COM_SCRAP)]
+        [Command(Commands.COM_SCRAP)]
         public void ScrapCommand(Client player)
         {
             if (player.VehicleSeat == (int)VehicleSeat.Driver)
@@ -1066,22 +1071,22 @@ namespace WiredPlayers.vehicles
                             Database.RemoveVehicle(vehicleId);
                         });
                         
-                        string message = string.Format(Messages.SUC_VEHICLE_SCRAPYARD, amountGiven);
+                        string message = string.Format(SuccRes.vehicle_scrapyard, amountGiven);
                         player.SendChatMessage(Constants.COLOR_SUCCESS + message);
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_VEH_OWNER);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_veh_owner);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_SCRAPYARD_NEAR);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_scrapyard_near);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_DRIVING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
             }
         }
     }

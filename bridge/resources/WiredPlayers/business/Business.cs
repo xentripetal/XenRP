@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.business
 {
@@ -196,7 +198,7 @@ namespace WiredPlayers.business
 
             if (business.type == Constants.BUSINESS_TYPE_AMMUNATION && businessItem.type == Constants.ITEM_TYPE_WEAPON && player.GetData(EntityData.PLAYER_WEAPON_LICENSE) < Globals.GetTotalSeconds())
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_WEAPON_LICENSE_EXPIRED);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.weapon_license_expired);
             }
             else
             {
@@ -206,11 +208,11 @@ namespace WiredPlayers.business
 
                 if(money < price)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
                 }
                 else
                 {
-                    string purchaseMessage = string.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    string purchaseMessage = string.Format(InfoRes.business_item_purchased, price);
                     int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
                     // We look for the item in the inventory
@@ -287,7 +289,7 @@ namespace WiredPlayers.business
                             player.SetData(EntityData.PLAYER_PHONE, phone);
 
                             // Sending the message with the new number to the player
-                            string message = string.Format(Messages.INF_PLAYER_PHONE, phone);
+                            string message = string.Format(InfoRes.player_phone, phone);
                             player.SendChatMessage(Constants.COLOR_INFO + message);
                         }
                     }
@@ -322,7 +324,7 @@ namespace WiredPlayers.business
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_BUSINESS_CLOTHES_NOT_AVAILABLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.business_clothes_not_available);
             }
         }
 
@@ -401,13 +403,13 @@ namespace WiredPlayers.business
                     Globals.clothesList.Add(clothesModel);
 
                     // Confirmation message sent to the player
-                    string purchaseMessage = string.Format(Messages.INF_BUSINESS_ITEM_PURCHASED, price);
+                    string purchaseMessage = string.Format(InfoRes.business_item_purchased, price);
                     player.SendChatMessage(Constants.COLOR_INFO + purchaseMessage);
                 });
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
             }
         }
 
@@ -448,14 +450,14 @@ namespace WiredPlayers.business
                     player.TriggerEvent("destroyBrowser");
 
                     // Confirmation message sent to the player
-                    string playerMessage = string.Format(Messages.INF_HAIRCUT_PURCHASED, price);
+                    string playerMessage = string.Format(InfoRes.haircut_purchased, price);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                 });
             }
             else
             {
                 // The player has not the required money
-                string message = string.Format(Messages.ERR_HAIRCUT_MONEY, price);
+                string message = string.Format(ErrRes.haircut_money, price);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
         }
@@ -508,7 +510,7 @@ namespace WiredPlayers.business
                         }
 
                         // Confirmation message sent to the player
-                        string playerMessage = string.Format(Messages.INF_TATTOO_PURCHASED, price);
+                        string playerMessage = string.Format(InfoRes.tattoo_purchased, price);
                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
 
                         // Reload client tattoo list
@@ -517,13 +519,13 @@ namespace WiredPlayers.business
                     else
                     {
                         // Player already had that tattoo
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_TATTOO_DUPLICATED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.tattoo_duplicated);
                     }
                 });
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ENOUGH_MONEY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
             }
         }
 

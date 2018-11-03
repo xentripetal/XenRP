@@ -3,6 +3,10 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using WiredPlayers.character;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.description;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.jobs
 {
@@ -10,11 +14,11 @@ namespace WiredPlayers.jobs
     {
         private List<JobPickModel> jobList = new List<JobPickModel>()
         {
-            new JobPickModel(Constants.JOB_FASTFOOD, new Vector3(-1037.697f, -1397.189f, 5.553192f), Messages.DESC_JOB_FASTFOOT),
-            new JobPickModel(Constants.JOB_HOOKER, new Vector3(136.58f, -1278.55f, 29.45f), Messages.DESC_JOB_HOOKER),
-            new JobPickModel(Constants.JOB_GARBAGE, new Vector3(-322.088f, -1546.014f, 31.01991f), Messages.DESC_JOB_GARBAGE),
-            new JobPickModel(Constants.JOB_MECHANIC, new Vector3(486.5268f, -1314.683f, 29.22961f), Messages.DESC_JOB_MECHANIC),
-            new JobPickModel(Constants.JOB_THIEF, new Vector3(-198.225f, -1699.521f, 33.46679f), Messages.DESC_JOB_THIEF)
+            new JobPickModel(Constants.JOB_FASTFOOD, new Vector3(-1037.697f, -1397.189f, 5.553192f), DescRes.job_fastfoot),
+            new JobPickModel(Constants.JOB_HOOKER, new Vector3(136.58f, -1278.55f, 29.45f), DescRes.job_hooker),
+            new JobPickModel(Constants.JOB_GARBAGE, new Vector3(-322.088f, -1546.014f, 31.01991f), DescRes.job_garbage),
+            new JobPickModel(Constants.JOB_MECHANIC, new Vector3(486.5268f, -1314.683f, 29.22961f), DescRes.job_mechanic),
+            new JobPickModel(Constants.JOB_THIEF, new Vector3(-198.225f, -1699.521f, 33.46679f), DescRes.job_thief)
         };
 
         public static int GetJobPoints(Client player, int job)
@@ -36,28 +40,28 @@ namespace WiredPlayers.jobs
         public void OnResourceStart()
         {
             Blip trashBlip = NAPI.Blip.CreateBlip(new Vector3(-322.088f, -1546.014f, 31.01991f));
-            trashBlip.Name = Messages.GEN_GARBAGE_JOB;
+            trashBlip.Name = GenRes.garbage_job;
             trashBlip.ShortRange = true;
             trashBlip.Sprite = 318;
 
             Blip mechanicBlip = NAPI.Blip.CreateBlip(new Vector3(486.5268f, -1314.683f, 29.22961f));
-            mechanicBlip.Name = Messages.GEN_MECHANIC_JOB;
+            mechanicBlip.Name = GenRes.mechanic_job;
             mechanicBlip.ShortRange = true;
             mechanicBlip.Sprite = 72;
 
             Blip fastFoodBlip = NAPI.Blip.CreateBlip(new Vector3(-1037.697f, -1397.189f, 5.553192f));
-            fastFoodBlip.Name = Messages.GEN_FASTFOOD_JOB;
+            fastFoodBlip.Name = GenRes.fastfood_job;
             fastFoodBlip.ShortRange = true;
             fastFoodBlip.Sprite = 501;
 
             foreach (JobPickModel job in jobList)
             {
-                NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_JOB, job.position, 10.0f, 0.5f, 4, new Color(255, 255, 153), false, 0);
-                NAPI.TextLabel.CreateTextLabel(Messages.GEN_JOB_HELP, new Vector3(job.position.X, job.position.Y, job.position.Z - 0.1f), 10.0f, 0.5f, 4, new Color(0, 0, 0), false, 0);
+                NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_JOB, job.position, 10.0f, 0.5f, 4, new Color(255, 255, 153), false, 0);
+                NAPI.TextLabel.CreateTextLabel(GenRes.job_help, new Vector3(job.position.X, job.position.Y, job.position.Z - 0.1f), 10.0f, 0.5f, 4, new Color(0, 0, 0), false, 0);
             }
         }
 
-        [Command(Messages.COM_JOB, Messages.GEN_JOB_COMMAND)]
+        [Command(Commands.COM_JOB, Commands.HLP_JOB_COMMAND)]
         public void JobCommand(Client player, string action)
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
@@ -65,7 +69,7 @@ namespace WiredPlayers.jobs
 
             switch (action.ToLower())
             {
-                case Messages.ARG_INFO:
+                case Commands.ARG_INFO:
                     foreach (JobPickModel jobPick in jobList)
                     {
                         if (player.Position.DistanceTo(jobPick.position) < 1.5f)
@@ -75,14 +79,14 @@ namespace WiredPlayers.jobs
                         }
                     }
                     break;
-                case Messages.ARG_ACCEPT:
+                case Commands.ARG_ACCEPT:
                     if (faction > 0 && faction < Constants.LAST_STATE_FACTION)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_STATE_FACTION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_job_state_faction);
                     }
                     else if (job > 0)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HAS_JOB);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_has_job);
                     }
                     else
                     {
@@ -92,42 +96,42 @@ namespace WiredPlayers.jobs
                             {
                                 player.SetData(EntityData.PLAYER_JOB, jobPick.job);
                                 player.SetData(EntityData.PLAYER_EMPLOYEE_COOLDOWN, 5);
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_JOB_ACCEPTED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.job_accepted);
                                 break;
                             }
                         }
                     }
                     break;
-                case Messages.ARG_LEAVE:
+                case Commands.ARG_LEAVE:
                     // Get the hours spent in the current job
                     int employeeCooldown = player.GetData(EntityData.PLAYER_EMPLOYEE_COOLDOWN);
 
                     if (employeeCooldown > 0)
                     {
-                        string message = string.Format(Messages.ERR_EMPLOYEE_COOLDOWN, employeeCooldown);
+                        string message = string.Format(ErrRes.employee_cooldown, employeeCooldown);
                         player.SendChatMessage(Constants.COLOR_ERROR + message);
                     }
                     else if (player.GetData(EntityData.PLAYER_JOB_RESTRICTION) > 0)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_JOB_RESTRICTION);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_job_restriction);
                     }
                     else if (job == 0)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_job);
                     }
                     else
                     {
                         player.SetData(EntityData.PLAYER_JOB, 0);
-                        player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_JOB_LEFT);
+                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.job_left);
                     }
                     break;
                 default:
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_JOB_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_JOB_COMMAND);
                     break;
             }
         }
 
-        [Command(Messages.COM_DUTY)]
+        [Command(Commands.COM_DUTY)]
         public void DutyCommand(Client player)
         {
             // We get the sex, job and faction from the player
@@ -137,11 +141,11 @@ namespace WiredPlayers.jobs
 
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (playerJob == 0 && playerFaction == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_JOB);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_job);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 1)
             {
@@ -152,7 +156,7 @@ namespace WiredPlayers.jobs
                 player.SetData(EntityData.PLAYER_ON_DUTY, 0);
 
                 // Notification sent to the player
-                player.SendNotification(Messages.INF_PLAYER_FREE_TIME);
+                player.SendNotification(InfoRes.player_free_time);
             }
             else
             {
@@ -173,7 +177,7 @@ namespace WiredPlayers.jobs
                 player.SetData(EntityData.PLAYER_ON_DUTY, 1);
 
                 // Notification sent to the player
-                player.SendNotification(Messages.INF_PLAYER_ON_DUTY);
+                player.SendNotification(InfoRes.player_on_duty);
             }
         }
     }

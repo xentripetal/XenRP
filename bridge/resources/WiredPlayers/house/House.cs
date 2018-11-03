@@ -5,6 +5,9 @@ using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.house
 {
@@ -76,13 +79,13 @@ namespace WiredPlayers.house
             switch (house.status)
             {
                 case Constants.HOUSE_STATE_NONE:
-                    label = house.name + "\n" + Messages.GEN_STATE_OCCUPIED;
+                    label = house.name + "\n" + GenRes.state_occupied;
                     break;
                 case Constants.HOUSE_STATE_RENTABLE:
-                    label = house.name + "\n" + Messages.GEN_STATE_RENT + "\n" + house.rental + "$";
+                    label = house.name + "\n" + GenRes.state_rent + "\n" + house.rental + "$";
                     break;
                 case Constants.HOUSE_STATE_BUYABLE:
-                    label = house.name + "\n" + Messages.GEN_STATE_SALE + "\n" + house.price + "$";
+                    label = house.name + "\n" + GenRes.state_sale + "\n" + house.price + "$";
                     break;
             }
             return label;
@@ -95,7 +98,7 @@ namespace WiredPlayers.house
                 if (player.GetSharedData(EntityData.PLAYER_BANK) >= house.price)
                 {
                     int bank = player.GetSharedData(EntityData.PLAYER_BANK) - house.price;
-                    string message = string.Format(Messages.INF_HOUSE_BUY, house.name, house.price);
+                    string message = string.Format(InfoRes.house_buy, house.name, house.price);
                     string labelText = GetHouseLabelText(house);
                     player.SendChatMessage(Constants.COLOR_INFO + message);
                     player.SetSharedData(EntityData.PLAYER_BANK, bank);
@@ -112,12 +115,12 @@ namespace WiredPlayers.house
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_MONEY);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_money);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_BUYABLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_buyable);
             }
         }
 
@@ -138,7 +141,7 @@ namespace WiredPlayers.house
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_CLOTHES_IN_WARDROBE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_clothes_in_wardrobe);
             }
         }
 
@@ -181,12 +184,12 @@ namespace WiredPlayers.house
             }
         }
 
-        [Command(Messages.COM_RENTABLE, Messages.GEN_RENTABLE_COMMAND)]
+        [Command(Commands.COM_RENTABLE, Commands.HLP_RENTABLE_COMMAND)]
         public void RentableCommand(Client player, int amount = 0)
         {
             if (player.GetData(EntityData.PLAYER_HOUSE_ENTERED) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_HOUSE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_house);
             }
             else
             {
@@ -194,7 +197,7 @@ namespace WiredPlayers.house
                 HouseModel house = GetHouseById(houseId);
                 if (house == null || house.owner != player.Name)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_house_owner);
                 }
                 else if (amount > 0)
                 {
@@ -212,7 +215,7 @@ namespace WiredPlayers.house
                     });
 
                     // Message sent to the player
-                    string message = string.Format(Messages.INF_HOUSE_STATE_RENT, amount);
+                    string message = string.Format(InfoRes.house_state_rent, amount);
                     player.SendChatMessage(Constants.COLOR_INFO + message);
                 }
                 else if (house.status == Constants.HOUSE_STATE_RENTABLE)
@@ -231,16 +234,16 @@ namespace WiredPlayers.house
                     });
 
                     // Message sent to the player
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_HOUSE_RENT_CANCEL);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.house_rent_cancel);
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PRICE_POSITIVE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.price_positive);
                 }
             }
         }
 
-        [Command(Messages.COM_RENT)]
+        [Command(Commands.COM_RENT)]
         public void RentCommand(Client player)
         {
             foreach (HouseModel house in houseList)
@@ -251,16 +254,16 @@ namespace WiredPlayers.house
                     {
                         if (house.status != Constants.HOUSE_STATE_RENTABLE)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_HOUSE_NOT_RENTABLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_rentable);
                         }
                         else if (player.GetSharedData(EntityData.PLAYER_MONEY) < house.rental)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_RENT_MONEY);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_rent_money);
                         }
                         else
                         {
                             int money = player.GetSharedData(EntityData.PLAYER_MONEY) - house.rental;
-                            string message = string.Format(Messages.INF_HOUSE_RENT, house.name, house.rental);
+                            string message = string.Format(InfoRes.house_rent, house.name, house.rental);
 
                             player.SetData(EntityData.PLAYER_RENT_HOUSE, house.id);
                             player.SetSharedData(EntityData.PLAYER_MONEY, money);
@@ -296,17 +299,17 @@ namespace WiredPlayers.house
                         });
 
                         // Send the message to the player
-                        player.SendChatMessage(Constants.COLOR_INFO + string.Format(Messages.INF_HOUSE_RENT_STOP, house.name));
+                        player.SendChatMessage(Constants.COLOR_INFO + string.Format(InfoRes.house_rent_stop, house.name));
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_HOUSE_RENTED);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_house_rented);
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_WARDROBE)]
+        [Command(Commands.COM_WARDROBE)]
         public void WardrobeCommand(Client player)
         {
             int houseId = player.GetData(EntityData.PLAYER_HOUSE_ENTERED);
@@ -323,17 +326,17 @@ namespace WiredPlayers.house
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_CLOTHES_IN_WARDROBE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_clothes_in_wardrobe);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_house_owner);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_HOUSE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_house);
             }
         }
     }

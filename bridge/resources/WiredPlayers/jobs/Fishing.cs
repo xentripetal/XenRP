@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.error;
 
 namespace WiredPlayers.jobs
 {
@@ -39,7 +41,7 @@ namespace WiredPlayers.jobs
 
             // Send the message and play fishing animation
             player.PlayAnimation("amb@world_human_stand_fishing@idle_a", "idle_c", (int)Constants.AnimationFlags.Loop);
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_SOMETHING_BAITED);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.something_baited);
         }
 
         private int GetPlayerFishingLevel(Client player)
@@ -66,7 +68,7 @@ namespace WiredPlayers.jobs
             fishingTimerList.Add(player.Value, fishingTimer);
 
             // Confirmation message
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_FISHING_ROD_THROWN);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_fishing_rod_thrown);
         }
 
         [RemoteEvent("fishingCanceled")]
@@ -83,7 +85,7 @@ namespace WiredPlayers.jobs
             player.Freeze(false);
             player.ResetData(EntityData.PLAYER_FISHING);
             
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FISHING_CANCELED);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.fishing_canceled);
         }
 
         [RemoteEvent("fishingSuccess")]
@@ -146,12 +148,12 @@ namespace WiredPlayers.jobs
                 }
 
                 // Send the message to the player
-                string message = string.Format(Messages.INF_FISHED_WEIGHT, fishWeight);
+                string message = string.Format(InfoRes.fished_weight, fishWeight);
                 player.SendChatMessage(Constants.COLOR_INFO + message);
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_GARBAGE_FISHED);
+                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_fished);
             }
 
             // Add one skill point to the player
@@ -172,15 +174,15 @@ namespace WiredPlayers.jobs
             player.Freeze(false);
             player.ResetData(EntityData.PLAYER_FISHING);
             
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_FISHING_FAILED);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.fishing_failed);
         }
 
-        [Command(Messages.COM_FISH)]
+        [Command(Commands.COM_FISH)]
         public void FishCommand(Client player)
         {
             if (player.HasData(EntityData.PLAYER_FISHING) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_ALREADY_FISHING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_fishing);
             }
             else if (player.VehicleSeat == (int)VehicleSeat.Driver)
             {
@@ -190,11 +192,11 @@ namespace WiredPlayers.jobs
                 {
                     if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FISHERMAN)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FISHERMAN);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_fisherman);
                     }
                     else if (player.HasData(EntityData.PLAYER_FISHABLE) == false)
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_zone);
                     }
                     else
                     {
@@ -203,7 +205,7 @@ namespace WiredPlayers.jobs
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_BOAT);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_boat);
                 }
             }
             else if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -251,21 +253,21 @@ namespace WiredPlayers.jobs
                         }
 
                         // Player's not in the fishing zone
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_FISHING_ZONE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_zone);
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NO_BAITS);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_baits);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_FISHING_ROD);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_fishing_rod);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ROD_BOAT);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_rod_boat);
             }
         }
     }

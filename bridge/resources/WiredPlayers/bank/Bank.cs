@@ -4,6 +4,8 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.bank
 {
@@ -15,7 +17,7 @@ namespace WiredPlayers.bank
             // Throw an error if the amount is less than zero.
             if (amount <= 0)
             {
-                TriggerLocalResponse(player, Messages.ERR_BANK_GENERAL_ERROR);
+                TriggerLocalResponse(player, ErrRes.bank_general_error);
                 return;
             }
 
@@ -80,7 +82,7 @@ namespace WiredPlayers.bank
             // If the bank has less than the amount requested. Throw an error.
             if (bank < amount)
             {
-                TriggerLocalResponse(player, Messages.ERR_BANK_NOT_ENOUGH_MONEY);
+                TriggerLocalResponse(player, ErrRes.bank_not_enough_money);
                 return;
             }
 
@@ -92,7 +94,7 @@ namespace WiredPlayers.bank
             // Log the transaction to the database.
             Task.Factory.StartNew(() =>
             {
-                Database.LogPayment("ATM", name, Messages.GEN_BANK_OP_WITHDRAW, amount);
+                Database.LogPayment("ATM", name, GenRes.bank_op_withdraw, amount);
             });
         }
 
@@ -117,7 +119,7 @@ namespace WiredPlayers.bank
                 // We log the transaction into the database
                 Task.Factory.StartNew(() =>
                 {
-                    Database.LogPayment(name, "ATM", Messages.GEN_BANK_OP_DEPOSIT, money);
+                    Database.LogPayment(name, "ATM", GenRes.bank_op_deposit, money);
                 });
                 return;
             }
@@ -130,7 +132,7 @@ namespace WiredPlayers.bank
             // We log the transaction into the database
             Task.Factory.StartNew(() =>
             {
-                Database.LogPayment("ATM", name, Messages.GEN_BANK_OP_DEPOSIT, amount);
+                Database.LogPayment("ATM", name, GenRes.bank_op_deposit, amount);
             });
         }
 
@@ -144,14 +146,14 @@ namespace WiredPlayers.bank
             // If the bank has less than the amount requested. End it here.
             if (bank < amount)
             {
-                TriggerLocalResponse(player, Messages.ERR_BANK_NOT_ENOUGH_MONEY);
+                TriggerLocalResponse(player, ErrRes.bank_not_enough_money);
                 return;
             }
             
             // Check if the account exists before we begin transferring.
             if (Database.FindCharacter(targetPlayer) != true)
             {
-                TriggerLocalResponse(player, Messages.ERR_BANK_ACCOUNT_NOT_FOUND);
+                TriggerLocalResponse(player, ErrRes.bank_account_not_found);
                 return;
             }
 
@@ -160,7 +162,7 @@ namespace WiredPlayers.bank
             // If the target player is the client transferring stop it.
             if (target == player)
             {
-                TriggerLocalResponse(player, Messages.ERR_TRANSFER_MONEY_OWN);
+                TriggerLocalResponse(player, ErrRes.transfer_money_own);
                 return;
             }
 
@@ -172,7 +174,7 @@ namespace WiredPlayers.bank
                     bank -= amount;
                     UpdatePlayerMoney(player, bank, money);
                     Database.TransferMoneyToPlayer(targetPlayer, amount);
-                    Database.LogPayment(name, targetPlayer, Messages.GEN_BANK_OP_TRANSFER, amount);
+                    Database.LogPayment(name, targetPlayer, GenRes.bank_op_transfer, amount);
                 });
                 return;
             }

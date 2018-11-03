@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System;
+using System.Threading;
+using WiredPlayers.messages.general;
 
 namespace WiredPlayers.database
 {
@@ -27,6 +29,9 @@ namespace WiredPlayers.database
         {
             // Set the encoding
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            // Set the culture
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
             // Create the database connection string
             string host = NAPI.Resource.GetSetting<string>(this, "host");
@@ -612,9 +617,9 @@ namespace WiredPlayers.database
                 command.CommandText = "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = @opTransfer ";
                 command.CommandText += "OR type = @opDeposit OR type = @opWithdraw) ORDER BY date DESC, hour DESC LIMIT @start, @count";
                 command.Parameters.AddWithValue("@playerName", playerName);
-                command.Parameters.AddWithValue("@opTransfer", Messages.GEN_BANK_OP_TRANSFER);
-                command.Parameters.AddWithValue("@opDeposit", Messages.GEN_BANK_OP_DEPOSIT);
-                command.Parameters.AddWithValue("@opWithdraw", Messages.GEN_BANK_OP_WITHDRAW);
+                command.Parameters.AddWithValue("@opTransfer", GenRes.bank_op_transfer);
+                command.Parameters.AddWithValue("@opDeposit", GenRes.bank_op_deposit);
+                command.Parameters.AddWithValue("@opWithdraw", GenRes.bank_op_withdraw);
                 command.Parameters.AddWithValue("@start", start);
                 command.Parameters.AddWithValue("@count", count);
 

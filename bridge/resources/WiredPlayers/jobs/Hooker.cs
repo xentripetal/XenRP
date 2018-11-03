@@ -2,6 +2,9 @@
 using WiredPlayers.globals;
 using System.Collections.Generic;
 using System.Threading;
+using WiredPlayers.messages.success;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.jobs
 {
@@ -42,24 +45,24 @@ namespace WiredPlayers.jobs
             }
 
             // Send finish message to both players
-           target.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_HOOKER_CLIENT_SATISFIED);
-            player.SendChatMessage(Constants.COLOR_SUCCESS + Messages.SUC_HOOKER_SERVICE_FINISHED);
+           target.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.hooker_client_satisfied);
+            player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.hooker_service_finished);
         }
 
-        [Command(Messages.COM_SERVICE, Messages.GEN_HOOKER_SERVICE_COMMAND)]
+        [Command(Commands.COM_SERVICE, Commands.HLP_HOOKER_SERVICE_COMMAND)]
         public void ServiceCommand(Client player, string service, string targetString, int price)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_HOOKER)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_HOOKER);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_hooker);
             }
             else if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_FUCKING);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_fucking);
             }
             else if (player.VehicleSeat != (int)VehicleSeat.RightFront)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_VEHICLE_PASSENGER);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_passenger);
             }
             else
             {
@@ -68,7 +71,7 @@ namespace WiredPlayers.jobs
 
                 if (target.VehicleSeat != (int)VehicleSeat.Driver)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CLIENT_NOT_VEHICLE_DRIVING);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.client_not_vehicle_driving);
                 }
                 else
                 {
@@ -77,28 +80,28 @@ namespace WiredPlayers.jobs
 
                     switch (service.ToLower())
                     {
-                        case Messages.ARG_ORAL:
+                        case Commands.ARG_ORAL:
                             target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                             target.SetData(EntityData.JOB_OFFER_PRICE, price);
                             target.SetData(EntityData.HOOKER_TYPE_SERVICE, Constants.HOOKER_SERVICE_BASIC);
 
-                            playerMessage = string.Format(Messages.INF_ORAL_SERVICE_OFFER, target.Name, price);
-                            targetMessage = string.Format(Messages.INF_ORAL_SERVICE_RECEIVE, player.Name, price);
+                            playerMessage = string.Format(InfoRes.oral_service_offer, target.Name, price);
+                            targetMessage = string.Format(InfoRes.oral_service_receive, player.Name, price);
                             player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                            target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                             break;
-                        case Messages.ARG_SEX:
+                        case Commands.ARG_SEX:
                             target.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                             target.SetData(EntityData.JOB_OFFER_PRICE, price);
                             target.SetData(EntityData.HOOKER_TYPE_SERVICE, Constants.HOOKER_SERVICE_FULL);
 
-                            playerMessage = string.Format(Messages.INF_SEX_SERVICE_OFFER, target.Name, price);
-                            targetMessage = string.Format(Messages.INF_SEX_SERVICE_RECEIVE, player.Name, price);
+                            playerMessage = string.Format(InfoRes.sex_service_offer, target.Name, price);
+                            targetMessage = string.Format(InfoRes.sex_service_receive, player.Name, price);
                             player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                            target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.GEN_HOOKER_SERVICE_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_ERROR + Commands.HLP_HOOKER_SERVICE_COMMAND);
                             break;
                     }
                 }

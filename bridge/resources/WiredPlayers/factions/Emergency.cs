@@ -7,6 +7,9 @@ using WiredPlayers.business;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
+using WiredPlayers.messages.success;
 
 namespace WiredPlayers.factions
 {
@@ -38,7 +41,7 @@ namespace WiredPlayers.factions
 
             death.player.Invincible = true;
             death.player.SetData(EntityData.TIME_HOSPITAL_RESPAWN, totalSeconds + 240);
-            death.player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_EMERGENCY_WARN);
+            death.player.SendChatMessage(Constants.COLOR_INFO + InfoRes.emergency_warn);
         }
 
         private int GetRemainingBlood()
@@ -113,7 +116,7 @@ namespace WiredPlayers.factions
                 Faction.factionWarningList.Add(factionWarning);
 
                 // Report message
-                string warnMessage = string.Format(Messages.INF_EMERGENCY_WARNING, Faction.factionWarningList.Count - 1);
+                string warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
 
                 // Sending the report to all the emergency department's members
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
@@ -129,7 +132,7 @@ namespace WiredPlayers.factions
             }
         }
 
-        [Command(Messages.COM_HEAL, Messages.GEN_HEAL_COMMAND)]
+        [Command(Commands.COM_HEAL, Commands.HLP_HEAL_COMMAND)]
         public void HealCommand(Client player, string targetString)
         {
             Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
@@ -138,8 +141,8 @@ namespace WiredPlayers.factions
             {
                 if (target.Health < 100)
                 {
-                    string playerMessage = string.Format(Messages.INF_MEDIC_HEALED_PLAYER, target.Name);
-                    string targetMessage = string.Format(Messages.INF_PLAYER_HEALED_MEDIC, player.Name);
+                    string playerMessage = string.Format(InfoRes.medic_healed_player, target.Name);
+                    string targetMessage = string.Format(InfoRes.player_healed_medic, player.Name);
 
                     // We heal the character
                     target.Health = 100;
@@ -148,7 +151,7 @@ namespace WiredPlayers.factions
                     {
                         if (targetPlayer.Position.DistanceTo(player.Position) < 20.0f)
                         {
-                            string message = string.Format(Messages.INF_MEDIC_REANIMATED, player.Name, target.Name);
+                            string message = string.Format(InfoRes.medic_reanimated, player.Name, target.Name);
                             targetPlayer.SendChatMessage(Constants.COLOR_CHAT_ME + message);
                         }
                     }
@@ -158,29 +161,29 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HURT);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_hurt);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
             }
         }
 
-        [Command(Messages.COM_REANIMATE, Messages.GEN_REANIMATE_COMMAND)]
+        [Command(Commands.COM_REANIMATE, Commands.HLP_REANIMATE_COMMAND)]
         public void ReanimateCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_EMERGENCY)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_EMERGENCY_FACTION);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_emergency_faction);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -208,8 +211,8 @@ namespace WiredPlayers.factions
                                 bloodList.Add(bloodModel);
 
                                 // Send the confirmation message to both players
-                                string playerMessage = string.Format(Messages.INF_PLAYER_REANIMATED, target.Name);
-                                string targetMessage = string.Format(Messages.SUC_TARGET_REANIMATED, player.Name);
+                                string playerMessage = string.Format(InfoRes.player_reanimated, target.Name);
+                                string targetMessage = string.Format(SuccRes.target_reanimated, player.Name);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
                                target.SendChatMessage(Constants.COLOR_SUCCESS + targetMessage);
                             });
@@ -217,31 +220,31 @@ namespace WiredPlayers.factions
                         else
                         {
                             // There's no blood left
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_BLOOD_LEFT);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_blood_left);
                         }
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DEAD);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_dead);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_EXTRACT, Messages.GEN_EXTRACT_COMMAND)]
+        [Command(Commands.COM_EXTRACT, Commands.HLP_EXTRACT_COMMAND)]
         public void ExtractCommand(Client player, string targetString)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else
             {
@@ -265,26 +268,26 @@ namespace WiredPlayers.factions
                             bloodList.Add(blood);
 
                             target.Health -= 15;
-
-                            string playerMessage = string.Format(Messages.INF_BLOOD_EXTRACTED, target.Name);
-                            string targetMessage = string.Format(Messages.INF_BLOOD_EXTRACTED, player.Name);
+                            
+                            string playerMessage = string.Format(InfoRes.blood_extracted, target.Name);
+                            string targetMessage = string.Format(InfoRes.blood_extracted, player.Name);
                             player.SendChatMessage(playerMessage);
                             target.SendChatMessage(targetMessage);
                         });
                     }
                     else
                     {
-                        player.SendChatMessage(Messages.ERR_LOW_BLOOD);
+                        player.SendChatMessage(ErrRes.low_blood);
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
-        [Command(Messages.COM_DIE)]
+        [Command(Commands.COM_DIE)]
         public void DieCommand(Client player)
         {
             // Check if the player is dead
@@ -306,7 +309,7 @@ namespace WiredPlayers.factions
                         {
                             // Tell the player who attended the report it's been canceled
                             Client doctor = Globals.GetPlayerById(factionWarn.takenBy);
-                            doctor.SendChatMessage(Constants.COLOR_INFO + Messages.INF_FACTION_WARN_CANCELED);
+                            doctor.SendChatMessage(Constants.COLOR_INFO + InfoRes.faction_warn_canceled);
                         }
 
                         // Remove the report from the list
@@ -316,12 +319,12 @@ namespace WiredPlayers.factions
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_DEATH_TIME_NOT_PASSED);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.death_time_not_passed);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_dead);
             }
         }
     }

@@ -3,6 +3,7 @@ using WiredPlayers.globals;
 using WiredPlayers.drivingschool;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
 
 namespace WiredPlayers.jobs
 {
@@ -17,7 +18,7 @@ namespace WiredPlayers.jobs
                 if(DrivingSchool.GetPlayerLicenseStatus(player, Constants.LICENSE_TAXI) == -1)
                 {
                     player.WarpOutOfVehicle();
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_TAXI_LICENSE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_taxi_license);
                 }
             }
         }
@@ -31,14 +32,14 @@ namespace WiredPlayers.jobs
             if(driver == null)
             {
                 // Nobody's driving the vehicle
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NO_TAXI_DRIVER);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_taxi_driver);
                 return;
             }
 
             if(driver.HasData(EntityData.PLAYER_TAXI_PATH) == true)
             {
                 // There's already a path set for the driver
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_TAXI_HAS_PATH);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.taxi_has_path);
                 return;
             }
 

@@ -4,6 +4,7 @@ using WiredPlayers.globals;
 using WiredPlayers.model;
 using System.Collections.Generic;
 using System;
+using WiredPlayers.messages.error;
 
 namespace WiredPlayers.house
 {
@@ -47,7 +48,7 @@ namespace WiredPlayers.house
             return furniture;
         }
         
-        [Command(Messages.COM_FURNITURE, Messages.GEN_FURNITURE_COMMAND)]
+        [Command(Commands.COM_FURNITURE, Commands.HLP_FURNITURE_COMMAND)]
         public void FurnitureCommand(Client player, string action)
         {
             if (player.HasData(EntityData.PLAYER_HOUSE_ENTERED) == true)
@@ -59,7 +60,7 @@ namespace WiredPlayers.house
                 {
                     switch (action.ToLower())
                     {
-                        case Messages.ARG_PLACE:
+                        case Commands.ARG_PLACE:
                             FurnitureModel furniture = new FurnitureModel();
                             furniture.hash = 1251197000;
                             furniture.house = Convert.ToUInt32(houseId);
@@ -68,26 +69,26 @@ namespace WiredPlayers.house
                             furniture.handle = NAPI.Object.CreateObject(furniture.hash, furniture.position, furniture.rotation, (byte)furniture.house);
                             furnitureList.Add(furniture);
                             break;
-                        case Messages.ARG_MOVE:
+                        case Commands.ARG_MOVE:
                             string furnitureJson = NAPI.Util.ToJson(GetFurnitureInHouse(houseId));
                             player.SetSharedData(EntityData.PLAYER_MOVING_FURNITURE, true);
                             player.TriggerEvent("moveFurniture", furnitureJson);
                             break;
-                        case Messages.ARG_REMOVE:
+                        case Commands.ARG_REMOVE:
                             break;
                         default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_FURNITURE_COMMAND);
+                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_FURNITURE_COMMAND);
                             break;
                     }
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_HOUSE_OWNER);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_house_owner);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_IN_HOUSE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_house);
             }
         }
     }

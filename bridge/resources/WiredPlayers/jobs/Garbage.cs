@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.jobs
 {
@@ -49,8 +52,8 @@ namespace WiredPlayers.jobs
             }
 
             // Send the message to both players
-            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_JOB_VEHICLE_ABANDONED);
-            target.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_JOB_VEHICLE_ABANDONED);
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.job_vehicle_abandoned);
+            target.SendChatMessage(Constants.COLOR_ERROR + ErrRes.job_vehicle_abandoned);
         }
 
         private void OnGarbageCollectedTimer(object playerObject)
@@ -95,7 +98,7 @@ namespace WiredPlayers.jobs
                 NAPI.Entity.SetEntityModel(garbageCheckpoint, 4);
                 garbageCheckpoint.Position = new Vector3(-339.0206f, -1560.117f, 25.23038f);
 
-                driver.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ROUTE_FINISHED);
+                driver.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_finished);
 
                 driver.TriggerEvent("showGarbageCheckPoint", garbageCheckpoint.Position);
                 player.TriggerEvent("deleteGarbageCheckPoint");
@@ -107,7 +110,7 @@ namespace WiredPlayers.jobs
                 garbageTimerList.Remove(player.Value);
             }
             
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_GARBAGE_COLLECTED);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_collected);
         }
 
         private Vector3 GetGarbageCheckPointPosition(int route, int checkPoint)
@@ -158,7 +161,7 @@ namespace WiredPlayers.jobs
                 partner.SetSharedData(EntityData.PLAYER_MONEY, partnerMoney + Constants.MONEY_GARBAGE_ROUTE);
 
                 // Send the message with the earnings
-                string message = string.Format(Messages.INF_GARBAGE_EARNINGS, Constants.MONEY_GARBAGE_ROUTE);
+                string message = string.Format(InfoRes.garbage_earnings, Constants.MONEY_GARBAGE_ROUTE);
                 driver.SendChatMessage(Constants.COLOR_INFO + message);
                 partner.SendChatMessage(Constants.COLOR_INFO + message);
             }
@@ -178,12 +181,12 @@ namespace WiredPlayers.jobs
                     if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                     {
                         player.WarpOutOfVehicle();
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_ROUTE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                     }
                     else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                     {
                         player.WarpOutOfVehicle();
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_YOUR_JOB_VEHICLE);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                     }
                     else
                     {
@@ -198,7 +201,7 @@ namespace WiredPlayers.jobs
                         {
                             player.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                             player.SetData(EntityData.PLAYER_JOB_VEHICLE, vehicle);
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_WAITING_PARTNER);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_waiting_partner);
                         }
                         else
                         {
@@ -251,7 +254,7 @@ namespace WiredPlayers.jobs
                                 else
                                 {
                                     player.WarpOutOfVehicle();
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
                                 }
                             }
                             return;
@@ -260,7 +263,7 @@ namespace WiredPlayers.jobs
 
                     // There's no player driving, kick the passenger
                     player.WarpOutOfVehicle();
-                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_WAIT_GARBAGE_DRIVER);
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.wait_garbage_driver);
                 }
             }
         }
@@ -273,7 +276,7 @@ namespace WiredPlayers.jobs
                 if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle && player.VehicleSeat == (int)VehicleSeat.Driver)
                 {
                     Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
-                    string warn = string.Format(Messages.INF_JOB_VEHICLE_LEFT, 45);
+                    string warn = string.Format(InfoRes.job_vehicle_left, 45);
                     player.SendChatMessage(Constants.COLOR_INFO + warn);
                     player.TriggerEvent("deleteGarbageCheckPoint");
                     target.TriggerEvent("deleteGarbageCheckPoint");
@@ -303,31 +306,31 @@ namespace WiredPlayers.jobs
                     }
                     else
                     {
-                        player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE_JOB);
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
                     }
                 }
             }
         }
 
-        [Command(Messages.COM_GARBAGE, Messages.GEN_GARBAGE_JOB_COMMAND)]
+        [Command(Commands.COM_GARBAGE, Commands.HLP_GARBAGE_JOB_COMMAND)]
         public void GarbageCommand(Client player, string action)
         {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_GARBAGE)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_GARBAGE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_garbage);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_ON_DUTY);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
             else
             {
                 switch (action.ToLower())
                 {
-                    case Messages.ARG_ROUTE:
+                    case Commands.ARG_ROUTE:
                         if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == true)
                         {
-                            player.SendChatMessage(Messages.ERR_ALREADY_IN_ROUTE);
+                            player.SendChatMessage(ErrRes.already_in_route);
                         }
                         else
                         {
@@ -337,28 +340,28 @@ namespace WiredPlayers.jobs
                             switch (garbageRoute)
                             {
                                 case 0:
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_ROUTE_NORTH);
+                                    player.SendChatMessage(Constants.COLOR_INFO + GenRes.route_north);
                                     break;
                                 case 1:
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_ROUTE_SOUTH);
+                                    player.SendChatMessage(Constants.COLOR_INFO + GenRes.route_south);
                                     break;
                                 case 2:
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_ROUTE_EAST);
+                                    player.SendChatMessage(Constants.COLOR_INFO + GenRes.route_east);
                                     break;
                                 case 3:
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.GEN_ROUTE_WEST);
+                                    player.SendChatMessage(Constants.COLOR_INFO + GenRes.route_west);
                                     break;
                             }
                         }
                         break;
-                    case Messages.ARG_PICKUP:
+                    case Commands.ARG_PICKUP:
                         if (player.IsInVehicle)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_GARBAGE_IN_VEHICLE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.garbage_in_vehicle);
                         }
                         else if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) == false)
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_GARBAGE_NEAR);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_garbage_near);
                         }
                         else
                         {
@@ -376,16 +379,16 @@ namespace WiredPlayers.jobs
                                 }
                                 else
                                 {
-                                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_ALREADY_GARBAGE);
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_garbage);
                                 }
                             }
                             else
                             {
-                                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_GARBAGE_NEAR);
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_garbage_near);
                             }
                         }
                         break;
-                    case Messages.ARG_CANCEL:
+                    case Commands.ARG_CANCEL:
                         if (player.HasData(EntityData.PLAYER_JOB_PARTNER) == true)
                         {
                             Client partner = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -399,7 +402,7 @@ namespace WiredPlayers.jobs
                                     // Driver canceled
                                     trashBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
                                     garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
-                                    player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ROUTE_FINISHED);
+                                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_finished);
                                     partner.TriggerEvent("deleteGarbageCheckPoint");
                                 }
                                 else
@@ -420,7 +423,7 @@ namespace WiredPlayers.jobs
                             else
                             {
                                 // Player doesn't have any partner
-                                player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_ROUTE_CANCELED);
+                                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_canceled);
                             }
 
                             // Remove player from partner search
@@ -430,15 +433,15 @@ namespace WiredPlayers.jobs
                         {
                             // Cancel the route
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);
-                            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_GARBAGE_ROUTE_CANCELED);
+                            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_route_canceled);
                         }
                         else
                         {
-                            player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_ROUTE);
+                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_GARBAGE_JOB_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_GARBAGE_JOB_COMMAND);
                         break;
                 }
             }

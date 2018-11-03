@@ -3,6 +3,9 @@ using WiredPlayers.globals;
 using WiredPlayers.factions;
 using System.Linq;
 using System;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.success;
 
 namespace WiredPlayers.chat
 {
@@ -42,14 +45,14 @@ namespace WiredPlayers.chat
                         if (distance <= range)
                         {
                             // Getting message color
-                            string chatMessageColor = GetChatMessageColor(distance, distanceGap);
-                            string oocMessageColor = GetOocMessageColor(distance, distanceGap);
+                            string chatMessageColor = GetChatMessageColor(distance, distanceGap, true);
+                            string oocMessageColor = GetChatMessageColor(distance, distanceGap, false);
 
                             switch (type)
                             {
                                 case Constants.MESSAGE_TALK:
                                     // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + Messages.GEN_CHAT_SAY + message + "..." : chatMessageColor + player.Name + Messages.GEN_CHAT_SAY + message);
+                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_say + message + "..." : chatMessageColor + player.Name + GenRes.chat_say + message);
                                     if (secondMessage.Length > 0)
                                     {
                                        target.SendChatMessage(chatMessageColor + secondMessage);
@@ -57,7 +60,7 @@ namespace WiredPlayers.chat
                                     break;
                                 case Constants.MESSAGE_YELL:
                                     // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + Messages.GEN_CHAT_YELL + message + "..." : chatMessageColor + player.Name + Messages.GEN_CHAT_YELL + message + "!");
+                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_yell + message + "..." : chatMessageColor + player.Name + GenRes.chat_yell + message + "!");
                                     if (secondMessage.Length > 0)
                                     {
                                        target.SendChatMessage(chatMessageColor + secondMessage + "!");
@@ -65,7 +68,7 @@ namespace WiredPlayers.chat
                                     break;
                                 case Constants.MESSAGE_WHISPER:
                                     // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + Messages.GEN_CHAT_WHISPER + message + "..." : chatMessageColor + player.Name + Messages.GEN_CHAT_WHISPER + message);
+                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_whisper + message + "..." : chatMessageColor + player.Name + GenRes.chat_whisper + message);
                                     if (secondMessage.Length > 0)
                                     {
                                        target.SendChatMessage(chatMessageColor + secondMessage);
@@ -73,7 +76,7 @@ namespace WiredPlayers.chat
                                     break;
                                 case Constants.MESSAGE_PHONE:
                                     // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + Messages.GEN_CHAT_PHONE + message + "..." : chatMessageColor + player.Name + Messages.GEN_CHAT_PHONE + message);
+                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_phone + message + "..." : chatMessageColor + player.Name + GenRes.chat_phone + message);
                                     if (secondMessage.Length > 0)
                                     {
                                        target.SendChatMessage(chatMessageColor + secondMessage);
@@ -81,7 +84,7 @@ namespace WiredPlayers.chat
                                     break;
                                 case Constants.MESSAGE_RADIO:
                                     // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + Messages.GEN_CHAT_RADIO + message + "..." : chatMessageColor + player.Name + Messages.GEN_CHAT_RADIO + message);
+                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_radio + message + "..." : chatMessageColor + player.Name + GenRes.chat_radio + message);
                                     if (secondMessage.Length > 0)
                                     {
                                        target.SendChatMessage(chatMessageColor + secondMessage);
@@ -129,12 +132,12 @@ namespace WiredPlayers.chat
                                     break;
                                 case Constants.MESSAGE_SU_TRUE:
                                     // We send the message
-                                    message = string.Format(Messages.SUC_POSSITIVE_RESULT, player.Name);
+                                    message = string.Format(SuccRes.possitive_result, player.Name);
                                    target.SendChatMessage(Constants.COLOR_SU_POSITIVE + message);
                                     break;
                                 case Constants.MESSAGE_SU_FALSE:
                                     // We send the message
-                                    message = string.Format(Messages.ERR_NEGATIVE_RESULT, player.Name);
+                                    message = string.Format(ErrRes.negative_result, player.Name);
                                    target.SendChatMessage(Constants.COLOR_ERROR + message);
                                     break;
                             }
@@ -144,54 +147,28 @@ namespace WiredPlayers.chat
             }
         }
         
-        private static string GetChatMessageColor(float distance, float distanceGap)
+        private static string GetChatMessageColor(float distance, float distanceGap, bool ooc)
         {
             string color = null;
             if (distance < distanceGap)
             {
-                color = Constants.COLOR_CHAT_CLOSE;
+                color = ooc ? Constants.COLOR_OOC_CLOSE : Constants.COLOR_CHAT_CLOSE;
             }
             else if (distance < distanceGap * 2)
             {
-                color = Constants.COLOR_CHAT_NEAR;
+                color = ooc ? Constants.COLOR_OOC_NEAR : Constants.COLOR_CHAT_NEAR;
             }
             else if (distance < distanceGap * 3)
             {
-                color = Constants.COLOR_CHAT_MEDIUM;
+                color = ooc ? Constants.COLOR_OOC_MEDIUM : Constants.COLOR_CHAT_MEDIUM;
             }
             else if (distance < distanceGap * 4)
             {
-                color = Constants.COLOR_CHAT_FAR;
+                color = ooc ? Constants.COLOR_OOC_FAR : Constants.COLOR_CHAT_FAR;
             }
             else
             {
-                color = Constants.COLOR_CHAT_LIMIT;
-            }
-            return color;
-        }
-        
-        private static string GetOocMessageColor(float distance, float distanceGap)
-        {
-            string color = null;
-            if (distance < distanceGap)
-            {
-                color = Constants.COLOR_OOC_CLOSE;
-            }
-            else if (distance < distanceGap * 2)
-            {
-                color = Constants.COLOR_OOC_NEAR;
-            }
-            else if (distance < distanceGap * 3)
-            {
-                color = Constants.COLOR_OOC_MEDIUM;
-            }
-            else if (distance < distanceGap * 4)
-            {
-                color = Constants.COLOR_OOC_FAR;
-            }
-            else
-            {
-                color = Constants.COLOR_OOC_LIMIT;
+                color = ooc ? Constants.COLOR_OOC_LIMIT : Constants.COLOR_CHAT_LIMIT;
             }
             return color;
         }
@@ -201,11 +178,11 @@ namespace WiredPlayers.chat
         {
             if (player.HasData(EntityData.PLAYER_PLAYING) == false)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_CANT_CHAT);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_chat);
             }
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else if (player.HasData(EntityData.PLAYER_ON_AIR) == true)
             {
@@ -226,8 +203,8 @@ namespace WiredPlayers.chat
                 }
 
                 // We send the message to the player and target
-                player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + Messages.GEN_PHONE + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_CHAT_PHONE + Messages.GEN_PHONE + player.Name + Messages.GEN_CHAT_SAY + message);
-               target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + Messages.GEN_PHONE + player.Name + Messages.GEN_CHAT_SAY + message + "..." : Constants.COLOR_CHAT_PHONE + Messages.GEN_PHONE + player.Name + Messages.GEN_CHAT_SAY + message);
+                player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
+               target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
                 if (secondMessage.Length > 0)
                 {
                     player.SendChatMessage(Constants.COLOR_CHAT_PHONE + secondMessage);
@@ -240,16 +217,16 @@ namespace WiredPlayers.chat
             else
             {
                 SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_TALK, player.Dimension > 0 ? 7.5f : 10.0f);
-                NAPI.Util.ConsoleOutput("[ID:" + player.Value + "]" + player.Name + Messages.GEN_CHAT_SAY + message);
+                NAPI.Util.ConsoleOutput("[ID:" + player.Value + "]" + player.Name + GenRes.chat_say + message);
             }
         }
 
-        [Command(Messages.COM_SAY, Messages.GEN_SAY_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_SAY, Commands.HLP_SAY_COMMAND, GreedyArg = true)]
         public void DecirCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -257,12 +234,12 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Messages.COM_YELL, Messages.GEN_YELL_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_YELL, Commands.HLP_YELL_COMMAND, GreedyArg = true)]
         public void GritarCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -270,12 +247,12 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Messages.COM_WHISPER, Messages.GEN_WHISPER_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_WHISPER, Commands.HLP_WHISPER_COMMAND, GreedyArg = true)]
         public void SusurrarCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -283,30 +260,30 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Messages.COM_ME, Messages.GEN_ME_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_ME, Commands.HLP_ME_COMMAND, GreedyArg = true)]
         public void MeCommand(Client player, string message)
         {
             SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_ME, player.Dimension > 0 ? 7.5f : 20.0f);
         }
 
-        [Command(Messages.COM_DO, Messages.GEN_DO_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_DO, Commands.HLP_DO_COMMAND, GreedyArg = true)]
         public void DoCommand(Client player, string message)
         {
             SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_DO, player.Dimension > 0 ? 7.5f : 20.0f);
         }
 
-        [Command(Messages.COM_OOC, Messages.GEN_OOC_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_OOC, Commands.HLP_OOC_COMMAND, GreedyArg = true)]
         public void OocCommand(Client player, string message)
         {
             SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_OOC, player.Dimension > 0 ? 5.0f : 10.0f);
         }
 
-        [Command(Messages.COM_LUCK)]
+        [Command(Commands.COM_LUCK)]
         public void SuCommand(Client player)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_IS_DEAD);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
             else
             {
@@ -316,7 +293,7 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Messages.COM_AME, Messages.GEN_AME_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_AME, Commands.HLP_AME_COMMAND, GreedyArg = true)]
         public void AmeCommand(Client player, string message = "")
         {
             if (player.HasData(EntityData.PLAYER_AME) == true)
@@ -345,7 +322,7 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Messages.COM_MEGAPHONE, Messages.GEN_MEGAPHONE_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_MEGAPHONE, Commands.HLP_MEGAPHONE_COMMAND, GreedyArg = true)]
         public void MegafonoCommand(Client player, string message)
         {
             if (player.IsInVehicle)
@@ -358,16 +335,16 @@ namespace WiredPlayers.chat
                 }
                 else
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_VEHICLE_NOT_MEGAPHONE);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_megaphone);
                 }
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_VEHICLE);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
             }
         }
 
-        [Command(Messages.COM_PM, Messages.GEN_MP_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_PM, Commands.HLP_MP_COMMAND, GreedyArg = true)]
         public void MpCommand(Client player, string arguments)
         {
             Client target = null;
@@ -380,7 +357,7 @@ namespace WiredPlayers.chat
                 args = args.Where(w => w != args[0]).ToArray();
                 if (args.Length < 1)
                 {
-                    player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_MP_COMMAND);
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_MP_COMMAND);
                     return;
                 }
             }
@@ -392,7 +369,7 @@ namespace WiredPlayers.chat
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_HELP + Messages.GEN_MP_COMMAND);
+                player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_MP_COMMAND);
                 return;
             }
             
@@ -400,7 +377,7 @@ namespace WiredPlayers.chat
             {
                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && target.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE)
                 {
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_MPS_ONLY_ADMIN);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.mps_only_admin);
                 }
                 else
                 {
@@ -415,8 +392,8 @@ namespace WiredPlayers.chat
                     }
 
                     // Sending messages to both players
-                    player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + Messages.GEN_PM_TO + "[ID: " + target.Value + "] " + target.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + Messages.GEN_PM_TO + "[ID: " + target.Value + "] " + target.Name + ": " + message + "))");
-                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + Messages.GEN_PM_FROM + "[ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + Messages.GEN_PM_FROM + "[ID: " + player.Value + "] " + player.Name + ": " + message + "))");
+                    player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_to + "[ID: " + target.Value + "] " + target.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_to + "[ID: " + target.Value + "] " + target.Name + ": " + message + "))");
+                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_from + "[ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_from + "[ID: " + player.Value + "] " + player.Name + ": " + message + "))");
                     if (secondMessage.Length > 0)
                     {
                         player.SendChatMessage(Constants.COLOR_ADMIN_MP + secondMessage + "))");
@@ -426,7 +403,7 @@ namespace WiredPlayers.chat
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_PLAYER_NOT_FOUND);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
             }
         }
     }

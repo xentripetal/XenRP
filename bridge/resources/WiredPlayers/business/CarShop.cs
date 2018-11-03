@@ -5,6 +5,9 @@ using WiredPlayers.vehicles;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.error;
+using WiredPlayers.messages.information;
 
 namespace WiredPlayers.business
 {
@@ -108,24 +111,24 @@ namespace WiredPlayers.business
         public void OnResourceStart()
         {
             // Car dealer creation
-            carShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_CATALOG, new Vector3(-56.88f, -1097.12f, 26.52f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
-            TextLabel carShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(Messages.GEN_CATALOG_HELP, new Vector3(-56.88f, -1097.12f, 26.42f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
+            carShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-56.88f, -1097.12f, 26.52f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            TextLabel carShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(-56.88f, -1097.12f, 26.42f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip carShopBlip = NAPI.Blip.CreateBlip(new Vector3(-56.88f, -1097.12f, 26.52f));
-            carShopBlip.Name = Messages.GEN_CAR_DEALER;
+            carShopBlip.Name = GenRes.car_dealer;
             carShopBlip.Sprite = 225;
 
             // Motorcycle dealer creation
-            motorbikeShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_CATALOG, new Vector3(286.76f, -1148.36f, 29.29f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
-            TextLabel motorbikeShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(Messages.GEN_CATALOG_HELP, new Vector3(286.76f, -1148.36f, 29.19f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
+            motorbikeShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(286.76f, -1148.36f, 29.29f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            TextLabel motorbikeShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(286.76f, -1148.36f, 29.19f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip motorbikeShopBlip = NAPI.Blip.CreateBlip(new Vector3(286.76f, -1148.36f, 29.29f));
-            motorbikeShopBlip.Name = Messages.GEN_MOTORCYCLE_DEALER;
+            motorbikeShopBlip.Name = GenRes.motorcycle_dealer;
             motorbikeShopBlip.Sprite = 226;
 
             // Boat dealer creation
-            shipShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Messages.COM_CATALOG, new Vector3(-711.6249f, -1299.427f, 5.41f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
-            TextLabel shipShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(Messages.GEN_CATALOG_HELP, new Vector3(-711.6249f, -1299.427f, 5.31f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
+            shipShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-711.6249f, -1299.427f, 5.41f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            TextLabel shipShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(-711.6249f, -1299.427f, 5.31f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip shipShopBlip = NAPI.Blip.CreateBlip(new Vector3(-711.6249f, -1299.427f, 5.41f));
-            shipShopBlip.Name = Messages.GEN_BOAT_DEALER;
+            shipShopBlip.Name = GenRes.boat_dealer;
             shipShopBlip.Sprite = 455;
         }
 
@@ -186,12 +189,12 @@ namespace WiredPlayers.business
                 if(!vehicleSpawned)
                 {
                     // Parking places are occupied
-                    player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_CARSHOP_SPAWN_OCCUPIED);
+                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.carshop_spawn_occupied);
                 }
             }
             else
             {
-                string message = string.Format(Messages.ERR_CARSHOP_NO_MONEY, vehiclePrice);
+                string message = string.Format(ErrRes.carshop_no_money, vehiclePrice);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
         }
@@ -232,10 +235,10 @@ namespace WiredPlayers.business
             player.TriggerEvent("showCarshopCheckpoint", testFinishCheckpoint.Position);
 
             // Confirmation message sent to the player
-            player.SendChatMessage(Constants.COLOR_INFO + Messages.INF_PLAYER_TEST_VEHICLE);
+            player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_test_vehicle);
         }
 
-        [Command(Messages.COM_CATALOG)]
+        [Command(Commands.COM_CATALOG)]
         public void CatalogoCommand(Client player)
         {
             int carShop = GetClosestCarShop(player);
@@ -257,7 +260,7 @@ namespace WiredPlayers.business
             }
             else
             {
-                player.SendChatMessage(Constants.COLOR_ERROR + Messages.ERR_NOT_IN_CARSHOP);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_carshop);
             }
         }
     }

@@ -1,5 +1,8 @@
 ﻿using GTANetworkAPI;
 using WiredPlayers.model;
+using WiredPlayers.messages.general;
+using WiredPlayers.messages.jobs;
+using WiredPlayers.messages.items;
 using System.Collections.Generic;
 using System;
 
@@ -8,7 +11,7 @@ namespace WiredPlayers.globals
     public class Constants
     {
         // Gamemode version
-        public const string GM_VERSION = "v1.1.0";
+        public const string GM_VERSION = "v1.2.0";
 
         public const int ENVIRONMENT_KILL = 65535;
         public const int ITEMS_PER_INVENTORY_PAGE = 16;
@@ -405,11 +408,11 @@ namespace WiredPlayers.globals
         // Generic interiors
         public static List<InteriorModel> INTERIOR_LIST = new List<InteriorModel>
         {
-            new InteriorModel(Messages.GEN_TOWNHALL, new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, Messages.GEN_TOWNHALL),
-            new InteriorModel(Messages.GEN_HOSPITAL, new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, Messages.GEN_HOSPITAL),
-            new InteriorModel(Messages.GEN_DRIVING_SCHOOL, new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, Messages.GEN_DRIVING_SCHOOL),
-            new InteriorModel(Messages.GEN_WEAZEL_NEWS, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, Messages.GEN_WEAZEL_NEWS),
-            new InteriorModel(Messages.GEN_POLICE_STATION, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), string.Empty, 60, Messages.GEN_POLICE_STATION),
+            new InteriorModel(GenRes.townhall, new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, GenRes.townhall),
+            new InteriorModel(GenRes.hospital, new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, GenRes.hospital),
+            new InteriorModel(GenRes.driving_school, new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, GenRes.driving_school),
+            new InteriorModel(GenRes.weazel_news, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, GenRes.weazel_news),
+            new InteriorModel(GenRes.police_station, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), string.Empty, 60, GenRes.police_station),
         };
 
         // Business IPLs from the game
@@ -523,60 +526,60 @@ namespace WiredPlayers.globals
         // Faction ranks
         public static List<FactionModel> FACTION_RANK_LIST = new List<FactionModel>
         {
-            new FactionModel(Messages.FAC_NONE_M, Messages.FAC_NONE_F, FACTION_NONE, 0, 0),
+            new FactionModel(JobRes.none_m, JobRes.none_f, FACTION_NONE, 0, 0),
 
             // Police department
-            new FactionModel(Messages.FAC_LSPD_0_M, Messages.FAC_LSPD_0_F, FACTION_POLICE, 0, 0),
-            new FactionModel(Messages.FAC_LSPD_1_M, Messages.FAC_LSPD_1_F, FACTION_POLICE, 1, 1250),
-            new FactionModel(Messages.FAC_LSPD_2_M, Messages.FAC_LSPD_2_F, FACTION_POLICE, 2, 1388),
-            new FactionModel(Messages.FAC_LSPD_3_M, Messages.FAC_LSPD_3_F, FACTION_POLICE, 3, 1685),
-            new FactionModel(Messages.FAC_LSPD_4_M, Messages.FAC_LSPD_4_F, FACTION_POLICE, 4, 2056),
-            new FactionModel(Messages.FAC_LSPD_5_M, Messages.FAC_LSPD_5_F, FACTION_POLICE, 5, 2420),
-            new FactionModel(Messages.FAC_LSPD_6_M, Messages.FAC_LSPD_6_F, FACTION_POLICE, 6, 2901),
-            new FactionModel(Messages.FAC_LSPD_7_M, Messages.FAC_LSPD_7_F, FACTION_POLICE, 7, 2200),
+            new FactionModel(JobRes.lspd_0_m, JobRes.lspd_0_f, FACTION_POLICE, 0, 0),
+            new FactionModel(JobRes.lspd_1_m, JobRes.lspd_1_f, FACTION_POLICE, 1, 1250),
+            new FactionModel(JobRes.lspd_2_m, JobRes.lspd_2_f, FACTION_POLICE, 2, 1388),
+            new FactionModel(JobRes.lspd_3_m, JobRes.lspd_3_f, FACTION_POLICE, 3, 1685),
+            new FactionModel(JobRes.lspd_4_m, JobRes.lspd_4_f, FACTION_POLICE, 4, 2056),
+            new FactionModel(JobRes.lspd_5_m, JobRes.lspd_5_f, FACTION_POLICE, 5, 2420),
+            new FactionModel(JobRes.lspd_6_m, JobRes.lspd_6_f, FACTION_POLICE, 6, 2901),
+            new FactionModel(JobRes.lspd_7_m, JobRes.lspd_7_f, FACTION_POLICE, 7, 2200),
 
             // Emergency department
-            new FactionModel(Messages.FAC_EMS_1_M, Messages.FAC_EMS_1_F, FACTION_EMERGENCY, 1, 1075),
-            new FactionModel(Messages.FAC_EMS_2_M, Messages.FAC_EMS_2_F, FACTION_EMERGENCY, 2, 1200),
-            new FactionModel(Messages.FAC_EMS_3_M, Messages.FAC_EMS_3_F, FACTION_EMERGENCY, 3, 1500),
-            new FactionModel(Messages.FAC_EMS_4_M, Messages.FAC_EMS_4_F, FACTION_EMERGENCY, 4, 1500),
-            new FactionModel(Messages.FAC_EMS_5_M, Messages.FAC_EMS_5_F, FACTION_EMERGENCY, 5, 1800),
-            new FactionModel(Messages.FAC_EMS_6_M, Messages.FAC_EMS_6_F, FACTION_EMERGENCY, 6, 1800),
-            new FactionModel(Messages.FAC_EMS_7_M, Messages.FAC_EMS_7_F, FACTION_EMERGENCY, 7, 2200),
-            new FactionModel(Messages.FAC_EMS_8_M, Messages.FAC_EMS_8_F, FACTION_EMERGENCY, 8, 2200),
-            new FactionModel(Messages.FAC_EMS_9_M, Messages.FAC_EMS_9_F, FACTION_EMERGENCY, 9, 2800),
-            new FactionModel(Messages.FAC_EMS_10_M, Messages.FAC_EMS_10_F, FACTION_EMERGENCY, 10, 3500),
+            new FactionModel(JobRes.ems_1_m, JobRes.ems_1_f, FACTION_EMERGENCY, 1, 1075),
+            new FactionModel(JobRes.ems_2_m, JobRes.ems_2_f, FACTION_EMERGENCY, 2, 1200),
+            new FactionModel(JobRes.ems_3_m, JobRes.ems_3_f, FACTION_EMERGENCY, 3, 1500),
+            new FactionModel(JobRes.ems_4_m, JobRes.ems_4_f, FACTION_EMERGENCY, 4, 1500),
+            new FactionModel(JobRes.ems_5_m, JobRes.ems_5_f, FACTION_EMERGENCY, 5, 1800),
+            new FactionModel(JobRes.ems_6_m, JobRes.ems_6_f, FACTION_EMERGENCY, 6, 1800),
+            new FactionModel(JobRes.ems_7_m, JobRes.ems_7_f, FACTION_EMERGENCY, 7, 2200),
+            new FactionModel(JobRes.ems_8_m, JobRes.ems_8_f, FACTION_EMERGENCY, 8, 2200),
+            new FactionModel(JobRes.ems_9_m, JobRes.ems_9_f, FACTION_EMERGENCY, 9, 2800),
+            new FactionModel(JobRes.ems_10_m, JobRes.ems_10_f, FACTION_EMERGENCY, 10, 3500),
 
             // News
-            new FactionModel(Messages.FAC_NEWS_1_M, Messages.FAC_NEWS_1_F, FACTION_NEWS, 1, 1020),
-            new FactionModel(Messages.FAC_NEWS_2_M, Messages.FAC_NEWS_2_F, FACTION_NEWS, 2, 1100),
-            new FactionModel(Messages.FAC_NEWS_3_M, Messages.FAC_NEWS_3_F, FACTION_NEWS, 3, 1200),
-            new FactionModel(Messages.FAC_NEWS_4_M, Messages.FAC_NEWS_4_F, FACTION_NEWS, 4, 1610),
-            new FactionModel(Messages.FAC_NEWS_5_M, Messages.FAC_NEWS_5_F, FACTION_NEWS, 5, 2300),
+            new FactionModel(JobRes.news_1_m, JobRes.news_1_f, FACTION_NEWS, 1, 1020),
+            new FactionModel(JobRes.news_2_m, JobRes.news_2_f, FACTION_NEWS, 2, 1100),
+            new FactionModel(JobRes.news_3_m, JobRes.news_3_f, FACTION_NEWS, 3, 1200),
+            new FactionModel(JobRes.news_4_m, JobRes.news_4_f, FACTION_NEWS, 4, 1610),
+            new FactionModel(JobRes.news_5_m, JobRes.news_5_f, FACTION_NEWS, 5, 2300),
 
             // Town hall
-            new FactionModel(Messages.FAC_TOWN_1_M, Messages.FAC_TOWN_1_F, FACTION_TOWNHALL, 1, 1200),
-            new FactionModel(Messages.FAC_TOWN_2_M, Messages.FAC_TOWN_2_F, FACTION_TOWNHALL, 2, 1800),
-            new FactionModel(Messages.FAC_TOWN_3_M, Messages.FAC_TOWN_3_F, FACTION_TOWNHALL, 3, 2200),
-            new FactionModel(Messages.FAC_TOWN_4_M, Messages.FAC_TOWN_4_F, FACTION_TOWNHALL, 4, 3000),
+            new FactionModel(JobRes.town_1_m, JobRes.town_1_f, FACTION_TOWNHALL, 1, 1200),
+            new FactionModel(JobRes.town_2_m, JobRes.town_2_f, FACTION_TOWNHALL, 2, 1800),
+            new FactionModel(JobRes.town_3_m, JobRes.town_3_f, FACTION_TOWNHALL, 3, 2200),
+            new FactionModel(JobRes.town_4_m, JobRes.town_4_f, FACTION_TOWNHALL, 4, 3000),
 
             // Transport services
-            new FactionModel(Messages.FAC_LSTD_1_M, Messages.FAC_LSTD_1_F, FACTION_TAXI_DRIVER, 1, 1020),
-            new FactionModel(Messages.FAC_LSTD_2_M, Messages.FAC_LSTD_2_F, FACTION_TAXI_DRIVER, 2, 1180),
-            new FactionModel(Messages.FAC_LSTD_3_M, Messages.FAC_LSTD_3_F, FACTION_TAXI_DRIVER, 3, 1360),
-            new FactionModel(Messages.FAC_LSTD_4_M, Messages.FAC_LSTD_4_F, FACTION_TAXI_DRIVER, 4, 1600),
-            new FactionModel(Messages.FAC_LSTD_5_M, Messages.FAC_LSTD_5_F, FACTION_TAXI_DRIVER, 5, 1890)
+            new FactionModel(JobRes.lstd_1_m, JobRes.lstd_1_f, FACTION_TAXI_DRIVER, 1, 1020),
+            new FactionModel(JobRes.lstd_2_m, JobRes.lstd_2_f, FACTION_TAXI_DRIVER, 2, 1180),
+            new FactionModel(JobRes.lstd_3_m, JobRes.lstd_3_f, FACTION_TAXI_DRIVER, 3, 1360),
+            new FactionModel(JobRes.lstd_4_m, JobRes.lstd_4_f, FACTION_TAXI_DRIVER, 4, 1600),
+            new FactionModel(JobRes.lstd_5_m, JobRes.lstd_5_f, FACTION_TAXI_DRIVER, 5, 1890)
         };
 
         // Job description and salary
         public static List<JobModel> JOB_LIST = new List<JobModel>
         {
-            new JobModel(Messages.JOB_UNEMPLOYED_M, Messages.JOB_UNEMPLOYED_F, JOB_NONE, 575),
-            new JobModel(Messages.JOB_FASTFOOD_M, Messages.JOB_FASTFOOD_F, JOB_FASTFOOD, 775),
-            new JobModel(Messages.JOB_THIEF_M, Messages.JOB_THIEF_F, JOB_THIEF, 450),
-            new JobModel(Messages.JOB_MECHANIC_M, Messages.JOB_MECHANIC_F, JOB_MECHANIC, 875),
-            new JobModel(Messages.JOB_GARGAGE_M, Messages.JOB_GARGAGE_F, JOB_GARBAGE, 975),
-            new JobModel(Messages.JOB_HOOKER_M, Messages.JOB_HOOKER_F, JOB_HOOKER, 575)
+            new JobModel(JobRes.unemployed_m, JobRes.unemployed_f, JOB_NONE, 575),
+            new JobModel(JobRes.fastfood_m, JobRes.fastfood_f, JOB_FASTFOOD, 775),
+            new JobModel(JobRes.thief_m, JobRes.thief_f, JOB_THIEF, 450),
+            new JobModel(JobRes.mechanic_m, JobRes.mechanic_f, JOB_MECHANIC, 875),
+            new JobModel(JobRes.gargage_m, JobRes.gargage_f, JOB_GARBAGE, 975),
+            new JobModel(JobRes.hooker_m, JobRes.hooker_f, JOB_HOOKER, 575)
         };
 
         // Uniform list
@@ -751,103 +754,103 @@ namespace WiredPlayers.globals
         public static List<BusinessItemModel> BUSINESS_ITEM_LIST = new List<BusinessItemModel>
         {
             // 24-7
-            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.08f),
-            new BusinessItemModel(Messages.ITM_BEER_PACK, ITEM_HASH_PACK_BEER_AM, ITEM_TYPE_OPENABLE, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_SANDWICH, ITEM_HASH_SANDWICH, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 10, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(180.0f, 180.0f, 90.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_CIGARETTES, ITEM_HASH_CIGARRETES_PACK_OPEN, ITEM_TYPE_CONSUMABLE, 8, 0.1f, -2, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.05f, -0.03f, 0.0f), new Vector3(270.0f, 20.0f, -20.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_CANDY, ITEM_HASH_CANDY, ITEM_TYPE_CONSUMABLE, 4, 0.1f, 3, 1, new Vector3(0.05f, -0.010f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_JERRYCAN, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_24_7, 0.0f),
-            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.beer_bottle, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.08f),
+            new BusinessItemModel(ItemRes.beer_pack, ITEM_HASH_PACK_BEER_AM, ITEM_TYPE_OPENABLE, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.sandwich, ITEM_HASH_SANDWICH, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 10, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(180.0f, 180.0f, 90.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.cigarettes, ITEM_HASH_CIGARRETES_PACK_OPEN, ITEM_TYPE_CONSUMABLE, 8, 0.1f, -2, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.cola, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.05f, -0.03f, 0.0f), new Vector3(270.0f, 20.0f, -20.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.candy, ITEM_HASH_CANDY, ITEM_TYPE_CONSUMABLE, 4, 0.1f, 3, 1, new Vector3(0.05f, -0.010f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.jerrycan, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_24_7, 0.0f),
+            new BusinessItemModel(ItemRes.coffee, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_24_7, 0.0f),
  
             // Oil station
-            new BusinessItemModel(Messages.ITM_JERRYCAN, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_GAS_STATION, 0.0f),
+            new BusinessItemModel(ItemRes.jerrycan, ITEM_HASH_JERRYCAN, ITEM_TYPE_EQUIPABLE, 25, 0.1f, 0, 1, new Vector3(0.09f, 0.09f, 0.0f), new Vector3(0.0f, 90.0f, 175.0f), BUSINESS_TYPE_GAS_STATION, 0.0f),
  
             // Electronic store
-            new BusinessItemModel(Messages.ITM_SMARTPHONE, ITEM_HASH_TELEPHONE, ITEM_TYPE_EQUIPABLE, 200, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
-            new BusinessItemModel(Messages.ITM_WALKIE, ITEM_HASH_WALKIE, ITEM_TYPE_EQUIPABLE, 150, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
-            new BusinessItemModel(Messages.ITM_CAMERA, ITEM_HASH_CAMERA, ITEM_TYPE_EQUIPABLE, 50, 0.1f, 0, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            new BusinessItemModel(ItemRes.smartphone, ITEM_HASH_TELEPHONE, ITEM_TYPE_EQUIPABLE, 200, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            new BusinessItemModel(ItemRes.walkie, ITEM_HASH_WALKIE, ITEM_TYPE_EQUIPABLE, 150, 0.1f, 0, 1, new Vector3(0.06f, 0.0f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
+            new BusinessItemModel(ItemRes.camera, ITEM_HASH_CAMERA, ITEM_TYPE_EQUIPABLE, 50, 0.1f, 0, 1, new Vector3(0.05f, -0.02f, -0.02f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_ELECTRONICS, 0.0f),
 
             // Hardware store
-            new BusinessItemModel(Messages.ITM_CROWBAR, WeaponHash.Crowbar.ToString(), ITEM_TYPE_WEAPON, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HAMMER, WeaponHash.Hammer.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_FLASHLIGHT, WeaponHash.Flashlight.ToString(), ITEM_TYPE_WEAPON, 30, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HATCHET, WeaponHash.Hatchet.ToString(), ITEM_TYPE_WEAPON, 200, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_WRENCH, WeaponHash.Wrench.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_KNUCLE_DUSTER, WeaponHash.KnuckleDuster.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_KNIFE, WeaponHash.Knife.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SWITCHBLADE, WeaponHash.SwitchBlade.ToString(), ITEM_TYPE_WEAPON, 150, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
-            new BusinessItemModel(Messages.ITM_BAT, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.crowbar, WeaponHash.Crowbar.ToString(), ITEM_TYPE_WEAPON, 60, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.hammer, WeaponHash.Hammer.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.flashlight, WeaponHash.Flashlight.ToString(), ITEM_TYPE_WEAPON, 30, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.hatchet, WeaponHash.Hatchet.ToString(), ITEM_TYPE_WEAPON, 200, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.wrench, WeaponHash.Wrench.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.knucle_duster, WeaponHash.KnuckleDuster.ToString(), ITEM_TYPE_WEAPON, 100, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.knife, WeaponHash.Knife.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.switchblade, WeaponHash.SwitchBlade.ToString(), ITEM_TYPE_WEAPON, 150, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
+            new BusinessItemModel(ItemRes.bat, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_HARDWARE, 0.0f),
  
             // Bar
-            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.08f),
-            new BusinessItemModel(Messages.ITM_BURGER, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
-            new BusinessItemModel(Messages.ITM_HOTDOG, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(ItemRes.beer_bottle, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.08f),
+            new BusinessItemModel(ItemRes.burger, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(ItemRes.coffee, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(ItemRes.cola, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
+            new BusinessItemModel(ItemRes.hotdog, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_BAR, 0.0f),
  
             // Clubhouse
-            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.08f),
-            new BusinessItemModel(Messages.ITM_BURGER, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel(Messages.ITM_COFFEE, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel(Messages.ITM_COLA, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HOTDOG, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(ItemRes.beer_bottle, ITEM_HASH_BOTTLE_BEER_PISSWASSER, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.08f),
+            new BusinessItemModel(ItemRes.burger, ITEM_HASH_BURGER, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 20, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(ItemRes.coffee, ITEM_HASH_CUP_COFFEE, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(ItemRes.cola, ITEM_HASH_CAN_COLA, ITEM_TYPE_CONSUMABLE, 5, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
+            new BusinessItemModel(ItemRes.hotdog, ITEM_HASH_HOTDOG, ITEM_TYPE_CONSUMABLE, 2, 0.1f, 15, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLUBHOUSE, 0.0f),
  
             // Disco
-            new BusinessItemModel(Messages.ITM_BEER_BOTTLE, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.08f),
-            new BusinessItemModel(Messages.ITM_JUICE, ITEM_HASH_CUP_JUICE, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 10, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
-            new BusinessItemModel(Messages.ITM_ENERGY_DRINK, ITEM_HASH_ENERGY_DRINK, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
-            new BusinessItemModel(Messages.ITM_CAVA_BOTTLE, ITEM_HASH_BOTTLE_CAVA, ITEM_TYPE_CONSUMABLE, 70, 0.1f, 15, 5, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.05f),
+            new BusinessItemModel(ItemRes.beer_bottle, ITEM_HASH_BOTTLE_BEER_AM, ITEM_TYPE_CONSUMABLE, 10, 0.1f, 1, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(270.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.08f),
+            new BusinessItemModel(ItemRes.juice, ITEM_HASH_CUP_JUICE, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 10, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
+            new BusinessItemModel(ItemRes.energy_drink, ITEM_HASH_ENERGY_DRINK, ITEM_TYPE_CONSUMABLE, 6, 0.1f, 5, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.0f),
+            new BusinessItemModel(ItemRes.cava_bottle, ITEM_HASH_BOTTLE_CAVA, ITEM_TYPE_CONSUMABLE, 70, 0.1f, 15, 5, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_DISCO, 0.05f),
  
             // Ammu-Nation
-            new BusinessItemModel(Messages.ITM_PISTOL, WeaponHash.Pistol.ToString(), ITEM_TYPE_WEAPON, 2000, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel(Messages.ITM_PISTOL_AMMO, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 300, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel(Messages.ITM_SMG_AMMO, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 500, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel(Messages.ITM_SHOTGUN_AMMO, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 400, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel(Messages.ITM_RIFLE_AMMO, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 1000, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
-            new BusinessItemModel(Messages.ITM_SNIPER_AMMO, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 2000, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.pistol, WeaponHash.Pistol.ToString(), ITEM_TYPE_WEAPON, 2000, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.pistol_ammo, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 300, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.smg_ammo, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 500, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.shotgun_ammo, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 400, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.rifle_ammo, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 1000, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
+            new BusinessItemModel(ItemRes.sniper_ammo, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 2000, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_AMMUNATION, 0.0f),
 
             // Clothes store
-            new BusinessItemModel(Messages.ITM_BAT, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 300, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
-            new BusinessItemModel(Messages.ITM_GOLF_CLUB, WeaponHash.GolfClub.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
+            new BusinessItemModel(ItemRes.bat, WeaponHash.Bat.ToString(), ITEM_TYPE_WEAPON, 300, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
+            new BusinessItemModel(ItemRes.golf_club, WeaponHash.GolfClub.ToString(), ITEM_TYPE_WEAPON, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_CLOTHES, 0.0f),
  
             // Fishing store
-            new BusinessItemModel(Messages.ITM_FISHING_ROD, ITEM_HASH_FISHING_ROD, ITEM_TYPE_EQUIPABLE, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
-            new BusinessItemModel(Messages.ITM_BAIT, ITEM_HASH_BAIT, ITEM_TYPE_MISC, 10, 0.1f, 0, 10, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
+            new BusinessItemModel(ItemRes.fishing_rod, ITEM_HASH_FISHING_ROD, ITEM_TYPE_EQUIPABLE, 250, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
+            new BusinessItemModel(ItemRes.bait, ITEM_HASH_BAIT, ITEM_TYPE_MISC, 10, 0.1f, 0, 10, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_FISHING, 0.0f),
  
             // Miscellaneous
-            new BusinessItemModel(Messages.ITM_FISH, ITEM_HASH_FISH, ITEM_TYPE_MISC, 0, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_PRODUCTS, ITEM_HASH_BUSINESS_PRODUCTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_STOLEN_ITEMS, ITEM_HASH_STOLEN_OBJECTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_BULLPUP_SHOTGUN, WeaponHash.BullpupShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_COMPACT_RIFLE, WeaponHash.CompactRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_CARBINE_RIFLE, WeaponHash.CarbineRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HEAVY_SHOTGUN, WeaponHash.HeavyShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SAWN_OFF_SHOTGUN, WeaponHash.SawnOffShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_BULLPUP_RIFLE, WeaponHash.BullpupRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_ASSAULT_RIFLE, WeaponHash.AssaultRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_AP_PISTOL, WeaponHash.APPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_DOUBLE_BARREL_SHOTGUN, WeaponHash.DoubleBarrelShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_MACHINE_PISTOL, WeaponHash.MachinePistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SNIPER_RIFLE, WeaponHash.SniperRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_ASSAULT_SMG, WeaponHash.AssaultSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_COMBAT_PDW, WeaponHash.CombatPDW.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_REVOLVER, WeaponHash.Revolver.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HEAVY_PISTOL, WeaponHash.HeavyPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_PUMP_SHOTGUN, WeaponHash.PumpShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SPECIAL_CARBINE, WeaponHash.SpecialCarbine.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_PISTOL_50, WeaponHash.Pistol50.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_ADVANCED_RIFLE, WeaponHash.AdvancedRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_HEAVY_SNIPER, WeaponHash.HeavySniper.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_MICRO_SMG, WeaponHash.MicroSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_ASSAULT_SHOTGUN, WeaponHash.AssaultShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_MARKSMAN_RIFLE, WeaponHash.MarksmanRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SMG, WeaponHash.SMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_PISTOL_AMMO, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SMG_AMMO, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SHOTGUN_AMMO, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_RIFLE_AMMO, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
-            new BusinessItemModel(Messages.ITM_SNIPER_AMMO, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f)
+            new BusinessItemModel(ItemRes.fish, ITEM_HASH_FISH, ITEM_TYPE_MISC, 0, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.products, ITEM_HASH_BUSINESS_PRODUCTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.stolen_items, ITEM_HASH_STOLEN_OBJECTS, ITEM_TYPE_MISC, 50, 0.1f, 0, 1, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.bullpup_shotgun, WeaponHash.BullpupShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.compact_rifle, WeaponHash.CompactRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.carbine_rifle, WeaponHash.CarbineRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.heavy_shotgun, WeaponHash.HeavyShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.sawn_off_shotgun, WeaponHash.SawnOffShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.bullpup_rifle, WeaponHash.BullpupRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.assault_rifle, WeaponHash.AssaultRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.ap_pistol, WeaponHash.APPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.double_barrel_shotgun, WeaponHash.DoubleBarrelShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.machine_pistol, WeaponHash.MachinePistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.sniper_rifle, WeaponHash.SniperRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.assault_smg, WeaponHash.AssaultSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.combat_pdw, WeaponHash.CombatPDW.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.revolver, WeaponHash.Revolver.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.heavy_pistol, WeaponHash.HeavyPistol.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.pump_shotgun, WeaponHash.PumpShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.special_carbine, WeaponHash.SpecialCarbine.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.pistol_50, WeaponHash.Pistol50.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.advanced_rifle, WeaponHash.AdvancedRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.heavy_sniper, WeaponHash.HeavySniper.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.micro_smg, WeaponHash.MicroSMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.assault_shotgun, WeaponHash.AssaultShotgun.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.marksman_rifle, WeaponHash.MarksmanRifle.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.smg, WeaponHash.SMG.ToString(), ITEM_TYPE_WEAPON, 0, 0.1f, 0, 0, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.pistol_ammo, ITEM_HASH_PISTOL_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_PISTOL_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.smg_ammo, ITEM_HASH_MACHINEGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_MACHINEGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.shotgun_ammo, ITEM_HASH_SHOTGUN_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SHOTGUN_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.rifle_ammo, ITEM_HASH_ASSAULTRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_ASSAULTRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f),
+            new BusinessItemModel(ItemRes.sniper_ammo, ITEM_HASH_SNIPERRIFLE_AMMO_CLIP, ITEM_TYPE_AMMUNITION, 0, 0.1f, 0, STACK_SNIPERRIFLE_CAPACITY, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f), BUSINESS_TYPE_NONE, 0.0f)
         };
 
         // Clothes list
