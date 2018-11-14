@@ -118,342 +118,342 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="townhall" xml:space="preserve">
-    <value>"Ayuntamiento"</value>
+    <value>Ayuntamiento</value>
   </data>
   <data name="hospital" xml:space="preserve">
-    <value>"Hospital"</value>
+    <value>Hospital</value>
   </data>
   <data name="driving_school" xml:space="preserve">
-    <value>"Autoescuela"</value>
+    <value>Autoescuela</value>
   </data>
   <data name="weazel_news" xml:space="preserve">
-    <value>"Weazel News"</value>
+    <value>Weazel News</value>
   </data>
   <data name="police_station" xml:space="preserve">
-    <value>"Comisaría"</value>
+    <value>Comisaría</value>
   </data>
   <data name="bank_op_withdraw" xml:space="preserve">
-    <value>"Retiro"</value>
+    <value>Retiro</value>
   </data>
   <data name="bank_op_deposit" xml:space="preserve">
-    <value>"Depósito"</value>
+    <value>Depósito</value>
   </data>
   <data name="bank_op_transfer" xml:space="preserve">
-    <value>"Transferencia"</value>
+    <value>Transferencia</value>
   </data>
   <data name="weapon_crate" xml:space="preserve">
-    <value>"caja de armas"</value>
+    <value>caja de armas</value>
   </data>
   <data name="state" xml:space="preserve">
-    <value>"El estado"</value>
+    <value>El estado</value>
   </data>
   <data name="house_sale" xml:space="preserve">
-    <value>"Venta de casa"</value>
+    <value>Venta de casa</value>
   </data>
   <data name="vehicle_sale" xml:space="preserve">
-    <value>"Venta de vehículo"</value>
+    <value>Venta de vehículo</value>
   </data>
   <data name="payment_players" xml:space="preserve">
-    <value>"Pago entre jugadores"</value>
+    <value>Pago entre jugadores</value>
   </data>
   <data name="hooker" xml:space="preserve">
-    <value>"Servicio de prostitución"</value>
+    <value>Servicio de prostitución</value>
   </data>
   <data name="character_help" xml:space="preserve">
-    <value>"Pulsa F para cambiar de personaje"</value>
+    <value>Pulsa F para cambiar de personaje</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>"Nombre: "</value>
+    <value>Nombre: </value>
   </data>
   <data name="sex" xml:space="preserve">
-    <value>"Sexo: "</value>
+    <value>Sexo: </value>
   </data>
   <data name="age" xml:space="preserve">
-    <value>"Edad: "</value>
+    <value>Edad: </value>
   </data>
   <data name="money" xml:space="preserve">
-    <value>"Dinero: "</value>
+    <value>Dinero: </value>
   </data>
   <data name="bank" xml:space="preserve">
-    <value>"Banco: "</value>
+    <value>Banco: </value>
   </data>
   <data name="job" xml:space="preserve">
-    <value>"Trabajo: "</value>
+    <value>Trabajo: </value>
   </data>
   <data name="faction" xml:space="preserve">
-    <value>"Facción: "</value>
+    <value>Facción: </value>
   </data>
   <data name="rank" xml:space="preserve">
-    <value>"Rango: "</value>
+    <value>Rango: </value>
   </data>
   <data name="houses" xml:space="preserve">
-    <value>"Casas: "</value>
+    <value>Casas: </value>
   </data>
   <data name="owned_vehicles" xml:space="preserve">
-    <value>"Vehículos propios: "</value>
+    <value>Vehículos propios: </value>
   </data>
   <data name="lent_vehicles" xml:space="preserve">
-    <value>"Vehículos cedidos: "</value>
+    <value>Vehículos cedidos: </value>
   </data>
   <data name="played_time" xml:space="preserve">
-    <value>"Tiempo jugado: "</value>
+    <value>Tiempo jugado: </value>
   </data>
   <data name="role_points" xml:space="preserve">
-    <value>"Puntos de rol: "</value>
+    <value>Puntos de rol: </value>
   </data>
   <data name="expiry" xml:space="preserve">
-    <value>"Fecha de expiración: "</value>
+    <value>Fecha de expiración: </value>
   </data>
   <data name="police_faction" xml:space="preserve">
-    <value>"Policía"</value>
+    <value>Policía</value>
   </data>
   <data name="emergency_faction" xml:space="preserve">
-    <value>"Emergencias"</value>
+    <value>Emergencias</value>
   </data>
   <data name="news_faction" xml:space="preserve">
-    <value>"Weazel News"</value>
+    <value>Weazel News</value>
   </data>
   <data name="townhall_faction" xml:space="preserve">
-    <value>"Ayuntamiento"</value>
+    <value>Ayuntamiento</value>
   </data>
   <data name="transport_faction" xml:space="preserve">
-    <value>"Servicio de transportes"</value>
+    <value>Servicio de transportes</value>
   </data>
   <data name="no_rank" xml:space="preserve">
-    <value>"Sin rango"</value>
+    <value>Sin rango</value>
   </data>
   <data name="no_faction" xml:space="preserve">
-    <value>"Sin facción"</value>
+    <value>Sin facción</value>
   </data>
   <data name="unemployed" xml:space="preserve">
-    <value>"Sin trabajo"</value>
+    <value>Sin trabajo</value>
   </data>
   <data name="years" xml:space="preserve">
-    <value>" años"</value>
+    <value> años</value>
   </data>
   <data name="sex_male" xml:space="preserve">
-    <value>"Masculino"</value>
+    <value>Masculino</value>
   </data>
   <data name="sex_female" xml:space="preserve">
-    <value>"Femenino"</value>
+    <value>Femenino</value>
   </data>
   <data name="news_announce" xml:space="preserve">
-    <value>"Anuncio Weazel News"</value>
+    <value>Anuncio Weazel News</value>
   </data>
   <data name="news_prize" xml:space="preserve">
-    <value>"Premio Weazel News"</value>
+    <value>Premio Weazel News</value>
   </data>
   <data name="identification" xml:space="preserve">
-    <value>"Documentación"</value>
+    <value>Documentación</value>
   </data>
   <data name="medical_insurance" xml:space="preserve">
-    <value>"Seguro médico"</value>
+    <value>Seguro médico</value>
   </data>
   <data name="taxi_license" xml:space="preserve">
-    <value>"Licencia de taxis"</value>
+    <value>Licencia de taxis</value>
   </data>
   <data name="fines_payment" xml:space="preserve">
-    <value>"Pago de multas"</value>
+    <value>Pago de multas</value>
   </data>
   <data name="sms_from" xml:space="preserve">
-    <value>"SMS de "</value>
+    <value>SMS de </value>
   </data>
   <data name="pawn_shop" xml:space="preserve">
-    <value>"Tienda de empeños"</value>
+    <value>Tienda de empeños</value>
   </data>
   <data name="salary" xml:space="preserve">
-    <value>"Sueldo: "</value>
+    <value>Sueldo: </value>
   </data>
   <data name="extra_income" xml:space="preserve">
-    <value>"Ingresos extra: "</value>
+    <value>Ingresos extra: </value>
   </data>
   <data name="bank_interest" xml:space="preserve">
-    <value>"Intereses bancarios: "</value>
+    <value>Intereses bancarios: </value>
   </data>
   <data name="vehicle_taxes_from" xml:space="preserve">
-    <value>"Impuestos de "</value>
+    <value>Impuestos de </value>
   </data>
   <data name="house_taxes_from" xml:space="preserve">
-    <value>"Impuestos de la vivienda "</value>
+    <value>Impuestos de la vivienda </value>
   </data>
   <data name="total" xml:space="preserve">
-    <value>"Total: "</value>
+    <value>Total: </value>
   </data>
   <data name="ipl" xml:space="preserve">
-    <value>"IPL: "</value>
+    <value>IPL: </value>
   </data>
   <data name="owner" xml:space="preserve">
-    <value>"Propietario: "</value>
+    <value>Propietario: </value>
   </data>
   <data name="price" xml:space="preserve">
-    <value>"Precio: "</value>
+    <value>Precio: </value>
   </data>
   <data name="status" xml:space="preserve">
-    <value>"Estado: "</value>
+    <value>Estado: </value>
   </data>
   <data name="house_check_title" xml:space="preserve">
-    <value>"__________Información de la casa con ID {0}:__________"</value>
+    <value>__________Información de la casa con ID {0}:__________</value>
   </data>
   <data name="vehicle_check_title" xml:space="preserve">
-    <value>"_________Información del vehículo con ID {0}_________"</value>
+    <value>_________Información del vehículo con ID {0}_________</value>
   </data>
   <data name="vehicle_model" xml:space="preserve">
-    <value>"Modelo: "</value>
+    <value>Modelo: </value>
   </data>
   <data name="vehicle_plate" xml:space="preserve">
-    <value>"Matrícula: "</value>
+    <value>Matrícula: </value>
   </data>
   <data name="public_parking" xml:space="preserve">
-    <value>"Parking público"</value>
+    <value>Parking público</value>
   </data>
   <data name="garage" xml:space="preserve">
-    <value>"Garaje"</value>
+    <value>Garaje</value>
   </data>
   <data name="scrapyard" xml:space="preserve">
-    <value>"Desguace"</value>
+    <value>Desguace</value>
   </data>
   <data name="police_depot" xml:space="preserve">
-    <value>"Depósito policial"</value>
+    <value>Depósito policial</value>
   </data>
   <data name="interviewer" xml:space="preserve">
-    <value>"Locutor "</value>
+    <value>Locutor </value>
   </data>
   <data name="guest" xml:space="preserve">
-    <value>"Invitado "</value>
+    <value>Invitado </value>
   </data>
   <data name="route_north" xml:space="preserve">
-    <value>"Se te ha asignado la ruta norte."</value>
+    <value>Se te ha asignado la ruta norte.</value>
   </data>
   <data name="route_south" xml:space="preserve">
-    <value>"Se te ha asignado la ruta sur."</value>
+    <value>Se te ha asignado la ruta sur.</value>
   </data>
   <data name="route_east" xml:space="preserve">
-    <value>"Se te ha asignado la ruta este."</value>
+    <value>Se te ha asignado la ruta este.</value>
   </data>
   <data name="route_west" xml:space="preserve">
-    <value>"Se te ha asignado la ruta oeste."</value>
+    <value>Se te ha asignado la ruta oeste.</value>
   </data>
   <data name="fastfood_job" xml:space="preserve">
-    <value>"Trabajo de repartidor"</value>
+    <value>Trabajo de repartidor</value>
   </data>
   <data name="mechanic_job" xml:space="preserve">
-    <value>"Trabajo de mecánico"</value>
+    <value>Trabajo de mecánico</value>
   </data>
   <data name="garbage_job" xml:space="preserve">
-    <value>"Trabajo de basurero"</value>
+    <value>Trabajo de basurero</value>
   </data>
   <data name="members_online" xml:space="preserve">
-    <value>"Miembros conectados:"</value>
+    <value>Miembros conectados:</value>
   </data>
   <data name="reports_header" xml:space="preserve">
-    <value>"Lista de avisos:"</value>
+    <value>Lista de avisos:</value>
   </data>
   <data name="faction_lspd" xml:space="preserve">
-    <value>"LSPD"</value>
+    <value>LSPD</value>
   </data>
   <data name="faction_ems" xml:space="preserve">
-    <value>"EMS"</value>
+    <value>EMS</value>
   </data>
   <data name="faction_news" xml:space="preserve">
-    <value>"Weazel News"</value>
+    <value>Weazel News</value>
   </data>
   <data name="faction_townhall" xml:space="preserve">
-    <value>"Ayuntamiento"</value>
+    <value>Ayuntamiento</value>
   </data>
   <data name="faction_transport" xml:space="preserve">
-    <value>"Servicio de transportes"</value>
+    <value>Servicio de transportes</value>
   </data>
   <data name="time" xml:space="preserve">
-    <value>"Hora: "</value>
+    <value>Hora: </value>
   </data>
   <data name="place" xml:space="preserve">
-    <value>"lugar: "</value>
+    <value>lugar: </value>
   </data>
   <data name="attended_by" xml:space="preserve">
-    <value>"estado: atendido por "</value>
+    <value>estado: atendido por </value>
   </data>
   <data name="unattended" xml:space="preserve">
-    <value>"estado: sin atender"</value>
+    <value>estado: sin atender</value>
   </data>
   <data name="state_occupied" xml:space="preserve">
-    <value>"Estado: Ocupada"</value>
+    <value>Estado: Ocupada</value>
   </data>
   <data name="state_rent" xml:space="preserve">
-    <value>"Estado: En alquiler"</value>
+    <value>Estado: En alquiler</value>
   </data>
   <data name="state_sale" xml:space="preserve">
-    <value>"Estado: En venta"</value>
+    <value>Estado: En venta</value>
   </data>
   <data name="chat_say" xml:space="preserve">
-    <value>" dice: "</value>
+    <value> dice: </value>
   </data>
   <data name="chat_yell" xml:space="preserve">
-    <value>" grita: ¡"</value>
+    <value> grita: ¡</value>
   </data>
   <data name="chat_whisper" xml:space="preserve">
-    <value>" susurra: "</value>
+    <value> susurra: </value>
   </data>
   <data name="chat_phone" xml:space="preserve">
-    <value>" por teléfono: "</value>
+    <value> por teléfono: </value>
   </data>
   <data name="chat_radio" xml:space="preserve">
-    <value>" por radio: "</value>
+    <value> por radio: </value>
   </data>
   <data name="pm_to" xml:space="preserve">
-    <value>"Mensaje privado a "</value>
+    <value>Mensaje privado a </value>
   </data>
   <data name="pm_from" xml:space="preserve">
-    <value>"Mensaje privado de "</value>
+    <value>Mensaje privado de </value>
   </data>
   <data name="phone" xml:space="preserve">
-    <value>"[Teléfono] "</value>
+    <value>[Teléfono] </value>
   </data>
   <data name="radio" xml:space="preserve">
-    <value>"[Radio] "</value>
+    <value>[Radio] </value>
   </data>
   <data name="announcement" xml:space="preserve">
-    <value>"[ANUNCIO] "</value>
+    <value>[ANUNCIO] </value>
   </data>
   <data name="admin_notice" xml:space="preserve">
-    <value>"[AVISO ADMINISTRATIVO] "</value>
+    <value>[AVISO ADMINISTRATIVO] </value>
   </data>
   <data name="car_dealer" xml:space="preserve">
-    <value>"Concesionario de coches"</value>
+    <value>Concesionario de coches</value>
   </data>
   <data name="motorcycle_dealer" xml:space="preserve">
-    <value>"Concesionario de motos"</value>
+    <value>Concesionario de motos</value>
   </data>
   <data name="boat_dealer" xml:space="preserve">
-    <value>"Concesionario de barcos"</value>
+    <value>Concesionario de barcos</value>
   </data>
   <data name="catalog_help" xml:space="preserve">
-    <value>"Escribe el comando para ver la lista de vehículos"</value>
+    <value>Escribe el comando para ver la lista de vehículos</value>
   </data>
   <data name="job_help" xml:space="preserve">
-    <value>"Escribe el comando para obtener más información del empleo"</value>
+    <value>Escribe el comando para obtener más información del empleo</value>
   </data>
   <data name="townhall_help" xml:space="preserve">
-    <value>"Escribe el comando para ver los trámites disponibles"</value>
+    <value>Escribe el comando para ver los trámites disponibles</value>
   </data>
   <data name="house" xml:space="preserve">
-    <value>"Casa"</value>
+    <value>Casa</value>
   </data>
   <data name="business" xml:space="preserve">
-    <value>"Negocio"</value>
+    <value>Negocio</value>
   </data>
   <data name="welcome_message" xml:space="preserve">
-    <value>"Bienvenido a WiredPlayers, {0}."</value>
+    <value>Bienvenido a WiredPlayers, {0}.</value>
   </data>
   <data name="welcome_hint" xml:space="preserve">
-    <value>"Utiliza el comando ~b~/bienvenida ~w~para saber como puedes empezar tu vida en Los Santos."</value>
+    <value>Utiliza el comando ~b~/bienvenida ~w~para saber como puedes empezar tu vida en Los Santos.</value>
   </data>
   <data name="help_hint" xml:space="preserve">
-    <value>"Utiliza el comando ~b~/ayuda ~w~siempre que quieras para obtener información general."</value>
+    <value>Utiliza el comando ~b~/ayuda ~w~siempre que quieras para obtener información general.</value>
   </data>
   <data name="ticket_hint" xml:space="preserve">
-    <value>"Utiliza el comando ~b~/duda ~w~para solicitar ayuda de algún miembro del staff."</value>
+    <value>Utiliza el comando ~b~/duda ~w~para solicitar ayuda de algún miembro del staff.</value>
   </data>
   <data name="not_faction_warning" xml:space="preserve">
-    <value>"No hay ningún aviso pendiente."</value>
+    <value>No hay ningún aviso pendiente.</value>
   </data>
 </root>

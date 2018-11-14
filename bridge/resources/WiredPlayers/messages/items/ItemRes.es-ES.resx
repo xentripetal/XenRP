@@ -118,186 +118,186 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="beer_bottle" xml:space="preserve">
-    <value>"Botellín de cerveza"</value>
+    <value>Botellín de cerveza</value>
   </data>
   <data name="beer_pack" xml:space="preserve">
-    <value>"Pack de cervezas"</value>
+    <value>Pack de cervezas</value>
   </data>
   <data name="sandwich" xml:space="preserve">
-    <value>"Sandwich"</value>
+    <value>Sandwich</value>
   </data>
   <data name="cigarettes" xml:space="preserve">
-    <value>"Cigarrillos RedWood"</value>
+    <value>Cigarrillos RedWood</value>
   </data>
   <data name="cola" xml:space="preserve">
-    <value>"FunCola"</value>
+    <value>FunCola</value>
   </data>
   <data name="candy" xml:space="preserve">
-    <value>"Caramelos"</value>
+    <value>Caramelos</value>
   </data>
   <data name="jerrycan" xml:space="preserve">
-    <value>"Lata de gasolina"</value>
+    <value>Lata de gasolina</value>
   </data>
   <data name="coffee" xml:space="preserve">
-    <value>"Café"</value>
+    <value>Café</value>
   </data>
   <data name="burger" xml:space="preserve">
-    <value>"Hamburguesa"</value>
+    <value>Hamburguesa</value>
   </data>
   <data name="hotdog" xml:space="preserve">
-    <value>"Perrito caliente"</value>
+    <value>Perrito caliente</value>
   </data>
   <data name="juice" xml:space="preserve">
-    <value>"Zumo"</value>
+    <value>Zumo</value>
   </data>
   <data name="energy_drink" xml:space="preserve">
-    <value>"Bebida energética"</value>
+    <value>Bebida energética</value>
   </data>
   <data name="cava_bottle" xml:space="preserve">
-    <value>"Botella de cava"</value>
+    <value>Botella de cava</value>
   </data>
   <data name="smartphone" xml:space="preserve">
-    <value>"Teléfono móvil"</value>
+    <value>Teléfono móvil</value>
   </data>
   <data name="walkie" xml:space="preserve">
-    <value>"Walkie-Talkie"</value>
+    <value>Walkie-Talkie</value>
   </data>
   <data name="camera" xml:space="preserve">
-    <value>"Cámara de fotos"</value>
+    <value>Cámara de fotos</value>
   </data>
   <data name="crowbar" xml:space="preserve">
-    <value>"Palanca"</value>
+    <value>Palanca</value>
   </data>
   <data name="hammer" xml:space="preserve">
-    <value>"Martillo"</value>
+    <value>Martillo</value>
   </data>
   <data name="flashlight" xml:space="preserve">
-    <value>"Linterna"</value>
+    <value>Linterna</value>
   </data>
   <data name="hatchet" xml:space="preserve">
-    <value>"Hacha"</value>
+    <value>Hacha</value>
   </data>
   <data name="wrench" xml:space="preserve">
-    <value>"Llave de tubo"</value>
+    <value>Llave de tubo</value>
   </data>
   <data name="knucle_duster" xml:space="preserve">
-    <value>"Puño americano"</value>
+    <value>Puño americano</value>
   </data>
   <data name="knife" xml:space="preserve">
-    <value>"Cuchillo"</value>
+    <value>Cuchillo</value>
   </data>
   <data name="switchblade" xml:space="preserve">
-    <value>"Navaja"</value>
+    <value>Navaja</value>
   </data>
   <data name="bat" xml:space="preserve">
-    <value>"Bate de baseball"</value>
+    <value>Bate de baseball</value>
   </data>
   <data name="golf_club" xml:space="preserve">
-    <value>"Palo de golf"</value>
+    <value>Palo de golf</value>
   </data>
   <data name="pistol" xml:space="preserve">
-    <value>"Pistola"</value>
+    <value>Pistola</value>
   </data>
   <data name="bullpup_shotgun" xml:space="preserve">
-    <value>"Escopeta bullpup"</value>
+    <value>Escopeta bullpup</value>
   </data>
   <data name="compact_rifle" xml:space="preserve">
-    <value>"Rifle compacto"</value>
+    <value>Rifle compacto</value>
   </data>
   <data name="carbine_rifle" xml:space="preserve">
-    <value>"Carabina"</value>
+    <value>Carabina</value>
   </data>
   <data name="heavy_shotgun" xml:space="preserve">
-    <value>"Escopeta pesada"</value>
+    <value>Escopeta pesada</value>
   </data>
   <data name="sawn_off_shotgun" xml:space="preserve">
-    <value>"Escopeta recortada"</value>
+    <value>Escopeta recortada</value>
   </data>
   <data name="bullpup_rifle" xml:space="preserve">
-    <value>"Rifle bullpup"</value>
+    <value>Rifle bullpup</value>
   </data>
   <data name="assault_rifle" xml:space="preserve">
-    <value>"Rifle de asalto"</value>
+    <value>Rifle de asalto</value>
   </data>
   <data name="ap_pistol" xml:space="preserve">
-    <value>"Pistola penetrante"</value>
+    <value>Pistola penetrante</value>
   </data>
   <data name="double_barrel_shotgun" xml:space="preserve">
-    <value>"Escopeta de dos cañones"</value>
+    <value>Escopeta de dos cañones</value>
   </data>
   <data name="machine_pistol" xml:space="preserve">
-    <value>"Pistola automática"</value>
+    <value>Pistola automática</value>
   </data>
   <data name="sniper_rifle" xml:space="preserve">
-    <value>"Rifle de francotirador"</value>
+    <value>Rifle de francotirador</value>
   </data>
   <data name="assault_smg" xml:space="preserve">
-    <value>"SMG de asalto"</value>
+    <value>SMG de asalto</value>
   </data>
   <data name="combat_pdw" xml:space="preserve">
-    <value>"PDW de combate"</value>
+    <value>PDW de combate</value>
   </data>
   <data name="revolver" xml:space="preserve">
-    <value>"Revólver"</value>
+    <value>Revólver</value>
   </data>
   <data name="heavy_pistol" xml:space="preserve">
-    <value>"Pistola pesada"</value>
+    <value>Pistola pesada</value>
   </data>
   <data name="pump_shotgun" xml:space="preserve">
-    <value>"Escopeta"</value>
+    <value>Escopeta</value>
   </data>
   <data name="special_carbine" xml:space="preserve">
-    <value>"Carabina especial"</value>
+    <value>Carabina especial</value>
   </data>
   <data name="pistol_50" xml:space="preserve">
-    <value>"Pistola 50"</value>
+    <value>Pistola 50</value>
   </data>
   <data name="advanced_rifle" xml:space="preserve">
-    <value>"Rifle avanzado"</value>
+    <value>Rifle avanzado</value>
   </data>
   <data name="heavy_sniper" xml:space="preserve">
-    <value>"Francotirador pesado"</value>
+    <value>Francotirador pesado</value>
   </data>
   <data name="micro_smg" xml:space="preserve">
-    <value>"Micro SMG"</value>
+    <value>Micro SMG</value>
   </data>
   <data name="assault_shotgun" xml:space="preserve">
-    <value>"Escopeta de asalto"</value>
+    <value>Escopeta de asalto</value>
   </data>
   <data name="marksman_rifle" xml:space="preserve">
-    <value>"Rifle de precisión"</value>
+    <value>Rifle de precisión</value>
   </data>
   <data name="smg" xml:space="preserve">
-    <value>"SMG"</value>
+    <value>SMG</value>
   </data>
   <data name="pistol_ammo" xml:space="preserve">
-    <value>"Munición de pistola"</value>
+    <value>Munición de pistola</value>
   </data>
   <data name="smg_ammo" xml:space="preserve">
-    <value>"Munición de metralleta"</value>
+    <value>Munición de metralleta</value>
   </data>
   <data name="shotgun_ammo" xml:space="preserve">
-    <value>"Munición de escopeta"</value>
+    <value>Munición de escopeta</value>
   </data>
   <data name="rifle_ammo" xml:space="preserve">
-    <value>"Munición de rifle de asalto"</value>
+    <value>Munición de rifle de asalto</value>
   </data>
   <data name="sniper_ammo" xml:space="preserve">
-    <value>"Munición de rifle de francotirador"</value>
+    <value>Munición de rifle de francotirador</value>
   </data>
   <data name="fishing_rod" xml:space="preserve">
-    <value>"Caña de pescar"</value>
+    <value>Caña de pescar</value>
   </data>
   <data name="bait" xml:space="preserve">
-    <value>"Cebo"</value>
+    <value>Cebo</value>
   </data>
   <data name="fish" xml:space="preserve">
-    <value>"Pescado"</value>
+    <value>Pescado</value>
   </data>
   <data name="products" xml:space="preserve">
-    <value>"Productos"</value>
+    <value>Productos</value>
   </data>
   <data name="stolen_items" xml:space="preserve">
-    <value>"Objetos robados"</value>
+    <value>Objetos robados</value>
   </data>
 </root>

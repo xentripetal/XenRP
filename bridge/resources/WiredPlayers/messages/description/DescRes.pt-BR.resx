@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="job_hooker" xml:space="preserve">
-    <value>"Garoto/a de Programa - Ganhe dinheiro vendendo seu corpo, simples assim. Voce escolhe seus clientes e preço."</value>
+    <value>Garoto/a de Programa - Ganhe dinheiro vendendo seu corpo, simples assim. Voce escolhe seus clientes e preço.</value>
   </data>
   <data name="job_fastfoot" xml:space="preserve">
-    <value>"Entregador - Precisamos de entregas de fast food. e simples, entregue ordens a tempo e voce sera pago."</value>
+    <value>Entregador - Precisamos de entregas de fast food. e simples, entregue ordens a tempo e voce sera pago.</value>
   </data>
   <data name="job_mechanic" xml:space="preserve">
-    <value>"Mecânico - Em Los Santos Custom, precisamos de funcionarios que saibam como tratar um carro."</value>
+    <value>Mecânico - Em Los Santos Custom, precisamos de funcionarios que saibam como tratar um carro.</value>
   </data>
   <data name="job_garbage" xml:space="preserve">
-    <value>"Lixeiro - Los Santos precisa de pessoas para limpar a cidade. Trabalhe em pares com um amigo, um ira dirigir e o outro ira coletar o lixo."</value>
+    <value>Lixeiro - Los Santos precisa de pessoas para limpar a cidade. Trabalhe em pares com um amigo, um ira dirigir e o outro ira coletar o lixo.</value>
   </data>
   <data name="job_thief" xml:space="preserve">
-    <value>"Ladrão - Se ter um emprego e a maneira chata de ganhar dinheiro para voce, talvez voce prefira obter alguns itens valiosos e vende-los."</value>
+    <value>Ladrão - Se ter um emprego e a maneira chata de ganhar dinheiro para voce, talvez voce prefira obter alguns itens valiosos e vende-los.</value>
   </data>
 </root>
