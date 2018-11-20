@@ -543,7 +543,7 @@ namespace WiredPlayers.drivingschool
                                 player.SendChatMessage(Constants.COLOR_HELP + InfoRes.car_license_practical_pending);
                                 break;
                             default:
-                                string message = string.Format(InfoRes.car_license_points + currentLicenseStatus);
+                                string message = string.Format(InfoRes.car_license_points,currentLicenseStatus);
                                 player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
@@ -558,7 +558,7 @@ namespace WiredPlayers.drivingschool
                                 player.SendChatMessage(Constants.COLOR_HELP + InfoRes.motorcycle_license_practical_pending);
                                 break;
                             default:
-                                string message = string.Format(InfoRes.motorcycle_license_points + currentLicenseStatus);
+                                string message = string.Format(InfoRes.motorcycle_license_points,currentLicenseStatus);
                                 player.SendChatMessage(Constants.COLOR_HELP + message);
                                 break;
                         }
