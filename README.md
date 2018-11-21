@@ -17,12 +17,13 @@ WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main
 1. Install the .msi file that comes into RAGE Multiplayer's .zip file
 2. Execute the **updater.exe** located on the root folder where you installed RAGE Multiplayer
 3. Unzip the Bridge plugin into the folder called **server-files** replacing the files if needed
+3.1 Execute again the **updater.exe** located on the root folder where you installed RAGE Multiplayer in order for it to update to the bridge plugin
 4. Get all the files from this GitHub and place them into the same folder as before, replacing the files you're asked for
-5. Make sure your router has opened 22005 UDP port and 22006 TCP/IP
-6. Open your MySQL client and execute the **wprp.sql** script under **server-files** folder
+5. Make sure your router has opened 22005 UDP port and 22006 TCP/IP, if you dont know how to do that just google for router port forwarding
+6. Open your MySQL client and import the **wprp.sql** database located under **server-files** folder
 7. Import to Visual Studio the **WiredPlayers.csproj** file, located on the following path:
 **%RAGEMP Installed folder%/server-files/bridge/resources/WiredPlayers/**
-### Database Connection:
+#### Database Connection:
 8. Change the database connection settings under **meta.xml** located on the following path: 
 **%RAGEMP Installed folder%/server-files/bridge/resources/WiredPlayers/** or in your Visual Studio Project! 
 9. Make sure your solution has linked the **gtanetwork.api** and **MySql.Data** Nugets, if not, add them
