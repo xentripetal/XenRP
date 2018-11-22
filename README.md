@@ -24,6 +24,8 @@ WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main
 4. Execute again the **updater.exe** located on the root folder where you installed RAGE Multiplayer in order for it to update to the bridge plugin
 5. Make sure your router has opened 22005 UDP port and 22006 TCP/IP, if you dont know how to do that just google for router port forwarding
 
+**Note:** Fore more informations check also the RAGE Wiki: [ClickHere](https://wiki.rage.mp/index.php?title=Getting_Started_with_Server)
+
 ### 3.Installing the GameMode
 1. Get all the files from this GitHub and place them into the same folder as before, replacing the files you're asked for
 2. Open your MySQL client and import the **wprp.sql** database located under **server-files** folder
