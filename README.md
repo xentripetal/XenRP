@@ -31,6 +31,6 @@ WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main
 12. Execute the **server.exe** located under the **server-files** folder
 13. Log into your server and enjoy it
 
-If you followed all this steps, you should be able to login with your newly registered account, if not please check the * [F.A.Q.](https://github.com/xabier1989/WiredPlayers-RP/wiki/FAQ) in order to try solve the errors, some of them are solved there!
+If you followed all this steps, you should be able to login with your newly registered account, if not please check the **[F.A.Q.](https://github.com/xabier1989/WiredPlayers-RP/wiki/FAQ)** in order to try solve the errors, some of them are solved there!
 
 #### Sometimes it may send you the error, just when you join the server, this error will be solved in RAGE 0.4!
