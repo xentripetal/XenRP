@@ -456,4 +456,7 @@
   <data name="not_faction_warning" xml:space="preserve">
     <value>There's no pending report to attend.</value>
   </data>
+  <data name="equipment_help" xml:space="preserve">
+    <value>Type the command above to get the police equipment</value>
+  </data>
 </root>
