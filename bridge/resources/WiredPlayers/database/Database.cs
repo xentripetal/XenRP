@@ -31,7 +31,8 @@ namespace WiredPlayers.database
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // Set the culture
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+            string culture = NAPI.Resource.GetSetting<string>(this, "culture");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 
             // Create the database connection string
             string host = NAPI.Resource.GetSetting<string>(this, "host");

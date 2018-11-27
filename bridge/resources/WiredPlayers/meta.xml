@@ -5,12 +5,15 @@
   <!-- Gamemode library -->
   <script src="bin/Debug/netcoreapp2.0/WiredPlayers.dll" />
 
-  <!-- Database connection settings -->
   <settings>
+    <!-- Database connection settings -->
     <setting name="host" value="127.0.0.1"/>
     <setting name="username" value="gta"/>
     <setting name="password" value="gta5server-WP"/>
     <setting name="database" value="gtav"/>
+
+    <!-- Gamemode language settings -->
+    <settings name="culture" value="en-US"/>
   </settings>
 
 </meta>
