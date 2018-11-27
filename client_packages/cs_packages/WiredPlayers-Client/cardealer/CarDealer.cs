@@ -99,7 +99,7 @@ namespace WiredPlayers_Client.cardealer
             bool colorMain = (bool)args[1];
 
             // Get the color from HEX string
-            ColorConverter converter = new ColorConverter();
+            /*ColorConverter converter = new ColorConverter();
             Color color = (Color)converter.ConvertFromString(colorHex);
 
             if (colorMain)
@@ -111,7 +111,7 @@ namespace WiredPlayers_Client.cardealer
             {
                 // Set the vehicle's secondary color
                 previewVehicle.SetCustomSecondaryColour(color.R, color.G, color.B);
-            }
+            }*/
         }
 
         private void ShowCatalogEvent(object[] args)

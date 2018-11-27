@@ -3,7 +3,7 @@
   <info name="WiredPlayers" author="Xabi" type="gamemode"/>
   
   <!-- Gamemode library -->
-  <script src="bin/Debug/netcoreapp2.0/WiredPlayers.dll" />
+  <script src="bin/Debug/netcoreapp2.1/WiredPlayers.dll" />
 
   <settings>
     <!-- Database connection settings -->
@@ -13,7 +13,7 @@
     <setting name="database" value="gtav"/>
 
     <!-- Gamemode language settings -->
-    <settings name="culture" value="en-US"/>
+    <setting name="culture" value="en-US"/>
   </settings>
 
 </meta>

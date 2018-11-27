@@ -78,6 +78,7 @@ namespace WiredPlayers_Client.globals
             if (Input.IsDown(0x45) && Player.LocalPlayer.IsOnVehicle())
             {
                 // Get the player's vehicle
+                Vehicle vehicle = Player.LocalPlayer.Vehicle;
                 int vehicleId = Player.LocalPlayer.GetVehicleIsUsing();
 
                 if (RAGE.Game.Vehicle.GetLastPedInVehicleSeat(vehicleId, -1) == Player.LocalPlayer.Id)
