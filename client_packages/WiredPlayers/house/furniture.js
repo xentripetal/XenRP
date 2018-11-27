@@ -1,39 +1,63 @@
-﻿let furnitureList = null;
-let heldFurniture = null;
-let holdingFurniture = false;
+﻿let movingFurniture = false;
+let furnitureList = undefined;
+let selectedFurniture = undefined;
 
-NAPI.OnServerEventTrigger.connect(function (name, args) {
-    if (name == "moveFurniture") {
-        furnitureList = args[0];
-        NAPI.SetCanOpenChat(false);
-        NAPI.ShowCursor(true);
+mp.events.add('moveFurniture', (furnitureListJson) => {
+    // Get the furniture available to move
+    furnitureList = JSON.parse(furnitureListJson);
+
+    // Enable the cursor and disable the chat
+    mp.gui.cursor.show(true, true);
+    //mp.gui.chat.show(false);
+
+    // Set the flag for moving furniture
+    movingFurniture = true;
+});
+
+mp.events.add('click', (x, y, upOrDown, leftOrRight, relativeX, relativeY, worldPosition, hitEntity) => {
+    // Check if the player can move the furniture
+    if(!movingFurniture || leftOrRight === "right") return;
+
+    // Check if the player clicked on any furniture
+    if(selectedFurniture === undefined && upOrDown === "down") {
+        selectedFurniture = getClickedFurniture(relativeX, relativeY);
+        mp.gui.chat.push("Furniture: " + selectedFurniture);
+        return;
+    }
+
+    // Check if the player stopped holding the furniture
+    if(selectedFurniture !== undefined && upOrDown === "up") {
+        mp.events.callRemote("updateFurniturePosition");
+        selectedFurniture = undefined;
+        return;
     }
 });
-/*
-NAPI.OnUpdate.connect(function () {
-    if(NAPI.Data.HasEntitySharedData(NAPI.GetLocalPlayer(), "PLAYER_MOVING_FURNITURE") == true) {
-        if(NAPI.IsControlJustPressed(24) && !holdingFurniture) {
-            heldFurniture = getClickedFurniture();
-            holdingFurniture = true;
-        } else if(NAPI.IsDisabledControlJustPressed(24) && holdingFurniture) {
-            holdingFurniture = false;
-        } else if (holdingFurniture) {
-            var cursOp = NAPI.GetCursorPositionMaintainRatio();
-            var s2w = NAPI.ScreenToWorldMantainRatio(cursOp);
-            //NAPI.SetCameraPosition(NAPI.GetActiveCamera(), s2w);
-            NAPI.TriggerServerEvent("moveFurniture", heldFurniture, s2w.X, s2w.Y, s2w.Z);
-        }
-    }
-});*/
 
-function getClickedFurniture() {
-    var furnitureArray = JSON.parse(furnitureList);
-    var cursOp = NAPI.GetCursorPositionMaintainRatio();
-    var s2w = NAPI.ScreenToWorldMantainRatio(cursOp);
-    for (var i = 0; i < furnitureArray.length; i++) {
-        var position = new Vector3(furnitureArray[i].position.X, furnitureArray[i].position.Y, furnitureArray[i].position.Z);
-        if (s2w.DistanceTo(position) <= 1.5) {
-            heldFurniture = furnitureArray[i].id;
+function getClickedFurniture(posX, posY) {
+    let screenPosition = new mp.Vector3(posX, posY, 0);
+    let worldPosition = mp.game.graphics.screen2dToWorld3d(screenPosition);
+
+    for(let i = 0; i < furnitureList.length; i++) {
+        // Obtain the furniture's position
+        let furniturePosition = mp.objects.atRemoteId(furnitureList[i].handle.Value).getCoords(true);
+        
+        mp.gui.chat.push("D: " + distanceTo(furniturePosition, worldPosition));
+
+        if(distanceTo(furniturePosition, worldPosition) < 15.0) {
+            // Select the furniture as movable
+            mp.gui.chat.push("" + i);
+            return i;
         }
     }
+
+    return undefined;
+}
+
+function distanceTo(fromVector, toVector) {
+    // Get the difference between each Vector's points
+    let diffX = Math.pow((fromVector.x - toVector.x), 2);
+    let diffY = Math.pow((fromVector.y - toVector.y), 2);
+    let diffZ = Math.pow((fromVector.z - toVector.z), 2);
+
+    return Math.sqrt(diffX + diffY + diffZ);
 }

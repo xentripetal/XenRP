@@ -11,6 +11,9 @@ require('./WiredPlayers/business/clothesShop.js');
 require('./WiredPlayers/business/tattooShop.js');
 require('./WiredPlayers/business/hairdresser.js');
 
+require('./WiredPlayers/house/house.js');
+require('./WiredPlayers/house/furniture.js');
+
 require('./WiredPlayers/carshop/carShop.js');
 
 require('./WiredPlayers/bank/bank.js');

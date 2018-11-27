@@ -62,7 +62,7 @@ namespace WiredPlayers.house
                     {
                         case Commands.ARG_PLACE:
                             FurnitureModel furniture = new FurnitureModel();
-                            furniture.hash = 1251197000;
+                            furniture.hash = NAPI.Util.GetHashKey("bkr_prop_weed_pallet");
                             furniture.house = Convert.ToUInt32(houseId);
                             furniture.position = player.Position;
                             furniture.rotation = player.Rotation;
