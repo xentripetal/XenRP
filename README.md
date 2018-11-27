@@ -1,6 +1,10 @@
 # WiredPlayers RolePlay GameMode
 WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main server language and JavaScript for client-side scripts. I started with it back in March 2017 and I'm still upgrading its functionality with suggestions received from people using this gamemode.
 
+## Warning
+
+* The repository has now C# experimental client files which are unstable and untested, if you want to use the stable version, delete the folders **cs_packages** and **statics** under **client_packages** before launching the server
+
 ## Update Log
 
 * The update log can be seen by checking this page -> [Update Log](https://github.com/xabier1989/WiredPlayers-RP/wiki/Update-Log) 

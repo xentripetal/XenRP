@@ -16,9 +16,12 @@
 /bridge/acl.xml
 /bridge/*.txt
 /client_packages/*
+/client_packages/cs_packages/WiredPlayers-Client/.vs
+/client_packages/cs_packages/WiredPlayers-Client/bin
+/client_packages/cs_packages/WiredPlayers-Client/obj
 !/client_packages/index.js
 !/client_packages/statics
-!/client_packages/cs_modules
+!/client_packages/cs_packages
 !/client_packages/WiredPlayers
 !/bridge/runtime/MySql.Data.dll
 !/bridge/runtime/Newtonsoft.Json.dll
