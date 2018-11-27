@@ -1,7 +1,11 @@
-﻿* {
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-	border-radius: 0 !important;
+﻿.selectblock {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 body, html {
@@ -71,7 +75,7 @@ figcaption {
 }
 
 .panel-heading img.logo {
-	width: 200px;
+	width: 250px;
 	padding: 3px;
 }
 

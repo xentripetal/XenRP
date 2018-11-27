@@ -83,11 +83,15 @@ namespace WiredPlayers.factions
             }
         }
 
+        private TextLabel PDEquipmentLabel;
+
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
             // Initialize reinforces updater
             reinforcesTimer = new Timer(UpdateReinforcesRequests, null, 250, 250);
+            PDEquipmentLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_EQUIPMENT, new Vector3(450.8223, -992.0941, 30.78958), 10.0f, 0.5f, 4, new Color(255, 255, 153), false, 0);
+            NAPI.TextLabel.CreateTextLabel(GenRes.equipment_help, new Vector3(450.8223, -992.0941, 30.68958), 10.0f, 0.5f, 4, new Color(255, 255, 255), false, 0);
         }
 
         [RemoteEvent("applyCrimesToPlayer")]
@@ -525,7 +529,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else if (player.HasData(EntityData.PLAYER_IN_LSPD_ROOM_LOCKERS_AREA) == false)
+            else if (player.Position.DistanceTo(PDEquipmentLabel.Position) > 2.0f)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_in_room_lockers);
             }

@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `clothes` (
   `type` int(10) NOT NULL DEFAULT '0',
   `slot` int(10) NOT NULL DEFAULT '0',
   `drawable` int(10) NOT NULL DEFAULT '0',
+  `textures` int(10) NOT NULL DEFAULT '0',
   `dressed` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
