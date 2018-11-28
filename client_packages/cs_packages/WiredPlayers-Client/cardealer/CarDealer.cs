@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace WiredPlayers_Client.cardealer
 {
@@ -64,7 +63,6 @@ namespace WiredPlayers_Client.cardealer
                 case 2:
                     previewVehicle = new Vehicle(RAGE.Game.Misc.GetHashKey(model), new Vector3(-878.5726f, -1353.408f, 0.1741f), 90.0f);
                     previewCamera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("default"), -882.3361f, -1342.628f, 5.0783f, -20.0f, 0.0f, 200.0f, 90.0f, true, 2);
-                    //previewCamera = new Camera( mp.cameras.new ('default', new mp.Vector3(-882.3361, -1342.628, 5.0783), new mp.Vector3(-20.0, 0.0, 200.0), 90);
                     break;
                 default:
                     previewVehicle = new Vehicle(RAGE.Game.Misc.GetHashKey(model), new Vector3(-31.98111f, -1090.434f, 26.42225f), 180.0f);

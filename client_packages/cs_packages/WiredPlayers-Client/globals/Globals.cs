@@ -75,23 +75,16 @@ namespace WiredPlayers_Client.globals
             DateTime dateTime = DateTime.UtcNow;
 
             // Check for the key 'E' being pressed
-            if (Input.IsDown(0x45) && Player.LocalPlayer.IsOnVehicle())
+            if (Input.IsDown(0x45) && Player.LocalPlayer.Vehicle == null)
             {
-                // Get the player's vehicle
-                Vehicle vehicle = Player.LocalPlayer.Vehicle;
-                int vehicleId = Player.LocalPlayer.GetVehicleIsUsing();
-
-                if (RAGE.Game.Vehicle.GetLastPedInVehicleSeat(vehicleId, -1) == Player.LocalPlayer.Id)
-                {
-                    // Reset the player's animation
-                    Events.CallRemote("checkPlayerEventKeyStopAnim");
-                }
+                // Reset the player's animation
+                Events.CallRemote("checkPlayerEventKeyStopAnim");
 
                 return;
             }
 
             // Check for the key 'F' being pressed
-            if (Input.IsDown(0x46) && !Player.LocalPlayer.IsOnVehicle())
+            if (Input.IsDown(0x46) && Player.LocalPlayer.Vehicle == null)
             {
                 // Check if player can enter any place
                 Events.CallRemote("checkPlayerEventKey");
@@ -99,12 +92,9 @@ namespace WiredPlayers_Client.globals
             }
 
             // Check for the key 'K' being pressed
-            if (Input.IsDown(0x4B) && Player.LocalPlayer.IsOnVehicle())
+            if (Input.IsDown(0x4B) && Player.LocalPlayer.Vehicle != null)
             {
-                // Get the player's vehicle
-                int vehicleId = Player.LocalPlayer.GetVehicleIsUsing();
-
-                if (RAGE.Game.Vehicle.GetLastPedInVehicleSeat(vehicleId, -1) == Player.LocalPlayer.Id)
+                if (!Player.LocalPlayer.Vehicle.IsSeatFree(-1, 0) && Player.LocalPlayer.Vehicle.GetPedInSeat(-1, 0) == Player.LocalPlayer.Handle)
                 {
                     // Toggle vehicle's engine
                     Events.CallRemote("engineOnEventKey");
