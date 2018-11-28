@@ -37,14 +37,18 @@ namespace WiredPlayers_Client.globals
             // Check for the parameters
             string input = string.Empty;
 
-            foreach (string argument in args)
+            // Split the function and arguments
+            string function = args[0].ToString();
+            object[] arguments = args.Skip(1).ToArray();
+
+            foreach (string arg in arguments)
             {
                 // Append all the arguments
-                input += input.Length > 0 ? (", " + argument) : argument;
+                input += input.Length > 0 ? (", '" + arg + "'") : ("'" + arg + "'");
             }
 
             // Call the function with the parameters
-            customBrowser.ExecuteJs(args[0].ToString() + "(" + input + ");");
+            customBrowser.ExecuteJs(function + "(" + input + ");");
         }
 
         public static void DestroyBrowserEvent(object[] args)
