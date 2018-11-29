@@ -3,7 +3,7 @@
     class CarDealerVehicle
     {
         public string model { get; set; }
-        public int hash { get; set; }
+        public uint hash { get; set; }
         public int carShop { get; set; }
         public int type { get; set; }
         public int speed { get; set; }
@@ -11,7 +11,7 @@
 
         public CarDealerVehicle() { }
 
-        public CarDealerVehicle(string model, int hash, int carShop, int type, int price)
+        public CarDealerVehicle(string model, uint hash, int carShop, int type, int price)
         {
             this.model = model;
             this.hash = hash;

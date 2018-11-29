@@ -18,6 +18,10 @@ figcaption {
 	text-align: center;
 }
 
+.hidden {
+	display: none !important;
+}
+
 .pointer {
 	cursor: pointer;
 }

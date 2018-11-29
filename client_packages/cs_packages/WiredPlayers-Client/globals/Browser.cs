@@ -41,10 +41,10 @@ namespace WiredPlayers_Client.globals
             string function = args[0].ToString();
             object[] arguments = args.Skip(1).ToArray();
 
-            foreach (string arg in arguments)
+            foreach (object arg in arguments)
             {
                 // Append all the arguments
-                input += input.Length > 0 ? (", '" + arg + "'") : ("'" + arg + "'");
+                input += input.Length > 0 ? (", '" + arg.ToString() + "'") : ("'" + arg.ToString() + "'");
             }
 
             // Call the function with the parameters
