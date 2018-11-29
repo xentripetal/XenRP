@@ -5,6 +5,7 @@ using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using Newtonsoft.Json;
 using System.Linq;
+using System;
 
 namespace WiredPlayers_Client.business
 {
@@ -30,9 +31,9 @@ namespace WiredPlayers_Client.business
             // Get the variables from the arguments
             string playerTattoosJson = args[1].ToString();
             string tattoosJson = args[2].ToString();
-            int business = (int)args[3];
-            float price = (float)args[4];
-            playerSex = (int)args[0];
+            int business = Convert.ToInt32(args[3]);
+            float price = (float)Convert.ToDouble(args[4]);
+            playerSex = Convert.ToInt32(args[0]);
 
 
             // Initialize the player tattoos
@@ -47,7 +48,7 @@ namespace WiredPlayers_Client.business
         private void GetZoneTattoosEvent(object[] args)
         {
             // Get the variables from the arguments
-            int zone = (int)args[0];
+            int zone = Convert.ToInt32(args[0]);
 
             // Get the tattoos from the zone
             zoneTattoos = tattooList.Where(tattoo => tattoo.slot == zone).ToList();
@@ -59,7 +60,7 @@ namespace WiredPlayers_Client.business
         private void AddPlayerTattooEvent(object[] args)
         {
             // Get the variables from the arguments
-            int index = (int)args[0];
+            int index = Convert.ToInt32(args[0]);
 
             // Load the player's tattoos
             ClearTattoosEvent(null);
@@ -84,8 +85,8 @@ namespace WiredPlayers_Client.business
         private void PurchaseTattooEvent(object[] args)
         {
             // Get the variables from the arguments
-            int slot = (int)args[0];
-            int index = (int)args[1];
+            int slot = Convert.ToInt32(args[0]);
+            int index = Convert.ToInt32(args[1]);
 
             // Add the new tattoo to the list
             Tattoo tattoo = new Tattoo();

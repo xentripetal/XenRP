@@ -36,37 +36,44 @@ namespace WiredPlayers_Client.globals
         {
             if (colshape.Id == policeMainDoors.Id)
             {
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_door002"), 434.7479f, -983.2151f, 30.83926f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_door01"), 434.7479f, -980.6184f, 30.83926f, true, 0, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_door002"), 434.7479f, -983.2151f, 30.83926f, true, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_door01"), 434.7479f, -980.6184f, 30.83926f, true, 0.0f, false);
                 return;
             }
 
-            if (colshape.Id == policeMainDoors.Id)
+            if (colshape.Id == policeBackDoors.Id)
             {
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_rc_door2"), 469.9679f, -1014.452f, 26.53623f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_rc_door2"), 467.3716f, -1014.452f, 26.53623f, true, 0, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_rc_door2"), 469.9679f, -1014.452f, 26.53623f, true, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_rc_door2"), 467.3716f, -1014.452f, 26.53623f, true, 0.0f, false);
                 return;
             }
 
-            if (colshape.Id == policeMainDoors.Id)
+            if (colshape.Id == policeCellDoors.Id)
             {
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -994.4086f, 25.06443f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -997.6583f, 25.06443f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -1001.302f, 25.06443f, true, 0, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -994.4086f, 25.06443f, true, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -997.6583f, 25.06443f, true, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_ph_cellgate"), 461.8065f, -1001.302f, 25.06443f, true, 0.0f, false);
                 return;
             }
 
-            if (colshape.Id == policeMainDoors.Id)
+            if (colshape.Id == motorsportMain.Id)
             {
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_l"), -59.89302f, -1092.952f, 26.88362f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_r"), -60.54582f, -1094.749f, 26.88872f, true, 0, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_l"), -59.89302f, -1092.952f, 26.88362f, false, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_r"), -60.54582f, -1094.749f, 26.88872f, false, 0.0f, false);
                 return;
             }
 
-            if (colshape.Id == policeMainDoors.Id)
+            if (colshape.Id == motorsportParking.Id)
             {
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_gasdoor"), -711.5449f, -915.5397f, 19.21559f, true, 0, false);
-                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_gasdoor_r"), -711.5449f, -915.5397f, 19.2156f, true, 0, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_l"), -39.13366f, -1108.218f, 26.7198f, false, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_csr_door_r"), -37.33113f, -1108.873f, 26.7198f, false, 0.0f, false);
+                return;
+            }
+
+            if (colshape.Id == supermarketDoors.Id)
+            {
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_gasdoor"), -711.5449f, -915.5397f, 19.21559f, true, 0.0f, false);
+                Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_gasdoor_r"), -711.5449f, -915.5397f, 19.2156f, true, 0.0f, false);
                 return;
             }
 

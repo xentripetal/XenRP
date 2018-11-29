@@ -1,6 +1,7 @@
 ﻿using RAGE;
 using RAGE.Elements;
 using WiredPlayers_Client.globals;
+using System;
 
 namespace WiredPlayers_Client.bank
 {
@@ -39,8 +40,8 @@ namespace WiredPlayers_Client.bank
         private void ExecuteBankOperationEvent(object[] args)
         {
             // Get the arguments received
-            int operation = (int)args[0];
-            int amount = (int)args[1];
+            int operation = Convert.ToInt32(args[0]);
+            int amount = Convert.ToInt32(args[1]);
             string target = args[2].ToString();
 
             // Execute a bank operation

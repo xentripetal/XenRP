@@ -4,6 +4,7 @@ using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
 
 namespace WiredPlayers_Client.factions
 {
@@ -145,7 +146,7 @@ namespace WiredPlayers_Client.factions
         private void ReinforcesRemoveEvent(object[] args)
         {
             // Get the variables from the arguments
-            int officer = (int)args[0];
+            int officer = Convert.ToInt32(args[0]);
 
             // Delete officer's reinforces
             reinforces[officer].Destroy();

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using WiredPlayers_Client.model;
 using WiredPlayers_Client.globals;
 using System.Collections.Generic;
+using System;
 
 namespace WiredPlayers_Client.character
 {
@@ -29,7 +30,7 @@ namespace WiredPlayers_Client.character
             string contactsJson = args[0].ToString();
 
             // Store the values
-            action = (int)args[1];
+            action = Convert.ToInt32(args[1]);
             contactsList = JsonConvert.DeserializeObject<List<Contact>>(contactsJson);
 
             // Show the list
@@ -39,7 +40,7 @@ namespace WiredPlayers_Client.character
         private void AddContactWindowEvent(object[] args)
         {
             // Store the action
-            action = (int)args[0];
+            action = Convert.ToInt32(args[0]);
 
             // Show the menu to add a contact
             Browser.CreateBrowserEvent(new object[] { "package://statics/html/addPhoneContact.html" });
@@ -61,7 +62,7 @@ namespace WiredPlayers_Client.character
         private void SetContactDataEvent(object[] args)
         {
             // Get the variables from the arguments
-            int number = (int)args[0];
+            int number = Convert.ToInt32(args[0]);
             string name = args[1].ToString();
 
             // Destroy the web browser
@@ -82,7 +83,7 @@ namespace WiredPlayers_Client.character
         private void ExecutePhoneActionEvent(object[] args)
         {
             // Get the variables from the arguments
-            int contactIndex = (int)args[0];
+            int contactIndex = Convert.ToInt32(args[0]);
 
             // Get the selected contact
             contact = contactsList[contactIndex].id;

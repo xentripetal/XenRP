@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using System.Collections.Generic;
+using System;
 
 namespace WiredPlayers_Client.cardealer
 {
@@ -34,7 +35,7 @@ namespace WiredPlayers_Client.cardealer
         {
             // Get the variables from the arguments
             carShopVehiclesJson = args[0].ToString();
-            dealership = (int)args[1];
+            dealership = Convert.ToInt32(args[1]);
 
             // Disable the chat
             Chat.Activate(false);
@@ -85,7 +86,7 @@ namespace WiredPlayers_Client.cardealer
         private void RotatePreviewVehicleEvent(object[] args)
         {
             // Get the variables from the arguments
-            float rotation = (float)args[0];
+            float rotation = (float)Convert.ToDouble(args[0]);
 
             // Set the vehicle's heading
             previewVehicle.SetHeading(rotation);

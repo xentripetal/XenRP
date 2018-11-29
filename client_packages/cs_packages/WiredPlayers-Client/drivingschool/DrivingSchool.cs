@@ -5,6 +5,7 @@ using WiredPlayers_Client.model;
 using WiredPlayers_Client.globals;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace WiredPlayers_Client.drivingschool
 {
@@ -59,8 +60,11 @@ namespace WiredPlayers_Client.drivingschool
 
         private void SubmitAnswerEvent(object[] args)
         {
+            // Get the variables from the arguments
+            int answer = Convert.ToInt32(args[0]);
+
             // Check if the answer is correct
-            Events.CallRemote("checkAnswer", (int)args[0]);
+            Events.CallRemote("checkAnswer", answer);
         }
 
         private void FinishLicenseExamEvent(object[] args)

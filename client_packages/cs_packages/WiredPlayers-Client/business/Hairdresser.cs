@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using Newtonsoft.Json;
+using System;
 
 namespace WiredPlayers_Client.business
 {
@@ -23,7 +24,7 @@ namespace WiredPlayers_Client.business
         private void ShowHairdresserMenuEvent(object[] args)
         {
             // Get the variables from the arguments
-            int sex = (int)args[0];
+            int sex = Convert.ToInt32(args[0]);
             string skinJson = args[1].ToString();
             string businessName = args[2].ToString();
 
@@ -49,8 +50,8 @@ namespace WiredPlayers_Client.business
         private void UpdateFacialHairEvent(object[] args)
         {
             // Get the variables from the arguments
-            int slot = (int)args[0];
-            int value = (int)args[1];
+            int slot = Convert.ToInt32(args[0]);
+            int value = Convert.ToInt32(args[1]);
 
             // Save the new value
             facialHair[slot] = value;

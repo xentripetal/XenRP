@@ -4,6 +4,7 @@ using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Reflection;
 using System;
 
 namespace WiredPlayers_Client.character
@@ -80,7 +81,7 @@ namespace WiredPlayers_Client.character
         private void ChangePlayerSexEvent(object[] args)
         {
             // Store the value into the object
-            playerData.sex = (int)args[0];
+            playerData.sex = Convert.ToInt32(args[0]);
 
             // Change the player's look
             Player.LocalPlayer.Model = playerData.sex == Constants.SEX_MALE ? RAGE.Game.Misc.GetHashKey("mp_m_freemode_01") : RAGE.Game.Misc.GetHashKey("mp_f_freemode_01");
@@ -90,8 +91,14 @@ namespace WiredPlayers_Client.character
         private void StorePlayerDataEvent(object[] args)
         {
             // Get the object from the JSON string
-            KeyValuePair<string, object> dataObject = JsonConvert.DeserializeObject<KeyValuePair<string, object>>(args[0].ToString());
-            playerData.GetType().GetProperty(dataObject.Key).SetValue(playerData, dataObject.Value);
+            Dictionary<string, object> dataObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(args[0].ToString());
+
+            foreach (KeyValuePair<string, object> keyValue in dataObject)
+            {
+                // Set the value into the player data object
+                PropertyInfo property = playerData.GetType().GetProperty(keyValue.Key);
+                property.SetValue(playerData, Convert.ChangeType(keyValue.Value, property.PropertyType));
+            }
 
             // Update the model changes
             ApplyPlayerModelChanges();
@@ -100,7 +107,7 @@ namespace WiredPlayers_Client.character
         private void CameraPointToEvent(object[] args)
         {
             // Get the variables from the array
-            int bodyPart = (int)args[0];
+            int bodyPart = Convert.ToInt32(args[0]);
 
             if(bodyPart == 0)
             {
@@ -117,7 +124,7 @@ namespace WiredPlayers_Client.character
         private void RotateCharacterEvent(object[] args)
         {
             // Get the variables from the array
-            int rotation = (int)args[0];
+            int rotation = Convert.ToInt32(args[0]);
 
             // Rotate the character
             Player.LocalPlayer.SetHeading(rotation);
@@ -133,7 +140,7 @@ namespace WiredPlayers_Client.character
         {
             // Get the variables from the array
             string name = args[0].ToString();
-            int age = (int)args[1];
+            int age = Convert.ToInt32(args[1]);
 
             // Create the new character
             string skinJson = JsonConvert.SerializeObject(playerData);

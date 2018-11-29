@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using Newtonsoft.Json;
+using System;
 
 namespace WiredPlayers_Client.business
 {
@@ -28,8 +29,8 @@ namespace WiredPlayers_Client.business
             clothesTypes = new List<Clothes>();
 
             // Get the variables from the arguments
-            int business = (int)args[0];
-            float price = (float)args[1];
+            int business = Convert.ToInt32(args[0]);
+            float price = (float)Convert.ToDouble(args[1]);
 
             // Show clothes menu
             Browser.CreateBrowserEvent(new object[] { "package://statics/html/sideMenu.html", "populateClothesShopMenu", JsonConvert.SerializeObject(Constants.CLOTHES_TYPES), business, price });
@@ -38,7 +39,7 @@ namespace WiredPlayers_Client.business
         private void GetClothesByTypeEvent(object[] args)
         {
             // Save selected index
-            selectedIndex = (int)args[0];
+            selectedIndex = Convert.ToInt32(args[0]);
 
             // Get clothes list
             Events.CallRemote("getClothesByType", Constants.CLOTHES_TYPES[selectedIndex].type, Constants.CLOTHES_TYPES[selectedIndex].slot);
@@ -67,8 +68,8 @@ namespace WiredPlayers_Client.business
         private void ReplacePlayerClothesEvent(object[] args)
         {
             // Get the variables from the arguments
-            int index = (int)args[0];
-            int texture = (int)args[1];
+            int index = Convert.ToInt32(args[0]);
+            int texture = Convert.ToInt32(args[1]);
 
             if (clothesTypes[index].type == 0)
             {
@@ -85,14 +86,14 @@ namespace WiredPlayers_Client.business
         private void PurchaseClothesEvent(object[] args)
         {
             // Get the variables from the arguments
-            int index = (int)args[0];
+            int index = Convert.ToInt32(args[0]);
 
             // Create the clothes model
             Clothes clothesModel = new Clothes();
             clothesModel.type = clothesTypes[index].type;
             clothesModel.slot = clothesTypes[index].bodyPart;
             clothesModel.drawable = clothesTypes[index].clothesId;
-            clothesModel.texture = (int)args[1];
+            clothesModel.texture = Convert.ToInt32(args[1]);
 
             // Purchase the clothes
             Events.CallRemote("clothesItemSelected", JsonConvert.SerializeObject(clothesModel));
@@ -101,7 +102,7 @@ namespace WiredPlayers_Client.business
         private void ClearClothesEvent(object[] args)
         {
             // Get the variables from the arguments
-            int index = (int)args[0];
+            int index = Convert.ToInt32(args[0]);
 
             // Get the type and slot
             int type = clothesTypes[index].type;

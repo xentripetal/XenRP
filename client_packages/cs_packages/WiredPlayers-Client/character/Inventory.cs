@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using WiredPlayers_Client.globals;
+using System;
 
 namespace WiredPlayers_Client.character
 {
@@ -19,7 +20,7 @@ namespace WiredPlayers_Client.character
         private void ShowPlayerInventoryEvent(object[] args)
         {
             // Store all the inventory data
-            targetType = (int)args[1];
+            targetType = Convert.ToInt32(args[1]);
 
             // Show player's inventory
             Browser.CreateBrowserEvent(new object[] { "package://statics/html/inventory.html", "populateInventory", args[0].ToString(), "general.inventory" });
@@ -28,7 +29,7 @@ namespace WiredPlayers_Client.character
         private void GetInventoryOptionsEvent(object[] args)
         {
             // Get the variables from the arguments
-            int itemType = (int)args[0];
+            int itemType = Convert.ToInt32(args[0]);
             string itemHash = args[1].ToString();
 
             List<string> optionsList = new List<string>();
@@ -78,7 +79,7 @@ namespace WiredPlayers_Client.character
         private void ExecuteActionEvent(object[] args)
         {
             // Get the variables from the arguments
-            int item = (int)args[0];
+            int item = Convert.ToInt32(args[0]);
             string option = args[1].ToString();
 
             // Execute the selected action
