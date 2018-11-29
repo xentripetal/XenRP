@@ -62,15 +62,16 @@ namespace WiredPlayers_Client.cardealer
             {
                 case 2:
                     previewVehicle = new Vehicle(RAGE.Game.Misc.GetHashKey(model), new Vector3(-878.5726f, -1353.408f, 0.1741f), 90.0f);
-                    previewCamera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("default"), -882.3361f, -1342.628f, 5.0783f, -20.0f, 0.0f, 200.0f, 90.0f, true, 2);
+                    previewCamera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("DEFAULT_SCRIPTED_CAMERA"), -882.3361f, -1342.628f, 5.0783f, -20.0f, 0.0f, 200.0f, 90.0f, true, 2);
                     break;
                 default:
                     previewVehicle = new Vehicle(RAGE.Game.Misc.GetHashKey(model), new Vector3(-31.98111f, -1090.434f, 26.42225f), 180.0f);
-                    previewCamera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("default"), -37.83527f, -1088.096f, 27.92234f, -20.0f, 0.0f, 250, 90.0f, true, 2);
+                    previewCamera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("DEFAULT_SCRIPTED_CAMERA"), -37.83527f, -1088.096f, 27.92234f, -20.0f, 0.0f, 250, 90.0f, true, 2);
                     break;
             }
 
             // Make the camera point the vehicle
+            RAGE.Game.Cam.SetCamActive(previewCamera, true);
             RAGE.Game.Cam.RenderScriptCams(true, false, 0, true, false, 0);
 
             // Disable the HUD
@@ -126,6 +127,7 @@ namespace WiredPlayers_Client.cardealer
             RAGE.Game.Ui.DisplayRadar(true);
 
             // Position the camera behind the character
+            RAGE.Game.Cam.DestroyCam(previewCamera, true);
             RAGE.Game.Cam.RenderScriptCams(false, false, 0, true, false, 0);
 
             // Show the catalog
@@ -191,6 +193,7 @@ namespace WiredPlayers_Client.cardealer
             RAGE.Game.Ui.DisplayRadar(true);
 
             // Position the camera behind the character
+            RAGE.Game.Cam.DestroyCam(previewCamera, true);
             RAGE.Game.Cam.RenderScriptCams(false, false, 0, true, false, 0);
 
             // Purchase the vehicle
@@ -214,6 +217,7 @@ namespace WiredPlayers_Client.cardealer
             RAGE.Game.Ui.DisplayRadar(true);
 
             // Position the camera behind the character
+            RAGE.Game.Cam.DestroyCam(previewCamera, true);
             RAGE.Game.Cam.RenderScriptCams(false, false, 0, true, false, 0);
 
             // Purchase the vehicle

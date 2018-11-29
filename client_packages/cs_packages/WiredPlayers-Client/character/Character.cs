@@ -63,7 +63,8 @@ namespace WiredPlayers_Client.character
             Events.CallRemote("setCharacterIntoCreator");
 
             // Make the camera focus the player
-            camera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("default"), 152.6008f, -1003.25f, -98f, -20.0f, 0.0f, 0.0f, 90.0f, true, 2);
+            camera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("DEFAULT_SCRIPTED_CAMERA"), 152.6008f, -1003.25f, -98f, -20.0f, 0.0f, 0.0f, 90.0f, true, 2);
+            RAGE.Game.Cam.SetCamActive(camera, true);
             RAGE.Game.Cam.RenderScriptCams(true, false, 0, true, false, 0);
 
             // Disable the interface
@@ -116,7 +117,7 @@ namespace WiredPlayers_Client.character
         private void RotateCharacterEvent(object[] args)
         {
             // Get the variables from the array
-            float rotation = (float)args[0];
+            int rotation = (int)args[0];
 
             // Rotate the character
             Player.LocalPlayer.SetHeading(rotation);
@@ -154,6 +155,7 @@ namespace WiredPlayers_Client.character
         private void CharacterCreatedSuccessfullyEvent(object[] args)
         {
             // Get the default camera
+            RAGE.Game.Cam.DestroyCam(camera, true);
             RAGE.Game.Cam.RenderScriptCams(false, false, 0, true, false, 0);
 
             // Enable the interface
