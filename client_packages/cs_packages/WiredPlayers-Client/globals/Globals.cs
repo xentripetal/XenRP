@@ -1,14 +1,17 @@
 ﻿using RAGE;
 using RAGE.Elements;
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using WiredPlayers_Client.account;
+using WiredPlayers_Client.vehicles;
 
 namespace WiredPlayers_Client.globals
 {
     class Globals : Events.Script
     {
-        private static DateTime currentTime;
+        private DateTime lastTimeChecked;
+        private int playerMoney = 0;
         public static bool playerLogged;
 
         public Globals()
@@ -61,7 +64,7 @@ namespace WiredPlayers_Client.globals
             RAGE.Game.Clock.SetClockTime(hours, minutes, seconds);
 
             // Get the current timestamp
-            currentTime = DateTime.UtcNow;
+            lastTimeChecked = DateTime.UtcNow;
 
             // Show the login window
             Login.AccountLoginFormEvent(null);
@@ -73,6 +76,28 @@ namespace WiredPlayers_Client.globals
             if (!playerLogged) return;
 
             DateTime dateTime = DateTime.UtcNow;
+
+            if (Vehicles.lastPosition != null)
+            {
+                // Update the speedometer
+                Vehicles.UpdateSpeedometer();
+            }
+
+            // Update the player's money each 375ms
+            if (dateTime.Ticks - lastTimeChecked.Ticks >= 3750000)
+            {
+                // Check if the player is loaded
+                object money = Player.LocalPlayer.GetSharedData("PLAYER_MONEY"); 
+
+                if(money != null)
+                {
+                    playerMoney = Convert.ToInt32(money);
+                    lastTimeChecked = dateTime;
+                }
+            }
+
+            // Draw the money
+            RAGE.Game.UIText.Draw(playerMoney + "$", new Point(1200, 60), 0.5f, Color.DarkOliveGreen, RAGE.Game.Font.ChaletComprimeCologne, false);
 
             // Check for the key 'E' being pressed
             if (Input.IsDown(0x45) && Player.LocalPlayer.Vehicle == null)

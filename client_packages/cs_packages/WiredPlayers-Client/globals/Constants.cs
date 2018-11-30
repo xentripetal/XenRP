@@ -8,6 +8,8 @@ namespace WiredPlayers_Client.globals
         public static readonly int SEX_MALE = 0;
         public static readonly int SEX_FEMALE = 1;
 
+        public static readonly float CONSUME_PER_METER = 0.00065f;
+
         public static readonly List<ClothesType> CLOTHES_TYPES = new List<ClothesType>()
         {
             new ClothesType(0, 1, "clothes.masks"), new ClothesType(0, 3, "clothes.torso"), new ClothesType(0, 4, "clothes.legs"),
@@ -33,6 +35,12 @@ namespace WiredPlayers_Client.globals
         {
             new FaceOption("hairdresser.hair", 0, 38), new FaceOption("hairdresser.hair-primary", 0, 63), new FaceOption("hairdresser.hair-secondary", 0, 63),
             new FaceOption("hairdresser.eyebrows", 0, 33), new FaceOption("hairdresser.eyebrows-color", 0, 63)
+        };
+
+        public static readonly List<Procedure> TOWNHALL_PROCEDURES = new List<Procedure>()
+        {
+            new Procedure("townhall.identification", 500), new Procedure("townhall.insurance", 2000),
+            new Procedure("townhall.taxi", 5000), new Procedure("townhall.fines", 0)
         };
     }
 }

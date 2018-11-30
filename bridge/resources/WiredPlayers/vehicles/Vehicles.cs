@@ -369,9 +369,6 @@ namespace WiredPlayers.vehicles
                 Chat.SendMessageToNearbyPlayers(player, InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
                 player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_withdraw_items);
             }
-
-            // Save gas and kms values
-            player.TriggerEvent("resetSpeedometer", vehicle);
         }
 
         [ServerEvent(Event.VehicleDeath)]
