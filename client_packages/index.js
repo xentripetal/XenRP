@@ -1,1 +1,0 @@
-require('WiredPlayers/index.js');
