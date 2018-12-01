@@ -7,7 +7,7 @@ namespace WiredPlayers_Client.globals
     class Browser : Events.Script
     {
         private static object[] parameters = null;
-        private static HtmlWindow customBrowser = null;
+        public static HtmlWindow customBrowser = null;
 
         public Browser()
         {

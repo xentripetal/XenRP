@@ -99,33 +99,13 @@ namespace WiredPlayers_Client.globals
             // Draw the money
             RAGE.Game.UIText.Draw(playerMoney + "$", new Point(1200, 60), 0.5f, Color.DarkOliveGreen, RAGE.Game.Font.ChaletComprimeCologne, false);
 
-            // Check for the key 'E' being pressed
-            if (Input.IsDown(0x45) && Player.LocalPlayer.Vehicle == null)
+            // Detect if a key has been pressed
+            int key = Keys.DetectPressedKey(dateTime.Ticks);
+
+            if (key >= 0)
             {
-                // Reset the player's animation
-                Events.CallRemote("checkPlayerEventKeyStopAnim");
-
-                return;
-            }
-
-            // Check for the key 'F' being pressed
-            if (Input.IsDown(0x46) && Player.LocalPlayer.Vehicle == null)
-            {
-                // Check if player can enter any place
-                Events.CallRemote("checkPlayerEventKey");
-                return;
-            }
-
-            // Check for the key 'K' being pressed
-            if (Input.IsDown(0x4B) && Player.LocalPlayer.Vehicle != null)
-            {
-                if (!Player.LocalPlayer.Vehicle.IsSeatFree(-1, 0) && Player.LocalPlayer.Vehicle.GetPedInSeat(-1, 0) == Player.LocalPlayer.Handle)
-                {
-                    // Toggle vehicle's engine
-                    Events.CallRemote("engineOnEventKey");
-                }
-
-                return;
+                // Fire the event for the pressed key
+                Keys.FireKeyPressed(key);
             }
         }
     }
