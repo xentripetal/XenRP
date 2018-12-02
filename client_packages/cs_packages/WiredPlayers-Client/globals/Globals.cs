@@ -97,7 +97,7 @@ namespace WiredPlayers_Client.globals
             }
 
             // Draw the money
-            RAGE.Game.UIText.Draw(playerMoney + "$", new Point(1200, 60), 0.5f, Color.DarkOliveGreen, RAGE.Game.Font.ChaletComprimeCologne, false);
+            RAGE.NUI.UIResText.Draw(playerMoney + "$", 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
 
             // Detect if a key has been pressed
             int key = Keys.DetectPressedKey(dateTime.Ticks);
