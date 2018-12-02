@@ -2,7 +2,7 @@
 	"maxplayers" : 100,
 	"name" : "WiredPlayers Development Server", 
 	"url" : "wiredplayers.com",
-	"gamemode" : "WP-RP v1.3.0",
+	"gamemode" : "WP-RP v1.3.1",
 	"stream-distance" : 500.0,
 	"announce" : true,
 	"language" : "en",

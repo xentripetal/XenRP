@@ -364,12 +364,15 @@ function populateTunningComponents() {
 		cancelButton.textContent = i18next.t('general.back');;
 
 		purchaseButton.onclick = (function() {
-			if(selected != undefined) {
-				//mp.trigger('purchaseItem', selected, purchasedAmount);
+			if(drawable !== undefined) {
+				mp.trigger('confirmVehicleModification', tunningComponents[selected].slot, drawable);
 			}
 		});
 
 		cancelButton.onclick = (function() {
+			// Remove the modified part
+			mp.trigger('cancelVehicleModification');
+
 			// Back to the home menu
 			populateTunningHome();
 		});

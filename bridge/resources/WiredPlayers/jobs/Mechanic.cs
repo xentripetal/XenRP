@@ -51,18 +51,19 @@ namespace WiredPlayers.jobs
             return false;
         }
 
-        private TunningModel GetVehicleTunningComponent(int vehicleId, int slot, int component)
+        private int GetVehicleTunningComponent(int vehicleId, int slot)
         {
-            TunningModel tunning = null;
+            int component = 255;
+
             foreach (TunningModel tunningModel in tunningList)
             {
-                if (tunningModel.vehicle == vehicleId && tunningModel.slot == slot && tunningModel.component == component)
+                if (tunningModel.vehicle == vehicleId && tunningModel.slot == slot)
                 {
-                    tunning = tunningModel;
+                    component = tunningModel.component;
                     break;
                 }
             }
-            return tunning;
+            return component;
         }
 
         [RemoteEvent("repaintVehicle")]
@@ -166,33 +167,6 @@ namespace WiredPlayers.jobs
             }
         }
 
-        [RemoteEvent("calculateTunningCost")]
-        public void CalculateTunningCostEvent(Client player)
-        {
-            int totalProducts = 0;
-
-            // Get the vehicle
-            int vehicleId = player.Vehicle.GetData(EntityData.VEHICLE_ID);
-
-            for (int i = 0; i < 49; i++)
-            {
-                int vehicleMod = player.Vehicle.GetMod(i);
-
-                if (vehicleMod > 0)
-                {
-                    TunningModel tunningModel = GetVehicleTunningComponent(vehicleId, i, vehicleMod);
-                    if (tunningModel == null)
-                    {
-                        totalProducts += Constants.TUNNING_PRICE_LIST.Where(x => x.slot == i).First().products;
-                    }
-                }
-            }
-
-            // Send the price to the player
-            string priceMessage = string.Format(InfoRes.tunning_products, totalProducts);
-            player.SendChatMessage(Constants.COLOR_INFO + priceMessage);
-        }
-
         [RemoteEvent("modifyVehicle")]
         public void ModifyVehicleEvent(Client player, int slot, int component)
         {
@@ -215,84 +189,49 @@ namespace WiredPlayers.jobs
             
             for (int i = 0; i < 49; i++)
             {
-                int vehicleMod = player.Vehicle.GetMod(i);
-                TunningModel tunningModel = GetVehicleTunningComponent(vehicleId, i, vehicleMod);
+                // Get the component in the slot
+                int component = GetVehicleTunningComponent(vehicleId, i);
 
-                if (tunningModel == null)
-                {
-                    player.Vehicle.RemoveMod(i);
-                }
-                else
-                {
-                    player.Vehicle.SetMod(i, vehicleMod);
-                }
+                // Remove or add the tunning part
+                player.Vehicle.SetMod(i, component);
             }
         }
 
         [RemoteEvent("confirmVehicleModification")]
-        public void ConfirmVehicleModificationEvent(Client player)
+        public void ConfirmVehicleModificationEvent(Client player, int slot, int mod)
         {
-            int totalProducts = 0;
+            // Get the vehicle's id
             int vehicleId = player.Vehicle.GetData(EntityData.VEHICLE_ID);
 
             // Get player's product amount
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             ItemModel item = Globals.GetPlayerItemModelFromHash(playerId, Constants.ITEM_HASH_BUSINESS_PRODUCTS);
-            
-            for (int i = 0; i < 49; i++)
-            {
-                int vehicleMod = player.Vehicle.GetMod(i);
 
-                if (vehicleMod > 0)
-                {
-                    TunningModel tunningModel = GetVehicleTunningComponent(vehicleId, i, vehicleMod);
-                    if (tunningModel == null)
-                    {
-                        totalProducts += Constants.TUNNING_PRICE_LIST.Where(x => x.slot == i).First().products;
-                    }
-                }
-            }
+            // Calculate the cost for the tunning
+            int totalProducts = Constants.TUNNING_PRICE_LIST.Where(x => x.slot == slot).First().products;
 
             if (item != null && item.amount >= totalProducts)
             {
-                for (int i = 0; i < 49; i++)
-                {
-                    int vehicleMod = player.Vehicle.GetMod(i);
-
-                    if (vehicleMod > 0)
-                    {
-                        TunningModel tunningModel = GetVehicleTunningComponent(vehicleId, i, vehicleMod);
-                        if (tunningModel == null)
-                        {
-                            // Add component to database
-                            tunningModel = new TunningModel();
-                            tunningModel.slot = i;
-                            tunningModel.component = vehicleMod;
-                            tunningModel.vehicle = vehicleId;
-
-                            Task.Factory.StartNew(() =>
-                            {
-                                tunningModel.id = Database.AddTunning(tunningModel);
-                                tunningList.Add(tunningModel);
-                            });
-                        }
-                    }
-                }
-
-                // Remove consumed products
-                item.amount -= totalProducts;
+                // Add component to database
+                TunningModel tunningModel = new TunningModel();
+                tunningModel.slot = slot;
+                tunningModel.component = mod;
+                tunningModel.vehicle = vehicleId;
 
                 Task.Factory.StartNew(() =>
                 {
+                    tunningModel.id = Database.AddTunning(tunningModel);
+                    tunningList.Add(tunningModel);
+
+                    // Remove consumed products
+                    item.amount -= totalProducts;
+
                     // Update the amount into the database
                     Database.UpdateItem(item);
-                });
 
-                // Close tunning menu
-                player.TriggerEvent("closeTunningMenu");
-                
-                // Confirmation message
-                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_tunning);
+                    // Confirmation message
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.vehicle_tunning);
+                });                
             }
             else
             {

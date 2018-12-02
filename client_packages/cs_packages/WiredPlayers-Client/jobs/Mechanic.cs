@@ -15,6 +15,8 @@ namespace WiredPlayers_Client.jobs
             Events.Add("showTunningMenu", ShowTunningMenuEvent);
             Events.Add("showRepaintMenu", ShowRepaintMenuEvent);
             Events.Add("addVehicleComponent", AddVehicleComponentEvent);
+            Events.Add("confirmVehicleModification", ConfirmVehicleModificationEvent);
+            Events.Add("cancelVehicleModification", CancelVehicleModificationEvent); 
             Events.Add("repaintVehicle", RepaintVehicleEvent);
             Events.Add("closeRepaintWindow", CloseRepaintWindowEvent);
         }
@@ -37,7 +39,7 @@ namespace WiredPlayers_Client.jobs
                     for(int i = 0; i < modNumber; i++)
                     {
                         // Create the component
-                        CarPiece piece = new CarPiece(i, pieceGroup + " " + (i + 1));
+                        CarPiece piece = new CarPiece(i, pieceGroup.desc + " " + (i + 1));
                         pieceGroup.components.Add(piece);
                     }
                 }
@@ -68,6 +70,22 @@ namespace WiredPlayers_Client.jobs
 
             // Añadimos el componente al vehículo
             Player.LocalPlayer.Vehicle.SetMod(slot, component, false);
+        }
+
+        private void ConfirmVehicleModificationEvent(object[] args)
+        {
+            // Get the variables from the array
+            int slot = Convert.ToInt32(args[0]);
+            int mod = Convert.ToInt32(args[1]);
+
+            // Add the tunning to the vehicle
+            Events.CallRemote("confirmVehicleModification", slot, mod);
+        }
+
+        private void CancelVehicleModificationEvent(object[] args)
+        {
+            // Clear the tunning from the vehicle
+            Events.CallRemote("cancelVehicleModification");
         }
 
         private void RepaintVehicleEvent(object[] args)
