@@ -5,7 +5,6 @@ using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using System.Collections.Generic;
 using System;
-using System.Globalization;
 
 namespace WiredPlayers_Client.cardealer
 {
