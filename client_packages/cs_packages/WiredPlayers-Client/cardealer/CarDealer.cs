@@ -5,6 +5,7 @@ using WiredPlayers_Client.globals;
 using WiredPlayers_Client.model;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 namespace WiredPlayers_Client.cardealer
 {
@@ -95,23 +96,24 @@ namespace WiredPlayers_Client.cardealer
         private void PreviewVehicleChangeColorEvent(object[] args)
         {
             // Get the variables from the arguments
-            string colorHex = args[0].ToString();
+            string colorHex = args[0].ToString().Substring(1);
             bool colorMain = (bool)args[1];
 
-            // Get the color from HEX string
-            /*ColorConverter converter = new ColorConverter();
-            Color color = (Color)converter.ConvertFromString(colorHex);
+            // Get the RGB from HEX string
+            int red = Convert.ToInt32(colorHex.Substring(0, 2), 16);
+            int green = Convert.ToInt32(colorHex.Substring(2, 2), 16);
+            int blue = Convert.ToInt32(colorHex.Substring(4, 2), 16);
 
             if (colorMain)
             {
                 // Set the vehicle's primary color
-                previewVehicle.SetCustomPrimaryColour(color.R, color.G, color.B);
+                previewVehicle.SetCustomPrimaryColour(red, green, blue);
             }
             else
             {
                 // Set the vehicle's secondary color
-                previewVehicle.SetCustomSecondaryColour(color.R, color.G, color.B);
-            }*/
+                previewVehicle.SetCustomSecondaryColour(red, green, blue);
+            }
         }
 
         private void ShowCatalogEvent(object[] args)

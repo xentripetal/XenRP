@@ -10,9 +10,6 @@ namespace WiredPlayers.globals
 {
     public class Constants
     {
-        // Gamemode version
-        public const string GM_VERSION = "v1.3.1";
-
         public const int ENVIRONMENT_KILL = 65535;
         public const int ITEMS_PER_INVENTORY_PAGE = 16;
         public const decimal ITEMS_ROBBED_PER_TIME = 1.5m;
