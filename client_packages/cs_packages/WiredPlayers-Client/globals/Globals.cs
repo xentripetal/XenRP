@@ -58,20 +58,23 @@ namespace WiredPlayers_Client.globals
 
         private void PlayerConnectionStateChanged(Entity entity, object arg)
         {
-            string[] serverTime = Player.LocalPlayer.GetSharedData("SERVER_TIME").ToString().Split(":");
+            if(entity == Player.LocalPlayer)
+            {
+                string[] serverTime = Player.LocalPlayer.GetSharedData("SERVER_TIME").ToString().Split(":");
 
-            int hours = int.Parse(serverTime[0]);
-            int minutes = int.Parse(serverTime[1]);
-            int seconds = int.Parse(serverTime[2]);
+                int hours = int.Parse(serverTime[0]);
+                int minutes = int.Parse(serverTime[1]);
+                int seconds = int.Parse(serverTime[2]);
 
-            // Set the hour from the server
-            RAGE.Game.Clock.SetClockTime(hours, minutes, seconds);
+                // Set the hour from the server
+                RAGE.Game.Clock.SetClockTime(hours, minutes, seconds);
 
-            // Get the current timestamp
-            lastTimeChecked = DateTime.UtcNow;
+                // Get the current timestamp
+                lastTimeChecked = DateTime.UtcNow;
 
-            // Show the login window
-            Login.AccountLoginFormEvent(null);
+                // Show the login window
+                Login.AccountLoginFormEvent(null);
+            }
         }
 
         private void TickEvent(List<Events.TickNametagData> nametags)
