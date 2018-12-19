@@ -32,11 +32,9 @@ WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main
 3. Import to Visual Studio the **WiredPlayers.csproj** file, located on the following path: **%RAGEMP Installed folder%/server-files/bridge/resources/WiredPlayers/**
 #### Database Connection:
 4. Change the database connection settings under **meta.xml** located on the following path: **%RAGEMP Installed folder%/server-files/bridge/resources/WiredPlayers/** or in your Visual Studio Project! You may get an error regarding to Database SSL Connection, check the **F.A.Q.** page bellow.
-5. Make sure your solution has linked the **gtanetwork.api** and **MySql.Data** Nugets, if not, add them
+5. Make sure your solution has linked the **MySql.Data** Nuget, if not, add it to the project
 6. On Visual Studio, clean and build the solution in order to generate the required **WiredPlayers.dll** library
 7. Execute the **server.exe** located under the **server-files** folder
 8. Log into your server and enjoy it
 
 If you followed all this steps, you should be able to login with your newly registered account, if not please check the **[F.A.Q.](https://github.com/xabier1989/WiredPlayers-RP/wiki/FAQ)** in order to try solve the errors, some of them are solved there!
-
-#### Sometimes it may send you the error, just when you join the server, this error will be solved in RAGE 0.4!
