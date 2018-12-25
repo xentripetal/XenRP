@@ -1,6 +1,7 @@
 ﻿using RAGE;
 using RAGE.Ui;
 using System.Linq;
+using System.Text;
 
 namespace WiredPlayers_Client.globals
 {
@@ -48,7 +49,7 @@ namespace WiredPlayers_Client.globals
             }
 
             // Call the function with the parameters
-            customBrowser.ExecuteJs(function + "(" + input + ");");
+            customBrowser.ExecuteJs(function + "(" + EscapeJsonCharacters(input) + ");");
         }
 
         public static void DestroyBrowserEvent(object[] args)
@@ -76,5 +77,16 @@ namespace WiredPlayers_Client.globals
             }
         }
 
+        private static string EscapeJsonCharacters(string jsonString)
+        {
+            StringBuilder builder = new StringBuilder(jsonString);
+
+            builder.Replace("\\\t", "\t");
+            builder.Replace("\\\n", "\n");
+            builder.Replace("\\\r", "\r");
+            builder.Replace(@"\", string.Empty);
+
+            return builder.ToString();
+        }
     }
 }

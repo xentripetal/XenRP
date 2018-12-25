@@ -31,7 +31,7 @@ namespace WiredPlayers_Client.business
             // Get the variables from the arguments
             string playerTattoosJson = args[1].ToString();
             string tattoosJson = args[2].ToString();
-            int business = Convert.ToInt32(args[3]);
+            string business = args[3].ToString();
             float price = (float)Convert.ToDouble(args[4]);
             playerSex = Convert.ToInt32(args[0]);
 
