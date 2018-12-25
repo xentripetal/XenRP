@@ -62,7 +62,7 @@ namespace WiredPlayers_Client.business
             }
 
             // Show all the clothes from the selected type
-            Browser.ExecuteFunctionEvent(new object[] { "populateTypeClothes", JsonConvert.SerializeObject(clothesTypes) });
+            Browser.ExecuteFunctionEvent(new object[] { "populateTypeClothes", Globals.EscapeJsonCharacters(JsonConvert.SerializeObject(clothesTypes)) });
         }
 
         private void ReplacePlayerClothesEvent(object[] args)

@@ -49,7 +49,7 @@ namespace WiredPlayers_Client.globals
             }
 
             // Call the function with the parameters
-            customBrowser.ExecuteJs(function + "(" + EscapeJsonCharacters(input) + ");");
+            customBrowser.ExecuteJs(function + "(" + input + ");");
         }
 
         public static void DestroyBrowserEvent(object[] args)
@@ -64,6 +64,7 @@ namespace WiredPlayers_Client.globals
 
         public static void OnBrowserCreatedEvent(HtmlWindow window)
         {
+
             if (window.Id == customBrowser.Id)
             {
                 // Enable the cursor
@@ -75,18 +76,6 @@ namespace WiredPlayers_Client.globals
                     ExecuteFunctionEvent(parameters);
                 }
             }
-        }
-
-        private static string EscapeJsonCharacters(string jsonString)
-        {
-            StringBuilder builder = new StringBuilder(jsonString);
-
-            builder.Replace("\\\t", "\t");
-            builder.Replace("\\\n", "\n");
-            builder.Replace("\\\r", "\r");
-            builder.Replace(@"\", string.Empty);
-
-            return builder.ToString();
         }
     }
 }

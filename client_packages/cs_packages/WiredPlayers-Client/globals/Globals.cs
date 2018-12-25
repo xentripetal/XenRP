@@ -24,6 +24,12 @@ namespace WiredPlayers_Client.globals
             Events.Tick += TickEvent;
         }
 
+        public static string EscapeJsonCharacters(string jsonString)
+        {
+            // Escape the apostrophe on JSON
+            return jsonString.Replace("'", "\\'");
+        }
+
         private void ChangePlayerWalkingStyleEvent(object[] args)
         {
             // Get the player

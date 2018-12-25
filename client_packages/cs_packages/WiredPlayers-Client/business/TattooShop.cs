@@ -54,7 +54,7 @@ namespace WiredPlayers_Client.business
             zoneTattoos = tattooList.Where(tattoo => tattoo.slot == zone).ToList();
 
             // Show the tattoos for the selected zone
-            Browser.ExecuteFunctionEvent(new object[] { "populateZoneTattoos", JsonConvert.SerializeObject(zoneTattoos) });
+            Browser.ExecuteFunctionEvent(new object[] { "populateZoneTattoos", Globals.EscapeJsonCharacters(JsonConvert.SerializeObject(zoneTattoos)) });
         }
 
         private void AddPlayerTattooEvent(object[] args)
