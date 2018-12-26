@@ -90,9 +90,11 @@ namespace WiredPlayers_Client.business
 
             // Add the new tattoo to the list
             Tattoo tattoo = new Tattoo();
-            tattoo.slot = slot;
-            tattoo.library = zoneTattoos[index].library;
-            tattoo.hash = playerSex == Constants.SEX_MALE ? zoneTattoos[index].maleHash : zoneTattoos[index].femaleHash;
+            {
+                tattoo.slot = slot;
+                tattoo.library = zoneTattoos[index].library;
+                tattoo.hash = playerSex == Constants.SEX_MALE ? zoneTattoos[index].maleHash : zoneTattoos[index].femaleHash;
+            }
             playerTattoos.Add(tattoo);
 
             // Purchase the tattoo
