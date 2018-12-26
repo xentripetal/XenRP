@@ -176,11 +176,7 @@ namespace WiredPlayers.business
             // Loading tattoo list
             foreach (BusinessTattooModel tattoo in Constants.TATTOO_LIST)
             {
-                if (tattoo.slot == zone && tattoo.maleHash.Length > 0 && sex == Constants.SEX_MALE)
-                {
-                    tattooList.Add(tattoo);
-                }
-                else if (tattoo.slot == zone && tattoo.femaleHash.Length > 0 && sex == Constants.SEX_FEMALE)
+                if (tattoo.slot == zone && ((tattoo.maleHash.Length > 0 && sex == Constants.SEX_MALE) || (tattoo.femaleHash.Length > 0 && sex == Constants.SEX_FEMALE)))
                 {
                     tattooList.Add(tattoo);
                 }
@@ -246,11 +242,12 @@ namespace WiredPlayers.business
                     }
                     else
                     {
+                        itemModel.amount += businessItem.uses * amount;
+
                         if (int.TryParse(itemModel.hash, out hash) == true)
                         {
                             itemModel.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
                         }
-                        itemModel.amount += businessItem.uses * amount;
 
                         Task.Factory.StartNew(() => {
                             // Update the item's amount
@@ -337,27 +334,13 @@ namespace WiredPlayers.business
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             ClothesModel clothes = Globals.GetDressedClothesInSlot(playerId, type, slot);
             
-            if (clothes != null)
+            if (type == 0)
             {
-                if (type == 0)
-                {
-                    player.SetClothes(slot, clothes.drawable, clothes.texture);
-                }
-                else
-                {
-                    player.SetAccessories(slot, clothes.drawable, clothes.texture);
-                }
+                player.SetClothes(slot, clothes == null ? 0 : clothes.drawable, clothes == null ? 0 : clothes.texture);
             }
             else
             {
-                if (type == 0)
-                {
-                    player.SetClothes(slot, 0, 0);
-                }
-                else
-                {
-                    player.SetAccessories(slot, 255, 255);
-                }
+                player.SetAccessories(slot, clothes == null ? 255 : clothes.drawable, clothes == null ? 255 : clothes.texture);
             }
         }
 

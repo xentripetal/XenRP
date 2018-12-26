@@ -22,7 +22,8 @@ WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main
 2. Execute the **updater.exe** located on the root folder where you installed RAGE Multiplayer
 3. Unzip the Bridge plugin into the folder called **server-files** replacing the files if needed
 4. Execute again the **updater.exe** located on the root folder where you installed RAGE Multiplayer in order for it to update to the bridge plugin
-5. Make sure your router has opened 22005 UDP port and 22006 TCP/IP, if you dont know how to do that just google for router port forwarding
+5. Create a file called **enable-clientside-cs.txt** on the root folder where you installed RAGE Multiplayer
+6. Make sure your router has opened 22005 UDP port and 22006 TCP/IP, if you dont know how to do that just google for router port forwarding
 
 **Note:** Fore more informations check also the RAGE Wiki: [Click Here](https://wiki.rage.mp/index.php?title=Getting_Started_with_Server)
 
