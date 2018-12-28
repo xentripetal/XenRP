@@ -156,29 +156,25 @@ namespace WiredPlayers.globals
                 {
                     player.SetData(EntityData.PLAYER_JOB_COOLDOWN, jobCooldown - 1);
                 }
+                
+                // Get the remaining jail time
+                int jailTime = player.GetData(EntityData.PLAYER_JAILED);
 
-                // Check if the player's in jail
-                if (player.HasData(EntityData.PLAYER_JAILED) == true)
+                if (jailTime > 0)
                 {
-                    // Get the remaining time
-                    int jailTime = player.GetData(EntityData.PLAYER_JAILED);
+                    jailTime--;
+                    player.SetData(EntityData.PLAYER_JAILED, jailTime);
+                }
+                else if (jailTime == 0)
+                {
+                    // Set the player position
+                    player.Position = Constants.JAIL_SPAWNS[player.GetData(EntityData.PLAYER_JAIL_TYPE) == Constants.JAIL_TYPE_IC ? 3 : 4];
 
-                    if (jailTime > 0)
-                    {
-                        jailTime--;
-                        player.SetData(EntityData.PLAYER_JAILED, jailTime);
-                    }
-                    else
-                    {
-                        // Set the player position
-                        player.Position = Constants.JAIL_SPAWNS[player.GetData(EntityData.PLAYER_JAIL_TYPE) == Constants.JAIL_TYPE_IC ? 3 : 4];
+                    // Remove player from jail
+                    player.SetData(EntityData.PLAYER_JAILED, -1);
+                    player.SetData(EntityData.PLAYER_JAIL_TYPE, -1);
 
-                        // Remove player from jail
-                        player.SetData(EntityData.PLAYER_JAILED, 0);
-                        player.SetData(EntityData.PLAYER_JAIL_TYPE, 0);
-
-                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_unjailed);
-                    }
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_unjailed);
                 }
 
                 if (player.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
