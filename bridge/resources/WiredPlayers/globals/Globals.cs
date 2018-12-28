@@ -35,6 +35,8 @@ namespace WiredPlayers.globals
         public static List<ItemModel> itemList;
         public static List<ScoreModel> scoreList;
         public static List<AdminTicketModel> adminTicketList;
+        private static Timer playerListUpdater;
+        private static Timer minuteTimer;
 
         public static Client GetPlayerById(int id)
         {
@@ -158,28 +160,24 @@ namespace WiredPlayers.globals
                 // Check if the player's in jail
                 if (player.HasData(EntityData.PLAYER_JAILED) == true)
                 {
+                    // Get the remaining time
                     int jailTime = player.GetData(EntityData.PLAYER_JAILED);
-                    if (jailTime == 1)
+
+                    if (jailTime > 0)
                     {
-                        if (player.GetData(EntityData.PLAYER_JAIL_TYPE) == Constants.JAIL_TYPE_IC)
-                        {
-                            player.Position = Constants.JAIL_SPAWNS[3];
-                        }
-                        else
-                        {
-                            player.Position = Constants.JAIL_SPAWNS[4];
-                        }
+                        jailTime--;
+                        player.SetData(EntityData.PLAYER_JAILED, jailTime);
+                    }
+                    else
+                    {
+                        // Set the player position
+                        player.Position = Constants.JAIL_SPAWNS[player.GetData(EntityData.PLAYER_JAIL_TYPE) == Constants.JAIL_TYPE_IC ? 3 : 4];
 
                         // Remove player from jail
                         player.SetData(EntityData.PLAYER_JAILED, 0);
                         player.SetData(EntityData.PLAYER_JAIL_TYPE, 0);
 
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_unjailed);
-                    }
-                    else if (jailTime > 0)
-                    {
-                        jailTime--;
-                        player.SetData(EntityData.PLAYER_JAILED, jailTime);
                     }
                 }
 
@@ -746,8 +744,8 @@ namespace WiredPlayers.globals
             orderGenerationTime = GetTotalSeconds() + rnd.Next(0, 1) * 60;
 
             // Permanent timers
-            new Timer(UpdatePlayerList, null, 500, 500);
-            new Timer(OnMinuteSpent, null, 60000, 60000);
+            minuteTimer = new Timer(OnMinuteSpent, null, 60000, 60000);
+            playerListUpdater = new Timer(UpdatePlayerList, null, 500, 500);
         }
 
         [ServerEvent(Event.PlayerDisconnected)]
