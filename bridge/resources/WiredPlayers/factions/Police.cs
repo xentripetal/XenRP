@@ -47,7 +47,7 @@ namespace WiredPlayers.factions
         {
             foreach (PoliceControlModel policeControl in policeControlList)
             {
-                if (policeControl.controlObject.Exists && policeControl.controlObject.Position.DistanceTo(player.Position) < 2.0f && policeControl.item == hash)
+                if (policeControl.controlObject != null && policeControl.controlObject.Position.DistanceTo(player.Position) < 2.0f && policeControl.item == hash)
                 {
                     policeControl.controlObject.Delete();
                     policeControl.controlObject = null;

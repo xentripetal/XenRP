@@ -40,16 +40,8 @@ namespace WiredPlayers.globals
 
         public static Client GetPlayerById(int id)
         {
-            Client target = null;
-            foreach (Client player in NAPI.Pools.GetAllPlayers())
-            {
-                if (player.Value == id)
-                {
-                    target = player;
-                    break;
-                }
-            }
-            return target;
+            // Get the player with the selected identifier
+            return NAPI.Pools.GetAllPlayers().Where(pl => pl.Value == id).FirstOrDefault();
         }
 
         public static Vector3 GetBusinessIplExit(string ipl)
