@@ -43,30 +43,18 @@ namespace WiredPlayers.business
 
         private int GetVehiclePrice(VehicleHash vehicleHash)
         {
-            int price = 0;
-            foreach (CarShopVehicleModel vehicle in Constants.CARSHOP_VEHICLE_LIST)
-            {
-                if (vehicle.hash == vehicleHash)
-                {
-                    price = vehicle.price;
-                    break;
-                }
-            }
-            return price;
+            // Get the price of the vehicle
+            CarShopVehicleModel carDealerVehicle = Constants.CARSHOP_VEHICLE_LIST.Where(vehicle => vehicle.hash == vehicleHash).FirstOrDefault();
+
+            return carDealerVehicle == null ? 0 : carDealerVehicle.price;
         }
 
         private string GetVehicleModel(VehicleHash vehicleHash)
         {
-            string model = string.Empty;
-            foreach (CarShopVehicleModel vehicle in Constants.CARSHOP_VEHICLE_LIST)
-            {
-                if (vehicle.hash == vehicleHash)
-                {
-                    model = vehicle.hash.ToString();
-                    break;
-                }
-            }
-            return model;
+            // Get the price of the vehicle
+            CarShopVehicleModel carDealerVehicle = Constants.CARSHOP_VEHICLE_LIST.Where(vehicle => vehicle.hash == vehicleHash).FirstOrDefault();
+
+            return carDealerVehicle == null ? string.Empty : carDealerVehicle.hash.ToString();
         }
 
         private bool SpawnPurchasedVehicle(Client player, List<Vector3> spawns, VehicleHash vehicleHash, int vehiclePrice, string firstColor, string secondColor)

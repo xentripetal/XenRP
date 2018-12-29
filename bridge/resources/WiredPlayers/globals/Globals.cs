@@ -44,51 +44,6 @@ namespace WiredPlayers.globals
             return NAPI.Pools.GetAllPlayers().Where(pl => pl.Value == id).FirstOrDefault();
         }
 
-        public static Vector3 GetBusinessIplExit(string ipl)
-        {
-            Vector3 position = null;
-            foreach (BusinessIplModel iplModel in Constants.BUSINESS_IPL_LIST)
-            {
-                if (iplModel.ipl == ipl)
-                {
-                    position = iplModel.position;
-                    break;
-                }
-            }
-            return position;
-        }
-
-        public static Vector3 GetHouseIplExit(string ipl)
-        {
-            Vector3 position = null;
-            foreach (HouseIplModel iplModel in Constants.HOUSE_IPL_LIST)
-            {
-                if (iplModel.ipl == ipl)
-                {
-                    position = iplModel.position;
-                    break;
-                }
-            }
-            return position;
-        }
-
-        public static Vehicle GetClosestVehicle(Client player, float distance = 2.5f)
-        {
-            Vehicle vehicle = null;
-            foreach (Vehicle veh in NAPI.Pools.GetAllVehicles())
-            {
-                Vector3 vehPos = veh.Position;
-                float distanceVehicleToPlayer = player.Position.DistanceTo(vehPos);
-
-                if (distanceVehicleToPlayer < distance && player.Dimension == veh.Dimension)
-                {
-                    distance = distanceVehicleToPlayer;
-                    vehicle = veh;
-                }
-            }
-            return vehicle;
-        }
-
         public static int GetTotalSeconds()
         {
             return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
@@ -767,7 +722,7 @@ namespace WiredPlayers.globals
                 {
                     int itemId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
                     ItemModel item = GetItemModelFromId(itemId);
-                    if (item != null && item.objectHandle != null && item.objectHandle.Exists)
+                    if (item != null && item.objectHandle != null)
                     {
                         item.objectHandle.Detach();
                         item.objectHandle.Delete();
@@ -833,7 +788,7 @@ namespace WiredPlayers.globals
                         else
                         {
                             NAPI.World.RequestIpl(business.ipl);
-                            player.Position = GetBusinessIplExit(business.ipl);
+                            player.Position = Business.GetBusinessExitPoint(business.ipl);
                             player.Dimension = Convert.ToUInt32(business.id);
                             player.SetData(EntityData.PLAYER_IPL, business.ipl);
                             player.SetData(EntityData.PLAYER_BUSINESS_ENTERED, business.id);
@@ -889,7 +844,7 @@ namespace WiredPlayers.globals
                         else
                         {
                             NAPI.World.RequestIpl(house.ipl);
-                            player.Position = GetHouseIplExit(house.ipl);
+                            player.Position = House.GetHouseExitPoint(house.ipl);
                             player.Dimension = Convert.ToUInt32(house.id);
                             player.SetData(EntityData.PLAYER_IPL, house.ipl);
                             player.SetData(EntityData.PLAYER_HOUSE_ENTERED, house.id);
@@ -1667,7 +1622,7 @@ namespace WiredPlayers.globals
 
                                         if (vehicle == null)
                                         {
-                                            VehicleModel vehModel = Vehicles.GetParkedVehicleById(objectId);
+                                            VehicleModel vehModel = Parking.GetParkedVehicleById(objectId);
 
                                             if (vehModel != null)
                                             {
@@ -2606,7 +2561,7 @@ namespace WiredPlayers.globals
 
                                     if (vehicle == null)
                                     {
-                                        VehicleModel vehModel = Vehicles.GetParkedVehicleById(vehicleId);
+                                        VehicleModel vehModel = Parking.GetParkedVehicleById(vehicleId);
                                         vehModel.owner = player.Name;
                                         vehicleModel = vehModel.model;
                                     }

@@ -87,11 +87,13 @@ namespace WiredPlayers_Client.globals
         private void BindConsoleKeys()
         {
             // Initialize the list
-            consoleKeys = new List<int>();
+            consoleKeys = new List<int>()
+            {
+                (int)ConsoleKey.E,
+                (int)ConsoleKey.F,
+                (int)ConsoleKey.K
+            };
 
-            consoleKeys.Add((int)ConsoleKey.E);
-            consoleKeys.Add((int)ConsoleKey.F);
-            consoleKeys.Add((int)ConsoleKey.K);
         }
     }
 }
