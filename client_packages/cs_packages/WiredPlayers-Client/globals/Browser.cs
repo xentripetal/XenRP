@@ -1,7 +1,6 @@
 ﻿using RAGE;
 using RAGE.Ui;
 using System.Linq;
-using System.Text;
 
 namespace WiredPlayers_Client.globals
 {
@@ -64,7 +63,6 @@ namespace WiredPlayers_Client.globals
 
         public static void OnBrowserCreatedEvent(HtmlWindow window)
         {
-
             if (window.Id == customBrowser.Id)
             {
                 // Enable the cursor
