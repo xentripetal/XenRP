@@ -152,8 +152,14 @@ namespace WiredPlayers_Client.character
             // Destroy the browser
             CharacterCreatedSuccessfullyEvent(null);
 
-            // Add clothes and tattoos
-            Events.CallRemote("loadCharacter", Player.LocalPlayer.Name);
+            // Miramos el número de personajes
+            List<string> characterNames = JsonConvert.DeserializeObject<List<string>>(characters);
+
+            if (characterNames.Count > 0)
+            {
+                // Add clothes and tattoos if the player has any character
+                Events.CallRemote("loadCharacter", Player.LocalPlayer.Name);
+            }
 
             // Show the character list
             Browser.CreateBrowserEvent(new object[] { "package://statics/html/sideMenu.html", "populateCharacterList", characters });

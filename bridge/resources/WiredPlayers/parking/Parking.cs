@@ -124,6 +124,9 @@ namespace WiredPlayers.parking
                 parkedCars.Add(parkedCarModel);
             }
 
+            // Stop the vehicle's speedometer
+            player.TriggerEvent("removeSpeedometer");
+
             // Save the vehicle and delete it from the game
             player.WarpOutOfVehicle();
             player.Vehicle.Delete();

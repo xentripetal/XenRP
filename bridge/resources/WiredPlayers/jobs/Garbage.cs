@@ -166,6 +166,9 @@ namespace WiredPlayers.jobs
                 partner.SendChatMessage(Constants.COLOR_INFO + message);
             }
 
+            // Stop the vehicle's speedometer
+            driver.TriggerEvent("removeSpeedometer");
+
             // Remove players from the vehicle
             driver.WarpOutOfVehicle();
             partner.WarpOutOfVehicle();
@@ -180,11 +183,17 @@ namespace WiredPlayers.jobs
                 {
                     if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                     }
                     else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                     }

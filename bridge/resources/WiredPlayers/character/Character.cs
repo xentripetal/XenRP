@@ -39,8 +39,8 @@ namespace WiredPlayers.character
             player.SetData(EntityData.PLAYER_PHONE, 0);
             player.SetData(EntityData.PLAYER_RADIO, 0);
             player.SetData(EntityData.PLAYER_KILLED, 0);
-            player.SetData(EntityData.PLAYER_JAILED, 0);
-            player.SetData(EntityData.PLAYER_JAIL_TYPE, 0);
+            player.SetData(EntityData.PLAYER_JAILED, -1);
+            player.SetData(EntityData.PLAYER_JAIL_TYPE, -1);
             player.SetData(EntityData.PLAYER_FACTION, 0);
             player.SetData(EntityData.PLAYER_JOB, 0);
             player.SetData(EntityData.PLAYER_RANK, 0);

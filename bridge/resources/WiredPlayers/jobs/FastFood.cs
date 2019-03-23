@@ -118,11 +118,17 @@ namespace WiredPlayers.jobs
             {
                 if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
                 {
+                    // Stop the vehicle's speedometer
+                    player.TriggerEvent("removeSpeedometer");
+
                     player.WarpOutOfVehicle();
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_delivering_order);
                 }
                 else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                 {
+                    // Stop the vehicle's speedometer
+                    player.TriggerEvent("removeSpeedometer");
+
                     player.WarpOutOfVehicle();
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                 }
@@ -208,6 +214,9 @@ namespace WiredPlayers.jobs
                             int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
                             string message = string.Format(InfoRes.job_won, won);
                             Globals.fastFoodOrderList.RemoveAll(order => order.id == orderId);
+
+                            // Stop the vehicle's speedometer
+                            player.TriggerEvent("removeSpeedometer");
 
                             playerDeliverColShape.Delete();
                             player.WarpOutOfVehicle();

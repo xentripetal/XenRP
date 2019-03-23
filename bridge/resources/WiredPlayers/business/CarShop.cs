@@ -132,6 +132,9 @@ namespace WiredPlayers.business
                     Vehicle vehicle = player.GetData(EntityData.PLAYER_TESTING_VEHICLE);
                     if (player.Vehicle == vehicle)
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         // We destroy the vehicle and the checkpoint
                         Checkpoint testCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
                         player.WarpOutOfVehicle();

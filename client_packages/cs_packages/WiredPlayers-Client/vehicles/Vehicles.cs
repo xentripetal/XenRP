@@ -21,6 +21,7 @@ namespace WiredPlayers_Client.vehicles
             Events.Add("initializeSpeedometer", InitializeSpeedometerEvent);
             Events.Add("locateVehicle", LocateVehicleEvent);
             Events.Add("deleteVehicleLocation", DeleteVehicleLocationEvent);
+            Events.Add("removeSpeedometer", RemoveSpeedometerEvent);
             Events.OnPlayerLeaveVehicle += PlayerLeaveVehicleEvent;
         }
 
@@ -115,15 +116,21 @@ namespace WiredPlayers_Client.vehicles
             vehicleLocationBlip = null;
         }
 
+        private void RemoveSpeedometerEvent(object[] args)
+        {
+            // Reset the vehicle's position
+            lastPosition = null;
+
+            // Save the kilometers and gas
+            Events.CallRemote("saveVehicleConsumes", Player.LocalPlayer.Vehicle, kms, gas);
+        }
+
         private void PlayerLeaveVehicleEvent()
         {
             if (lastPosition != null)
             {
-                // Reset the vehicle's position
-                lastPosition = null;
-
-                // Save the kilometers and gas
-                Events.CallRemote("saveVehicleConsumes", Player.LocalPlayer.Vehicle, kms, gas);
+                // Save and remove the speedometer
+                RemoveSpeedometerEvent(null);
             }
         }
     }

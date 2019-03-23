@@ -350,6 +350,9 @@ namespace WiredPlayers.vehicles
                         Vehicle testingVehicle = player.GetData(EntityData.PLAYER_TESTING_VEHICLE);
                         if (vehicle != testingVehicle)
                         {
+                            // Stop the vehicle's speedometer
+                            player.TriggerEvent("removeSpeedometer");
+
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                             return;
@@ -374,18 +377,27 @@ namespace WiredPlayers.vehicles
 
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && vehFaction == Constants.FACTION_ADMIN)
                         {
+                            // Stop the vehicle's speedometer
+                            player.TriggerEvent("removeSpeedometer");
+
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.admin_vehicle);
                             return;
                         }
                         else if (vehFaction > 0 && vehFaction < Constants.MAX_FACTION_VEHICLES && playerFaction != vehFaction && vehFaction != Constants.FACTION_DRIVING_SCHOOL && vehFaction != Constants.FACTION_ADMIN)
                         {
+                            // Stop the vehicle's speedometer
+                            player.TriggerEvent("removeSpeedometer");
+
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_faction);
                             return;
                         }
                         else if (vehFaction > Constants.MAX_FACTION_VEHICLES && playerJob != vehFaction)
                         {
+                            // Stop the vehicle's speedometer
+                            player.TriggerEvent("removeSpeedometer");
+
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
                             return;
@@ -1101,6 +1113,9 @@ namespace WiredPlayers.vehicles
                         
                         // Payment to the player
                         player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney + amountGiven);
+
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
 
                         player.WarpOutOfVehicle();
                         vehicle.Delete();

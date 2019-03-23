@@ -74,6 +74,9 @@ namespace WiredPlayers.drivingschool
             player.ResetData(EntityData.PLAYER_DRIVING_COLSHAPE);
             player.ResetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
 
+            // Stop the vehicle's speedometer
+            player.TriggerEvent("removeSpeedometer");
+
             // Remove player from vehicle
             player.WarpOutOfVehicle();
         }
@@ -125,6 +128,9 @@ namespace WiredPlayers.drivingschool
                     }
                     else
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_driving_not_suitable);
                     }
@@ -149,12 +155,18 @@ namespace WiredPlayers.drivingschool
                     }
                     else
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_driving_not_suitable);
                     }
                 }
                 else
                 {
+                    // Stop the vehicle's speedometer
+                    player.TriggerEvent("removeSpeedometer");
+
                     player.WarpOutOfVehicle();
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_car_practice);
                 }
