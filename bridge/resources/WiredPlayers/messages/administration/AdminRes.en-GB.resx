@@ -118,177 +118,177 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="god_mode_on" xml:space="preserve">
-    <value>Has activado el modo dios.</value>
+    <value>You're now in God mode.</value>
   </data>
   <data name="god_mode_off" xml:space="preserve">
-    <value>Has desactivado el modo dios.</value>
+    <value>You've toggled off God mode.</value>
   </data>
   <data name="bring_player" xml:space="preserve">
-    <value>El administrador {0} te ha movido a su posición.</value>
+    <value>The staff member {0} has brought you to his position.</value>
   </data>
   <data name="goto_player" xml:space="preserve">
-    <value>Te has movido a la posición de {0}.</value>
+    <value>You've teleported to {0}'s position.</value>
   </data>
   <data name="vehicle_dimension_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' la dimensión del vehículo.</value>
+    <value>You've changed to '{0}' the vehicle's dimension.</value>
   </data>
   <data name="vehicle_faction_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' la facción del vehículo.</value>
+    <value>You've changed to '{0}' the vehicle's faction.</value>
   </data>
   <data name="vehicle_owner_modified" xml:space="preserve">
-    <value>Has puesto a '{0}' como dueño del vehículo.</value>
+    <value>You've changed to '{0}' the vehicle's owner.</value>
   </data>
   <data name="vehicle_pos_updated" xml:space="preserve">
-    <value>Has actualizado la posición del vehículo.</value>
+    <value>You've updated the vehicle's position.</value>
   </data>
   <data name="player_revived" xml:space="preserve">
-    <value>Has revivido al jugador {0}.</value>
+    <value>You've revived {0}.</value>
   </data>
   <data name="parking_info" xml:space="preserve">
-    <value>Información del parking {0}</value>
+    <value>Parking {0} - Information:</value>
   </data>
   <data name="parking_created" xml:space="preserve">
-    <value>Has creado un aparcamiento en tu posición.</value>
+    <value>You've created a parking in your position.</value>
   </data>
   <data name="parking_deleted" xml:space="preserve">
-    <value>Has eliminado el aparcamiento más cercano.</value>
+    <value>You've deleted the closest parking.</value>
   </data>
   <data name="player_bank_modified" xml:space="preserve">
-    <value>Has cambiado a {0}$ el dinero en el banco de {1}.</value>
+    <value>You've change to {0}$ {1}'s bank money.</value>
   </data>
   <data name="player_money_modified" xml:space="preserve">
-    <value>Has cambiado a {0}$ el dinero en mano de {1}.</value>
+    <value>You've change to {0}$ {1}'s hand money.</value>
   </data>
   <data name="player_faction_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' la facción de {1}.</value>
+    <value>You've changed to '{0}' {1}'s faction.</value>
   </data>
   <data name="player_job_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' el trabajo de {1}.</value>
+    <value>You've changed to '{0}' {1}'s job.</value>
   </data>
   <data name="player_rank_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' el rango en facción de {1}.</value>
+    <value>You've changed to '{0}' {1}'s faction rank.</value>
   </data>
   <data name="player_dimension_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' la dimensión de {1}.</value>
+    <value>You've changed to '{0}' {1}'s dimension.</value>
   </data>
   <data name="house_created" xml:space="preserve">
-    <value>Has creado una casa en tu posición.</value>
+    <value>You've created a house in your position.</value>
   </data>
   <data name="house_deleted" xml:space="preserve">
-    <value>Has eliminado la casa más cercana.</value>
+    <value>You've deleted the closest house.</value>
   </data>
   <data name="house_interior_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' el interior de la casa.</value>
+    <value>You've changed to '{0}' the house's dimension.</value>
   </data>
   <data name="house_price_modified" xml:space="preserve">
-    <value>Has cambiado a {0}$ el precio de la casa.</value>
+    <value>You've changed to '{0}' the house's price.</value>
   </data>
   <data name="house_owner_modified" xml:space="preserve">
-    <value>{0} es el nuevo dueño de esta casa.</value>
+    <value>{0} is the new owner of this house.</value>
   </data>
   <data name="house_name_modified" xml:space="preserve">
-    <value>{0} es la nueva dirección de esta casa.</value>
+    <value>{0} is the new address of this house.</value>
   </data>
   <data name="house_status_modified" xml:space="preserve">
-    <value>Has cambiado a '{0}' el estado de la casa.</value>
+    <value>You've changed to '{0}' the house's state.</value>
   </data>
   <data name="house_rental_modified" xml:space="preserve">
-    <value>Has cambiado a {0}$ el precio de alquiler de la casa.</value>
+    <value>You've changed to {0}$ the house's rental price.</value>
   </data>
   <data name="business_name_modified" xml:space="preserve">
-    <value>Has establecido '{0}' como nombre del negocio.</value>
+    <value>You've changed to '{0}' the business' name.</value>
   </data>
   <data name="business_type_modified" xml:space="preserve">
-    <value>Has cambiado a {0} el tipo del negocio.</value>
+    <value>You've changed to '{0}' the business'type.</value>
   </data>
   <data name="parking_house_modified" xml:space="preserve">
-    <value>Has añadido la casa {0} al parking.</value>
+    <value>You've linked the house {0} to this parking.</value>
   </data>
   <data name="parking_slots_modified" xml:space="preserve">
-    <value>Has cambiado a {0} el número de plazas del parking.</value>
+    <value>You've changed to {0} this parking's maximum slots.</value>
   </data>
   <data name="parking_type_modified" xml:space="preserve">
-    <value>Has cambiado a {0} el tipo del parking.</value>
+    <value>You've change to '{0}' the parking's type.</value>
   </data>
   <data name="save_start" xml:space="preserve">
-    <value>Comienza el guardado entidades...</value>
+    <value>Saving all entities in the world...</value>
   </data>
   <data name="save_business" xml:space="preserve">
-    <value>Se han actualizado {0} negocios.</value>
+    <value>{0} business have been updated.</value>
   </data>
   <data name="save_parkings" xml:space="preserve">
-    <value>Se han actualizado {0} parkings.</value>
+    <value>{0} parkings have been updated.</value>
   </data>
   <data name="save_finish" xml:space="preserve">
-    <value>Finalizado el guardado de entidades.</value>
+    <value>Entity saving finished.</value>
   </data>
   <data name="new_admin_ticket" xml:space="preserve">
-    <value>Se ha generado un nuevo ticket de consulta.</value>
+    <value>There's a new incomming assistant ticket.</value>
   </data>
   <data name="ticket_answered" xml:space="preserve">
-    <value>Has respondido a la consulta con identificador '{0}'.</value>
+    <value>You answered the ticket number '{0}'.</value>
   </data>
   <data name="vehicle_bring" xml:space="preserve">
-    <value>Has traído el vehículo {0} a tu posición.</value>
+    <value>You brought the {0} vehicle to your position.</value>
   </data>
   <data name="vehicle_goto" xml:space="preserve">
-    <value>Te has teleportado a la posición del vehículo {0}.</value>
+    <value>You teleported to the vehicle {0}.</value>
   </data>
   <data name="vehicle_repaired" xml:space="preserve">
-    <value>Has reparado el vehículo.</value>
+    <value>You repaired the vehicle.</value>
   </data>
   <data name="spectating_player" xml:space="preserve">
-    <value>Estás reconeando a {0}.</value>
+    <value>You're spectating {0}.</value>
   </data>
   <data name="spect_stopped" xml:space="preserve">
-    <value>Has dejado de reconear.</value>
+    <value>You've stopped spectating.</value>
   </data>
   <data name="player_jailed" xml:space="preserve">
-    <value>{0} ha sido encarcelado {1} minutos. Razón: {2}</value>
+    <value>{0} has been jailed for {1} minutes. Reason: {2}</value>
   </data>
   <data name="kicked_all" xml:space="preserve">
-    <value>Se han expulsado todos los jugadores del servidor.</value>
+    <value>All the players have been kicked from the server.</value>
   </data>
   <data name="weapon_event_started" xml:space="preserve">
-    <value>Se ha iniciado el evento de armas.</value>
+    <value>Weapon's event has started.</value>
   </data>
   <data name="role_points_given" xml:space="preserve">
-    <value>Has dado {0} puntos de rol a {1}.</value>
+    <value>You've given {0} role points to {1}.</value>
   </data>
   <data name="role_points_received" xml:space="preserve">
-    <value>{0} te ha dado {1} puntos de rol.</value>
+    <value>{0} gave you {1} role points.</value>
   </data>
   <data name="role_points_removed" xml:space="preserve">
-    <value>Has quitado {0} puntos de rol a {1}.</value>
+    <value>You've removed {0} role points to {1}.</value>
   </data>
   <data name="role_points_lost" xml:space="preserve">
-    <value>{0} te ha quitado {1} puntos de rol.</value>
+    <value>{0} removed you {1} role points.</value>
   </data>
   <data name="role_points_set" xml:space="preserve">
-    <value>Has establecido a {0} los puntos de rol de {1}.</value>
+    <value>You've set to {0} {1}'s role points.</value>
   </data>
   <data name="role_points_established" xml:space="preserve">
-    <value>{0} te ha establecido a {1} los puntos de rol.</value>
+    <value>{0} set to {1} your role points.</value>
   </data>
   <data name="weather_changed" xml:space="preserve">
-    <value>{0} ha cambiado el clima a '{1}'.</value>
+    <value>{0} has changed the weather value to '{1}'.</value>
   </data>
   <data name="player_kicked" xml:space="preserve">
-    <value>{0} ha expulsado a {1}. Razón: {2}</value>
+    <value>{0} kicked {1} from the server. Reason: {2}</value>
   </data>
   <data name="player_banned" xml:space="preserve">
-    <value>{0} ha baneado a {1}. Razón: {2}</value>
+    <value>{0} banned {1} from the server. Reason: {2}</value>
   </data>
   <data name="player_health" xml:space="preserve">
-    <value>Has cambiado la vida de {0} a {1}.</value>
+    <value>You changed {0}'s health to {1}.</value>
   </data>
   <data name="target_health" xml:space="preserve">
-    <value>{0} ha cambiado tu vida a {1}.</value>
+    <value>{0} changed your health to {1}.</value>
   </data>
   <data name="characters_saved" xml:space="preserve">
-    <value>Todos los personajes guardados.</value>
+    <value>All the characters saved.</value>
   </data>
   <data name="vehicles_saved" xml:space="preserve">
-    <value>Todos los vehículos guardados.</value>
+    <value>All the vehicles saved.</value>
   </data>
 </root>

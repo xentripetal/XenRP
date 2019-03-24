@@ -18,34 +18,22 @@ namespace WiredPlayers.factions
 
         public static void SendNewsMessage(Client player, string message)
         {
-            string secondMessage = string.Empty;
+            // Get the connected players
             List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(target => target.HasData(EntityData.PLAYER_PLAYING)).ToList();
-
-            if (message.Length > Constants.CHAT_LENGTH)
-            {
-                // We need two lines to print the message
-                secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-            }
-
+            
             foreach(Client target in connectedPlayers)
             {
                 if (player.HasData(EntityData.PLAYER_ON_AIR) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
                 {
-                    target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + GenRes.interviewer + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + GenRes.interviewer + player.Name + ": " + message);
+                    target.SendChatMessage(Constants.COLOR_NEWS + GenRes.interviewer + player.Name + ": " + message);
                 }
                 else if (player.HasData(EntityData.PLAYER_ON_AIR))
                 {
-                    target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + GenRes.guest + player.Name + ": " + message + "..." : Constants.COLOR_NEWS + GenRes.guest + player.Name + ": " + message);
+                    target.SendChatMessage(Constants.COLOR_NEWS + GenRes.guest + player.Name + ": " + message);
                 }
                 else
                 {
-                    target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_NEWS + GenRes.announcement + message + "..." : Constants.COLOR_NEWS + GenRes.announcement + message);
-                }
-
-                if (secondMessage.Length > 0)
-                {
-                    target.SendChatMessage(Constants.COLOR_NEWS + secondMessage);
+                    target.SendChatMessage(Constants.COLOR_NEWS + GenRes.announcement + message);
                 }
             }
         }

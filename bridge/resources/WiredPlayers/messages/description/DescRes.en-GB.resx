@@ -117,52 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="license_exam_passed" xml:space="preserve">
-    <value>Has aprobado el examen teórico.</value>
+  <data name="job_hooker" xml:space="preserve">
+    <value>Hooker - Win money selling your body, simple as that. You choose your clients and price.</value>
   </data>
-  <data name="license_drive_passed" xml:space="preserve">
-    <value>Has aprobado el examen práctico.</value>
+  <data name="job_fastfoot" xml:space="preserve">
+    <value>Fastfood delieverer - We need fastfood deliverers. It's simple, deliver orders in time and you will get paid.</value>
   </data>
-  <data name="vehicle_purchased" xml:space="preserve">
-    <value>Has comprado tu vehículo.</value>
+  <data name="job_mechanic" xml:space="preserve">
+    <value>Mechanic - In Los Santos Custom we need employees that know how to treat a car.</value>
   </data>
-  <data name="admin_revived" xml:space="preserve">
-    <value>El administrador {0} te ha revivido.</value>
+  <data name="job_garbage" xml:space="preserve">
+    <value>Garbage man - Los Santos needs people to clean up the city. Work in pairs with a friend, one will drive and the other will collect the garbage.</value>
   </data>
-  <data name="possitive_result" xml:space="preserve">
-    <value>{0} ha conseguido un resultado positivo.</value>
+  <data name="job_thief" xml:space="preserve">
+    <value>Thief - If having a job is the boring way of getting money for you, maybe you prefer to get some valuable items and sell them.</value>
   </data>
-  <data name="lockpicked" xml:space="preserve">
-    <value>Has logrado forzar la cerradura.</value>
-  </data>
-  <data name="veh_locked" xml:space="preserve">
-    <value>ha bloqueado el vehículo.</value>
-  </data>
-  <data name="veh_unlocked" xml:space="preserve">
-    <value>ha desbloqueado el vehículo.</value>
-  </data>
-  <data name="veh_hotwireed" xml:space="preserve">
-    <value>Has conseguido arrancar el vehículo.</value>
-  </data>
-  <data name="target_reanimated" xml:space="preserve">
-    <value>El doctor {0} ha conseguido reanimarte.</value>
-  </data>
-  <data name="interview_accepted" xml:space="preserve">
-    <value>{0} ha aceptado tu solicitud de entrevista.</value>
-  </data>
-  <data name="hooker_client_satisfied" xml:space="preserve">
-    <value>Has terminado con este cliente.</value>
-  </data>
-  <data name="hooker_service_finished" xml:space="preserve">
-    <value>El servicio de la prostituta ha terminado.</value>
-  </data>
-  <data name="help_request_sent" xml:space="preserve">
-    <value>Tu duda ha sido enviada correctamente, espera a que te atienda un miembro del staff.</value>
-  </data>
-  <data name="vehicle_scrapyard" xml:space="preserve">
-    <value>Has recibido {0}$ por desguazar tu vehículo.</value>
-  </data>
-  <data name="house_sold" xml:space="preserve">
-    <value>Has vendido tu casa al estado por un valor de {0}$</value>
+  <data name="job_trucker" xml:space="preserve">
+    <value>Trucker - Trucker job text</value>
   </data>
 </root>

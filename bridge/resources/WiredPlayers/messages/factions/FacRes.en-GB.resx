@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="job_hooker" xml:space="preserve">
-    <value>Prostitución - Gana dinero vendiendo tu cuerpo, es tan sencillo como eso.Tú eliges tus clientes y tus precios.</value>
-  </data>
-  <data name="job_fastfoot" xml:space="preserve">
-    <value>Repartidor - Necesitamos repartidores de comida rápida en moto. Es simple, entrega los pedidos a tiempo y recibirás tu paga.</value>
-  </data>
-  <data name="job_mechanic" xml:space="preserve">
-    <value>Mecánico - En LS Custom necesitamos empleados que sepan reparar chapa, cambiar ruedas, arreglar fallos de motor e instalar modificaciones.</value>
-  </data>
-  <data name="job_garbage" xml:space="preserve">
-    <value>Basurero - Los Santos necesita gente que mantenga limpia la ciudad. Trabajo por parejas, uno conduce y el otro recoge y cada uno recibe su sueldo.</value>
-  </data>
-  <data name="job_thief" xml:space="preserve">
-    <value>Ladrón - Si trabajar es demasiado aburrido para ti quizás te atraiga más la idea de robar a quienes trabajan. Siempre podrás vender lo robado.</value>
+  <data name="test" xml:space="preserve">
+    <value>testqwwerwe</value>
   </data>
 </root>

@@ -122,7 +122,7 @@ namespace WiredPlayers.vehicles
             return vehicle;
         }
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
+        public static void OnPlayerDisconnected(Client player)
         {
             if (gasTimerList.TryGetValue(player.Value, out Timer gasTimer) == true)
             {

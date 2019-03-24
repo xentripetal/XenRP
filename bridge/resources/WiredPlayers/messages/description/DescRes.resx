@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="job_hooker" xml:space="preserve">
-    <value>Hooker - Win money selling your body, simple as that. You choose your clients and price.</value>
+    <value>Prostitución - Gana dinero vendiendo tu cuerpo, es tan sencillo como eso.Tú eliges tus clientes y tus precios.</value>
   </data>
   <data name="job_fastfoot" xml:space="preserve">
-    <value>Fastfood delieverer - We need fastfood deliverers. It's simple, deliver orders in time and you will get paid.</value>
+    <value>Repartidor - Necesitamos repartidores de comida rápida en moto. Es simple, entrega los pedidos a tiempo y recibirás tu paga.</value>
   </data>
   <data name="job_mechanic" xml:space="preserve">
-    <value>Mechanic - In Los Santos Custom we need employees that know how to treat a car.</value>
+    <value>Mecánico - En LS Custom necesitamos empleados que sepan reparar chapa, cambiar ruedas, arreglar fallos de motor e instalar modificaciones.</value>
   </data>
   <data name="job_garbage" xml:space="preserve">
-    <value>Garbage man - Los Santos needs people to clean up the city. Work in pairs with a friend, one will drive and the other will collect the garbage.</value>
+    <value>Basurero - Los Santos necesita gente que mantenga limpia la ciudad. Trabajo por parejas, uno conduce y el otro recoge y cada uno recibe su sueldo.</value>
   </data>
   <data name="job_thief" xml:space="preserve">
-    <value>Thief - If having a job is the boring way of getting money for you, maybe you prefer to get some valuable items and sell them.</value>
+    <value>Ladrón - Si trabajar es demasiado aburrido para ti quizás te atraiga más la idea de robar a quienes trabajan. Siempre podrás vender lo robado.</value>
   </data>
   <data name="job_trucker" xml:space="preserve">
-    <value>Trucker - Trucker job text</value>
+    <value>Transportista - Si lo tuyo es pasar largas temporadas en solitario con tu camión, estás de enhorabuena. Ponte a repartir toda la mercancia a lo largo y ancho de Los Santos.</value>
   </data>
 </root>

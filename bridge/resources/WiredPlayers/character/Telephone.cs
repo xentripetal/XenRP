@@ -117,24 +117,10 @@ namespace WiredPlayers.character
                     {
                         contactName = contact.contactNumber.ToString();
                     }
-                    
-                    string secondMessage = string.Empty;
-
-                    if (textMessage.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We need to lines to print the message
-                        secondMessage = textMessage.Substring(Constants.CHAT_LENGTH, textMessage.Length - Constants.CHAT_LENGTH);
-                        textMessage = textMessage.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
 
                     // Send the message to the target
-                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + GenRes.sms_from + contactName + "] " + textMessage + "..." : Constants.COLOR_INFO + "[" + GenRes.sms_from + contactName + "] " + textMessage);
-                    if (secondMessage.Length > 0)
-                    {
-                       target.SendChatMessage(Constants.COLOR_INFO + secondMessage);
-                    }
-                    
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.sms_sent);
+                    target.SendChatMessage(Constants.COLOR_INFO + "[" + GenRes.sms_from + contactName + "] " + textMessage);
 
                     Task.Factory.StartNew(() =>
                     {
@@ -510,21 +496,9 @@ namespace WiredPlayers.character
                         {
                             contact = playerPhone.ToString();
                         }
-                        
-                        string secondMessage = string.Empty;
 
-                        if (message.Length > Constants.CHAT_LENGTH)
-                        {
-                            // We need two lines to print the full message
-                            secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                            message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                        }
-                        
-                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_INFO + "[" + GenRes.sms_from + playerPhone + "] " + message + "..." : Constants.COLOR_INFO + "[" + GenRes.sms_from + playerPhone + "] " + message);
-                        if (secondMessage.Length > 0)
-                        {
-                           target.SendChatMessage(Constants.COLOR_INFO + secondMessage);
-                        }
+                        // Send the SMS warning to the player
+                        target.SendChatMessage(Constants.COLOR_INFO + "[" + GenRes.sms_from + playerPhone + "] " + message);
 
                         foreach (Client targetPlayer in NAPI.Pools.GetAllPlayers())
                         {

@@ -19,7 +19,7 @@ namespace WiredPlayers.messages.items {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ItemRes {
@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Advanced rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle avanzado.
         /// </summary>
         public static string advanced_rifle {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;AP Pistol&quot;.
+        ///   Busca una cadena traducida similar a Pistola penetrante.
         /// </summary>
         public static string ap_pistol {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Assault rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle de asalto.
         /// </summary>
         public static string assault_rifle {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Assault shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta de asalto.
         /// </summary>
         public static string assault_shotgun {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Assault SMG&quot;.
+        ///   Busca una cadena traducida similar a SMG de asalto.
         /// </summary>
         public static string assault_smg {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Bait&quot;.
+        ///   Busca una cadena traducida similar a Cebo.
         /// </summary>
         public static string bait {
             get {
@@ -115,7 +115,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Bat&quot;.
+        ///   Busca una cadena traducida similar a Bate de baseball.
         /// </summary>
         public static string bat {
             get {
@@ -124,7 +124,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Beer bottle&quot;.
+        ///   Busca una cadena traducida similar a Botellín de cerveza.
         /// </summary>
         public static string beer_bottle {
             get {
@@ -133,7 +133,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Beer pack&quot;.
+        ///   Busca una cadena traducida similar a Pack de cervezas.
         /// </summary>
         public static string beer_pack {
             get {
@@ -142,7 +142,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Bullpup rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle bullpup.
         /// </summary>
         public static string bullpup_rifle {
             get {
@@ -151,7 +151,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Bullpup shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta bullpup.
         /// </summary>
         public static string bullpup_shotgun {
             get {
@@ -160,7 +160,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Burger&quot;.
+        ///   Busca una cadena traducida similar a Hamburguesa.
         /// </summary>
         public static string burger {
             get {
@@ -169,7 +169,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Camera&quot;.
+        ///   Busca una cadena traducida similar a Cámara de fotos.
         /// </summary>
         public static string camera {
             get {
@@ -178,7 +178,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Candies&quot;.
+        ///   Busca una cadena traducida similar a Caramelos.
         /// </summary>
         public static string candy {
             get {
@@ -187,7 +187,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Carbine&quot;.
+        ///   Busca una cadena traducida similar a Carabina.
         /// </summary>
         public static string carbine_rifle {
             get {
@@ -196,7 +196,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Cava bottle&quot;.
+        ///   Busca una cadena traducida similar a Botella de cava.
         /// </summary>
         public static string cava_bottle {
             get {
@@ -205,7 +205,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;RedWood cigarettes&quot;.
+        ///   Busca una cadena traducida similar a Cigarrillos RedWood.
         /// </summary>
         public static string cigarettes {
             get {
@@ -214,7 +214,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Coffee&quot;.
+        ///   Busca una cadena traducida similar a Café.
         /// </summary>
         public static string coffee {
             get {
@@ -223,7 +223,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;FunCola&quot;.
+        ///   Busca una cadena traducida similar a FunCola.
         /// </summary>
         public static string cola {
             get {
@@ -232,7 +232,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Combat PDW&quot;.
+        ///   Busca una cadena traducida similar a PDW de combate.
         /// </summary>
         public static string combat_pdw {
             get {
@@ -241,7 +241,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Compact rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle compacto.
         /// </summary>
         public static string compact_rifle {
             get {
@@ -250,7 +250,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Crowbar&quot;.
+        ///   Busca una cadena traducida similar a Palanca.
         /// </summary>
         public static string crowbar {
             get {
@@ -259,7 +259,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Double barrel shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta de dos cañones.
         /// </summary>
         public static string double_barrel_shotgun {
             get {
@@ -268,7 +268,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Energy drink&quot;.
+        ///   Busca una cadena traducida similar a Bebida energética.
         /// </summary>
         public static string energy_drink {
             get {
@@ -277,7 +277,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Fish&quot;.
+        ///   Busca una cadena traducida similar a Pescado.
         /// </summary>
         public static string fish {
             get {
@@ -286,7 +286,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Fishing rod&quot;.
+        ///   Busca una cadena traducida similar a Caña de pescar.
         /// </summary>
         public static string fishing_rod {
             get {
@@ -295,7 +295,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Flashlight&quot;.
+        ///   Busca una cadena traducida similar a Linterna.
         /// </summary>
         public static string flashlight {
             get {
@@ -304,7 +304,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Golf club&quot;.
+        ///   Busca una cadena traducida similar a Palo de golf.
         /// </summary>
         public static string golf_club {
             get {
@@ -313,7 +313,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Hammer&quot;.
+        ///   Busca una cadena traducida similar a Martillo.
         /// </summary>
         public static string hammer {
             get {
@@ -322,7 +322,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Hatchet&quot;.
+        ///   Busca una cadena traducida similar a Hacha.
         /// </summary>
         public static string hatchet {
             get {
@@ -331,7 +331,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Heavy pistol&quot;.
+        ///   Busca una cadena traducida similar a Pistola pesada.
         /// </summary>
         public static string heavy_pistol {
             get {
@@ -340,7 +340,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Heavy shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta pesada.
         /// </summary>
         public static string heavy_shotgun {
             get {
@@ -349,7 +349,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Heavy sniper rifle&quot;.
+        ///   Busca una cadena traducida similar a Francotirador pesado.
         /// </summary>
         public static string heavy_sniper {
             get {
@@ -358,7 +358,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Hot dog&quot;.
+        ///   Busca una cadena traducida similar a Perrito caliente.
         /// </summary>
         public static string hotdog {
             get {
@@ -367,7 +367,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Jerrycan&quot;.
+        ///   Busca una cadena traducida similar a Lata de gasolina.
         /// </summary>
         public static string jerrycan {
             get {
@@ -376,7 +376,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Juice&quot;.
+        ///   Busca una cadena traducida similar a Zumo.
         /// </summary>
         public static string juice {
             get {
@@ -385,7 +385,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Knife&quot;.
+        ///   Busca una cadena traducida similar a Cuchillo.
         /// </summary>
         public static string knife {
             get {
@@ -394,7 +394,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Knuckle duster&quot;.
+        ///   Busca una cadena traducida similar a Puño americano.
         /// </summary>
         public static string knucle_duster {
             get {
@@ -403,7 +403,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Machine pistol&quot;.
+        ///   Busca una cadena traducida similar a Pistola automática.
         /// </summary>
         public static string machine_pistol {
             get {
@@ -412,7 +412,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Marksman rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle de precisión.
         /// </summary>
         public static string marksman_rifle {
             get {
@@ -421,7 +421,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Micro SMG&quot;.
+        ///   Busca una cadena traducida similar a Micro SMG.
         /// </summary>
         public static string micro_smg {
             get {
@@ -430,7 +430,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Pistol&quot;.
+        ///   Busca una cadena traducida similar a Pistola.
         /// </summary>
         public static string pistol {
             get {
@@ -439,7 +439,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Pistol 50&quot;.
+        ///   Busca una cadena traducida similar a Pistola 50.
         /// </summary>
         public static string pistol_50 {
             get {
@@ -448,7 +448,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Pistol ammunition&quot;.
+        ///   Busca una cadena traducida similar a Munición de pistola.
         /// </summary>
         public static string pistol_ammo {
             get {
@@ -457,7 +457,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Products&quot;.
+        ///   Busca una cadena traducida similar a Productos.
         /// </summary>
         public static string products {
             get {
@@ -466,7 +466,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Pump shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta.
         /// </summary>
         public static string pump_shotgun {
             get {
@@ -475,7 +475,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Revolver&quot;.
+        ///   Busca una cadena traducida similar a Revólver.
         /// </summary>
         public static string revolver {
             get {
@@ -484,7 +484,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Assault rifle ammunition&quot;.
+        ///   Busca una cadena traducida similar a Munición de rifle de asalto.
         /// </summary>
         public static string rifle_ammo {
             get {
@@ -493,7 +493,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Sandwich&quot;.
+        ///   Busca una cadena traducida similar a Sandwich.
         /// </summary>
         public static string sandwich {
             get {
@@ -502,7 +502,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Sawn-off shotgun&quot;.
+        ///   Busca una cadena traducida similar a Escopeta recortada.
         /// </summary>
         public static string sawn_off_shotgun {
             get {
@@ -511,7 +511,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Shotgun ammunition&quot;.
+        ///   Busca una cadena traducida similar a Munición de escopeta.
         /// </summary>
         public static string shotgun_ammo {
             get {
@@ -520,7 +520,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Smartphone&quot;.
+        ///   Busca una cadena traducida similar a Teléfono móvil.
         /// </summary>
         public static string smartphone {
             get {
@@ -529,7 +529,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;SMG&quot;.
+        ///   Busca una cadena traducida similar a SMG.
         /// </summary>
         public static string smg {
             get {
@@ -538,7 +538,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Machine gun ammunition&quot;.
+        ///   Busca una cadena traducida similar a Munición de metralleta.
         /// </summary>
         public static string smg_ammo {
             get {
@@ -547,7 +547,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Sniper rifle ammunition&quot;.
+        ///   Busca una cadena traducida similar a Munición de rifle de francotirador.
         /// </summary>
         public static string sniper_ammo {
             get {
@@ -556,7 +556,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Sniper rifle&quot;.
+        ///   Busca una cadena traducida similar a Rifle de francotirador.
         /// </summary>
         public static string sniper_rifle {
             get {
@@ -565,7 +565,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Special carbine&quot;.
+        ///   Busca una cadena traducida similar a Carabina especial.
         /// </summary>
         public static string special_carbine {
             get {
@@ -574,7 +574,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Stolen items&quot;.
+        ///   Busca una cadena traducida similar a Objetos robados.
         /// </summary>
         public static string stolen_items {
             get {
@@ -583,7 +583,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Switchblade&quot;.
+        ///   Busca una cadena traducida similar a Navaja.
         /// </summary>
         public static string switchblade {
             get {
@@ -592,7 +592,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Walkie-Talkie&quot;.
+        ///   Busca una cadena traducida similar a Walkie-Talkie.
         /// </summary>
         public static string walkie {
             get {
@@ -601,7 +601,7 @@ namespace WiredPlayers.messages.items {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Wrench&quot;.
+        ///   Busca una cadena traducida similar a Llave de tubo.
         /// </summary>
         public static string wrench {
             get {

@@ -51,19 +51,17 @@ namespace WiredPlayers.weapons
             {
                 weaponModel.id = Database.AddNewItem(weaponModel);
                 Globals.itemList.Add(weaponModel);
-            });
 
-            player.GiveWeapon(weapon, 0);
-            player.SetWeaponAmmo(weapon, bullets);
-            
-            if (licensed)
-            {
-                Task.Factory.StartNew(() =>
+                // Give the weapon to the player
+                player.GiveWeapon(weapon, 0);
+                player.SetWeaponAmmo(weapon, bullets);
+
+                if(licensed)
                 {
                     // We add the weapon as a registered into database
                     Database.AddLicensedWeapon(weaponModel.id, player.Name);
-                });
-            }
+                }
+            });
         }
 
         public static string GetGunAmmunitionType(WeaponHash weapon)
@@ -115,7 +113,7 @@ namespace WiredPlayers.weapons
             weaponTimer = new Timer(OnWeaponPrewarn, null, 600000, Timeout.Infinite);
         }
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
+        public static void OnPlayerDisconnected(Client player)
         {
             WeaponCrateModel weaponCrate = GetPlayerCarriedWeaponCrate(player.Value);
 

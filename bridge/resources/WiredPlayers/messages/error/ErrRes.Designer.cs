@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing an accessory..
+        ///   Busca una cadena traducida similar a Ya llevas un accesorio equipado..
         /// </summary>
         public static string accessory_equiped {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No ticket was found with that identifier..
+        ///   Busca una cadena traducida similar a No se ha encontrado ninguna duda con ese identificador..
         /// </summary>
         public static string admin_ticket_not_found {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle can only be accessed by the staff..
+        ///   Busca una cadena traducida similar a Este vehículo pertenece a la administración..
         /// </summary>
         public static string admin_vehicle {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re in the middle of a service with your client..
+        ///   Busca una cadena traducida similar a Ya estás ejerciendo la prostitución..
         /// </summary>
         public static string already_fucking {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already collecting garbage..
+        ///   Busca una cadena traducida similar a Ya estás recogiendo la basura..
         /// </summary>
         public static string already_garbage {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re in the middle of a job route..
+        ///   Busca una cadena traducida similar a Estás en mitad de una ruta de trabajo..
         /// </summary>
         public static string already_in_route {
             get {
@@ -115,7 +115,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already lockpicking..
+        ///   Busca una cadena traducida similar a Ya estás forzando una cerradura..
         /// </summary>
         public static string already_lockpicking {
             get {
@@ -124,7 +124,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a radio channel created..
+        ///   Busca una cadena traducida similar a Ya tienes creado un canal de radio..
         /// </summary>
         public static string already_owned_channel {
             get {
@@ -133,7 +133,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already talking to the phone..
+        ///   Busca una cadena traducida similar a Estás en medio de una llamada telefónica..
         /// </summary>
         public static string already_phone_talking {
             get {
@@ -142,7 +142,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing a bag..
+        ///   Busca una cadena traducida similar a Ya llevas una bolsa equipada..
         /// </summary>
         public static string bag_equiped {
             get {
@@ -151,7 +151,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s no bank account linked to that person..
+        ///   Busca una cadena traducida similar a La persona destinataria no tiene ninguna cuenta bancaria..
         /// </summary>
         public static string bank_account_not_found {
             get {
@@ -160,7 +160,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a An error occurred while processing the operation..
+        ///   Busca una cadena traducida similar a Ha habido un fallo al procesar la transacción..
         /// </summary>
         public static string bank_general_error {
             get {
@@ -169,7 +169,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The bank account has not enough funds to process the operation..
+        ///   Busca una cadena traducida similar a La cuenta no dispone de la cantidad requerida..
         /// </summary>
         public static string bank_not_enough_money {
             get {
@@ -178,7 +178,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have an item in your hands..
+        ///   Busca una cadena traducida similar a Ya tienes un objeto en tus manos..
         /// </summary>
         public static string both_hand_occupied {
             get {
@@ -187,7 +187,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There are no clothes for sale..
+        ///   Busca una cadena traducida similar a No hay ninguna unidad a la venta..
         /// </summary>
         public static string business_clothes_not_available {
             get {
@@ -196,7 +196,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This business is locked..
+        ///   Busca una cadena traducida similar a El negocio está cerrado con llave..
         /// </summary>
         public static string business_locked {
             get {
@@ -205,7 +205,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have to wait before sending a new ticket..
+        ///   Busca una cadena traducida similar a Debes esperar antes de volver a enviar una duda..
         /// </summary>
         public static string cant_send_multiple_help_requests {
             get {
@@ -214,7 +214,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t spectate yourself..
+        ///   Busca una cadena traducida similar a No puedes reconearte a ti mismo..
         /// </summary>
         public static string cant_spect_self {
             get {
@@ -223,7 +223,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t turn the engine on while having a sex service..
+        ///   Busca una cadena traducida similar a No puedes arrancar mientras tienes sexo con una prostituta..
         /// </summary>
         public static string cant_toogle_engine_while_fucking {
             get {
@@ -232,7 +232,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a car license..
+        ///   Busca una cadena traducida similar a Ya tienes la licencia de turismos..
         /// </summary>
         public static string car_license_achieved {
             get {
@@ -241,7 +241,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need at least {0}$ in your bank account to purchase this vehicle..
+        ///   Busca una cadena traducida similar a Necesitas tener al menos {0}$ en el banco para comprar el vehículo..
         /// </summary>
         public static string carshop_no_money {
             get {
@@ -250,7 +250,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a All the parking places of the car dealer are occupied..
+        ///   Busca una cadena traducida similar a Todos los sitios de aparcamiento del concesionario están ocupados..
         /// </summary>
         public static string carshop_spawn_occupied {
             get {
@@ -259,7 +259,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You couldn&apos;t connect to the radio frequency channel..
+        ///   Busca una cadena traducida similar a No te has podido conectar al canal de radiofrecuencia..
         /// </summary>
         public static string channel_not_found {
             get {
@@ -268,7 +268,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The client must be on driver&apos;s seat..
+        ///   Busca una cadena traducida similar a El cliente debe estar en el asiento del conductor..
         /// </summary>
         public static string client_not_vehicle_driving {
             get {
@@ -277,7 +277,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any contact in your contact list..
+        ///   Busca una cadena traducida similar a No tienes ningún contacto en la agenda..
         /// </summary>
         public static string contact_list_empty {
             get {
@@ -286,7 +286,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Get down from the motorcycle to deliver the order..
+        ///   Busca una cadena traducida similar a Bájate de la moto para entregar el pedido..
         /// </summary>
         public static string deliver_in_vehicle {
             get {
@@ -295,7 +295,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to examinate..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para presentarte al examen..
         /// </summary>
         public static string driving_school_money {
             get {
@@ -304,7 +304,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing a pair of earrings..
+        ///   Busca una cadena traducida similar a Ya llevas unos pendientes equipados..
         /// </summary>
         public static string ear_equiped {
             get {
@@ -313,7 +313,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need to get {0} more paydays to leave the job..
+        ///   Busca una cadena traducida similar a Necesitas cumplir {0} pagas más hasta poder dejar el empleo..
         /// </summary>
         public static string employee_cooldown {
             get {
@@ -322,7 +322,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle&apos;s engine is already toggled on..
+        ///   Busca una cadena traducida similar a Este vehículo ya tiene el motor encendido..
         /// </summary>
         public static string engine_already_started {
             get {
@@ -331,7 +331,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have to toggle the vehicle engine off..
+        ///   Busca una cadena traducida similar a Debes apagar el motor del vehículo..
         /// </summary>
         public static string engine_on {
             get {
@@ -340,7 +340,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There are not enough funds into the faction&apos;s coffers..
+        ///   Busca una cadena traducida similar a No hay suficiente dinero en el arca de facción..
         /// </summary>
         public static string faction_not_enough_money {
             get {
@@ -349,7 +349,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Couldn&apos;t find the requested report..
+        ///   Busca una cadena traducida similar a No se ha encontrado el aviso seleccionado..
         /// </summary>
         public static string faction_warning_not_found {
             get {
@@ -358,7 +358,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The selected report is being attended..
+        ///   Busca una cadena traducida similar a El aviso seleccionado ya está siendo atendido..
         /// </summary>
         public static string faction_warning_taken {
             get {
@@ -367,7 +367,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You reeled too early..
+        ///   Busca una cadena traducida similar a Has tirado de la caña demasiado pronto..
         /// </summary>
         public static string fishing_canceled {
             get {
@@ -376,7 +376,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The fish has escaped from the hook..
+        ///   Busca una cadena traducida similar a El pez se ha escapado del anzuelo..
         /// </summary>
         public static string fishing_failed {
             get {
@@ -385,7 +385,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t collect garbage from the vehicle..
+        ///   Busca una cadena traducida similar a No puedes recoger basura desde el vehículo..
         /// </summary>
         public static string garbage_in_vehicle {
             get {
@@ -394,7 +394,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing a pair of glasses..
+        ///   Busca una cadena traducida similar a Ya llevas unas gafas equipadas..
         /// </summary>
         public static string glasses_equiped {
             get {
@@ -403,7 +403,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need at least {0}$ to change your look..
+        ///   Busca una cadena traducida similar a Necesitas tener al menos {0}$ para cambiar tu look..
         /// </summary>
         public static string haircut_money {
             get {
@@ -412,7 +412,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing a hat..
+        ///   Busca una cadena traducida similar a Ya llevas un sombrero equipado..
         /// </summary>
         public static string hat_equiped {
             get {
@@ -421,7 +421,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can offer a service to yourself..
+        ///   Busca una cadena traducida similar a No puedes ofrecerte un servicio a ti mismo..
         /// </summary>
         public static string hooker_offered_himself {
             get {
@@ -430,7 +430,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This house is already rentable..
+        ///   Busca una cadena traducida similar a Esta casa ya está en alquiler..
         /// </summary>
         public static string house_already_rentable {
             get {
@@ -439,7 +439,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The interior value must be between 0 and {0}..
+        ///   Busca una cadena traducida similar a El valor de interior debe estar entre 0 y {0}..
         /// </summary>
         public static string house_interior_modify {
             get {
@@ -448,7 +448,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This house is locked..
+        ///   Busca una cadena traducida similar a La casa está cerrada con llave..
         /// </summary>
         public static string house_locked {
             get {
@@ -457,7 +457,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This house is not for sale..
+        ///   Busca una cadena traducida similar a Esta casa no está en venta..
         /// </summary>
         public static string house_not_buyable {
             get {
@@ -466,7 +466,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Couldn&apos;t find any house with that identifier..
+        ///   Busca una cadena traducida similar a No se ha encontrado ninguna casa con ese identificador..
         /// </summary>
         public static string house_not_exists {
             get {
@@ -475,7 +475,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required money to buy this house in your bank account..
+        ///   Busca una cadena traducida similar a No dispones del dinero necesario en tu cuenta bancaria para comprar esta casa..
         /// </summary>
         public static string house_not_money {
             get {
@@ -484,7 +484,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This house is not rentable..
+        ///   Busca una cadena traducida similar a Esta casa no está en alquiler..
         /// </summary>
         public static string house_not_rentable {
             get {
@@ -493,7 +493,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t sell the house as it has people living on it..
+        ///   Busca una cadena traducida similar a No se puede vender la casa ya que está ocupada..
         /// </summary>
         public static string house_occupied {
             get {
@@ -502,7 +502,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The price of the house must be greater than 0$..
+        ///   Busca una cadena traducida similar a El precio de la casa debe ser superior a 0$..
         /// </summary>
         public static string house_price_modify {
             get {
@@ -511,7 +511,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This house&apos;s rental price must be greater than 0$..
+        ///   Busca una cadena traducida similar a El precio de alquiler de la casa debe ser superior a 0$..
         /// </summary>
         public static string house_rental_modify {
             get {
@@ -520,7 +520,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s been an error selling the house, check if it&apos;s still yours..
+        ///   Busca una cadena traducida similar a Se ha producido un error en la venta de la casa. Comprueba que sigue a nombre de su dueño..
         /// </summary>
         public static string house_sell_generic {
             get {
@@ -529,7 +529,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The state of this house must be between 0 and 2..
+        ///   Busca una cadena traducida similar a El estado de la casa tiene que estar entre 0 y 2..
         /// </summary>
         public static string house_status_modify {
             get {
@@ -538,7 +538,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any consumable in your hand..
+        ///   Busca una cadena traducida similar a No tienes nada consumible en la mano..
         /// </summary>
         public static string item_not_consumable {
             get {
@@ -547,7 +547,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Your delivered has been canceled for leaving your job vehicle..
+        ///   Busca una cadena traducida similar a Se ha cancelado tu entrega por abandonar el vehículo de trabajo..
         /// </summary>
         public static string job_vehicle_abandoned {
             get {
@@ -556,7 +556,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any item in your left hand..
+        ///   Busca una cadena traducida similar a No tienes ningún objeto en tu mano izquierda..
         /// </summary>
         public static string left_hand_empty {
             get {
@@ -565,7 +565,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have an item in your left hand..
+        ///   Busca una cadena traducida similar a Ya tienes un objeto en tu mano izquierda..
         /// </summary>
         public static string left_hand_occupied {
             get {
@@ -574,7 +574,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You failed the practical exam..
+        ///   Busca una cadena traducida similar a Has suspendido el examen práctico..
         /// </summary>
         public static string license_drive_failed {
             get {
@@ -583,7 +583,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You failed the theoric exam..
+        ///   Busca una cadena traducida similar a Has suspendido el examen teórico..
         /// </summary>
         public static string license_exam_failed {
             get {
@@ -592,7 +592,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You failed the exam for not returning to your vehicle..
+        ///   Busca una cadena traducida similar a Has suspendido el examen por no subir en el vehículo..
         /// </summary>
         public static string license_failed_not_in_vehicle {
             get {
@@ -601,7 +601,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Your blood level is to low to be drawn..
+        ///   Busca una cadena traducida similar a Tienes muy poca sangre como para recibir una extracción..
         /// </summary>
         public static string low_blood {
             get {
@@ -610,7 +610,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already wearing a mask..
+        ///   Busca una cadena traducida similar a Ya llevas una máscara equipada..
         /// </summary>
         public static string mask_equiped {
             get {
@@ -619,7 +619,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t use private messages with staff members..
+        ///   Busca una cadena traducida similar a Los mensajes privados sólo se pueden usar con miembros del staff..
         /// </summary>
         public static string mps_only_admin {
             get {
@@ -628,7 +628,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a {0} got a negative result..
+        ///   Busca una cadena traducida similar a {0} ha conseguido un resultado negativo..
         /// </summary>
         public static string negative_result {
             get {
@@ -637,7 +637,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any accessory..
+        ///   Busca una cadena traducida similar a No has comprado ningún accesorio..
         /// </summary>
         public static string no_accessory_bought {
             get {
@@ -646,7 +646,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any accessory..
+        ///   Busca una cadena traducida similar a No llevas ningún accesorio equipado..
         /// </summary>
         public static string no_accessory_equiped {
             get {
@@ -655,7 +655,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There are no staff members online, try again in a while..
+        ///   Busca una cadena traducida similar a No hay miembros del staff disponibles en este momento, vuelve a intentarlo en un rato por favor..
         /// </summary>
         public static string no_admins_on_duty_atm {
             get {
@@ -664,7 +664,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any bag..
+        ///   Busca una cadena traducida similar a No has comprado ninguna bolsa..
         /// </summary>
         public static string no_bag_bought {
             get {
@@ -673,7 +673,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any bag..
+        ///   Busca una cadena traducida similar a No llevas ninguna bolsa equipada..
         /// </summary>
         public static string no_bag_equiped {
             get {
@@ -682,7 +682,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There are no blood units remaining..
+        ///   Busca una cadena traducida similar a No queda ninguna unidad de sangre..
         /// </summary>
         public static string no_blood_left {
             get {
@@ -691,7 +691,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You didn&apos;t select any character..
+        ///   Busca una cadena traducida similar a No has seleccionado ningún personaje..
         /// </summary>
         public static string no_character_selected {
             get {
@@ -700,7 +700,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There are no clothes in the wardrobe..
+        ///   Busca una cadena traducida similar a No hay ninguna prenda en el armario..
         /// </summary>
         public static string no_clothes_in_wardrobe {
             get {
@@ -709,7 +709,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any earrings..
+        ///   Busca una cadena traducida similar a No has comprado ningunos pendientes..
         /// </summary>
         public static string no_ear_bought {
             get {
@@ -718,7 +718,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any earrings..
+        ///   Busca una cadena traducida similar a No llevas ningunos pendientes equipados..
         /// </summary>
         public static string no_ear_equiped {
             get {
@@ -727,7 +727,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any fish to sell..
+        ///   Busca una cadena traducida similar a No tienes pescado para vender..
         /// </summary>
         public static string no_fish_sellable {
             get {
@@ -736,7 +736,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have a fishing rod in your right hand..
+        ///   Busca una cadena traducida similar a No tienes una caña en la mano derecha..
         /// </summary>
         public static string no_fishing_rod {
             get {
@@ -745,7 +745,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any glasses..
+        ///   Busca una cadena traducida similar a No has comprado ningunas gafas..
         /// </summary>
         public static string no_glasses_bought {
             get {
@@ -754,7 +754,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any glasses..
+        ///   Busca una cadena traducida similar a No llevas ningunas gafas equipadas..
         /// </summary>
         public static string no_glasses_equiped {
             get {
@@ -763,7 +763,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any hat..
+        ///   Busca una cadena traducida similar a No has comprado ningún sombrero..
         /// </summary>
         public static string no_hat_bought {
             get {
@@ -772,7 +772,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any hat..
+        ///   Busca una cadena traducida similar a No llevas ningún sombrero equipado..
         /// </summary>
         public static string no_hat_equiped {
             get {
@@ -781,7 +781,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any item in your inventory..
+        ///   Busca una cadena traducida similar a No tienes ningún objeto en el inventario..
         /// </summary>
         public static string no_items_inventory {
             get {
@@ -790,7 +790,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any item near..
+        ///   Busca una cadena traducida similar a No tienes ningún objeto cerca de ti..
         /// </summary>
         public static string no_items_near {
             get {
@@ -799,7 +799,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle&apos;s trunk is empty..
+        ///   Busca una cadena traducida similar a El maletero del vehículo está vacío..
         /// </summary>
         public static string no_items_trunk {
             get {
@@ -808,7 +808,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t purchased any mask..
+        ///   Busca una cadena traducida similar a No has comprado ninguna máscara..
         /// </summary>
         public static string no_mask_bought {
             get {
@@ -817,7 +817,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not wearing any mask..
+        ///   Busca una cadena traducida similar a No llevas ninguna máscara equipada..
         /// </summary>
         public static string no_mask_equiped {
             get {
@@ -826,7 +826,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s no police control saved..
+        ///   Busca una cadena traducida similar a No hay ningún control policial guardado..
         /// </summary>
         public static string no_police_controls {
             get {
@@ -835,7 +835,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nobody offered you to repaint your vehicle..
+        ///   Busca una cadena traducida similar a No te han ofrecido repintar tu vehículo..
         /// </summary>
         public static string no_repaint_offered {
             get {
@@ -844,7 +844,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nobody offered you a repairment..
+        ///   Busca una cadena traducida similar a No te han ofrecido una reparación..
         /// </summary>
         public static string no_repair_offered {
             get {
@@ -853,7 +853,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nobody offered you a sexual service..
+        ///   Busca una cadena traducida similar a Nadie te ha ofrecido un servicio sexual..
         /// </summary>
         public static string no_service_offered {
             get {
@@ -862,7 +862,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nobody is driving this taxi..
+        ///   Busca una cadena traducida similar a El taxista no puede seleccionar ninguna ruta..
         /// </summary>
         public static string no_taxi_driver {
             get {
@@ -871,7 +871,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any phone in your hand..
+        ///   Busca una cadena traducida similar a No tienes el teléfono en la mano..
         /// </summary>
         public static string no_telephone_hand {
             get {
@@ -880,7 +880,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any vehicle near you..
+        ///   Busca una cadena traducida similar a No tienes ningún vehículo cerca..
         /// </summary>
         public static string no_vehicles_near {
             get {
@@ -889,7 +889,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any relay equipment in your hand..
+        ///   Busca una cadena traducida similar a No tienes ningún equipo de retransmisión en la mano..
         /// </summary>
         public static string no_walkie_in_hand {
             get {
@@ -898,7 +898,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have this vehicle&apos;s keys..
+        ///   Busca una cadena traducida similar a No tienes las llaves de este vehículo..
         /// </summary>
         public static string not_car_keys {
             get {
@@ -907,7 +907,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You didn&apos;t take any order..
+        ///   Busca una cadena traducida similar a No has atendido ningún pedido..
         /// </summary>
         public static string not_delivering_order {
             get {
@@ -916,7 +916,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not fastfood deliverer..
+        ///   Busca una cadena traducida similar a No eres repartidor de comida rápida..
         /// </summary>
         public static string not_fastfood {
             get {
@@ -925,7 +925,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle isn&apos;t a fishing boat..
+        ///   Busca una cadena traducida similar a Este vehículo no es un barco pesquero..
         /// </summary>
         public static string not_fishing_boat {
             get {
@@ -934,7 +934,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in a fishing store..
+        ///   Busca una cadena traducida similar a No estás en ninguna tienda de pesca..
         /// </summary>
         public static string not_fishing_business {
             get {
@@ -943,7 +943,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in a fishing area..
+        ///   Busca una cadena traducida similar a No estás en ninguna zona de pesca..
         /// </summary>
         public static string not_fishing_zone {
             get {
@@ -952,7 +952,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any gas station..
+        ///   Busca una cadena traducida similar a No estás en ninguna gasolinera..
         /// </summary>
         public static string not_fuel_station_near {
             get {
@@ -961,7 +961,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any garbage bag near..
+        ///   Busca una cadena traducida similar a No tienes ninguna bolsa de basura cerca..
         /// </summary>
         public static string not_garbage_near {
             get {
@@ -970,7 +970,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not a hooker..
+        ///   Busca una cadena traducida similar a No eres prostituta..
         /// </summary>
         public static string not_hooker {
             get {
@@ -979,7 +979,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the door of any house or business..
+        ///   Busca una cadena traducida similar a No estás en la puerta de ninguna casa ni negocio..
         /// </summary>
         public static string not_house_business {
             get {
@@ -988,7 +988,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s no house near you..
+        ///   Busca una cadena traducida similar a No hay ninguna casa cerca de ti..
         /// </summary>
         public static string not_house_near {
             get {
@@ -997,7 +997,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not doing the car practical exam..
+        ///   Busca una cadena traducida similar a No estás haciendo el examen práctico de conducción..
         /// </summary>
         public static string not_in_car_practice {
             get {
@@ -1006,7 +1006,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any cat dealer..
+        ///   Busca una cadena traducida similar a No estás en ningún concesionario..
         /// </summary>
         public static string not_in_carshop {
             get {
@@ -1015,7 +1015,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any workshop..
+        ///   Busca una cadena traducida similar a No estás en ningún taller..
         /// </summary>
         public static string not_in_mechanic_workshop {
             get {
@@ -1024,7 +1024,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in a pawn shop..
+        ///   Busca una cadena traducida similar a No estás en ninguna tienda de empeños..
         /// </summary>
         public static string not_in_pawn_show {
             get {
@@ -1033,7 +1033,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any job route..
+        ///   Busca una cadena traducida similar a No estás haciendo ninguna ruta de trabajo..
         /// </summary>
         public static string not_in_route {
             get {
@@ -1042,7 +1042,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t inside any vehicle..
+        ///   Busca una cadena traducida similar a No estás subido en ningún vehículo..
         /// </summary>
         public static string not_in_vehicle {
             get {
@@ -1051,7 +1051,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the same faction this vehicle is..
+        ///   Busca una cadena traducida similar a No perteneces a la misma facción que este vehículo..
         /// </summary>
         public static string not_in_vehicle_faction {
             get {
@@ -1060,7 +1060,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required job to drive this vehicle..
+        ///   Busca una cadena traducida similar a No tienes el trabajo necesario para acceder a este vehículo..
         /// </summary>
         public static string not_in_vehicle_job {
             get {
@@ -1069,7 +1069,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You must be into a vehicle..
+        ///   Busca una cadena traducida similar a Debes estar dentro de un coche..
         /// </summary>
         public static string not_in_vehicle_type_car {
             get {
@@ -1078,7 +1078,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player isn&apos;t being interviewed..
+        ///   Busca una cadena traducida similar a El jugador objetivo no está participando en una entrevista..
         /// </summary>
         public static string not_on_air {
             get {
@@ -1087,7 +1087,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t own any radio channel..
+        ///   Busca una cadena traducida similar a No tienes creado ningún canal de radio..
         /// </summary>
         public static string not_owned_channel {
             get {
@@ -1096,7 +1096,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t park your vehicle here..
+        ///   Busca una cadena traducida similar a No puedes aparcar tu vehículo aquí..
         /// </summary>
         public static string not_parking_allowed {
             get {
@@ -1105,7 +1105,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any parking..
+        ///   Busca una cadena traducida similar a No estás cerca de ningún estacionamiento..
         /// </summary>
         public static string not_parking_near {
             get {
@@ -1114,7 +1114,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in a phone call..
+        ///   Busca una cadena traducida similar a No estás haciendo ninguna llamada telefónica..
         /// </summary>
         public static string not_phone_talking {
             get {
@@ -1123,7 +1123,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not the chief from the police department..
+        ///   Busca una cadena traducida similar a No eres el comisario del departamento policial..
         /// </summary>
         public static string not_police_chief {
             get {
@@ -1132,7 +1132,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0} products in order to do that..
+        ///   Busca una cadena traducida similar a Necesitas {0} productos para llevar a cabo la acción..
         /// </summary>
         public static string not_required_products {
             get {
@@ -1141,7 +1141,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the scrapyard..
+        ///   Busca una cadena traducida similar a No estás en el desguace municipal..
         /// </summary>
         public static string not_scrapyard_near {
             get {
@@ -1150,7 +1150,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in duty..
+        ///   Busca una cadena traducida similar a No te encuentras de servicio..
         /// </summary>
         public static string not_service {
             get {
@@ -1159,7 +1159,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not spectating any player..
+        ///   Busca una cadena traducida similar a No estás reconeando a nadie..
         /// </summary>
         public static string not_spectating {
             get {
@@ -1168,7 +1168,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not allowed to test this vehicle..
+        ///   Busca una cadena traducida similar a No estás autorizado a probar este vehículo..
         /// </summary>
         public static string not_testing_vehicle {
             get {
@@ -1177,7 +1177,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not a thief..
+        ///   Busca una cadena traducida similar a No eres ladrón..
         /// </summary>
         public static string not_thief {
             get {
@@ -1186,7 +1186,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not a trucker..
+        ///   Busca una cadena traducida similar a No eres transportista..
         /// </summary>
         public static string not_trucker {
             get {
@@ -1195,7 +1195,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any workshop and don&apos;t have any towtruck near..
+        ///   Busca una cadena traducida similar a No estás en ningún taller ni tienes una grúa cerca..
         /// </summary>
         public static string not_valid_repair_place {
             get {
@@ -1204,7 +1204,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not driving the vehicle..
+        ///   Busca una cadena traducida similar a No estás conduciendo el vehículo..
         /// </summary>
         public static string not_vehicle_driving {
             get {
@@ -1213,7 +1213,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t on passenger&apos;s seat..
+        ///   Busca una cadena traducida similar a No estás en el asiento del copiloto..
         /// </summary>
         public static string not_vehicle_passenger {
             get {
@@ -1222,7 +1222,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This is not your job vehicle..
+        ///   Busca una cadena traducida similar a Éste no es tu vehículo de trabajo..
         /// </summary>
         public static string not_your_job_vehicle {
             get {
@@ -1231,7 +1231,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is being interviewed already..
+        ///   Busca una cadena traducida similar a El jugador objetivo ya está participando en una entrevista..
         /// </summary>
         public static string on_air {
             get {
@@ -1240,7 +1240,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already delivering an order..
+        ///   Busca una cadena traducida similar a Ya estás atendiendo un pedido..
         /// </summary>
         public static string order_delivering {
             get {
@@ -1249,7 +1249,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s no order in the list to attend..
+        ///   Busca una cadena traducida similar a No hay ningún pedido en la lista para atender..
         /// </summary>
         public static string order_none {
             get {
@@ -1258,7 +1258,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This order has already been attended..
+        ///   Busca una cadena traducida similar a El pedido ya ha sido atendido por otra persona..
         /// </summary>
         public static string order_taken {
             get {
@@ -1267,7 +1267,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The client has tired of waiting his order..
+        ///   Busca una cadena traducida similar a El cliente se ha cansado de esperar a su pedido..
         /// </summary>
         public static string order_timeout {
             get {
@@ -1276,7 +1276,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This parking is full..
+        ///   Busca una cadena traducida similar a No caben más vehículos en este aparcamiento..
         /// </summary>
         public static string parking_full {
             get {
@@ -1285,7 +1285,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t only link a house to a garage..
+        ///   Busca una cadena traducida similar a Sólo puedes asignar una casa a un garaje privado..
         /// </summary>
         public static string parking_not_garage {
             get {
@@ -1294,7 +1294,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to get your car from the parking..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para sacar el vehículo del aparcamiento..
         /// </summary>
         public static string parking_not_money {
             get {
@@ -1303,7 +1303,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is already in a faction..
+        ///   Busca una cadena traducida similar a El jugador objetivo ya pertenece a una facción..
         /// </summary>
         public static string player_already_faction {
             get {
@@ -1312,7 +1312,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already fishing..
+        ///   Busca una cadena traducida similar a Ya estás pescando..
         /// </summary>
         public static string player_already_fishing {
             get {
@@ -1321,7 +1321,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already hotwiring a vehicle..
+        ///   Busca una cadena traducida similar a Ya estás haciendo un puente al vehículo..
         /// </summary>
         public static string player_already_hotwiring {
             get {
@@ -1330,7 +1330,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player already has a job..
+        ///   Busca una cadena traducida similar a El jugador objetivo ya tiene un trabajo..
         /// </summary>
         public static string player_already_job {
             get {
@@ -1339,7 +1339,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Your license is still valid..
+        ///   Busca una cadena traducida similar a Tu licencia aún está vigente..
         /// </summary>
         public static string player_already_license {
             get {
@@ -1348,7 +1348,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already stealing items..
+        ///   Busca una cadena traducida similar a Ya estás robando objetos..
         /// </summary>
         public static string player_already_stealing {
             get {
@@ -1357,7 +1357,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t use the chat in the lobby..
+        ///   Busca una cadena traducida similar a No puedes usar el chat dentro de la sala de selección de personaje..
         /// </summary>
         public static string player_cant_chat {
             get {
@@ -1366,7 +1366,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t use any command in the lobby..
+        ///   Busca una cadena traducida similar a No puedes usar comandos dentro de la sala de selección de personaje..
         /// </summary>
         public static string player_cant_command {
             get {
@@ -1375,7 +1375,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t hotwire your own vehicle..
+        ///   Busca una cadena traducida similar a No puedes hacer un puente en tu propio vehículo..
         /// </summary>
         public static string player_cant_hotwire_own_vehicle {
             get {
@@ -1384,7 +1384,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t lockpick your own vehicle..
+        ///   Busca una cadena traducida similar a No puedes forzar la puerta de tu vehículo..
         /// </summary>
         public static string player_cant_lockpick_own_vehicle {
             get {
@@ -1393,7 +1393,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s nothing to steal near here..
+        ///   Busca una cadena traducida similar a No hay nada que robar cerca..
         /// </summary>
         public static string player_cant_rob {
             get {
@@ -1402,7 +1402,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t break into your own house..
+        ///   Busca una cadena traducida similar a No puedes robar en tu propia casa..
         /// </summary>
         public static string player_cant_rob_own_house {
             get {
@@ -1411,7 +1411,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t steal into your own vehicle..
+        ///   Busca una cadena traducida similar a No puedes robar en tu propio vehículo..
         /// </summary>
         public static string player_cant_rob_own_vehicle {
             get {
@@ -1420,7 +1420,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t be the target player..
+        ///   Busca una cadena traducida similar a El jugador objetivo no puedes ser tú mismo..
         /// </summary>
         public static string player_cant_self {
             get {
@@ -1429,7 +1429,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re still nervous from your last robbery, you&apos;ll have to wait 1 hour..
+        ///   Busca una cadena traducida similar a Aún sigues nervioso por el último robo, podrás volver a robar pasada 1 hora..
         /// </summary>
         public static string player_cooldown_thief {
             get {
@@ -1438,7 +1438,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t fine yourself..
+        ///   Busca una cadena traducida similar a No te puedes multar a ti mismo..
         /// </summary>
         public static string player_fined_himself {
             get {
@@ -1447,7 +1447,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t handcuff yourself..
+        ///   Busca una cadena traducida similar a No te puedes esposar a ti mismo..
         /// </summary>
         public static string player_handcuffed_himself {
             get {
@@ -1456,7 +1456,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have you identification card..
+        ///   Busca una cadena traducida similar a Ya tienes la documentación en regla..
         /// </summary>
         public static string player_has_identification {
             get {
@@ -1465,7 +1465,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a job..
+        ///   Busca una cadena traducida similar a Ya tienes un empleo..
         /// </summary>
         public static string player_has_job {
             get {
@@ -1474,7 +1474,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a medical insurance..
+        ///   Busca una cadena traducida similar a Ya tienes un seguro médico vigente..
         /// </summary>
         public static string player_has_medical_insurance {
             get {
@@ -1483,7 +1483,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a taxi license..
+        ///   Busca una cadena traducida similar a Ya tienes una licencia de taxis..
         /// </summary>
         public static string player_has_taxi_license {
             get {
@@ -1492,7 +1492,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already attending a report..
+        ///   Busca una cadena traducida similar a Ya está atendiendo un aviso..
         /// </summary>
         public static string player_have_faction_warning {
             get {
@@ -1501,7 +1501,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a house rented..
+        ///   Busca una cadena traducida similar a Ya estás viviendo de alquiler en una casa..
         /// </summary>
         public static string player_house_rented {
             get {
@@ -1510,7 +1510,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t incriminate yourself..
+        ///   Busca una cadena traducida similar a No te puedes inculpar a ti mismo..
         /// </summary>
         public static string player_incriminated_himself {
             get {
@@ -1519,7 +1519,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t do this inside a vehicle..
+        ///   Busca una cadena traducida similar a No puedes hacer esto desde dentro del vehículo.
         /// </summary>
         public static string player_inside_vehicle {
             get {
@@ -1528,7 +1528,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t do that while dead..
+        ///   Busca una cadena traducida similar a No puedes hacer eso estando inconsciente..
         /// </summary>
         public static string player_is_dead {
             get {
@@ -1537,7 +1537,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You haven&apos;t spent the required time in your current job..
+        ///   Busca una cadena traducida similar a No has pasado el tiempo requerido en tu trabajo actual..
         /// </summary>
         public static string player_job_restriction {
             get {
@@ -1546,7 +1546,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can apply for this job being part of a state faction..
+        ///   Busca una cadena traducida similar a No puedes acceder a este empleo estando en una facción estatal..
         /// </summary>
         public static string player_job_state_faction {
             get {
@@ -1555,7 +1555,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Player can&apos;t have more lent vehicles..
+        ///   Busca una cadena traducida similar a El jugador tiene demasiados vehículos prestados..
         /// </summary>
         public static string player_keys_full {
             get {
@@ -1564,7 +1564,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have nothing to use as a bait..
+        ///   Busca una cadena traducida similar a No tienes nada que usar como cebo..
         /// </summary>
         public static string player_no_baits {
             get {
@@ -1573,7 +1573,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in any faction..
+        ///   Busca una cadena traducida similar a No estás en ninguna facción..
         /// </summary>
         public static string player_no_faction {
             get {
@@ -1582,7 +1582,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You didn&apos;t select any fine to pay..
+        ///   Busca una cadena traducida similar a No has seleccionado ninguna multa a pagar..
         /// </summary>
         public static string player_no_fines {
             get {
@@ -1591,7 +1591,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any jerrycan in your hand..
+        ///   Busca una cadena traducida similar a No llevas ninguna lata de gasolina en la mano..
         /// </summary>
         public static string player_no_jerrycan {
             get {
@@ -1600,7 +1600,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any job..
+        ///   Busca una cadena traducida similar a No tienes ningún empleo..
         /// </summary>
         public static string player_no_job {
             get {
@@ -1609,7 +1609,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not the owner of this business..
+        ///   Busca una cadena traducida similar a No eres el dueño del negocio..
         /// </summary>
         public static string player_not_business_owner {
             get {
@@ -1618,7 +1618,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nobody&apos;s calling at you in this moment..
+        ///   Busca una cadena traducida similar a No hay nadie llamándote en este momento..
         /// </summary>
         public static string player_not_called {
             get {
@@ -1627,7 +1627,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have to be in a car to use this animation..
+        ///   Busca una cadena traducida similar a Debes estar en un coche para usar estas animaciones..
         /// </summary>
         public static string player_not_car {
             get {
@@ -1636,7 +1636,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is not dead..
+        ///   Busca una cadena traducida similar a El jugador objetivo no se encuentra inconsciente..
         /// </summary>
         public static string player_not_dead {
             get {
@@ -1645,7 +1645,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the driving school..
+        ///   Busca una cadena traducida similar a No estás en la autoescuela..
         /// </summary>
         public static string player_not_driving_school {
             get {
@@ -1654,7 +1654,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t part of the emergency department..
+        ///   Busca una cadena traducida similar a No perteneces al departamento de emergencias..
         /// </summary>
         public static string player_not_emergency_faction {
             get {
@@ -1663,7 +1663,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have enough money..
+        ///   Busca una cadena traducida similar a No llevas suficiente dinero encima..
         /// </summary>
         public static string player_not_enough_money {
             get {
@@ -1672,7 +1672,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required rank to get ammunition neither weapons..
+        ///   Busca una cadena traducida similar a No tienes suficiente rango dentro de LSPD para retirar munición ni armas..
         /// </summary>
         public static string player_not_enough_police_rank {
             get {
@@ -1681,7 +1681,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to pay your fines..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para pagar tus multas..
         /// </summary>
         public static string player_not_fine_money {
             get {
@@ -1690,7 +1690,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not fisherman..
+        ///   Busca una cadena traducida similar a No eres pescador..
         /// </summary>
         public static string player_not_fisherman {
             get {
@@ -1699,7 +1699,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is not connected to the server..
+        ///   Busca una cadena traducida similar a El jugador objetivo no se encuentra conectado..
         /// </summary>
         public static string player_not_found {
             get {
@@ -1708,7 +1708,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have this garage&apos;s keys..
+        ///   Busca una cadena traducida similar a No tienes acceso a este garaje..
         /// </summary>
         public static string player_not_garage_access {
             get {
@@ -1717,7 +1717,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not a garbage man..
+        ///   Busca una cadena traducida similar a No eres basurero..
         /// </summary>
         public static string player_not_garbage {
             get {
@@ -1726,7 +1726,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not the owner of this house..
+        ///   Busca una cadena traducida similar a No eres el propietario de esta casa..
         /// </summary>
         public static string player_not_house_owner {
             get {
@@ -1735,7 +1735,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is not wounded..
+        ///   Busca una cadena traducida similar a El jugador objetivo no está herido..
         /// </summary>
         public static string player_not_hurt {
             get {
@@ -1744,7 +1744,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to get your identification card..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para sacarte la documentación..
         /// </summary>
         public static string player_not_identification_money {
             get {
@@ -1753,7 +1753,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not inside any house..
+        ///   Busca una cadena traducida similar a No estás dentro de ninguna casa..
         /// </summary>
         public static string player_not_in_house {
             get {
@@ -1762,7 +1762,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have to be in the left rear seat of the news van..
+        ///   Busca una cadena traducida similar a Debes estar en la parte de atras izquierda de la furgoneta de retransmisión de Weazel News..
         /// </summary>
         public static string player_not_in_news_van {
             get {
@@ -1771,7 +1771,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You have to be on the back right rear seat of the van..
+        ///   Busca una cadena traducida similar a Debes estar en la parte de atras derecha de la furgoneta..
         /// </summary>
         public static string player_not_in_right_rear {
             get {
@@ -1780,7 +1780,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the police station&apos;s lockers..
+        ///   Busca una cadena traducida similar a No estás en los vestuarios de comisaria..
         /// </summary>
         public static string player_not_in_room_lockers {
             get {
@@ -1789,7 +1789,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player isn&apos;t in your faction..
+        ///   Busca una cadena traducida similar a El jugador objetivo no se encuentra en tu facción..
         /// </summary>
         public static string player_not_in_same_faction {
             get {
@@ -1798,7 +1798,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in jail&apos;s entrance..
+        ///   Busca una cadena traducida similar a No estás en la entrada de los calabozos..
         /// </summary>
         public static string player_not_jail_area {
             get {
@@ -1807,7 +1807,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not mechanic..
+        ///   Busca una cadena traducida similar a No eres mecánico..
         /// </summary>
         public static string player_not_mechanic {
             get {
@@ -1816,7 +1816,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have a medical insurance..
+        ///   Busca una cadena traducida similar a No tienes ningún seguro médico..
         /// </summary>
         public static string player_not_medical_insurance {
             get {
@@ -1825,7 +1825,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to get a medical insurance..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para sacarte el seguro médico..
         /// </summary>
         public static string player_not_medical_insurance_money {
             get {
@@ -1834,7 +1834,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t a journalist..
+        ///   Busca una cadena traducida similar a No perteneces a Weazel News..
         /// </summary>
         public static string player_not_news_faction {
             get {
@@ -1843,7 +1843,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t on duty as staff..
+        ///   Busca una cadena traducida similar a No estás de servicio como staff..
         /// </summary>
         public static string player_not_on_admin_duty {
             get {
@@ -1852,7 +1852,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t on duty..
+        ///   Busca una cadena traducida similar a No estás de servicio ahora mismo..
         /// </summary>
         public static string player_not_on_duty {
             get {
@@ -1861,7 +1861,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t part of the police department neither emergency department..
+        ///   Busca una cadena traducida similar a No perteneces al departamento de policía ni al de emergencias..
         /// </summary>
         public static string player_not_police_emergency_faction {
             get {
@@ -1870,7 +1870,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t part of the police department..
+        ///   Busca una cadena traducida similar a No perteneces al departamento de policía..
         /// </summary>
         public static string player_not_police_faction {
             get {
@@ -1879,7 +1879,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required money to pay the rental fee..
+        ///   Busca una cadena traducida similar a No dispones del dinero necesario en mano para pagar la fianza de alquiler..
         /// </summary>
         public static string player_not_rent_money {
             get {
@@ -1888,7 +1888,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any fishing rod and you&apos;re not in any fishing boat..
+        ///   Busca una cadena traducida similar a No tienes una caña en la mano ni estás en ningún pesquero..
         /// </summary>
         public static string player_not_rod_boat {
             get {
@@ -1897,7 +1897,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You aren&apos;t part of any state faction..
+        ///   Busca una cadena traducida similar a No estás en ninguna facción estatal..
         /// </summary>
         public static string player_not_state_faction {
             get {
@@ -1906,7 +1906,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any stolen item..
+        ///   Busca una cadena traducida similar a No tienes ningún objeto robado..
         /// </summary>
         public static string player_not_stolen_items {
             get {
@@ -1915,7 +1915,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t own any taxi driving license..
+        ///   Busca una cadena traducida similar a No tienes la licencia de taxi en regla..
         /// </summary>
         public static string player_not_taxi_license {
             get {
@@ -1924,7 +1924,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You need {0}$ to get the taxi license..
+        ///   Busca una cadena traducida similar a Necesitas {0}$ para sacarte la licencia de taxis..
         /// </summary>
         public static string player_not_taxi_license_money {
             get {
@@ -1933,7 +1933,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the center of the city..
+        ///   Busca una cadena traducida similar a No estás en el centro de la ciudad..
         /// </summary>
         public static string player_not_thief_area {
             get {
@@ -1942,7 +1942,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not in the town hall..
+        ///   Busca una cadena traducida similar a No estás en el ayuntamiento..
         /// </summary>
         public static string player_not_townhall {
             get {
@@ -1951,7 +1951,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don-t have this vehicle&apos;s keys..
+        ///   Busca una cadena traducida similar a No tienes llaves de este vehículo..
         /// </summary>
         public static string player_not_veh_owner {
             get {
@@ -1960,7 +1960,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re already refueling your vehicle..
+        ///   Busca una cadena traducida similar a Ya estás repostando un vehículo..
         /// </summary>
         public static string player_refueling {
             get {
@@ -1969,7 +1969,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t frisk yourself..
+        ///   Busca una cadena traducida similar a No puedes cachearte a ti mismo..
         /// </summary>
         public static string player_searched_himself {
             get {
@@ -1978,7 +1978,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player is spectating another player..
+        ///   Busca una cadena traducida similar a El jugador está reconeando a otro jugador..
         /// </summary>
         public static string player_spectating {
             get {
@@ -1987,7 +1987,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You left the vehicle and stopped hotwiring it..
+        ///   Busca una cadena traducida similar a Has abandonado el vehículo y has dejado de intentar hacer el puente..
         /// </summary>
         public static string player_stopped_hotwire {
             get {
@@ -1996,7 +1996,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re too far away from the target player..
+        ///   Busca una cadena traducida similar a Estás demasiado lejos del jugador objetivo..
         /// </summary>
         public static string player_too_far {
             get {
@@ -2005,7 +2005,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t own any identification card, remember that it&apos;s mandatory to be identified..
+        ///   Busca una cadena traducida similar a No tienes documentación, recuerda que es ilegal ir indocumentado..
         /// </summary>
         public static string player_undocumented {
             get {
@@ -2014,7 +2014,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Price must be greater than 0$..
+        ///   Busca una cadena traducida similar a El precio debe ser mayor a 0$..
         /// </summary>
         public static string price_positive {
             get {
@@ -2023,7 +2023,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You&apos;re not connected to any radio frequency..
+        ///   Busca una cadena traducida similar a No estás conectado a ninguna frecuencia de radio..
         /// </summary>
         public static string radio_frequency_none {
             get {
@@ -2032,7 +2032,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required rank to dismiss members..
+        ///   Busca una cadena traducida similar a No tienes el rango necesario para expulsar miembros..
         /// </summary>
         public static string rank_too_low_dismiss {
             get {
@@ -2041,7 +2041,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required rank to change members&apos; rank..
+        ///   Busca una cadena traducida similar a No tienes el rango necesario para cambiar el rango de los miembros..
         /// </summary>
         public static string rank_too_low_rank {
             get {
@@ -2050,7 +2050,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have the required rank to recruit new members..
+        ///   Busca una cadena traducida similar a No tienes el rango necesario para reclutar nuevos miembros..
         /// </summary>
         public static string rank_too_low_recruit {
             get {
@@ -2059,7 +2059,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You don&apos;t have any item in your right hand..
+        ///   Busca una cadena traducida similar a No tienes ningún objeto en tu mano derecha..
         /// </summary>
         public static string right_hand_empty {
             get {
@@ -2068,7 +2068,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have an item in your right hand..
+        ///   Busca una cadena traducida similar a Ya tienes un objeto en tu mano derecha..
         /// </summary>
         public static string right_hand_occupied {
             get {
@@ -2077,7 +2077,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t leave while you&apos;re stealing items..
+        ///   Busca una cadena traducida similar a No puedes salir mientras estás robando..
         /// </summary>
         public static string stealing_progress {
             get {
@@ -2086,7 +2086,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The target player has already an item in his right hand..
+        ///   Busca una cadena traducida similar a El jugador objetivo tiene la mano derecha ocupada..
         /// </summary>
         public static string target_right_hand_not_empty {
             get {
@@ -2095,7 +2095,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You already have a tattoo like this one..
+        ///   Busca una cadena traducida similar a Ya tienes un tatuaje igual..
         /// </summary>
         public static string tattoo_duplicated {
             get {
@@ -2104,7 +2104,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The taxi driver already has a destination point..
+        ///   Busca una cadena traducida similar a El taxista ya está realizando una ruta..
         /// </summary>
         public static string taxi_has_path {
             get {
@@ -2113,7 +2113,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t transfer money to your own account..
+        ///   Busca una cadena traducida similar a No puedes realizar una transferencia a tu propia cuenta..
         /// </summary>
         public static string transfer_money_own {
             get {
@@ -2122,7 +2122,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle is already unlocked..
+        ///   Busca una cadena traducida similar a Este vehículo ya está abierto..
         /// </summary>
         public static string veh_already_unlocked {
             get {
@@ -2131,7 +2131,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle isn&apos;t drivable with your license..
+        ///   Busca una cadena traducida similar a Este vehículo no es adecuado para tu licencia..
         /// </summary>
         public static string vehicle_driving_not_suitable {
             get {
@@ -2140,7 +2140,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t park this vehicle..
+        ///   Busca una cadena traducida similar a No puedes aparcar este vehículo..
         /// </summary>
         public static string vehicle_faction_park {
             get {
@@ -2149,7 +2149,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Couldn&apos;t find any vehicle with that identifier..
+        ///   Busca una cadena traducida similar a No se ha encontrado ningún vehículo para ese identificador..
         /// </summary>
         public static string vehicle_not_exists {
             get {
@@ -2158,7 +2158,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle can&apos;t be locked..
+        ///   Busca una cadena traducida similar a Este vehículo no se puede bloquear..
         /// </summary>
         public static string vehicle_not_lockable {
             get {
@@ -2167,7 +2167,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a This vehicle doesn&apos;t have any megaphone installed..
+        ///   Busca una cadena traducida similar a Éste vehículo no tiene un megáfono instalado..
         /// </summary>
         public static string vehicle_not_megaphone {
             get {
@@ -2176,7 +2176,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The vehicle is not parked here..
+        ///   Busca una cadena traducida similar a El vehículo no está aparcado aquí..
         /// </summary>
         public static string vehicle_not_this_parking {
             get {
@@ -2185,7 +2185,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The vehicle is being refueled..
+        ///   Busca una cadena traducida similar a El vehículo ya está siendo repostado..
         /// </summary>
         public static string vehicle_refueling {
             get {
@@ -2194,7 +2194,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t turn the engine on while the vehicle is being refueled..
+        ///   Busca una cadena traducida similar a No puedes arrancar el vehículo mientras está repostando..
         /// </summary>
         public static string vehicle_start_refueling {
             get {
@@ -2203,7 +2203,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a You can&apos;t turn the engine on while they&apos;re unpacking the weapons..
+        ///   Busca una cadena traducida similar a No puedes arrancar el vehículo mientras están sacando armas..
         /// </summary>
         public static string vehicle_start_weapon_unpacking {
             get {
@@ -2212,7 +2212,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The vehicle&apos;s trunk is already closed..
+        ///   Busca una cadena traducida similar a El maletero del vehículo está cerrado..
         /// </summary>
         public static string vehicle_trunk_closed {
             get {
@@ -2221,7 +2221,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s already somebody interacting with this vehicle&apos;s trunk..
+        ///   Busca una cadena traducida similar a Ya hay alguien usando el maletero del vehículo..
         /// </summary>
         public static string vehicle_trunk_in_use {
             get {
@@ -2230,7 +2230,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The vehicle&apos;s trunk is already opened..
+        ///   Busca una cadena traducida similar a El maletero del vehículo está abierto..
         /// </summary>
         public static string vehicle_trunk_opened {
             get {
@@ -2239,7 +2239,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The vehicle is too far away from you..
+        ///   Busca una cadena traducida similar a El vehículo está demasiado lejos..
         /// </summary>
         public static string wanted_vehicle_far {
             get {
@@ -2248,7 +2248,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The weapons event has already started..
+        ///   Busca una cadena traducida similar a Ya se ha lanzado un evento de armas..
         /// </summary>
         public static string weapon_event_on_course {
             get {
@@ -2257,7 +2257,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Your weapon license has expired..
+        ///   Busca una cadena traducida similar a No tienes la licencia de armas vigente..
         /// </summary>
         public static string weapon_license_expired {
             get {
@@ -2266,7 +2266,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Weather value must be in 0 to 12 interval..
+        ///   Busca una cadena traducida similar a El clima debe estar comprendido entre 0 y 12..
         /// </summary>
         public static string weather_value_invalid {
             get {
@@ -2275,7 +2275,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There&apos;s no need to repair this wheel..
+        ///   Busca una cadena traducida similar a Esta rueda no necesita ser reparada..
         /// </summary>
         public static string wheel_not_popped {
             get {

@@ -20,20 +20,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="messages\error\ErrRes.Designer.cs">
-      <DependentUpon>ErrRes.resx</DependentUpon>
+    <Compile Update="messages\administration\AdminRes.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>AdminRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\description\DescRes.Designer.cs">
-      <DependentUpon>DescRes.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>DescRes.resx</DependentUpon>
+    </Compile>
+    <Compile Update="messages\error\ErrRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ErrRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\factions\FacRes.Designer.cs">
-      <DependentUpon>FacRes.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>FacRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\general\GenRes.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -41,93 +46,93 @@
       <DependentUpon>GenRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\information\InfoRes.Designer.cs">
-      <DependentUpon>InfoRes.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>InfoRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\items\ItemRes.Designer.cs">
-      <DependentUpon>ItemRes.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>ItemRes.resx</DependentUpon>
     </Compile>
     <Compile Update="messages\jobs\JobRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>JobRes.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="messages\administration\AdminRes.Designer.cs">
-      <DependentUpon>AdminRes.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="messages\success\SuccRes.Designer.cs">
-      <DependentUpon>SuccRes.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>SuccRes.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="messages\error\ErrRes.es-ES.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="messages\error\ErrRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrRes.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="messages\description\DescRes.es-ES.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\description\DescRes.resx">
-      <LastGenOutput>DescRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DescRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\factions\FacRes.es-ES.resx">
+    <EmbeddedResource Update="messages\description\DescRes.en-GB.resx">
+      <LastGenOutput>DescRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\factions\FacRes.resx">
-      <LastGenOutput>FacRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FacRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\general\GenRes.es-ES.resx">
+    <EmbeddedResource Update="messages\factions\FacRes.en-GB.resx">
+      <LastGenOutput>FacRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\general\GenRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GenRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\information\InfoRes.es-ES.resx">
+    <EmbeddedResource Update="messages\general\GenRes.en-GB.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GenRes.en-GB.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\information\InfoRes.resx">
-      <LastGenOutput>InfoRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InfoRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\items\ItemRes.es-ES.resx">
+    <EmbeddedResource Update="messages\information\InfoRes.en-GB.resx">
+      <LastGenOutput>InfoRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\items\ItemRes.resx">
-      <LastGenOutput>ItemRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ItemRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\jobs\JobRes.es-ES.resx">
+    <EmbeddedResource Update="messages\items\ItemRes.en-GB.resx">
+      <LastGenOutput>ItemRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\jobs\JobRes.resx">
-      <LastGenOutput>JobRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>JobRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\administration\AdminRes.es-ES.resx">
+    <EmbeddedResource Update="messages\jobs\JobRes.en-GB.resx">
+      <LastGenOutput>JobRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\administration\AdminRes.resx">
-      <LastGenOutput>AdminRes.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdminRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\success\SuccRes.es-ES.resx">
+    <EmbeddedResource Update="messages\administration\AdminRes.en-GB.resx">
+      <LastGenOutput>AdminRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\success\SuccRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SuccRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="messages\success\SuccRes.en-GB.resx">
+      <LastGenOutput>SuccRes.en-GB.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>

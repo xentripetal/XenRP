@@ -19,7 +19,7 @@ namespace WiredPlayers.messages.success {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SuccRes {
@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The staff {0} revived you.&quot;.
+        ///   Busca una cadena traducida similar a El administrador {0} te ha revivido..
         /// </summary>
         public static string admin_revived {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;A new ticket has been generated, wait for a staff member to answer it.&quot;.
+        ///   Busca una cadena traducida similar a Tu duda ha sido enviada correctamente, espera a que te atienda un miembro del staff..
         /// </summary>
         public static string help_request_sent {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve finished with this client.&quot;.
+        ///   Busca una cadena traducida similar a Has terminado con este cliente..
         /// </summary>
         public static string hooker_client_satisfied {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The hooker&apos;s service has finished.&quot;.
+        ///   Busca una cadena traducida similar a El servicio de la prostituta ha terminado..
         /// </summary>
         public static string hooker_service_finished {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You sold yous house for {0}$&quot;.
+        ///   Busca una cadena traducida similar a Has vendido tu casa al estado por un valor de {0}$.
         /// </summary>
         public static string house_sold {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} accepted your interview request.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha aceptado tu solicitud de entrevista..
         /// </summary>
         public static string interview_accepted {
             get {
@@ -115,7 +115,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You passed the practical exam.&quot;.
+        ///   Busca una cadena traducida similar a Has aprobado el examen práctico..
         /// </summary>
         public static string license_drive_passed {
             get {
@@ -124,7 +124,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You passed the theoric exam.&quot;.
+        ///   Busca una cadena traducida similar a Has aprobado el examen teórico..
         /// </summary>
         public static string license_exam_passed {
             get {
@@ -133,7 +133,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You successfully lockpicked.&quot;.
+        ///   Busca una cadena traducida similar a Has logrado forzar la cerradura..
         /// </summary>
         public static string lockpicked {
             get {
@@ -142,7 +142,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} had a possitive result.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha conseguido un resultado positivo..
         /// </summary>
         public static string possitive_result {
             get {
@@ -151,7 +151,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The doctor {0} reanimated you.&quot;.
+        ///   Busca una cadena traducida similar a El doctor {0} ha conseguido reanimarte..
         /// </summary>
         public static string target_reanimated {
             get {
@@ -160,7 +160,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You managed to hotwire the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has conseguido arrancar el vehículo..
         /// </summary>
         public static string veh_hotwireed {
             get {
@@ -169,7 +169,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;locked his vehicle.&quot;.
+        ///   Busca una cadena traducida similar a ha bloqueado el vehículo..
         /// </summary>
         public static string veh_locked {
             get {
@@ -178,7 +178,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;unlocked his vehicle.&quot;.
+        ///   Busca una cadena traducida similar a ha desbloqueado el vehículo..
         /// </summary>
         public static string veh_unlocked {
             get {
@@ -187,7 +187,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You purchased your vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has comprado tu vehículo..
         /// </summary>
         public static string vehicle_purchased {
             get {
@@ -196,7 +196,7 @@ namespace WiredPlayers.messages.success {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You received {0}$ for scrapping your vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has recibido {0}$ por desguazar tu vehículo..
         /// </summary>
         public static string vehicle_scrapyard {
             get {

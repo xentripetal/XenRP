@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Fastfood delieverer - We need fastfood deliverers. It&apos;s simple, deliver orders in time and you will get paid..
+        ///   Busca una cadena traducida similar a Repartidor - Necesitamos repartidores de comida rápida en moto. Es simple, entrega los pedidos a tiempo y recibirás tu paga..
         /// </summary>
         public static string job_fastfoot {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Garbage man - Los Santos needs people to clean up the city. Work in pairs with a friend, one will drive and the other will collect the garbage..
+        ///   Busca una cadena traducida similar a Basurero - Los Santos necesita gente que mantenga limpia la ciudad. Trabajo por parejas, uno conduce y el otro recoge y cada uno recibe su sueldo..
         /// </summary>
         public static string job_garbage {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Hooker - Win money selling your body, simple as that. You choose your clients and price..
+        ///   Busca una cadena traducida similar a Prostitución - Gana dinero vendiendo tu cuerpo, es tan sencillo como eso.Tú eliges tus clientes y tus precios..
         /// </summary>
         public static string job_hooker {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Mechanic - In Los Santos Custom we need employees that know how to treat a car..
+        ///   Busca una cadena traducida similar a Mecánico - En LS Custom necesitamos empleados que sepan reparar chapa, cambiar ruedas, arreglar fallos de motor e instalar modificaciones..
         /// </summary>
         public static string job_mechanic {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Thief - If having a job is the boring way of getting money for you, maybe you prefer to get some valuable items and sell them..
+        ///   Busca una cadena traducida similar a Ladrón - Si trabajar es demasiado aburrido para ti quizás te atraiga más la idea de robar a quienes trabajan. Siempre podrás vender lo robado..
         /// </summary>
         public static string job_thief {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.description {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Trucker - Trucker job text.
+        ///   Busca una cadena traducida similar a Transportista - Si lo tuyo es pasar largas temporadas en solitario con tu camión, estás de enhorabuena. Ponte a repartir toda la mercancia a lo largo y ancho de Los Santos..
         /// </summary>
         public static string job_trucker {
             get {

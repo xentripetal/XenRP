@@ -19,7 +19,7 @@ namespace WiredPlayers.messages.administration {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class AdminRes {
@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The staff member {0} has brought you to his position.&quot;.
+        ///   Busca una cadena traducida similar a El administrador {0} te ha movido a su posición..
         /// </summary>
         public static string bring_player {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the business&apos; name.&quot;.
+        ///   Busca una cadena traducida similar a Has establecido &apos;{0}&apos; como nombre del negocio..
         /// </summary>
         public static string business_name_modified {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the business&apos;type.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0} el tipo del negocio..
         /// </summary>
         public static string business_type_modified {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;All the characters saved.&quot;.
+        ///   Busca una cadena traducida similar a Todos los personajes guardados..
         /// </summary>
         public static string characters_saved {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve toggled off God mode.&quot;.
+        ///   Busca una cadena traducida similar a Has desactivado el modo dios..
         /// </summary>
         public static string god_mode_off {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re now in God mode.&quot;.
+        ///   Busca una cadena traducida similar a Has activado el modo dios..
         /// </summary>
         public static string god_mode_on {
             get {
@@ -115,7 +115,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve teleported to {0}&apos;s position.&quot;.
+        ///   Busca una cadena traducida similar a Te has movido a la posición de {0}..
         /// </summary>
         public static string goto_player {
             get {
@@ -124,7 +124,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve created a house in your position.&quot;.
+        ///   Busca una cadena traducida similar a Has creado una casa en tu posición..
         /// </summary>
         public static string house_created {
             get {
@@ -133,7 +133,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve deleted the closest house.&quot;.
+        ///   Busca una cadena traducida similar a Has eliminado la casa más cercana..
         /// </summary>
         public static string house_deleted {
             get {
@@ -142,7 +142,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the house&apos;s dimension.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; el interior de la casa..
         /// </summary>
         public static string house_interior_modified {
             get {
@@ -151,7 +151,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} is the new address of this house.&quot;.
+        ///   Busca una cadena traducida similar a {0} es la nueva dirección de esta casa..
         /// </summary>
         public static string house_name_modified {
             get {
@@ -160,7 +160,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} is the new owner of this house.&quot;.
+        ///   Busca una cadena traducida similar a {0} es el nuevo dueño de esta casa..
         /// </summary>
         public static string house_owner_modified {
             get {
@@ -169,7 +169,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the house&apos;s price.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0}$ el precio de la casa..
         /// </summary>
         public static string house_price_modified {
             get {
@@ -178,7 +178,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to {0}$ the house&apos;s rental price.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0}$ el precio de alquiler de la casa..
         /// </summary>
         public static string house_rental_modified {
             get {
@@ -187,7 +187,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the house&apos;s state.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; el estado de la casa..
         /// </summary>
         public static string house_status_modified {
             get {
@@ -196,7 +196,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;All the players have been kicked from the server.&quot;.
+        ///   Busca una cadena traducida similar a Se han expulsado todos los jugadores del servidor..
         /// </summary>
         public static string kicked_all {
             get {
@@ -205,7 +205,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;There&apos;s a new incomming assistant ticket.&quot;.
+        ///   Busca una cadena traducida similar a Se ha generado un nuevo ticket de consulta..
         /// </summary>
         public static string new_admin_ticket {
             get {
@@ -214,7 +214,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve created a parking in your position.&quot;.
+        ///   Busca una cadena traducida similar a Has creado un aparcamiento en tu posición..
         /// </summary>
         public static string parking_created {
             get {
@@ -223,7 +223,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve deleted the closest parking.&quot;.
+        ///   Busca una cadena traducida similar a Has eliminado el aparcamiento más cercano..
         /// </summary>
         public static string parking_deleted {
             get {
@@ -232,7 +232,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve linked the house {0} to this parking.&quot;.
+        ///   Busca una cadena traducida similar a Has añadido la casa {0} al parking..
         /// </summary>
         public static string parking_house_modified {
             get {
@@ -241,7 +241,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Parking {0} - Information:&quot;.
+        ///   Busca una cadena traducida similar a Información del parking {0}.
         /// </summary>
         public static string parking_info {
             get {
@@ -250,7 +250,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to {0} this parking&apos;s maximum slots.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0} el número de plazas del parking..
         /// </summary>
         public static string parking_slots_modified {
             get {
@@ -259,7 +259,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve change to &apos;{0}&apos; the parking&apos;s type.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0} el tipo del parking..
         /// </summary>
         public static string parking_type_modified {
             get {
@@ -268,7 +268,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve change to {0}$ {1}&apos;s bank money.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0}$ el dinero en el banco de {1}..
         /// </summary>
         public static string player_bank_modified {
             get {
@@ -277,7 +277,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} banned {1} from the server. Reason: {2}&quot;.
+        ///   Busca una cadena traducida similar a {0} ha baneado a {1}. Razón: {2}.
         /// </summary>
         public static string player_banned {
             get {
@@ -286,7 +286,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; {1}&apos;s dimension.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; la dimensión de {1}..
         /// </summary>
         public static string player_dimension_modified {
             get {
@@ -295,7 +295,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; {1}&apos;s faction.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; la facción de {1}..
         /// </summary>
         public static string player_faction_modified {
             get {
@@ -304,7 +304,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You changed {0}&apos;s health to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado la vida de {0} a {1}..
         /// </summary>
         public static string player_health {
             get {
@@ -313,7 +313,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} has been jailed for {1} minutes. Reason: {2}&quot;.
+        ///   Busca una cadena traducida similar a {0} ha sido encarcelado {1} minutos. Razón: {2}.
         /// </summary>
         public static string player_jailed {
             get {
@@ -322,7 +322,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; {1}&apos;s job.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; el trabajo de {1}..
         /// </summary>
         public static string player_job_modified {
             get {
@@ -331,7 +331,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} kicked {1} from the server. Reason: {2}&quot;.
+        ///   Busca una cadena traducida similar a {0} ha expulsado a {1}. Razón: {2}.
         /// </summary>
         public static string player_kicked {
             get {
@@ -340,7 +340,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve change to {0}$ {1}&apos;s hand money.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a {0}$ el dinero en mano de {1}..
         /// </summary>
         public static string player_money_modified {
             get {
@@ -349,7 +349,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; {1}&apos;s faction rank.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; el rango en facción de {1}..
         /// </summary>
         public static string player_rank_modified {
             get {
@@ -358,7 +358,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve revived {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has revivido al jugador {0}..
         /// </summary>
         public static string player_revived {
             get {
@@ -367,7 +367,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} set to {1} your role points.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha establecido a {1} los puntos de rol..
         /// </summary>
         public static string role_points_established {
             get {
@@ -376,7 +376,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve given {0} role points to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has dado {0} puntos de rol a {1}..
         /// </summary>
         public static string role_points_given {
             get {
@@ -385,7 +385,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} removed you {1} role points.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha quitado {1} puntos de rol..
         /// </summary>
         public static string role_points_lost {
             get {
@@ -394,7 +394,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} gave you {1} role points.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha dado {1} puntos de rol..
         /// </summary>
         public static string role_points_received {
             get {
@@ -403,7 +403,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve removed {0} role points to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has quitado {0} puntos de rol a {1}..
         /// </summary>
         public static string role_points_removed {
             get {
@@ -412,7 +412,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve set to {0} {1}&apos;s role points.&quot;.
+        ///   Busca una cadena traducida similar a Has establecido a {0} los puntos de rol de {1}..
         /// </summary>
         public static string role_points_set {
             get {
@@ -421,7 +421,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} business have been updated.&quot;.
+        ///   Busca una cadena traducida similar a Se han actualizado {0} negocios..
         /// </summary>
         public static string save_business {
             get {
@@ -430,7 +430,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Entity saving finished.&quot;.
+        ///   Busca una cadena traducida similar a Finalizado el guardado de entidades..
         /// </summary>
         public static string save_finish {
             get {
@@ -439,7 +439,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} parkings have been updated.&quot;.
+        ///   Busca una cadena traducida similar a Se han actualizado {0} parkings..
         /// </summary>
         public static string save_parkings {
             get {
@@ -448,7 +448,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Saving all entities in the world...&quot;.
+        ///   Busca una cadena traducida similar a Comienza el guardado entidades....
         /// </summary>
         public static string save_start {
             get {
@@ -457,7 +457,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve stopped spectating.&quot;.
+        ///   Busca una cadena traducida similar a Has dejado de reconear..
         /// </summary>
         public static string spect_stopped {
             get {
@@ -466,7 +466,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re spectating {0}.&quot;.
+        ///   Busca una cadena traducida similar a Estás reconeando a {0}..
         /// </summary>
         public static string spectating_player {
             get {
@@ -475,7 +475,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} changed your health to {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha cambiado tu vida a {1}..
         /// </summary>
         public static string target_health {
             get {
@@ -484,7 +484,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You answered the ticket number &apos;{0}&apos;.&quot;.
+        ///   Busca una cadena traducida similar a Has respondido a la consulta con identificador &apos;{0}&apos;..
         /// </summary>
         public static string ticket_answered {
             get {
@@ -493,7 +493,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You brought the {0} vehicle to your position.&quot;.
+        ///   Busca una cadena traducida similar a Has traído el vehículo {0} a tu posición..
         /// </summary>
         public static string vehicle_bring {
             get {
@@ -502,7 +502,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the vehicle&apos;s dimension.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; la dimensión del vehículo..
         /// </summary>
         public static string vehicle_dimension_modified {
             get {
@@ -511,7 +511,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the vehicle&apos;s faction.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado a &apos;{0}&apos; la facción del vehículo..
         /// </summary>
         public static string vehicle_faction_modified {
             get {
@@ -520,7 +520,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You teleported to the vehicle {0}.&quot;.
+        ///   Busca una cadena traducida similar a Te has teleportado a la posición del vehículo {0}..
         /// </summary>
         public static string vehicle_goto {
             get {
@@ -529,7 +529,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve changed to &apos;{0}&apos; the vehicle&apos;s owner.&quot;.
+        ///   Busca una cadena traducida similar a Has puesto a &apos;{0}&apos; como dueño del vehículo..
         /// </summary>
         public static string vehicle_owner_modified {
             get {
@@ -538,7 +538,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve updated the vehicle&apos;s position.&quot;.
+        ///   Busca una cadena traducida similar a Has actualizado la posición del vehículo..
         /// </summary>
         public static string vehicle_pos_updated {
             get {
@@ -547,7 +547,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You repaired the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has reparado el vehículo..
         /// </summary>
         public static string vehicle_repaired {
             get {
@@ -556,7 +556,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;All the vehicles saved.&quot;.
+        ///   Busca una cadena traducida similar a Todos los vehículos guardados..
         /// </summary>
         public static string vehicles_saved {
             get {
@@ -565,7 +565,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Weapon&apos;s event has started.&quot;.
+        ///   Busca una cadena traducida similar a Se ha iniciado el evento de armas..
         /// </summary>
         public static string weapon_event_started {
             get {
@@ -574,7 +574,7 @@ namespace WiredPlayers.messages.administration {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} has changed the weather value to &apos;{1}&apos;.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha cambiado el clima a &apos;{1}&apos;..
         /// </summary>
         public static string weather_changed {
             get {

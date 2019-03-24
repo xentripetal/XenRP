@@ -4,8 +4,9 @@ using WiredPlayers.factions;
 using WiredPlayers.messages.error;
 using WiredPlayers.messages.general;
 using WiredPlayers.messages.success;
-using System.Linq;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace WiredPlayers.chat
 {
@@ -24,123 +25,65 @@ namespace WiredPlayers.chat
 
         public static void SendMessageToNearbyPlayers(Client player, string message, int type, float range, bool excludePlayer = false)
         {
-            string secondMessage = string.Empty;
-            float distanceGap = range / Constants.CHAT_RANGES;            
+            // Calculate the different gaps for the chat
+            float distanceGap = range / Constants.CHAT_RANGES;
 
-            if (message.Length > Constants.CHAT_LENGTH)
+            // Get the list of the connected players
+            List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.Dimension == player.Dimension).ToList();
+            
+            foreach (Client target in targetList)
             {
-                // We need two lines to show the message
-                secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-            }
-
-            foreach (Client target in NAPI.Pools.GetAllPlayers())
-            {
-                if (target.HasData(EntityData.PLAYER_PLAYING) && player.Dimension == target.Dimension)
+                if (player != target || (player == target && !excludePlayer))
                 {
-                    if (player != target || (player == target && !excludePlayer))
+                    float distance = player.Position.DistanceTo(target.Position);
+
+                    if (distance <= range)
                     {
-                        float distance = player.Position.DistanceTo(target.Position);
+                        // Getting message color
+                        string chatMessageColor = GetChatMessageColor(distance, distanceGap, true);
+                        string oocMessageColor = GetChatMessageColor(distance, distanceGap, false);
 
-                        if (distance <= range)
+                        switch (type)
                         {
-                            // Getting message color
-                            string chatMessageColor = GetChatMessageColor(distance, distanceGap, true);
-                            string oocMessageColor = GetChatMessageColor(distance, distanceGap, false);
-
-                            switch (type)
-                            {
-                                case Constants.MESSAGE_TALK:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_say + message + "..." : chatMessageColor + player.Name + GenRes.chat_say + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(chatMessageColor + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_YELL:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_yell + message + "..." : chatMessageColor + player.Name + GenRes.chat_yell + message + "!");
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(chatMessageColor + secondMessage + "!");
-                                    }
-                                    break;
-                                case Constants.MESSAGE_WHISPER:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_whisper + message + "..." : chatMessageColor + player.Name + GenRes.chat_whisper + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(chatMessageColor + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_PHONE:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_phone + message + "..." : chatMessageColor + player.Name + GenRes.chat_phone + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(chatMessageColor + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_RADIO:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? chatMessageColor + player.Name + GenRes.chat_radio + message + "..." : chatMessageColor + player.Name + GenRes.chat_radio + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(chatMessageColor + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_ME:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_ME + player.Name + " " + message + "..." : Constants.COLOR_CHAT_ME + player.Name + " " + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(Constants.COLOR_CHAT_ME + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_DO:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_DO + "[ID: " + player.Value + "] " + message + "..." : Constants.COLOR_CHAT_DO + "[ID: " + player.Value + "] " + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(Constants.COLOR_CHAT_DO + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_OOC:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? oocMessageColor + "(([ID: " + player.Value + "] " + player.Name + ": " + message + "..." : oocMessageColor + "(([ID: " + player.Value + "] " + player.Name + ": " + message + "))");
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(oocMessageColor + secondMessage + "))");
-                                    }
-                                    break;
-                                case Constants.MESSAGE_DISCONNECT:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_HELP + "[ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_HELP + "[ID: " + player.Value + "] " + player.Name + ": " + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(Constants.COLOR_HELP + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_MEGAPHONE:
-                                    // We send the message
-                                   target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_INFO + "[Megáfono de " + player.Name + "]: " + message + "..." : Constants.COLOR_INFO + "[Megáfono de " + player.Name + "]: " + message);
-                                    if (secondMessage.Length > 0)
-                                    {
-                                       target.SendChatMessage(Constants.COLOR_INFO + secondMessage);
-                                    }
-                                    break;
-                                case Constants.MESSAGE_SU_TRUE:
-                                    // We send the message
-                                    message = string.Format(SuccRes.possitive_result, player.Name);
-                                   target.SendChatMessage(Constants.COLOR_SU_POSITIVE + message);
-                                    break;
-                                case Constants.MESSAGE_SU_FALSE:
-                                    // We send the message
-                                    message = string.Format(ErrRes.negative_result, player.Name);
-                                   target.SendChatMessage(Constants.COLOR_ERROR + message);
-                                    break;
-                            }
+                            // We send the message
+                            case Constants.MESSAGE_TALK:
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_say + message);
+                                break;
+                            case Constants.MESSAGE_YELL:
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_yell + message);
+                                break;
+                            case Constants.MESSAGE_WHISPER:
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_whisper + message);
+                                break;
+                            case Constants.MESSAGE_PHONE:
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_phone + message);
+                                break;
+                            case Constants.MESSAGE_RADIO:
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_radio + message);
+                                break;
+                            case Constants.MESSAGE_ME:
+                                target.SendChatMessage(Constants.COLOR_CHAT_ME + player.Name + " " + message);
+                                break;
+                            case Constants.MESSAGE_DO:
+                                target.SendChatMessage(Constants.COLOR_CHAT_DO + player.Name + "[ID: " + player.Value + "] " + message);
+                                break;
+                            case Constants.MESSAGE_OOC:
+                                target.SendChatMessage(oocMessageColor + "(([ID: " + player.Value + "] " + player.Name + ": " + message);
+                                break;
+                            case Constants.MESSAGE_DISCONNECT:
+                                target.SendChatMessage(Constants.COLOR_HELP + "[ID: " + player.Value + "] " + player.Name + ": " + message);
+                                break;
+                            case Constants.MESSAGE_MEGAPHONE:
+                                target.SendChatMessage(Constants.COLOR_INFO + "[Megáfono de " + player.Name + "]: " + message);
+                                break;
+                            case Constants.MESSAGE_SU_TRUE:
+                                message = string.Format(SuccRes.possitive_result, player.Name);
+                                target.SendChatMessage(Constants.COLOR_SU_POSITIVE + message);
+                                break;
+                            case Constants.MESSAGE_SU_FALSE:
+                                message = string.Format(ErrRes.negative_result, player.Name);
+                                target.SendChatMessage(Constants.COLOR_ERROR + message);
+                                break;
                         }
                     }
                 }
@@ -192,24 +135,10 @@ namespace WiredPlayers.chat
             {
                 // Target player of the message
                 Client target = player.GetData(EntityData.PLAYER_PHONE_TALKING);
-                
-                string secondMessage = string.Empty;
-
-                if (message.Length > Constants.CHAT_LENGTH)
-                {
-                    // We split the message in two lines
-                    secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                    message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                }
 
                 // We send the message to the player and target
-                player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
-               target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
-                if (secondMessage.Length > 0)
-                {
-                    player.SendChatMessage(Constants.COLOR_CHAT_PHONE + secondMessage);
-                   target.SendChatMessage(Constants.COLOR_CHAT_PHONE + secondMessage);
-                }
+                player.SendChatMessage(Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
+                target.SendChatMessage(Constants.COLOR_CHAT_PHONE + GenRes.phone + player.Name + GenRes.chat_say + message);
 
                 // We send the message to nearby players
                 SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_PHONE, player.Dimension > 0 ? 7.5f : 10.0f, true);
@@ -384,22 +313,9 @@ namespace WiredPlayers.chat
                     string message = string.Join(" ", args);
                     string secondMessage = string.Empty;
 
-                    if (message.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We split the message in two lines
-                        secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                        message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
-
                     // Sending messages to both players
-                    player.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_to + "[ID: " + target.Value + "] " + target.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_to + "[ID: " + target.Value + "] " + target.Name + ": " + message + "))");
-                    target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_from + "[ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_from + "[ID: " + player.Value + "] " + player.Name + ": " + message + "))");
-
-                    if (secondMessage.Length > 0)
-                    {
-                        player.SendChatMessage(Constants.COLOR_ADMIN_MP + secondMessage + "))");
-                       target.SendChatMessage(Constants.COLOR_ADMIN_MP + secondMessage + "))");
-                    }
+                    player.SendChatMessage(Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_to + "[ID: " + target.Value + "] " + target.Name + ": " + message + "))");
+                    target.SendChatMessage(Constants.COLOR_ADMIN_MP + "((" + GenRes.pm_from + "[ID: " + player.Value + "] " + player.Name + ": " + message + "))");
                 }
             }
             else

@@ -18,7 +18,7 @@ namespace WiredPlayers.factions
 {
     public class Police : Script
     {
-        private TextLabel equipmentLabel;
+        private readonly TextLabel equipmentLabel;
         public static List<PoliceControlModel> policeControlList;
 
         public Police()
@@ -29,7 +29,7 @@ namespace WiredPlayers.factions
             NAPI.TextLabel.CreateTextLabel(GenRes.equipment_help, new Vector3(450.8223, -992.0941, 30.68958), 10.0f, 0.5f, 4, new Color(255, 255, 255), false, 0);
         }
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
+        public static void OnPlayerDisconnected(Client player)
         {
             if (player.HasData(EntityData.PLAYER_HANDCUFFED) == true)
             {
@@ -545,9 +545,11 @@ namespace WiredPlayers.factions
                 {
                     case Commands.ARG_BASIC:
                         player.Armor = 100;
+
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Flashlight, 0, false);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.Nightstick, 0, true);
                         Weapons.GivePlayerNewWeapon(player, WeaponHash.StunGun, 0, true);
+
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.equip_basic_received);
                         break;
                     case Commands.ARG_AMMUNITION:
@@ -751,7 +753,8 @@ namespace WiredPlayers.factions
             }
             else
             {
-                PoliceControlModel policeControl = null;
+                PoliceControlModel policeControl;
+
                 if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
                     switch (item.ToLower())
@@ -908,7 +911,7 @@ namespace WiredPlayers.factions
                 string[] arguments = args.Trim().Split(' ');
                 if (arguments.Length == 3 || arguments.Length == 4)
                 {
-                    Client target = null;
+                    Client target;
 
                     // Get the target player
                     if (int.TryParse(arguments[2], out int targetId) && arguments.Length == 3)
@@ -931,8 +934,8 @@ namespace WiredPlayers.factions
                     }
                     else
                     {
-                        string playerMessage = string.Empty;
-                        string targetMessage = string.Empty;
+                        string playerMessage;
+                        string targetMessage;
 
                         switch (arguments[0].ToLower())
                         {

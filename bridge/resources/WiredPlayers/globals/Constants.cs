@@ -36,7 +36,6 @@ namespace WiredPlayers.globals
         public const int SEX_FEMALE = 1;
 
         // Chat
-        public const int CHAT_LENGTH = 85;
         public const int CHAT_RANGES = 5;
 
         // Jail types

@@ -33,7 +33,7 @@ namespace WiredPlayers.jobs
             robberyTimerList = new Dictionary<int, Timer>();
         }
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
+        public static void OnPlayerDisconnected(Client player)
         {
             if (robberyTimerList.TryGetValue(player.Value, out Timer robberyTimer) == true)
             {
@@ -164,7 +164,7 @@ namespace WiredPlayers.jobs
 
         private void GeneratePoliceRobberyWarning(Client player)
         {
-            Vector3 robberyPosition = null;
+            Vector3 robberyPosition;
             string robberyPlace = string.Empty;
             string robberyHour = DateTime.Now.ToString("h:mm:ss tt");
 

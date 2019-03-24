@@ -85,22 +85,8 @@ namespace WiredPlayers.admin
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
-                // Check the message length
-                string secondMessage = string.Empty;
-
-                if (message.Length > Constants.CHAT_LENGTH)
-                {
-                    // Message needs to be printed in two lines
-                    secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                    message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                }
-
                 // We send the message to all the players in the server
-                NAPI.Chat.SendChatMessageToAll(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + GenRes.admin_notice + message + "..." : Constants.COLOR_ADMIN_INFO + GenRes.admin_notice + message);
-                if (secondMessage.Length > 0)
-                {
-                    NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + secondMessage);
-                }
+                NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + GenRes.admin_notice + message);
             }
         }
 
@@ -510,8 +496,16 @@ namespace WiredPlayers.admin
                         case Commands.ARG_REPAIR:
                             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
                             {
-                                player.Vehicle.Repair();
-                                player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.vehicle_repaired);
+                                if(player.IsInVehicle)
+                                {
+                                    player.Vehicle.Repair();
+                                    player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.vehicle_repaired);
+                                }
+                                else
+                                {
+                                    // Send the message warning that it should be into a vehicle
+                                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
+                                }
                             }
                             break;
                         case Commands.ARG_LOCK:
@@ -551,7 +545,7 @@ namespace WiredPlayers.admin
                                     if (veh != null)
                                     {
                                         // Get the vehicle to the player's position
-                                        veh.Position = player.Position;
+                                        veh.Position = Globals.GetForwardPosition(player, 2.5f);
                                         veh.SetData(EntityData.VEHICLE_POSITION, veh.Position);
 
                                         // Send the message to the player
@@ -597,7 +591,7 @@ namespace WiredPlayers.admin
                                     else
                                     {
                                         // Get the player to the vehicle's position
-                                        player.Position = veh.Position;
+                                        player.Position = Globals.GetForwardPosition(veh, 2.5f);
 
                                         // Send the message to the player
                                         string message = string.Format(AdminRes.vehicle_goto, vehicleId);
@@ -1152,7 +1146,7 @@ namespace WiredPlayers.admin
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(AdminRes.house_owner_modified, value);
+                                                message = string.Format(AdminRes.house_owner_modified, house.owner);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
@@ -1169,7 +1163,7 @@ namespace WiredPlayers.admin
                                                 Database.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
-                                                message = string.Format(AdminRes.house_name_modified, value);
+                                                message = string.Format(AdminRes.house_name_modified, house.name);
                                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                             });
                                         }
@@ -1627,7 +1621,7 @@ namespace WiredPlayers.admin
             }
         }
 
-        [Command(Commands.COM_HEALTH, Commands.HLP_HEAL_COMMAND)]
+        [Command(Commands.COM_HEALTH, Commands.HLP_HEALTH_COMMAND)]
         public void HealthCommand(Client player, string targetString, int health)
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER)
@@ -1789,25 +1783,13 @@ namespace WiredPlayers.admin
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
             {
-                string secondMessage = string.Empty;
+                // Get all the staff playing
+                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE).ToList();
 
-                if (message.Length > Constants.CHAT_LENGTH)
+                foreach (Client target in targetList)
                 {
-                    // We split the message in two lines
-                    secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                    message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                }
-
-                foreach (Client target in NAPI.Pools.GetAllPlayers())
-                {
-                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
-                    {
-                        target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "..." : Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "))");
-                        if (secondMessage.Length > 0)
-                        {
-                            player.SendChatMessage(Constants.COLOR_ADMIN_INFO + secondMessage + "))");
-                        }
-                    }
+                    // Send the message to each one of the staff members
+                    target.SendChatMessage(Constants.COLOR_ADMIN_INFO + "((Staff [ID: " + player.Value + "] " + player.Name + ": " + message + "))");
                 }
             }
         }

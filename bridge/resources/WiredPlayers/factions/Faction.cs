@@ -93,26 +93,14 @@ namespace WiredPlayers.factions
             if (faction > 0 && faction < Constants.LAST_STATE_FACTION)
             {
                 string rank = GetPlayerFactionRank(player);
-                
-                string secondMessage = string.Empty;
 
-                if (message.Length > Constants.CHAT_LENGTH)
-                {
-                    // We need two lines to write the message
-                    secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                    message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                }
+                // Get the players on the faction
+                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_FACTION) == faction).ToList();
 
-                foreach (Client target in NAPI.Pools.GetAllPlayers())
+                foreach (Client target in targetList)
                 {
-                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == faction)
-                    {
-                       target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_CHAT_FACTION + "(([ID: " + player.Value + "] " + rank + " " + player.Name + ": " + message + "..." : Constants.COLOR_CHAT_FACTION + "(([ID: " + player.Value + "] " + rank + " " + player.Name + ": " + message + "))");
-                        if (secondMessage.Length > 0)
-                        {
-                           target.SendChatMessage(Constants.COLOR_CHAT_FACTION + secondMessage + "))");
-                        }
-                    }
+                    // Send the message to the player
+                    target.SendChatMessage(Constants.COLOR_CHAT_FACTION + "(([ID: " + player.Value + "] " + rank + " " + player.Name + ": " + message + "))");
                 }
             }
             else
@@ -135,26 +123,14 @@ namespace WiredPlayers.factions
                 {
                     // Get player's rank in faction
                     string rank = GetPlayerFactionRank(player);
-                    
-                    string secondMessage = string.Empty;
 
-                    if (message.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We need two lines to write the message
-                        secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                        message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
+                    // Get all the players in the faction
+                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && (p.GetData(EntityData.PLAYER_FACTION) == faction || CheckInternalAffairs(faction, p))).ToList();
 
-                    foreach (Client target in NAPI.Pools.GetAllPlayers())
+                    foreach (Client target in targetList)
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && (target.GetData(EntityData.PLAYER_FACTION) == faction || CheckInternalAffairs(faction, target) == true))
-                        {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
-                            }
-                        }
+                        // Send the message to each one of the players
+                        target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                     }
 
                     // Send the chat message to near players
@@ -181,32 +157,15 @@ namespace WiredPlayers.factions
                 {
                     string rank = GetPlayerFactionRank(player);
                     
-                    string secondMessage = string.Empty;
-
-                    if (message.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We need two lines to write the message
-                        secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                        message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
-
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
-                            }
+                            target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
                         else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO_POLICE + secondMessage);
-                            }
+                            target.SendChatMessage(Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
                     }
 
@@ -232,33 +191,16 @@ namespace WiredPlayers.factions
                 if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
                     string rank = GetPlayerFactionRank(player);
-                    
-                    string secondMessage = string.Empty;
-
-                    if (message.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We need two lines to write the message
-                        secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                        message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
 
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
                         if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO_POLICE + secondMessage);
-                            }
+                            target.SendChatMessage(Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
                         else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
-                            }
+                            target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
                     }
 
@@ -285,26 +227,14 @@ namespace WiredPlayers.factions
                 if (radio > 0)
                 {
                     string name = player.GetData(EntityData.PLAYER_NAME);
-                    
-                    string secondMessage = string.Empty;
 
-                    if (message.Length > Constants.CHAT_LENGTH)
-                    {
-                        // We need two lines to write the message
-                        secondMessage = message.Substring(Constants.CHAT_LENGTH, message.Length - Constants.CHAT_LENGTH);
-                        message = message.Remove(Constants.CHAT_LENGTH, secondMessage.Length);
-                    }
+                    // Get the players with the same radio frequency
+                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_RADIO) == radio).ToList();
 
-                    foreach (Client target in NAPI.Pools.GetAllPlayers())
+                    foreach (Client target in targetList)
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_RADIO) == radio)
-                        {
-                           target.SendChatMessage(secondMessage.Length > 0 ? Constants.COLOR_RADIO + GenRes.radio + name + GenRes.chat_say + message + "..." : Constants.COLOR_RADIO + GenRes.radio + name + GenRes.chat_say + message);
-                            if (secondMessage.Length > 0)
-                            {
-                               target.SendChatMessage(Constants.COLOR_RADIO + secondMessage);
-                            }
-                        }
+                        // Send the message to each player
+                        target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + name + GenRes.chat_say + message);
                     }
 
                     // Send the chat message to near players

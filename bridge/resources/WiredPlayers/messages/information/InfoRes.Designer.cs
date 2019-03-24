@@ -19,7 +19,7 @@ namespace WiredPlayers.messages.information {
     // a través de una herramienta como ResGen o Visual Studio.
     // Para agregar o quitar un miembro, edite el archivo .ResX y, a continuación, vuelva a ejecutar ResGen
     // con la opción /str o recompile su proyecto de VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class InfoRes {
@@ -61,7 +61,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You can unequip complements using /complement.&quot;.
+        ///   Busca una cadena traducida similar a Puedes desequiparte complementos con /complemento..
         /// </summary>
         public static string about_complements {
             get {
@@ -70,7 +70,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Your account is locked, head to the forums if you want more detailed information.&quot;.
+        ///   Busca una cadena traducida similar a Tu cuenta está deshabilitada, acude al foro para obtener más información..
         /// </summary>
         public static string account_disabled {
             get {
@@ -79,7 +79,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You need to be registered in https://wiredplayers.com/home to log into the server.&quot;.
+        ///   Busca una cadena traducida similar a Necesitas registrarte en https://wiredplayers.com/home para acceder al servidor..
         /// </summary>
         public static string account_new {
             get {
@@ -88,7 +88,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Additional data:&quot;.
+        ///   Busca una cadena traducida similar a Otros datos:.
         /// </summary>
         public static string additional_data {
             get {
@@ -97,7 +97,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} performed an alcohol test on you, the result is {1} mg/l on exhaled air.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha realizado un test de alcoholemia. Has dado {1}mg/l en aire espirado..
         /// </summary>
         public static string alcoholimeter_receptor {
             get {
@@ -106,7 +106,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You performed an alcohol test on {0}, the result is {1} mg/l on exhaled air.&quot;.
+        ///   Busca una cadena traducida similar a Has realizado un test de alcoholemia a {0}, ha dado {1}mg/l en aire espirado..
         /// </summary>
         public static string alcoholimeter_test {
             get {
@@ -115,7 +115,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re already on air.&quot;.
+        ///   Busca una cadena traducida similar a Ya estás en directo..
         /// </summary>
         public static string already_on_air {
             get {
@@ -124,7 +124,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You published an announce, the cost of the service raises to 500$.&quot;.
+        ///   Busca una cadena traducida similar a Has publicado un anuncio, anunciarse cuesta 500$..
         /// </summary>
         public static string announce_published {
             get {
@@ -133,7 +133,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Basic data:&quot;.
+        ///   Busca una cadena traducida similar a Datos básicos:.
         /// </summary>
         public static string basic_data {
             get {
@@ -142,7 +142,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You drew some blood to {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has sacado sangre a {0}..
         /// </summary>
         public static string blood_extracted {
             get {
@@ -151,7 +151,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The doctor {0} drew some of your blood.&quot;.
+        ///   Busca una cadena traducida similar a El doctor {0} te ha sacado sangre..
         /// </summary>
         public static string blood_given {
             get {
@@ -160,7 +160,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for your purchase.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ por tu compra..
         /// </summary>
         public static string business_item_purchased {
             get {
@@ -169,7 +169,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You locked your business.&quot;.
+        ///   Busca una cadena traducida similar a Has cerrado la puerta de tu negocio..
         /// </summary>
         public static string business_locked {
             get {
@@ -178,7 +178,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You unlocked your business.&quot;.
+        ///   Busca una cadena traducida similar a Has abierto la puerta de tu negocio..
         /// </summary>
         public static string business_opened {
             get {
@@ -187,7 +187,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} is calling you. Use /answer to respond and /hang when you&apos;re finished.&quot;.
+        ///   Busca una cadena traducida similar a {0} está llamando a tu teléfono. Utiliza /contestar y /colgar cuando termines..
         /// </summary>
         public static string call_from {
             get {
@@ -196,7 +196,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You answered the call, type /hang when you&apos;re finished.&quot;.
+        ///   Busca una cadena traducida similar a Has contestado a la llamada, escribe /colgar cuando hayas acabado..
         /// </summary>
         public static string call_received {
             get {
@@ -205,7 +205,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Somebody answered your call, type /hang when you&apos;re finished.&quot;.
+        ///   Busca una cadena traducida similar a Han contestado a tu llamada, escribe /colgar cuando hayas acabado..
         /// </summary>
         public static string call_taken {
             get {
@@ -214,7 +214,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re calling {0}.&quot;.
+        ///   Busca una cadena traducida similar a Estás llamando a {0}..
         /// </summary>
         public static string calling {
             get {
@@ -223,7 +223,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The chief {0} removed your car license.&quot;.
+        ///   Busca una cadena traducida similar a El comisario {0} te ha retirado la licencia de turismos..
         /// </summary>
         public static string car_license_lost {
             get {
@@ -232,7 +232,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Car: Not available.&quot;.
+        ///   Busca una cadena traducida similar a Turismo: No disponible..
         /// </summary>
         public static string car_license_not_available {
             get {
@@ -241,7 +241,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Car: {0} points.&quot;.
+        ///   Busca una cadena traducida similar a Turismo: {0} puntos..
         /// </summary>
         public static string car_license_points {
             get {
@@ -250,7 +250,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Car: Practical pending.&quot;.
+        ///   Busca una cadena traducida similar a Turismo: Pendiente del examen práctico..
         /// </summary>
         public static string car_license_practical_pending {
             get {
@@ -259,7 +259,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed the car license from {0}.&quot;.
+        ///   Busca una cadena traducida similar a Le has retirado la licencia de turismos a {0}..
         /// </summary>
         public static string car_license_removed {
             get {
@@ -268,7 +268,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;There&apos;s a new incoming call.&quot;.
+        ///   Busca una cadena traducida similar a Se ha recibido una llamada a la central..
         /// </summary>
         public static string central_call {
             get {
@@ -277,7 +277,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You have been connected to the channel {0}.&quot;.
+        ///   Busca una cadena traducida similar a Te has conectado al canal de la frecuencia {0}..
         /// </summary>
         public static string channel_connected {
             get {
@@ -286,7 +286,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You have created the radio frequency channel {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has creado la frecuencia en el canal {0}..
         /// </summary>
         public static string channel_created {
             get {
@@ -295,7 +295,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You deleted the radio frequency channel.&quot;.
+        ///   Busca una cadena traducida similar a Has eliminado el canal de radiofrecuencia..
         /// </summary>
         public static string channel_deleted {
             get {
@@ -304,7 +304,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You have been disconnected from the radio frequency channel.&quot;.
+        ///   Busca una cadena traducida similar a Te has desconectado del canal de radiofrecuencia..
         /// </summary>
         public static string channel_disconnected {
             get {
@@ -313,7 +313,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You updated channel&apos;s password.&quot;.
+        ///   Busca una cadena traducida similar a Has actualizado la contraseña del canal..
         /// </summary>
         public static string channel_updated {
             get {
@@ -322,7 +322,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} checks the plate of the {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} comprueba la matrícula del vehículo {1}..
         /// </summary>
         public static string check_vehicle_plate {
             get {
@@ -331,7 +331,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You added &apos;{0}&apos; with number {1} to your contacts list.&quot;.
+        ///   Busca una cadena traducida similar a Has añadido a &apos;{0}&apos; con número {1} a la agenda de tu móvil..
         /// </summary>
         public static string contact_created {
             get {
@@ -340,7 +340,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You deleted &apos;{0}&apos; with number {1} from your contacts list.&quot;.
+        ///   Busca una cadena traducida similar a Has borrado a &apos;{0}&apos; con número {1} de la agenda de tu móvil..
         /// </summary>
         public static string contact_deleted {
             get {
@@ -349,7 +349,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You modified a contact in your contacts list.&quot;.
+        ///   Busca una cadena traducida similar a Has modificado un contacto de la agenda de tu móvil..
         /// </summary>
         public static string contact_modified {
             get {
@@ -358,7 +358,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You hancuffed {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has esposado a {0}..
         /// </summary>
         public static string cuffed {
             get {
@@ -367,7 +367,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has handcuffed you.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} te ha esposado..
         /// </summary>
         public static string cuffed_by {
             get {
@@ -376,7 +376,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Wait for the emergency department to reach your position.&quot;.
+        ///   Busca una cadena traducida similar a Espera a que venga el servicio médico a reanimarte..
         /// </summary>
         public static string death_time_not_passed {
             get {
@@ -385,7 +385,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You delivered the order, go back to your job in order to get paid.&quot;.
+        ///   Busca una cadena traducida similar a Has entregado el pedido, vuelve al lugar de trabajo para recibir tu paga..
         /// </summary>
         public static string deliver_completed {
             get {
@@ -394,7 +394,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve got {0} seconds to deliver the order. You can cancel it using /cancel.&quot;.
+        ///   Busca una cadena traducida similar a Tienes {0} segundos para entregar el pedido en la posición marcada. Puedes cancelarlo con /cancelar..
         /// </summary>
         public static string deliver_order {
             get {
@@ -403,7 +403,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled the delivery order, now you can take a new one.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado el pedido que ibas a entregar, ahora puedes coger otro..
         /// </summary>
         public static string deliverer_order_canceled {
             get {
@@ -412,7 +412,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;A report has been sent to the emergency department.&quot;.
+        ///   Busca una cadena traducida similar a Se ha dado un aviso a emergencias..
         /// </summary>
         public static string emergency_warn {
             get {
@@ -421,7 +421,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;There&apos;s a new emergency report. Use /attend {0}.&quot;.
+        ///   Busca una cadena traducida similar a Hay un aviso de emergencia para atender. Utiliza /atender {0}..
         /// </summary>
         public static string emergency_warning {
             get {
@@ -430,7 +430,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Get into a motorcycle from the driving school to start the license exam. Don&apos;t forget to keep the speed under 100 km/h.&quot;.
+        ///   Busca una cadena traducida similar a Súbete a una moto de la autoescuela para empezar el examen y recuerda no superar los 100 km/h..
         /// </summary>
         public static string enter_license_bike_vehicle {
             get {
@@ -439,7 +439,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Get into a car from the driving school to start the license exam. Don&apos;t forget to keep the speed under 100 km/h.&quot;.
+        ///   Busca una cadena traducida similar a Súbete a un turismo de la autoescuela para empezar el examen y recuerda no superar los 100 km/h..
         /// </summary>
         public static string enter_license_car_vehicle {
             get {
@@ -448,7 +448,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You took ammunition for each of your weapons.&quot;.
+        ///   Busca una cadena traducida similar a Has retirado munición para cada una de tus armas..
         /// </summary>
         public static string equip_ammo_received {
             get {
@@ -457,7 +457,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You took your basic equipment.&quot;.
+        ///   Busca una cadena traducida similar a Has retirado tu equipo básico..
         /// </summary>
         public static string equip_basic_received {
             get {
@@ -466,7 +466,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You took a weapon.&quot;.
+        ///   Busca una cadena traducida similar a Has retirado el arma especificada..
         /// </summary>
         public static string equip_weap_received {
             get {
@@ -475,7 +475,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} kicked you out of the faction.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha expulsado de la facción..
         /// </summary>
         public static string faction_dismissed {
             get {
@@ -484,7 +484,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} changed your rank to {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha cambiado tu rango a {1}..
         /// </summary>
         public static string faction_rank_changed {
             get {
@@ -493,7 +493,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You were recuited in the &apos;{0}&apos; faction.&quot;.
+        ///   Busca una cadena traducida similar a Has sido reclutado en la facción &apos;{0}&apos;..
         /// </summary>
         public static string faction_recruited {
             get {
@@ -502,7 +502,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The report you were attending has been canceled.&quot;.
+        ///   Busca una cadena traducida similar a Se ha cancelado el aviso que estabas atendiendo..
         /// </summary>
         public static string faction_warn_canceled {
             get {
@@ -511,7 +511,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed the report with identifier {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has borrado el aviso con identificador {0}..
         /// </summary>
         public static string faction_warning_deleted {
             get {
@@ -520,7 +520,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You attended the report and the position has been marked in your GPS.&quot;.
+        ///   Busca una cadena traducida similar a Has atendido el aviso y se ha marcado la posición en tu GPS..
         /// </summary>
         public static string faction_warning_taken {
             get {
@@ -529,7 +529,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You set a fine to {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has puesto una multa a {0}..
         /// </summary>
         public static string fine_given {
             get {
@@ -538,7 +538,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has set a fine on you.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} te ha puesto una multa..
         /// </summary>
         public static string fine_received {
             get {
@@ -547,7 +547,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The call has ended.&quot;.
+        ///   Busca una cadena traducida similar a La llamada ha finalizado..
         /// </summary>
         public static string finished_call {
             get {
@@ -556,7 +556,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The captured fish&apos;s weight is {0} grams.&quot;.
+        ///   Busca una cadena traducida similar a El pez que has pescado tiene un peso de {0} gramos..
         /// </summary>
         public static string fished_weight {
             get {
@@ -565,7 +565,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You won {0}$ selling your fishes.&quot;.
+        ///   Busca una cadena traducida similar a Has ganado {0}$ por vender el pescado..
         /// </summary>
         public static string fishing_won {
             get {
@@ -574,7 +574,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Use the &apos;no gloves&apos; option in torso section in order to correctly show your upper clothes&quot;.
+        ///   Busca una cadena traducida similar a Usa las prendas extra de sin guantes en la categoría torso para que tus chaquetas/camisetas.
         /// </summary>
         public static string for_avoid_clipping1 {
             get {
@@ -583,7 +583,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;and to avoid texture clipping.&quot;.
+        ///   Busca una cadena traducida similar a se vean correctamente y evitar la superposición de texturas.
         /// </summary>
         public static string for_avoid_clipping2 {
             get {
@@ -592,7 +592,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You picked up the garbage bag.&quot;.
+        ///   Busca una cadena traducida similar a Has recogido la bolsa de basura..
         /// </summary>
         public static string garbage_collected {
             get {
@@ -601,7 +601,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You won {0}$ for successfully completing the route.&quot;.
+        ///   Busca una cadena traducida similar a Has ganado {0}$ por completar la ruta de basurero..
         /// </summary>
         public static string garbage_earnings {
             get {
@@ -610,7 +610,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You fished worthless garbage.&quot;.
+        ///   Busca una cadena traducida similar a Has pescado basura sin ningún valor..
         /// </summary>
         public static string garbage_fished {
             get {
@@ -619,7 +619,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled the garbage collecting route.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado la ruta de basurero..
         /// </summary>
         public static string garbage_route_canceled {
             get {
@@ -628,7 +628,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for your new look.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ por tu cambio de look..
         /// </summary>
         public static string haircut_purchased {
             get {
@@ -637,7 +637,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You closed the vehicle&apos;s hood.&quot;.
+        ///   Busca una cadena traducida similar a Has cerrado el capo del vehículo..
         /// </summary>
         public static string hood_closed {
             get {
@@ -646,7 +646,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You opened the vehicle&apos;s hood.&quot;.
+        ///   Busca una cadena traducida similar a Has abierto el capo del vehículo..
         /// </summary>
         public static string hood_opened {
             get {
@@ -655,7 +655,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled the service.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado el servicio..
         /// </summary>
         public static string hooker_service_canceled {
             get {
@@ -664,7 +664,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You started hotwiring the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has empezado a puentear el vehículo..
         /// </summary>
         public static string hotwire_started {
             get {
@@ -673,7 +673,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} bought your house for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha comprado tu casa por {1}$..
         /// </summary>
         public static string house_bought {
             get {
@@ -682,7 +682,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You bought the house named {0} for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has comprado la casa {0} por {1}$..
         /// </summary>
         public static string house_buy {
             get {
@@ -691,7 +691,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You bought {0}&apos;s house for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has comprado a {0} su casa por {1}$..
         /// </summary>
         public static string house_buyto {
             get {
@@ -700,7 +700,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You locked your house.&quot;.
+        ///   Busca una cadena traducida similar a Has cerrado la puerta de tu casa..
         /// </summary>
         public static string house_locked {
             get {
@@ -709,7 +709,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You unlocked your house.&quot;.
+        ///   Busca una cadena traducida similar a Has abierto la puerta de tu casa..
         /// </summary>
         public static string house_opened {
             get {
@@ -718,7 +718,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You rented the house {0} paying a fee of {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has alquilado la casa {0} pagando una fianza de {1}$..
         /// </summary>
         public static string house_rent {
             get {
@@ -727,7 +727,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed house&apos;s rental price.&quot;.
+        ///   Busca una cadena traducida similar a Has quitado el precio de alquiler de la casa..
         /// </summary>
         public static string house_rent_cancel {
             get {
@@ -736,7 +736,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled your rent for the house {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado tu alquiler de la casa {0}..
         /// </summary>
         public static string house_rent_stop {
             get {
@@ -745,7 +745,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re selling you house to {0} for {1}$&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido tu casa a {0} por {1}$.
         /// </summary>
         public static string house_sell {
             get {
@@ -754,7 +754,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Use /accept housestate to seel your house for {0}$&quot;.
+        ///   Busca una cadena traducida similar a Escribe /aceptar casaestado para vender tu casa al estado por {0}$.
         /// </summary>
         public static string house_sell_state {
             get {
@@ -763,7 +763,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} is trying to sell you his house for {1}$. Use /aceptar house to buy it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido su casa por {1}$. Escribe /aceptar casa para aceptarlo..
         /// </summary>
         public static string house_sold {
             get {
@@ -772,7 +772,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You set a rental price of {0}$.&quot;.
+        ///   Busca una cadena traducida similar a Has establecido el alquiler de la casa a {0}$..
         /// </summary>
         public static string house_state_rent {
             get {
@@ -781,7 +781,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You entered a vehicle, press K to toggle the engine on or off.&quot;.
+        ///   Busca una cadena traducida similar a Has subido a un vehículo, pulsa K para arrancar o apagar el motor..
         /// </summary>
         public static string how_to_start_engine {
             get {
@@ -790,7 +790,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;shows his identification card to {0}.&quot;.
+        ///   Busca una cadena traducida similar a muestra la documentación a {0}..
         /// </summary>
         public static string identification_show {
             get {
@@ -799,7 +799,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re receiving an incoming call. Use /answer and /hang when you are finished.&quot;.
+        ///   Busca una cadena traducida similar a Estás recibiendo una llamada. Utiliza /contestar y /colgar cuando termines..
         /// </summary>
         public static string incoming_call {
             get {
@@ -808,7 +808,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;shows his medical insurance to {0}.&quot;.
+        ///   Busca una cadena traducida similar a muestra el seguro médico a {0}..
         /// </summary>
         public static string insurance_show {
             get {
@@ -817,7 +817,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You gave your {0} to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Le has cedido tu {0} a {1}..
         /// </summary>
         public static string item_given {
             get {
@@ -826,7 +826,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} gave you his {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha cedido su {1}..
         /// </summary>
         public static string item_received {
             get {
@@ -835,7 +835,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You have a new job. Use /duty to start working.&quot;.
+        ///   Busca una cadena traducida similar a Has aceptado un nuevo empleo. Usa /deservicio para empezar a trabajar y /bienvenida en la página de trabajos información extra..
         /// </summary>
         public static string job_accepted {
             get {
@@ -844,7 +844,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Job data:&quot;.
+        ///   Busca una cadena traducida similar a Datos de empleo:.
         /// </summary>
         public static string job_data {
             get {
@@ -853,7 +853,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You left your current job.&quot;.
+        ///   Busca una cadena traducida similar a Has dejado tu empleo actual..
         /// </summary>
         public static string job_left {
             get {
@@ -862,7 +862,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Get back into the vehicle within {0} seconds or you&apos;ll get a penalty.&quot;.
+        ///   Busca una cadena traducida similar a Vuelve a subirte a tu vehículo de trabajo antes de {0} segundos o recibirás una penalización..
         /// </summary>
         public static string job_vehicle_left {
             get {
@@ -871,7 +871,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You won {0}$ for the successful job.&quot;.
+        ///   Busca una cadena traducida similar a Has ganado {0}$ por el trabajo realizado..
         /// </summary>
         public static string job_won {
             get {
@@ -880,7 +880,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Player licenses:&quot;.
+        ///   Busca una cadena traducida similar a Licencias del jugador:.
         /// </summary>
         public static string license_list {
             get {
@@ -889,7 +889,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Get back into the vehicle within {0} seconds or you&apos;ll fail the license exam.&quot;.
+        ///   Busca una cadena traducida similar a Vuelve al vehículo en {0} segundos o suspenderás el examen..
         /// </summary>
         public static string license_vehicle_exit {
             get {
@@ -898,7 +898,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;shows his licenses to {0}.&quot;.
+        ///   Busca una cadena traducida similar a muestra sus licencias a {0}..
         /// </summary>
         public static string licenses_show {
             get {
@@ -907,7 +907,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;All telephone lines are busy at this moment.&quot;.
+        ///   Busca una cadena traducida similar a Todas las líneas se encuentran ocupadas..
         /// </summary>
         public static string line_occupied {
             get {
@@ -916,7 +916,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} wants to repaint your vehicle for {1}$. Use /accept repaint to accept it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido repintar tu vehículo por {1}$. Escribe /aceptar pintura para aceptar..
         /// </summary>
         public static string mechanic_repaint_accept {
             get {
@@ -925,7 +925,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You sent a repaint offer to {0} for {1}$, wait for him to accept it.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido repintar su vehículo a {0} por {1}$, espera a que la acepte..
         /// </summary>
         public static string mechanic_repaint_offer {
             get {
@@ -934,7 +934,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} wants to repair your vehicle for {1}$. Use /accept repair to accept it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido una reparación por {1}$. Escribe /aceptar reparacion para aceptar..
         /// </summary>
         public static string mechanic_repair_accept {
             get {
@@ -943,7 +943,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You sent a repair offer to {0} for {1}$, wait for him to accept it.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido una reparación a {0} por {1}$, espera a que la acepte..
         /// </summary>
         public static string mechanic_repair_offer {
             get {
@@ -952,7 +952,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You healed {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has curado al paciente {0}..
         /// </summary>
         public static string medic_healed_player {
             get {
@@ -961,7 +961,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} reanimated {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha prestado asistencia médica a {1}..
         /// </summary>
         public static string medic_reanimated {
             get {
@@ -970,7 +970,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The chief {0} removed your motorcycle license.&quot;.
+        ///   Busca una cadena traducida similar a El comisario {0} te ha retirado la licencia de motocicletas..
         /// </summary>
         public static string moto_license_lost {
             get {
@@ -979,7 +979,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed the motorcycle license from {0}.&quot;.
+        ///   Busca una cadena traducida similar a Le has retirado la licencia de motocicletas a {0}..
         /// </summary>
         public static string moto_license_removed {
             get {
@@ -988,7 +988,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Motorcycle: Not available.&quot;.
+        ///   Busca una cadena traducida similar a Motocicleta: No disponible..
         /// </summary>
         public static string motorcycle_license_not_available {
             get {
@@ -997,7 +997,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Motorcycle: {0} points.&quot;.
+        ///   Busca una cadena traducida similar a Motocicleta: {0} puntos..
         /// </summary>
         public static string motorcycle_license_points {
             get {
@@ -1006,7 +1006,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Motorcycle: Practical pending.&quot;.
+        ///   Busca una cadena traducida similar a Motocicleta: Pendiente del examen práctico..
         /// </summary>
         public static string motorcycle_license_practical_pending {
             get {
@@ -1015,7 +1015,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You finished the interview.&quot;.
+        ///   Busca una cadena traducida similar a Has dado por terminado el directo..
         /// </summary>
         public static string on_air_canceled {
             get {
@@ -1024,7 +1024,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You offered {0} oral sex for {1}$, wait for him to accept.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido un servicio oral a {0} a cambio de {1}$, espera a que acepte..
         /// </summary>
         public static string oral_service_offer {
             get {
@@ -1033,7 +1033,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} offered you oral sex for {1}$, type /accept service to start with it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido un servicio oral a cambio de {1}$. Escribe /aceptar servicio o /cancelar servicio..
         /// </summary>
         public static string oral_service_receive {
             get {
@@ -1042,7 +1042,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The emergency department has received the report and it&apos;s on its way.&quot;.
+        ///   Busca una cadena traducida similar a El EMS ha recibido el aviso y se encuentra en camino..
         /// </summary>
         public static string paramedic_on_way {
             get {
@@ -1051,7 +1051,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You parked your vehicle, there&apos;s a {0}$ fee per hour spent.&quot;.
+        ///   Busca una cadena traducida similar a Has aparcado el vehículo en el aparcamiento, te cobrarán {0}$ por hora..
         /// </summary>
         public static string parking_cost {
             get {
@@ -1060,7 +1060,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;This parking is empty.&quot;.
+        ///   Busca una cadena traducida similar a El aparcamiento no tiene ningún vehículo..
         /// </summary>
         public static string parking_empty {
             get {
@@ -1069,7 +1069,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Movements details of the account&apos;s balance&quot;.
+        ///   Busca una cadena traducida similar a Resumen de movimientos en la cuenta bancaria.
         /// </summary>
         public static string payday_title {
             get {
@@ -1078,7 +1078,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You rejected the payment.&quot;.
+        ///   Busca una cadena traducida similar a Has rechazado el pago..
         /// </summary>
         public static string payment_canceled {
             get {
@@ -1087,7 +1087,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You offered a {0}$ payment to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido un pago de {0}$ a {1}..
         /// </summary>
         public static string payment_offer {
             get {
@@ -1096,7 +1096,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} offered you a {1}$ payment. Type /accept money or /cancel money.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido un pago de {1}$. Escribe /aceptar dinero o /cancelar dinero..
         /// </summary>
         public static string payment_received {
             get {
@@ -1105,7 +1105,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The phone you&apos;re calling at is not responding.&quot;.
+        ///   Busca una cadena traducida similar a El teléfono al que llamas está comunicando..
         /// </summary>
         public static string phone_disconnected {
             get {
@@ -1114,7 +1114,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Your current phone number is: {0}.&quot;.
+        ///   Busca una cadena traducida similar a Tu número de teléfono es {0}..
         /// </summary>
         public static string phone_number {
             get {
@@ -1123,7 +1123,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The guest has accepted the interview. You can use /n to speak on air with him.&quot;.
+        ///   Busca una cadena traducida similar a El invitado ha aceptado la entrevista. Puedes usar el comando /n para hablar en directo con él..
         /// </summary>
         public static string player_accept_on_air {
             get {
@@ -1132,7 +1132,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re not on duty as staff anymore.&quot;.
+        ///   Busca una cadena traducida similar a Ahora ya no estás de servicio como miembro del staff..
         /// </summary>
         public static string player_admin_free_time {
             get {
@@ -1141,7 +1141,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re now on duty as staff.&quot;.
+        ///   Busca una cadena traducida similar a Te has puesto de servicio como miembro del staff..
         /// </summary>
         public static string player_admin_on_duty {
             get {
@@ -1150,7 +1150,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;If the emergency service is not still on its way, you can use /die to be teleported to the hospital.&quot;.
+        ///   Busca una cadena traducida similar a Si el servicio de emergencias no está de camino, puedes usar /morir para ir al hospital..
         /// </summary>
         public static string player_can_die {
             get {
@@ -1159,7 +1159,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} disconnected ({1})&quot;.
+        ///   Busca una cadena traducida similar a {0} se ha desconectado ({1}).
         /// </summary>
         public static string player_disconnected {
             get {
@@ -1168,7 +1168,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You kicked {0} out of the faction.&quot;.
+        ///   Busca una cadena traducida similar a Has expulsado a {0} de la facción..
         /// </summary>
         public static string player_dismissed {
             get {
@@ -1177,7 +1177,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for your fines.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ por tus multas..
         /// </summary>
         public static string player_fines_paid {
             get {
@@ -1186,7 +1186,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You threw the fishing rod, wait for the fishes to catch the hook.&quot;.
+        ///   Busca una cadena traducida similar a Has lanzado la caña, espera a que piquen..
         /// </summary>
         public static string player_fishing_rod_thrown {
             get {
@@ -1195,7 +1195,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Your workshift has come to its end.&quot;.
+        ///   Busca una cadena traducida similar a Ha terminado tu turno de trabajo..
         /// </summary>
         public static string player_free_time {
             get {
@@ -1204,7 +1204,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} frisks {1}.&quot;.
+        ///   Busca una cadena traducida similar a {0} realiza un cacheo a {1}..
         /// </summary>
         public static string player_frisk {
             get {
@@ -1213,7 +1213,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for the identification card.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ para sacarte la documentación..
         /// </summary>
         public static string player_has_indentification {
             get {
@@ -1222,7 +1222,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for the medical insurance.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ para sacarte el seguro médico..
         /// </summary>
         public static string player_has_medical_insurance {
             get {
@@ -1231,7 +1231,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for the taxi license.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ para sacarte la licencia de taxis..
         /// </summary>
         public static string player_has_taxi_license {
             get {
@@ -1240,7 +1240,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Doctor {0} healed your wounds.&quot;.
+        ///   Busca una cadena traducida similar a El doctor {0} ha curado tus heridas..
         /// </summary>
         public static string player_healed_medic {
             get {
@@ -1249,7 +1249,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You consumed your {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has consumido tu {0}..
         /// </summary>
         public static string player_inventory_consume {
             get {
@@ -1258,7 +1258,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You dropped your {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has tirado tu {0}..
         /// </summary>
         public static string player_inventory_drop {
             get {
@@ -1267,7 +1267,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You withdrew your {0} from the inventory.&quot;.
+        ///   Busca una cadena traducida similar a Has sacado tu {0} del inventario..
         /// </summary>
         public static string player_inventory_equip {
             get {
@@ -1276,7 +1276,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You opened your {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has abierto tu {0}..
         /// </summary>
         public static string player_inventory_open {
             get {
@@ -1285,7 +1285,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You don&apos;t have any fine pending to be paid.&quot;.
+        ///   Busca una cadena traducida similar a No tienes ninguna multa pendiente de pago..
         /// </summary>
         public static string player_no_fines {
             get {
@@ -1294,7 +1294,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The interview has been stopped by the journalist.&quot;.
+        ///   Busca una cadena traducida similar a El reportero ha dado por finalizada la entrevista..
         /// </summary>
         public static string player_on_air_cutted {
             get {
@@ -1303,7 +1303,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re now on duty.&quot;.
+        ///   Busca una cadena traducida similar a Ahora estás de servicio..
         /// </summary>
         public static string player_on_duty {
             get {
@@ -1312,7 +1312,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} gave you {1}$.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha pagado {1}$..
         /// </summary>
         public static string player_paid {
             get {
@@ -1321,7 +1321,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You received {0}$ for pawning some items.&quot;.
+        ///   Busca una cadena traducida similar a Has empeñado tus objetos por {0}$..
         /// </summary>
         public static string player_pawned_items {
             get {
@@ -1330,7 +1330,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Your new phone number is: {0}.&quot;.
+        ///   Busca una cadena traducida similar a Tu nuevo número de teléfono es {0}..
         /// </summary>
         public static string player_phone {
             get {
@@ -1339,7 +1339,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You picked up an item from the ground.&quot;.
+        ///   Busca una cadena traducida similar a Has recogido un objeto del suelo..
         /// </summary>
         public static string player_picked_item {
             get {
@@ -1348,7 +1348,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You changed {0}&apos;s rank to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has cambiado el rango el rango de {0} a {1}..
         /// </summary>
         public static string player_rank_changed {
             get {
@@ -1357,7 +1357,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You reanimated {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has reanimado a {0}..
         /// </summary>
         public static string player_reanimated {
             get {
@@ -1366,7 +1366,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You recruited {0} into your faction.&quot;.
+        ///   Busca una cadena traducida similar a Has reclutado a {0} en tu facción..
         /// </summary>
         public static string player_recruited {
             get {
@@ -1375,7 +1375,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve requested reinforces in your position.&quot;.
+        ///   Busca una cadena traducida similar a Has solicitado refuerzos en tu posición..
         /// </summary>
         public static string player_reinforces_asked {
             get {
@@ -1384,7 +1384,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve canceled the reinforces request.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado la solicitud de refuerzos..
         /// </summary>
         public static string player_reinforces_canceled {
             get {
@@ -1393,7 +1393,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You need to rest before starting a new robbery.&quot;.
+        ///   Busca una cadena traducida similar a Necesitas descansar antes de cometer más robos..
         /// </summary>
         public static string player_rob_pressure {
             get {
@@ -1402,7 +1402,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You stole {0} items.&quot;.
+        ///   Busca una cadena traducida similar a Has robado {0} objetos..
         /// </summary>
         public static string player_robbed {
             get {
@@ -1411,7 +1411,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You can test this vehicle freely, when you are finished get it back.&quot;.
+        ///   Busca una cadena traducida similar a Puedes probar libremente el vehículo, al finalizar traelo de vuelta intacto..
         /// </summary>
         public static string player_test_vehicle {
             get {
@@ -1420,7 +1420,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} gets his phone out and types something on it.&quot;.
+        ///   Busca una cadena traducida similar a {0} saca su teléfono y teclea algo en el..
         /// </summary>
         public static string player_texting {
             get {
@@ -1429,7 +1429,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Time&apos;s over, you&apos;re no longer in jail.&quot;.
+        ///   Busca una cadena traducida similar a Ha pasado tu tiempo de encarcelamiento, vuelves a ser libre..
         /// </summary>
         public static string player_unjailed {
             get {
@@ -1438,7 +1438,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Wait for the partner to get into the truck.&quot;.
+        ///   Busca una cadena traducida similar a Espera a que tu compañero se suba al camión..
         /// </summary>
         public static string player_waiting_partner {
             get {
@@ -1447,7 +1447,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed all the elements in the police control.&quot;.
+        ///   Busca una cadena traducida similar a Has quitado todos los elementos del control..
         /// </summary>
         public static string police_control_cleared {
             get {
@@ -1456,7 +1456,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has requised your stolen items.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} te ha requisado un material sospechoso..
         /// </summary>
         public static string police_retired_items_from {
             get {
@@ -1465,7 +1465,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You requised suspicious material from {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has requisado material sospechoso de {0}..
         /// </summary>
         public static string police_retired_items_to {
             get {
@@ -1474,7 +1474,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;There&apos;s a new robbery report. Use /attend.&quot;.
+        ///   Busca una cadena traducida similar a Hay un aviso de robo para atender. Utiliza /atender..
         /// </summary>
         public static string police_warning {
             get {
@@ -1483,7 +1483,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You gave a {0}$ prize to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has entregado un premio de {0}$ a {1}..
         /// </summary>
         public static string prize_given {
             get {
@@ -1492,7 +1492,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} gave you a {1}$ prize. Reason: {2}.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha entregado un premio de {1}$. Razón: {2}..
         /// </summary>
         public static string prize_received {
             get {
@@ -1501,7 +1501,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You bought {0} products for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has comprado {0} productos por {1}$..
         /// </summary>
         public static string products_bought {
             get {
@@ -1510,7 +1510,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Properties:&quot;.
+        ///   Busca una cadena traducida similar a Propiedades:.
         /// </summary>
         public static string properties {
             get {
@@ -1519,7 +1519,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled the repaint request.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado la solicitud de repintado..
         /// </summary>
         public static string repaint_canceled {
             get {
@@ -1528,7 +1528,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The repair will consume {0} products.&quot;.
+        ///   Busca una cadena traducida similar a La reparación consumirá {0} productos..
         /// </summary>
         public static string repair_price {
             get {
@@ -1537,7 +1537,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You stopped interviewing the guest.&quot;.
+        ///   Busca una cadena traducida similar a Has cortado la entrevista con el invitado..
         /// </summary>
         public static string reporter_on_air_cutted {
             get {
@@ -1546,7 +1546,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You canceled your route, get the vehicle back to the dump.&quot;.
+        ///   Busca una cadena traducida similar a Has cancelado la ruta, ve a la central a dejar tu vehículo..
         /// </summary>
         public static string route_canceled {
             get {
@@ -1555,7 +1555,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You finished your route, get the vehicle back to the dump.&quot;.
+        ///   Busca una cadena traducida similar a Has finalizado la ruta, ve a la central a dejar tu vehículo..
         /// </summary>
         public static string route_finished {
             get {
@@ -1564,7 +1564,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re now searching for valuable items.&quot;.
+        ///   Busca una cadena traducida similar a Estás buscando objetos de valor..
         /// </summary>
         public static string searching_value_items {
             get {
@@ -1573,7 +1573,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;has fasten his seatbelt.&quot;.
+        ///   Busca una cadena traducida similar a se ha abrochado el cinturón de seguridad..
         /// </summary>
         public static string seatbelt_fasten {
             get {
@@ -1582,7 +1582,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;has unfasten his seatbelt.&quot;.
+        ///   Busca una cadena traducida similar a se ha desabrochado el cinturón de seguridad..
         /// </summary>
         public static string seatbelt_unfasten {
             get {
@@ -1591,7 +1591,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for the service.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado un servicio de {0}$..
         /// </summary>
         public static string service_paid {
             get {
@@ -1600,7 +1600,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Client paid you {0}$ for the service.&quot;.
+        ///   Busca una cadena traducida similar a El cliente te ha pagado {0}$ por el servicio..
         /// </summary>
         public static string service_received {
             get {
@@ -1609,7 +1609,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You offered {0} sex for {1}$, wait for him to accept.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido sexo a {0} a cambio de {1}$, espera a que acepte..
         /// </summary>
         public static string sex_service_offer {
             get {
@@ -1618,7 +1618,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} offered you sex for {1}$, type /accept service to start with it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido sexo a cambio de {1}$. Escribe /aceptar servicio o /cancelar servicio..
         /// </summary>
         public static string sex_service_receive {
             get {
@@ -1627,7 +1627,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You sent an SMS successfully.&quot;.
+        ///   Busca una cadena traducida similar a Has enviado un SMS correctamente..
         /// </summary>
         public static string sms_sent {
             get {
@@ -1636,7 +1636,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Something took the bait, reel the fastest you can.&quot;.
+        ///   Busca una cadena traducida similar a Algo ha picado del anzuelo, tira de la caña lo más rapido posible..
         /// </summary>
         public static string something_baited {
             get {
@@ -1645,7 +1645,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You gave {0}$ to {1}.&quot;.
+        ///   Busca una cadena traducida similar a Has dado {0}$ a {1}..
         /// </summary>
         public static string target_paid {
             get {
@@ -1654,7 +1654,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has requested reinforces in his position.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} ha solicitado refuerzos en su posición..
         /// </summary>
         public static string target_reinforces_asked {
             get {
@@ -1663,7 +1663,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has canceled his reinforces request.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} ha cancelado la solicitud de refuerzos..
         /// </summary>
         public static string target_reinforces_canceled {
             get {
@@ -1672,7 +1672,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for your tattoo.&quot;.
+        ///   Busca una cadena traducida similar a Has pagado {0}$ por tu tatuaje..
         /// </summary>
         public static string tattoo_purchased {
             get {
@@ -1681,7 +1681,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Taxi: Not available.&quot;.
+        ///   Busca una cadena traducida similar a Taxi: No disponible..
         /// </summary>
         public static string taxi_license_not_available {
             get {
@@ -1690,7 +1690,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Taxi: Valid.&quot;.
+        ///   Busca una cadena traducida similar a Taxi: Vigente..
         /// </summary>
         public static string taxi_license_up_to_date {
             get {
@@ -1699,7 +1699,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Answer to your ticket: {0}&quot;.
+        ///   Busca una cadena traducida similar a Respuesta a tu consulta: {0}.
         /// </summary>
         public static string ticket_answer {
             get {
@@ -1708,7 +1708,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Ticket list:&quot;.
+        ///   Busca una cadena traducida similar a Lista de dudas:.
         /// </summary>
         public static string ticket_list {
             get {
@@ -1717,7 +1717,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You are too far away from the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Estás demasiado lejos del vehículo..
         /// </summary>
         public static string too_far_veh {
             get {
@@ -1726,7 +1726,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You closed the vehicle&apos;s trunk.&quot;.
+        ///   Busca una cadena traducida similar a Has cerrado el maletero del vehículo..
         /// </summary>
         public static string trunk_closed {
             get {
@@ -1735,7 +1735,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;withdrew something from his vehicle&apos;s trunk.&quot;.
+        ///   Busca una cadena traducida similar a saca algo del maletero de su vehículo..
         /// </summary>
         public static string trunk_item_withdraw {
             get {
@@ -1744,7 +1744,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You opened the vehicle&apos;s trunk.&quot;.
+        ///   Busca una cadena traducida similar a Has abierto el maletero del vehículo..
         /// </summary>
         public static string trunk_opened {
             get {
@@ -1753,7 +1753,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You placed an item into the vehicle&apos;s trunk.&quot;.
+        ///   Busca una cadena traducida similar a Has guardado un objeto en el maletero del vehículo..
         /// </summary>
         public static string trunk_stored_items {
             get {
@@ -1762,7 +1762,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You withdrew something from the vehicle&apos;s trunk.&quot;.
+        ///   Busca una cadena traducida similar a Has sacado un objeto del maletero del vehículo..
         /// </summary>
         public static string trunk_withdraw_items {
             get {
@@ -1771,7 +1771,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You need {0} products for this modification.&quot;.
+        ///   Busca una cadena traducida similar a Necesitas {0} productos para llevar a cabo la modificación..
         /// </summary>
         public static string tunning_products {
             get {
@@ -1780,7 +1780,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed the handcuffs from {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has quitado las esposas a {0}..
         /// </summary>
         public static string uncuffed {
             get {
@@ -1789,7 +1789,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The officer {0} has removed your handcuffs.&quot;.
+        ///   Busca una cadena traducida similar a El agente {0} te ha quitado las esposas..
         /// </summary>
         public static string uncuffed_by {
             get {
@@ -1798,7 +1798,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You paid {0}$ for having the car in this parking.&quot;.
+        ///   Busca una cadena traducida similar a Te han cobrado {0}$ por sacar el vehículo del aparcamiento..
         /// </summary>
         public static string unpark_money {
             get {
@@ -1807,7 +1807,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;This vehicle is already unlocked.&quot;.
+        ///   Busca una cadena traducida similar a Este vehículo ya está abierto..
         /// </summary>
         public static string veh_already_unlocked {
             get {
@@ -1816,7 +1816,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You locked the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has bloqueado el vehículo..
         /// </summary>
         public static string veh_locked {
             get {
@@ -1825,7 +1825,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You unlocked the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has desbloqueado el vehículo..
         /// </summary>
         public static string veh_unlocked {
             get {
@@ -1834,7 +1834,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} bought your {1} for {2}$.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha comprado tu {1} por {2}$..
         /// </summary>
         public static string vehicle_bought {
             get {
@@ -1843,7 +1843,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You bought {0}&apos;s {1} for {2}$.&quot;.
+        ///   Busca una cadena traducida similar a Has comprado a {0} su {1} por {2}$..
         /// </summary>
         public static string vehicle_buy {
             get {
@@ -1852,7 +1852,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You parked the vehicle in the police depot.&quot;.
+        ///   Busca una cadena traducida similar a Has aparcado el vehículo en el deposito policial..
         /// </summary>
         public static string vehicle_deposit_parked {
             get {
@@ -1861,7 +1861,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You parked your vehicle in the garage.&quot;.
+        ///   Busca una cadena traducida similar a Has aparcado el vehículo en el garaje..
         /// </summary>
         public static string vehicle_garage_parked {
             get {
@@ -1870,7 +1870,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You lent {0} the keys of your vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Le has cedido unas llaves de tu vehículo a {0}..
         /// </summary>
         public static string vehicle_keys_given {
             get {
@@ -1879,7 +1879,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The vehicle {0} with model {1} is owned by {2}&quot;.
+        ///   Busca una cadena traducida similar a El vehículo con ID {0} es un {1} y pertenece a {2}.
         /// </summary>
         public static string vehicle_keys_info {
             get {
@@ -1888,7 +1888,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} has lent you his vehicle keys.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha cedido las llaves de su vehículo..
         /// </summary>
         public static string vehicle_keys_received {
             get {
@@ -1897,7 +1897,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You dropped vehicle&apos;s keys.&quot;.
+        ///   Busca una cadena traducida similar a Te has deshecho de las llaves del vehículo..
         /// </summary>
         public static string vehicle_keys_thrown {
             get {
@@ -1906,7 +1906,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The vehicle&apos;s position has been marked on your GPS.&quot;.
+        ///   Busca una cadena traducida similar a Se ha marcado la posición del vehículo en tu GPS..
         /// </summary>
         public static string vehicle_parked {
             get {
@@ -1915,7 +1915,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;ve refilled your vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has rellenado el depósito de tu vehículo..
         /// </summary>
         public static string vehicle_refilled {
             get {
@@ -1924,7 +1924,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Your vehicle has been refueled.&quot;.
+        ///   Busca una cadena traducida similar a El repostaje de tu vehículo ha finalizado..
         /// </summary>
         public static string vehicle_refueled {
             get {
@@ -1933,7 +1933,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re refueling your vehicle, wait for it to finish.&quot;.
+        ///   Busca una cadena traducida similar a Estás repostando el vehículo, espera hasta que acabe..
         /// </summary>
         public static string vehicle_refueling {
             get {
@@ -1942,7 +1942,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} repainted your vehicle for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha repintado tu vehículo por {1}$..
         /// </summary>
         public static string vehicle_repainted_by {
             get {
@@ -1951,7 +1951,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You repainted {0}&apos;s vehicle for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has repintado el vehículo de {0} por {1}$..
         /// </summary>
         public static string vehicle_repainted_to {
             get {
@@ -1960,7 +1960,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} repaired your vehicle for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a {0} ha reparado tu vehículo por {1}$..
         /// </summary>
         public static string vehicle_repaired_by {
             get {
@@ -1969,7 +1969,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You repaired {0}&apos;s vehicle for {1}$.&quot;.
+        ///   Busca una cadena traducida similar a Has reparado el vehículo de {0} por {1}$..
         /// </summary>
         public static string vehicle_repaired_to {
             get {
@@ -1978,7 +1978,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You&apos;re selling your {0} to {1} for {2}$.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido tu {0} a {1} por {2}$..
         /// </summary>
         public static string vehicle_sell {
             get {
@@ -1987,7 +1987,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;{0} is trying to sell you his {1} for {2}$. Use /accept vehicle to buy it.&quot;.
+        ///   Busca una cadena traducida similar a {0} te ha ofrecido su {1} por {2}$. Escribe /aceptar vehiculo para aceptarlo..
         /// </summary>
         public static string vehicle_sold {
             get {
@@ -1996,7 +1996,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You successfully modified the vehicle.&quot;.
+        ///   Busca una cadena traducida similar a Has modificado el vehículo correctamente..
         /// </summary>
         public static string vehicle_tunning {
             get {
@@ -2005,7 +2005,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You toggled vehicle&apos;s engine off.&quot;.
+        ///   Busca una cadena traducida similar a Has apagado el motor del vehículo..
         /// </summary>
         public static string vehicle_turned_off {
             get {
@@ -2014,7 +2014,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You toggled vehicle&apos;s engine on.&quot;.
+        ///   Busca una cadena traducida similar a Has arrancado el motor del vehículo..
         /// </summary>
         public static string vehicle_turned_on {
             get {
@@ -2023,7 +2023,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Wait for weapons to be unloaded from their boxes.&quot;.
+        ///   Busca una cadena traducida similar a Espera a que saquen las armas de sus cajas..
         /// </summary>
         public static string wait_for_weapons {
             get {
@@ -2032,7 +2032,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Wait for the driver to get into the truck.&quot;.
+        ///   Busca una cadena traducida similar a Espera a que tu compañero esté subido en el camión..
         /// </summary>
         public static string wait_garbage_driver {
             get {
@@ -2041,7 +2041,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You issued a weapon license to {0}.&quot;.
+        ///   Busca una cadena traducida similar a Has entregado una licencia de armas a {0}..
         /// </summary>
         public static string weapon_license_given {
             get {
@@ -2050,7 +2050,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The chief {0} removed your weapon license.&quot;.
+        ///   Busca una cadena traducida similar a El comisario {0} te ha retirado la licencia de armas..
         /// </summary>
         public static string weapon_license_lost {
             get {
@@ -2059,7 +2059,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The chief {0} issued you a weapon license.&quot;.
+        ///   Busca una cadena traducida similar a El comisario {0} te ha entregado una licencia de armas..
         /// </summary>
         public static string weapon_license_received {
             get {
@@ -2068,7 +2068,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You removed the weapon license from {0}.&quot;.
+        ///   Busca una cadena traducida similar a Le has retirado la licencia de armas a {0}..
         /// </summary>
         public static string weapon_license_removed {
             get {
@@ -2077,7 +2077,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Head to the place marked in your GPS to open the boxes.&quot;.
+        ///   Busca una cadena traducida similar a Se te ha asignado un punto para abrir las cajas de armas..
         /// </summary>
         public static string weapon_position_mark {
             get {
@@ -2086,7 +2086,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;Some boats have been seen on the high seas.&quot;.
+        ///   Busca una cadena traducida similar a Se han avistado movimientos sospechosos en alta mar..
         /// </summary>
         public static string weapon_prewarn {
             get {
@@ -2095,7 +2095,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;A ship unloaded some material on an island to the north-east.&quot;.
+        ///   Busca una cadena traducida similar a Un barco ha descargado material en una isla al noroeste..
         /// </summary>
         public static string weapon_spawn_island {
             get {
@@ -2104,7 +2104,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;The boxes are opened, you can take the weapons to a safe place.&quot;.
+        ///   Busca una cadena traducida similar a Las armas están guardadas en el maletero, ya puedes llevarlas a un lugar seguro..
         /// </summary>
         public static string weapons_unpacked {
             get {
@@ -2113,7 +2113,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;A Weazel News journalista has offered you an interview.&quot;.
+        ///   Busca una cadena traducida similar a Un reportero de Weazel News te ha ofrecido una entrevista en directo. Escribe /aceptar directo o /cancelar directo..
         /// </summary>
         public static string wz_accept_onair {
             get {
@@ -2122,7 +2122,7 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &quot;You offered an interview to another player.&quot;.
+        ///   Busca una cadena traducida similar a Has ofrecido una entrevista en directo a otro jugador..
         /// </summary>
         public static string wz_offer_onair {
             get {

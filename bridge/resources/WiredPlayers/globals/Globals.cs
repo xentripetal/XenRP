@@ -360,6 +360,17 @@ namespace WiredPlayers.globals
             return item;
         }
 
+        public static Vector3 GetForwardPosition(Entity entity, float distance)
+        {
+            Vector3 position = entity.Position;
+
+            // Get the X and Y coordinates
+            position.X += distance * (float)Math.Sin(180.0f - entity.Rotation.Z);
+            position.Y += distance * (float)Math.Cos(180.0f - entity.Rotation.Z);
+
+            return position;
+        }
+
         private void SubstractPlayerItems(ItemModel item, int amount = 1)
         {
             item.amount -= amount;
@@ -712,10 +723,10 @@ namespace WiredPlayers.globals
                 Fishing.OnPlayerDisconnected(player, type, reason);
                 Garbage.OnPlayerDisconnected(player, type, reason);
                 Hooker.OnPlayerDisconnected(player, type, reason);
-                Police.OnPlayerDisconnected(player, type, reason);
-                Thief.OnPlayerDisconnected(player, type, reason);
-                Vehicles.OnPlayerDisconnected(player, type, reason);
-                Weapons.OnPlayerDisconnected(player, type, reason);
+                Police.OnPlayerDisconnected(player);
+                Thief.OnPlayerDisconnected(player);
+                Vehicles.OnPlayerDisconnected(player);
+                Weapons.OnPlayerDisconnected(player);
 
                 // Delete items in the hand
                 if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
@@ -1865,8 +1876,8 @@ namespace WiredPlayers.globals
             }
             else
             {
+                string message;
                 int currentLicense = 0;
-                string message = string.Empty;
                 string nameChar = player.GetData(EntityData.PLAYER_NAME);
                 int age = player.GetData(EntityData.PLAYER_AGE);
                 string sexDescription = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? GenRes.sex_male : GenRes.sex_female;
@@ -1876,7 +1887,7 @@ namespace WiredPlayers.globals
                 switch (documentation.ToLower())
                 {
                     case Commands.ARG_LICENSES:
-                        string licenseMessage = string.Empty;
+                        string licenseMessage;
                         string playerLicenses = player.GetData(EntityData.PLAYER_LICENSES);
                         string[] playerLicensesArray = playerLicenses.Split(',');
 
