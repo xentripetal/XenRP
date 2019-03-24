@@ -25,7 +25,7 @@ namespace WiredPlayers.factions
         {
             // Initialize reinforces updater
             Timer reinforcesTimer = new Timer(UpdateReinforcesRequests, null, 250, 250);
-            equipmentLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_EQUIPMENT, new Vector3(450.8223, -992.0941, 30.78958), 10.0f, 0.5f, 4, new Color(255, 255, 153), false, 0);
+            equipmentLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_EQUIPMENT, new Vector3(450.8223, -992.0941, 30.78958), 10.0f, 0.5f, 4, new Color(190, 235, 100), false, 0);
             NAPI.TextLabel.CreateTextLabel(GenRes.equipment_help, new Vector3(450.8223, -992.0941, 30.68958), 10.0f, 0.5f, 4, new Color(255, 255, 255), false, 0);
         }
 

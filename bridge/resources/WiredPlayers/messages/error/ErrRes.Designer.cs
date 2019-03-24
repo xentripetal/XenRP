@@ -1861,6 +1861,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No puedes atenderte a ti mismo..
+        /// </summary>
+        public static string player_not_own_death {
+            get {
+                return ResourceManager.GetString("player_not_own_death", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No perteneces al departamento de policía ni al de emergencias..
         /// </summary>
         public static string player_not_police_emergency_faction {

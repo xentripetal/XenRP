@@ -880,6 +880,10 @@ namespace WiredPlayers.factions
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.faction_warning_taken);
                     }
+                    else if (factionWarning.playerId == player.Value)
+                    {
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_own_death);
+                    }
                     else if (player.HasData(EntityData.PLAYER_FACTION_WARNING) == true)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_have_faction_warning);

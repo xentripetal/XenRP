@@ -101,21 +101,21 @@ namespace WiredPlayers.business
         public void OnResourceStart()
         {
             // Car dealer creation
-            carShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-56.88f, -1097.12f, 26.52f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            carShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-56.88f, -1097.12f, 26.52f), 10.0f, 0.5f, 4, new Color(190, 235, 100));
             TextLabel carShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(-56.88f, -1097.12f, 26.42f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip carShopBlip = NAPI.Blip.CreateBlip(new Vector3(-56.88f, -1097.12f, 26.52f));
             carShopBlip.Name = GenRes.car_dealer;
             carShopBlip.Sprite = 225;
 
             // Motorcycle dealer creation
-            motorbikeShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(286.76f, -1148.36f, 29.29f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            motorbikeShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(286.76f, -1148.36f, 29.29f), 10.0f, 0.5f, 4, new Color(190, 235, 100));
             TextLabel motorbikeShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(286.76f, -1148.36f, 29.19f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip motorbikeShopBlip = NAPI.Blip.CreateBlip(new Vector3(286.76f, -1148.36f, 29.29f));
             motorbikeShopBlip.Name = GenRes.motorcycle_dealer;
             motorbikeShopBlip.Sprite = 226;
 
             // Boat dealer creation
-            shipShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-711.6249f, -1299.427f, 5.41f), 10.0f, 0.5f, 4, new Color(255, 255, 153));
+            shipShopTextLabel = NAPI.TextLabel.CreateTextLabel("/" + Commands.COM_CATALOG, new Vector3(-711.6249f, -1299.427f, 5.41f), 10.0f, 0.5f, 4, new Color(190, 235, 100));
             TextLabel shipShopSubTextLabel = NAPI.TextLabel.CreateTextLabel(GenRes.catalog_help, new Vector3(-711.6249f, -1299.427f, 5.31f), 10.0f, 0.5f, 4, new Color(255, 255, 255));
             Blip shipShopBlip = NAPI.Blip.CreateBlip(new Vector3(-711.6249f, -1299.427f, 5.41f));
             shipShopBlip.Name = GenRes.boat_dealer;

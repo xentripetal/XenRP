@@ -3277,7 +3277,7 @@ namespace WiredPlayers.globals
         // Job points
         public static List<JobPickModel> JOB_PICK_LIST = new List<JobPickModel>()
         {
-            new JobPickModel(JOB_FASTFOOD, new Vector3(-1037.697f, -1397.189f, 5.553192f), DescRes.job_fastfoot),
+            new JobPickModel(JOB_FASTFOOD, new Vector3(-1037.697f, -1397.189f, 5.553192f), DescRes.job_fastfood),
             new JobPickModel(JOB_HOOKER, new Vector3(136.58f, -1278.55f, 29.45f), DescRes.job_hooker),
             new JobPickModel(JOB_GARBAGE, new Vector3(-322.088f, -1546.014f, 31.01991f), DescRes.job_garbage),
             new JobPickModel(JOB_MECHANIC, new Vector3(486.5268f, -1314.683f, 29.22961f), DescRes.job_mechanic),

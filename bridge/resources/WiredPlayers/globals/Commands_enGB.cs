@@ -1,6 +1,6 @@
 ﻿namespace WiredPlayers.globals
 {
-    public class Commands
+    public class Commands_enGB
     {
         // Command names
         public const string COM_SKIN = "skin";

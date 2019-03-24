@@ -858,4 +858,7 @@
   <data name="taxi_has_path" xml:space="preserve">
     <value>El taxista ya está realizando una ruta.</value>
   </data>
+  <data name="player_not_own_death" xml:space="preserve">
+    <value>No puedes atenderte a ti mismo.</value>
+  </data>
 </root>

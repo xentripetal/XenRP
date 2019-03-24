@@ -63,9 +63,9 @@ namespace WiredPlayers.messages.description {
         /// <summary>
         ///   Busca una cadena traducida similar a Repartidor - Necesitamos repartidores de comida rápida en moto. Es simple, entrega los pedidos a tiempo y recibirás tu paga..
         /// </summary>
-        public static string job_fastfoot {
+        public static string job_fastfood {
             get {
-                return ResourceManager.GetString("job_fastfoot", resourceCulture);
+                return ResourceManager.GetString("job_fastfood", resourceCulture);
             }
         }
         

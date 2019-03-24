@@ -10,6 +10,7 @@ using WiredPlayers.messages.success;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace WiredPlayers.factions
 {
@@ -67,6 +68,22 @@ namespace WiredPlayers.factions
             NAPI.Player.SpawnPlayer(player, player.Position);
             player.SetData(EntityData.PLAYER_KILLED, 0);
             player.ResetData(EntityData.TIME_HOSPITAL_RESPAWN);
+
+            // Get the death warning
+            FactionWarningModel factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);
+
+            if (factionWarn != null)
+            {
+                if (factionWarn.takenBy >= 0)
+                {
+                    // Tell the player who attended the report it's been canceled
+                    Client doctor = Globals.GetPlayerById(factionWarn.takenBy);
+                    doctor.SendChatMessage(Constants.COLOR_INFO + InfoRes.faction_warn_canceled);
+                }
+
+                // Remove the report from the list
+                Faction.factionWarningList.Remove(factionWarn);
+            }
         }
 
         private void TeleportPlayerToHospital(Client player)

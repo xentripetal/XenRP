@@ -1,6 +1,6 @@
 ﻿namespace WiredPlayers.globals
 {
-    public class Commands_esES
+    public class Commands
     {
         // Command names
         public const string COM_SKIN = "skin";
@@ -188,6 +188,7 @@
         public const string COM_DOOR = "puerta";
         public const string COM_COMPLEMENT = "complemento";
         public const string COM_PLAYER = "jugador";
+        public const string COM_DELIVER = "repartir";
 
         // Command arguments
         public const string ARG_INFO = "info";
