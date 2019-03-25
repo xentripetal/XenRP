@@ -2,8 +2,8 @@
 {
     class Procedure
     {
-        string desc { get; set; }
-        int price { get; set; }
+        public string desc { get; set; }
+        public int price { get; set; }
 
         public Procedure(string desc, int price)
         {
