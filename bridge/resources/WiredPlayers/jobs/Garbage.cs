@@ -79,6 +79,7 @@ namespace WiredPlayers.jobs
 
             // Get the current checkpoint
             Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
+            garbageCheckpoint.Delete();
 
             if (checkPoint < totalCheckPoints)
             {
@@ -86,8 +87,7 @@ namespace WiredPlayers.jobs
                 Vector3 nextGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint + 1);
 
                 // Show the next checkpoint
-                garbageCheckpoint.Position = currentGarbagePosition;
-                garbageCheckpoint.Direction = nextGarbagePosition;
+                garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
 
                 driver.SetData(EntityData.PLAYER_JOB_CHECKPOINT, checkPoint);
                 player.SetData(EntityData.PLAYER_JOB_CHECKPOINT, checkPoint);
@@ -101,8 +101,7 @@ namespace WiredPlayers.jobs
             }
             else
             {
-                NAPI.Entity.SetEntityModel(garbageCheckpoint, 4);
-                garbageCheckpoint.Position = new Vector3(-339.0206f, -1560.117f, 25.23038f);
+                garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, new Vector3(-339.0206f, -1560.117f, 25.23038f), new Vector3(), 2.5f, new Color(198, 40, 40, 200));
 
                 driver.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_finished);
 
@@ -250,7 +249,7 @@ namespace WiredPlayers.jobs
                                     // Create the first checkpoint
                                     Vector3 currentGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 0);
                                     Vector3 nextGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 1);
-                                    Checkpoint garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(0, currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
+                                    Checkpoint garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
                                     player.SetData(EntityData.PLAYER_JOB_COLSHAPE, garbageCheckpoint);
 
                                     // Add garbage bag
@@ -424,10 +423,10 @@ namespace WiredPlayers.jobs
                                 }
 
                                 trashBag.Delete();
+                                garbageCheckpoint.Delete();
 
                                 // Create finish checkpoint
-                                NAPI.Entity.SetEntityModel(garbageCheckpoint, 4);
-                                garbageCheckpoint.Position = new Vector3(-339.0206f, -1560.117f, 25.23038f);
+                                garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, new Vector3(-339.0206f, -1560.117f, 25.23038f), new Vector3(), 2.5f, new Color(198, 40, 40, 200));
                             }
                             else
                             {

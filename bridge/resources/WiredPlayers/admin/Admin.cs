@@ -1483,13 +1483,14 @@ namespace WiredPlayers.admin
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_SUPPORT)
             {
-                if (weather < 0 || weather > 13)
+                if (weather < 0 || weather > 14)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.weather_value_invalid);
                 }
                 else
                 {
-                    NAPI.World.SetWeather(weather.ToString());
+                    // Change the weather
+                    NAPI.World.SetWeather((Weather)weather);
 
                     string message = string.Format(AdminRes.weather_changed, player.Name, weather);
                     NAPI.Chat.SendChatMessageToAll(Constants.COLOR_ADMIN_INFO + message);

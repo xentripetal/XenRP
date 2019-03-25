@@ -380,7 +380,7 @@
         public const string HLP_HOUSE_MODIFY_String_COMMAND = "USO: /casa modificar [Dueño|Nombre] [Texto]";
         public const string HLP_HOUSE_GOTO_COMMAND = "USO: /casa tpa [Id. casa]";
         public const string HLP_HOUSE_INFO_COMMAND = "USO: /casa info [Id] (No pongas ID para hacerlo por cercanía).";
-        public const string HLP_EQUIPMENT_COMMAND = "USO: /equipo [Basico|Municion|Arma] [Pistola|Asalto|Metralleta|Francotirador|Escopeta]";
+        public const string HLP_EQUIPMENT_COMMAND = "USO: /equipo [Basico|Municion|Arma]";
         public const string HLP_EQUIPMENT_AMMO_COMMAND = "USO: /equipo municion";
         public const string HLP_EQUIPMENT_WEAP_COMMAND = "USO: /equipo arma [Pistola|Metralleta|Asalto|Francotirador|Escopeta]";
         public const string HLP_HANDCUFF_COMMAND = "USO: /esposar [Id. jugador/Nombre jugador]";

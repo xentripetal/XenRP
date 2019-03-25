@@ -555,6 +555,9 @@ namespace WiredPlayers.factions
                     case Commands.ARG_AMMUNITION:
                         if (player.GetData(EntityData.PLAYER_RANK) > 1)
                         {
+                            // Get the player weapons and ammunition
+                            player.TriggerEvent("getPlayerWeapons", "");
+
                             WeaponHash[] playerWeaps = player.Weapons;
                             foreach (WeaponHash playerWeap in playerWeaps)
                             {
@@ -653,7 +656,7 @@ namespace WiredPlayers.factions
                         }
                         break;
                     default:
-                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_EQUIPMENT_AMMO_COMMAND);
+                        player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_EQUIPMENT_COMMAND);
                         break;
                 }
             }

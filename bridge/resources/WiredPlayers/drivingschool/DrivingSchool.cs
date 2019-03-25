@@ -208,11 +208,11 @@ namespace WiredPlayers.drivingschool
                     {
                         Checkpoint currentCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
                         int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        currentCheckpoint.Delete();
 
                         if (checkPoint < Constants.CAR_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            currentCheckpoint.Position = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1];
-                            currentCheckpoint.Direction = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 2];
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1], Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 2], 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
@@ -220,8 +220,7 @@ namespace WiredPlayers.drivingschool
                         }
                         else if (checkPoint == Constants.CAR_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            currentCheckpoint.Position = Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1];
-                            currentCheckpoint.Direction = vehicle.GetData(EntityData.VEHICLE_POSITION);
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, Constants.CAR_LICENSE_CHECKPOINTS[checkPoint + 1], vehicle.GetData(EntityData.VEHICLE_POSITION), 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
@@ -229,8 +228,7 @@ namespace WiredPlayers.drivingschool
                         }
                         else if (checkPoint == Constants.CAR_LICENSE_CHECKPOINTS.Count - 1)
                         {
-                            currentCheckpoint.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
-                            NAPI.Entity.SetEntityModel(currentCheckpoint, (int)CheckpointType.Checkerboard);
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, vehicle.GetData(EntityData.VEHICLE_POSITION), new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
@@ -256,11 +254,11 @@ namespace WiredPlayers.drivingschool
                     {
                         Checkpoint currentCheckpoint = player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE);
                         int checkPoint = player.GetData(EntityData.PLAYER_DRIVING_CHECKPOINT);
+                        currentCheckpoint.Delete();
 
                         if (checkPoint < Constants.BIKE_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            currentCheckpoint.Position = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1];
-                            currentCheckpoint.Direction = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 2];
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1], Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 2], 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
@@ -268,8 +266,7 @@ namespace WiredPlayers.drivingschool
                         }
                         else if (checkPoint == Constants.BIKE_LICENSE_CHECKPOINTS.Count - 2)
                         {
-                            currentCheckpoint.Position = Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1];
-                            currentCheckpoint.Direction = vehicle.GetData(EntityData.VEHICLE_POSITION);
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, Constants.BIKE_LICENSE_CHECKPOINTS[checkPoint + 1], vehicle.GetData(EntityData.VEHICLE_POSITION), 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map
@@ -277,8 +274,7 @@ namespace WiredPlayers.drivingschool
                         }
                         else if (checkPoint == Constants.BIKE_LICENSE_CHECKPOINTS.Count - 1)
                         {
-                            currentCheckpoint.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
-                            NAPI.Entity.SetEntityModel(currentCheckpoint, (int)CheckpointType.Checkerboard);
+                            currentCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, vehicle.GetData(EntityData.VEHICLE_POSITION), new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
                             player.SetData(EntityData.PLAYER_DRIVING_CHECKPOINT, checkPoint + 1);
 
                             // We place a mark on the map

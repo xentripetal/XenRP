@@ -9,8 +9,14 @@ namespace WiredPlayers_Client.weapons
 
         public Weapons()
         {
+            Events.Add("getPlayerWeapons", GetPlayerWeaponsEvent);
             Events.Add("showWeaponCheckpoint", ShowWeaponCheckpointEvent);
             Events.Add("deleteWeaponCheckpoint", DeleteWeaponCheckpointEvent);
+        }
+
+        private void GetPlayerWeaponsEvent(object[] args)
+        {
+            string callback = args[0].ToString();
         }
 
         private void ShowWeaponCheckpointEvent(object[] args)

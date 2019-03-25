@@ -829,7 +829,7 @@
     <value>No tienes pescado para vender.</value>
   </data>
   <data name="weather_value_invalid" xml:space="preserve">
-    <value>El clima debe estar comprendido entre 0 y 12.</value>
+    <value>El clima debe estar comprendido entre 0 y 14.</value>
   </data>
   <data name="bank_not_enough_money" xml:space="preserve">
     <value>La cuenta no dispone de la cantidad requerida.</value>

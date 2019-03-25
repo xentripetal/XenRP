@@ -2275,7 +2275,7 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El clima debe estar comprendido entre 0 y 12..
+        ///   Busca una cadena traducida similar a El clima debe estar comprendido entre 0 y 14..
         /// </summary>
         public static string weather_value_invalid {
             get {
