@@ -558,21 +558,33 @@ namespace WiredPlayers.vehicles
             else
             {
                 Vehicle vehicle = GetClosestVehicle(player, 3.75f);
+
+                // Get the status of the doors
+                List<bool> doorState = NAPI.Util.FromJson<List<bool>>(vehicle.GetSharedData(EntityData.VEHICLE_DOORS_STATE));
+
                 if (vehicle != null)
                 {
                     if (HasPlayerVehicleKeys(player, vehicle) == false && player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_MECHANIC)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                     }
-                    else if (vehicle.IsDoorOpen(Constants.VEHICLE_HOOD) == false)
+                    else if (!doorState[Constants.VEHICLE_HOOD])
                     {
-                        vehicle.OpenDoor(Constants.VEHICLE_HOOD);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hood_opened);
+
+                        doorState[Constants.VEHICLE_HOOD] = !doorState[Constants.VEHICLE_HOOD];
+                        vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(doorState));
+
+                        player.TriggerEvent("toggleVehicleDoor", vehicle.Value, Constants.VEHICLE_HOOD, doorState[Constants.VEHICLE_HOOD]);
                     }
                     else
                     {
-                        vehicle.CloseDoor(Constants.VEHICLE_HOOD);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.hood_closed);
+
+                        doorState[Constants.VEHICLE_HOOD] = !doorState[Constants.VEHICLE_HOOD];
+                        vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(doorState));
+
+                        player.TriggerEvent("toggleVehicleDoor", vehicle.Value, Constants.VEHICLE_HOOD, doorState[Constants.VEHICLE_HOOD]);
                     }
                 }
                 else
