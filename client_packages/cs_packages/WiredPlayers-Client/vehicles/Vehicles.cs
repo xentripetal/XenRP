@@ -1,8 +1,10 @@
 ﻿using RAGE;
 using RAGE.Elements;
 using WiredPlayers_Client.globals;
-using System.Drawing;
 using System;
+using System.Drawing;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace WiredPlayers_Client.vehicles
 {
@@ -22,7 +24,9 @@ namespace WiredPlayers_Client.vehicles
             Events.Add("locateVehicle", LocateVehicleEvent);
             Events.Add("deleteVehicleLocation", DeleteVehicleLocationEvent);
             Events.Add("removeSpeedometer", RemoveSpeedometerEvent);
+            Events.Add("toggleVehicleDoor", ToggleVehicleDoorEvent);
             Events.OnPlayerLeaveVehicle += PlayerLeaveVehicleEvent;
+            Events.OnEntityStreamIn += EntityStreamInEvent;
         }
 
         public static void UpdateSpeedometer()
@@ -125,12 +129,62 @@ namespace WiredPlayers_Client.vehicles
             Events.CallRemote("saveVehicleConsumes", Player.LocalPlayer.Vehicle, kms, gas);
         }
 
+        private void ToggleVehicleDoorEvent(object[] args)
+        {
+            // Get the values from the server
+            int vehicleId = Convert.ToInt32(args[0]);
+            int door = Convert.ToInt32(args[1]);
+            bool opened = Convert.ToBoolean(args[2]);
+
+            // Get the vehicle from the server
+            Vehicle vehicle = Entities.Vehicles.GetAtRemote((ushort)vehicleId);
+
+            if(opened)
+            {
+                // Open the selected door
+                vehicle.SetDoorOpen(door, false, false);
+            }
+            else
+            {
+                // Close the selected door
+                vehicle.SetDoorShut(door, true);
+            }
+        }
+
         private void PlayerLeaveVehicleEvent()
         {
             if (lastPosition != null)
             {
                 // Save and remove the speedometer
                 RemoveSpeedometerEvent(null);
+            }
+        }
+
+        private void EntityStreamInEvent(Entity entity)
+        {
+            if(entity.Type == RAGE.Elements.Type.Vehicle)
+            {
+                // Get the vehicle from the entity
+                Vehicle vehicle = (Vehicle)entity;
+
+                // Get the state for each one of the doors
+                string doorsJson = entity.GetSharedData(Constants.VEHICLE_DOORS_STATE).ToString();
+                List<bool> doorStateList = JsonConvert.DeserializeObject<List<bool>>(doorsJson);
+
+                for(int i = 0; i < doorStateList.Count; i++)
+                {
+                    if (doorStateList[i])
+                    {
+                        // Open the selected door
+                        vehicle.SetDoorOpen(i, false, false);
+                    }
+                    else
+                    {
+                        // Close the selected door
+                        vehicle.SetDoorShut(i, true);
+                    }
+                }
+
             }
         }
     }

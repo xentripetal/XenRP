@@ -219,6 +219,7 @@ namespace WiredPlayers.business
             vehicle.SetData(EntityData.VEHICLE_KMS, 0.0f);
             vehicle.SetData(EntityData.VEHICLE_GAS, 50.0f);
             vehicle.SetData(EntityData.VEHICLE_TESTING, true);
+            vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(new List<bool> { false, false, false, false, false, false }));
             player.SetData(EntityData.PLAYER_TESTING_VEHICLE, vehicle);
             player.SetIntoVehicle(vehicle, (int)VehicleSeat.Driver);
             vehicle.EngineStatus = true;

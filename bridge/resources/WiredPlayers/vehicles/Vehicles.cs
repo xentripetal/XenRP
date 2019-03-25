@@ -115,6 +115,7 @@ namespace WiredPlayers.vehicles
             vehicle.SetData(EntityData.VEHICLE_PARKED, vehModel.parked);
             vehicle.SetData(EntityData.VEHICLE_GAS, vehModel.gas);
             vehicle.SetData(EntityData.VEHICLE_KMS, vehModel.kms);
+            vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(new List<bool> { false, false, false, false, false, false }));
 
             // Set vehicle's tunning
             Mechanic.AddTunningToVehicle(vehicle);
@@ -597,6 +598,9 @@ namespace WiredPlayers.vehicles
                 {
                     List<InventoryModel> inventory = null;
 
+                    // Get the status of the doors
+                    List<bool> doorState = NAPI.Util.FromJson<List<bool>>(vehicle.GetSharedData(EntityData.VEHICLE_DOORS_STATE));
+
                     switch (action.ToLower())
                     {
                         case Commands.ARG_OPEN:
@@ -604,14 +608,18 @@ namespace WiredPlayers.vehicles
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                             }
-                            else if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == true)
+                            else if (doorState[Constants.VEHICLE_TRUNK])
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_opened);
                             }
                             else
                             {
-                                vehicle.OpenDoor(Constants.VEHICLE_TRUNK);
                                 player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_opened);
+
+                                doorState[Constants.VEHICLE_TRUNK] = !doorState[Constants.VEHICLE_TRUNK];
+                                vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(doorState));
+
+                                player.TriggerEvent("toggleVehicleDoor", vehicle.Value, Constants.VEHICLE_TRUNK, doorState[Constants.VEHICLE_TRUNK]);
                             }
                             break;
                         case Commands.ARG_CLOSE:
@@ -619,18 +627,22 @@ namespace WiredPlayers.vehicles
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                             }
-                            else if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
+                            else if (!doorState[Constants.VEHICLE_TRUNK])
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
                             else
                             {
-                                vehicle.CloseDoor(Constants.VEHICLE_TRUNK);
                                 player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_closed);
+
+                                doorState[Constants.VEHICLE_TRUNK] = !doorState[Constants.VEHICLE_TRUNK];
+                                vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(doorState));
+
+                                player.TriggerEvent("toggleVehicleDoor", vehicle.Value, Constants.VEHICLE_TRUNK, doorState[Constants.VEHICLE_TRUNK]);
                             }
                             break;
                         case Commands.ARG_STORE:
-                            if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
+                            if (!doorState[Constants.VEHICLE_TRUNK])
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
@@ -728,7 +740,7 @@ namespace WiredPlayers.vehicles
                             }
                             break;
                         case Commands.ARG_WITHDRAW:
-                            if (vehicle.IsDoorOpen(Constants.VEHICLE_TRUNK) == false)
+                            if (!doorState[Constants.VEHICLE_TRUNK])
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_trunk_closed);
                             }
