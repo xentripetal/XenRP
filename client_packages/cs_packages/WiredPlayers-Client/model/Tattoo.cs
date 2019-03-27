@@ -10,5 +10,7 @@
         public string maleHash { get; set; }
         public string femaleHash { get; set; }
         public int price { get; set; }
+
+        public Tattoo() { }
     }
 }

@@ -389,10 +389,12 @@ namespace WiredPlayers.weapons
             {
                 int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 
-                if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
+                if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
                 {
-                    int itemId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
+                    string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+                    int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                     ItemModel item = Globals.GetItemModelFromId(itemId);
+
                     if (int.TryParse(item.hash, out int itemHash) == true)
                     {
                         ItemModel weaponItem = GetEquippedWeaponItemModelByHash(playerId, newWeapon);
@@ -432,11 +434,13 @@ namespace WiredPlayers.weapons
                 // Check if it's armed
                 if (newWeapon == WeaponHash.Unarmed)
                 {
-                    player.ResetData(EntityData.PLAYER_RIGHT_HAND);
+                    player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
                 }
                 else
                 {
-                    player.SetData(EntityData.PLAYER_RIGHT_HAND, currentWeaponModel.id);
+                    // Add the attachment to the player
+                    AttachmentModel attachment = new AttachmentModel(currentWeaponModel.id, currentWeaponModel.hash, new Vector3(), new Vector3());
+                    player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, NAPI.Util.ToJson(attachment));
                 }
             }
         }

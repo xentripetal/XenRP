@@ -88,7 +88,6 @@ namespace WiredPlayers.jobs
 
             // Cancel the fishing
             player.StopAnimation();
-            player.Freeze(false);
             player.ResetData(EntityData.PLAYER_FISHING);
             
             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.fishing_canceled);
@@ -192,7 +191,7 @@ namespace WiredPlayers.jobs
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_fishing);
             }
-            else if (player.VehicleSeat == (int)VehicleSeat.Driver)
+            else if (player.Vehicle != null && player.VehicleSeat == (int)VehicleSeat.Driver)
             {
                 VehicleHash vehicleModel = (VehicleHash)player.Vehicle.Model;
 
@@ -216,9 +215,10 @@ namespace WiredPlayers.jobs
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_boat);
                 }
             }
-            else if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
+            else if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                int fishingRodId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
+                string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+                int fishingRodId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                 ItemModel fishingRod = Globals.GetItemModelFromId(fishingRodId);
 
                 if (fishingRod != null && fishingRod.hash == Constants.ITEM_HASH_FISHING_ROD)
@@ -230,14 +230,13 @@ namespace WiredPlayers.jobs
                         foreach (Vector3 fishingPosition in Constants.FISHING_POSITION_LIST)
                         {
                             // Set player looking to the sea
-                            player.Freeze(true);
                             player.Rotation = new Vector3(0.0f, 0.0f, 142.532f);
                             
                             if (bait.amount == 1)
                             {
                                 Task.Factory.StartNew(() =>
                                 {
-                                    // Remove the baits from the invetory
+                                    // Remove the baits from the inventory
                                     Globals.itemList.Remove(bait);
                                     Database.RemoveItem(bait.id);
                                 });

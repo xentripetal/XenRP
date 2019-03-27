@@ -250,10 +250,13 @@ namespace WiredPlayers.factions
         [Command(Commands.COM_FREQUENCY, Commands.HLP_FREQUENCY_COMMAND, GreedyArg = true)]
         public void FrequencyCommand(Client player, string args)
         {
-            if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
+            if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                int itemId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
+                // Get the item identifier
+                string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+                int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                 ItemModel item = Globals.GetItemModelFromId(itemId);
+
                 if (item != null && item.hash == Constants.ITEM_HASH_WALKIE)
                 {
                     int playerId = player.GetData(EntityData.PLAYER_SQL_ID);

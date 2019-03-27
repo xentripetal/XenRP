@@ -189,13 +189,17 @@ namespace WiredPlayers.business
                     // If the item has a valid hash, we give it in hand
                     if (itemModel.ownerEntity == Constants.ITEM_ENTITY_RIGHT_HAND)
                     {
-                        itemModel.objectHandle = NAPI.Object.CreateObject(uint.Parse(itemModel.hash), itemModel.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)player.Dimension);
-                        itemModel.objectHandle.AttachTo(player, "PH_R_Hand", businessItem.position, businessItem.rotation);
+                        // Give the item to the player
+                        Globals.AttachItemToPlayer(player, itemModel.id, itemModel.hash, businessItem.position, businessItem.rotation);
                     }
                     else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
                     {
                         // We give the weapon to the player
                         player.GiveWeapon(NAPI.Util.WeaponNameToModel(itemModel.hash), itemModel.amount);
+
+                        // Add the attachment to the player
+                        AttachmentModel attachment = new AttachmentModel(itemModel.id, itemModel.hash, businessItem.position, businessItem.rotation);
+                        player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, NAPI.Util.ToJson(attachment));
 
                         // Checking if it's been bought in the Ammu-Nation
                         if (business.type == Constants.BUSINESS_TYPE_AMMUNATION)
@@ -206,9 +210,6 @@ namespace WiredPlayers.business
                             });
                         }
                     }
-
-                    // We set the item into the hand variable
-                    player.SetData(EntityData.PLAYER_RIGHT_HAND, itemModel.id);
 
                     // If it's a phone, we create a new number
                     if (itemModel.hash == Constants.ITEM_HASH_TELEPHONE)

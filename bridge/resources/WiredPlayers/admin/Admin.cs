@@ -241,7 +241,7 @@ namespace WiredPlayers.admin
                                         // Basic data for vehicle creation
                                         vehicle.model = arguments[1];
                                         vehicle.faction = Constants.FACTION_ADMIN;
-                                        vehicle.position = player.Position;
+                                        vehicle.position = Globals.GetForwardPosition(player, 2.5f);
                                         vehicle.rotation = player.Rotation;
                                         vehicle.dimension = player.Dimension;
                                         vehicle.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;

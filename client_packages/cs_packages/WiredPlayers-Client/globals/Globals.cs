@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using WiredPlayers_Client.account;
 using WiredPlayers_Client.vehicles;
 using WiredPlayers_Client.jobs;
+using WiredPlayers_Client.model;
+using Newtonsoft.Json;
 
 namespace WiredPlayers_Client.globals
 {
@@ -14,14 +16,21 @@ namespace WiredPlayers_Client.globals
         private DateTime lastTimeChecked;
         private int playerMoney = 0;
         public static bool playerLogged;
+        private static Dictionary<int, AttachmentModel> playerAttachments;
 
         public Globals()
         {
             Events.Add("changePlayerWalkingStyle", ChangePlayerWalkingStyleEvent);
             Events.Add("resetPlayerWalkingStyle", ResetPlayerWalkingStyleEvent);
+            Events.Add("attachItemToPlayer", AttachItemToPlayerEvent);
+            Events.Add("dettachItemFromPlayer", DettachItemFromPlayerEvent);
             Events.AddDataHandler("SERVER_TIME", PlayerConnectionStateChanged);
+            Events.OnEntityStreamIn += OnEntityStreamInEvent;
+            Events.OnEntityStreamOut += OnEntityStreamOutEvent;
             Events.OnGuiReady += OnGuiReadyEvent;
             Events.Tick += TickEvent;
+
+            playerAttachments = new Dictionary<int, AttachmentModel>();
         }
 
         public static string EscapeJsonCharacters(string jsonString)
@@ -45,6 +54,91 @@ namespace WiredPlayers_Client.globals
             Player player = (Player)args[0];
 
             player.ResetMovementClipset(0.0f);
+        }
+
+        private void AttachItemToPlayerEvent(object[] args)
+        {
+            // Get the remote player
+            int playerId = Convert.ToInt32(args[0]);
+            Player attachedPlayer = Entities.Players.GetAtRemote((ushort)playerId);
+
+            // Check if the player is in the stream range
+            if (Entities.Players.Streamed.Contains(attachedPlayer) || Player.LocalPlayer.Equals(attachedPlayer))
+            {
+                // Get the attachment
+                AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(args[1].ToString());
+
+                // Create the object for that player
+                int boneIndex = attachedPlayer.GetBoneIndexByName("IK_R_Hand");
+                attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
+
+                RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, false, 2, true);
+
+                // Add the attachment to the dictionary
+                playerAttachments.Add(playerId, attachment);
+            }
+        }
+
+        private void DettachItemFromPlayerEvent(object[] args)
+        {
+            // Get the remote player
+            int playerId = Convert.ToInt32(args[0]);
+
+            if (playerAttachments.ContainsKey(playerId))
+            {
+                // Get the attachment
+                MapObject attachment = playerAttachments[playerId].attach;
+
+                // Remove it from the player and world
+                attachment.Destroy();
+                playerAttachments.Remove(playerId);
+            }
+        }
+
+        public static void OnEntityStreamInEvent(Entity entity)
+        {
+            if (entity.Type == RAGE.Elements.Type.Player)
+            {
+                // Get the identifier of the player
+                int playerId = entity.RemoteId;
+                Player attachedPlayer = Entities.Players.GetAtRemote((ushort)playerId);
+
+                // Get the attachment on the right hand
+                object attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_RIGHT_HAND);
+
+                if (attachmentJson != null)
+                {
+                    AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(attachmentJson.ToString());
+
+                    // If the attached item is a weapon, we don't stream it
+                    if (RAGE.Game.Weapon.IsWeaponValid(Convert.ToUInt32(attachment.hash))) return;
+
+                    attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
+                    RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, 28422, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, true, 0, true);
+
+                    // Add the attachment to the dictionary
+                    playerAttachments.Add(playerId, attachment);
+                }
+            }
+        }
+
+        public static void OnEntityStreamOutEvent(Entity entity)
+        {
+            if (entity.Type == RAGE.Elements.Type.Player)
+            {
+                // Get the player's identifier
+                int playerId = entity.RemoteId;
+
+                if(playerAttachments.ContainsKey(playerId))
+                {
+                    // Get the attached object
+                    MapObject attachment = playerAttachments[playerId].attach;
+
+                    // Destroy the attachment
+                    attachment.Destroy();
+                    playerAttachments.Remove(playerId);
+                }
+            }
         }
 
         public static void OnGuiReadyEvent()
@@ -107,6 +201,12 @@ namespace WiredPlayers_Client.globals
                     playerMoney = Convert.ToInt32(money);
                     lastTimeChecked = dateTime;
                 }
+            }
+
+            if (Fishing.fishingState > 0)
+            {
+                // Start the fishing minigame
+                Fishing.DrawFishingMinigame();
             }
 
             // Draw the money

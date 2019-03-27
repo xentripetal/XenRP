@@ -1,5 +1,4 @@
 ﻿using GTANetworkAPI;
-using System;
 
 namespace WiredPlayers.model
 {
@@ -12,7 +11,7 @@ namespace WiredPlayers.model
         public int amount { get; set; }
         public Vector3 position { get; set; }
         public uint dimension { get; set; }
-        public GTANetworkAPI.Object objectHandle { get; set; }
+        public Object objectHandle { get; set; }
 
         public ItemModel Copy()
         {

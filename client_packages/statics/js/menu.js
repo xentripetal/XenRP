@@ -16,7 +16,7 @@ let timeout = undefined;
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
 		backend: {
-			loadPath: '../i18n/en.json'
+			loadPath: '../i18n/es.json'
 		}
 	}, function(err, t) {
         jqueryI18next.init(i18next, $);

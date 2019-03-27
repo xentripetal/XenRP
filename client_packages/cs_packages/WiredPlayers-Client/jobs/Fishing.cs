@@ -1,5 +1,5 @@
 ﻿using RAGE;
-using RAGE.Game;
+using RAGE.Elements;
 using System;
 
 namespace WiredPlayers_Client.jobs
@@ -18,16 +18,35 @@ namespace WiredPlayers_Client.jobs
 
         public Fishing()
         {
-            movementRight = true;
+            Events.Add("startPlayerFishing", StartPlayerFishingEvent);
+            Events.Add("fishingBaitTaken", FishingBaitTakenEvent);
+
+             movementRight = true;
             fishingBarMin = 0.0f;
             fishingBarMax = 0.0f;
             fishingAchieveStart = 0.0f;
-            Graphics.GetActiveScreenResolution(ref width, ref height);
+            RAGE.Game.Graphics.GetActiveScreenResolution(ref width, ref height);
+        }
+
+        private void StartPlayerFishingEvent(object[] args)
+        {
+            // Start the fishing minigame
+            fishingState = 1;
+            Player.LocalPlayer.FreezePosition(true);
+        }
+
+        private void FishingBaitTakenEvent(object[] args)
+        {
+            // Start the fishing minigame
+            Random random = new Random();
+            fishingAchieveStart = random.Next() * 390.0f + fishingBarMin;
+            fishingSuccess = 0;
+            fishingState = 3;
         }
 
         public static void DrawFishingMinigame()
         {
-            if(Input.IsDown(0x45))
+            if (RAGE.Game.Pad.IsControlJustPressed(0, 24))
             {
                 switch(fishingState)
                 {
@@ -40,6 +59,7 @@ namespace WiredPlayers_Client.jobs
                     case 2:
                         // Player didn't catch any fish
                         fishingState = -1;
+                        Player.LocalPlayer.FreezePosition(false);
                         Events.CallRemote("fishingCanceled");
                         break;
                     case 3:
@@ -68,6 +88,7 @@ namespace WiredPlayers_Client.jobs
                         {
                             // Player failed catching
                             fishingState = -1;
+                            Player.LocalPlayer.FreezePosition(false);
                             Events.CallRemote("fishingCanceled");
                         }
                         break;
@@ -80,13 +101,13 @@ namespace WiredPlayers_Client.jobs
             if (fishingState == 3)
             {
                 // Draw the minigame bar
-                Graphics.DrawRect(width - 425.0f, height - 40.0f, 400.0f, 25.0f, 0, 0, 0, 200, 0);
+                RAGE.Game.Graphics.DrawRect(0.95f, 0.9f, 0.05f, 0.1f, 0, 0, 0, 200, 0);
 
                 // Draw the success bar
-                Graphics.DrawRect(fishingAchieveStart, height - 40.0f, 10.0f, 25.0f, 0, 255, 0, 255, 0);
+                RAGE.Game.Graphics.DrawRect(fishingAchieveStart, height - 40.0f, 10.0f, 25.0f, 0, 255, 0, 255, 0);
 
                 // Draw the moving bar
-                Graphics.DrawRect(fishingBarPosition, height - 41.0f, 2.0f, 26.0f, 255, 255, 255, 255, 0);
+                RAGE.Game.Graphics.DrawRect(fishingBarPosition, height - 41.0f, 2.0f, 26.0f, 255, 255, 255, 255, 0);
 
                 if (movementRight)
                 {

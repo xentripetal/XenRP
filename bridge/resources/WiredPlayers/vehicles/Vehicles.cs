@@ -361,6 +361,9 @@ namespace WiredPlayers.vehicles
                     }
                     else
                     {
+                        // Stop the vehicle's speedometer
+                        player.TriggerEvent("removeSpeedometer");
+
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                         return;
@@ -664,7 +667,7 @@ namespace WiredPlayers.vehicles
                             }
                             else
                             {
-                                if (player.HasSharedData(EntityData.PLAYER_WEAPON_CRATE) == true)
+                                if (player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE) != null)
                                 {
                                     int vehicleCrates = 0;
 
@@ -710,7 +713,7 @@ namespace WiredPlayers.vehicles
                                     // Send the message to the player
                                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_stored_items);
                                 }
-                                else if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
+                                else if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
                                 {
                                     int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                                     ItemModel rightHand = Globals.GetItemInEntity(playerId, Constants.ITEM_ENTITY_RIGHT_HAND);
@@ -1056,9 +1059,10 @@ namespace WiredPlayers.vehicles
         [Command(Commands.COM_FILL)]
         public void FillCommand(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_RIGHT_HAND) == true)
+            if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                int itemId = player.GetData(EntityData.PLAYER_RIGHT_HAND);
+                string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+                int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                 ItemModel item = Globals.GetItemModelFromId(itemId);
 
                 if (item.hash == Constants.ITEM_HASH_JERRYCAN)
@@ -1071,9 +1075,9 @@ namespace WiredPlayers.vehicles
                             float gas = vehicle.GetData(EntityData.VEHICLE_GAS);
                             vehicle.SetData(EntityData.VEHICLE_GAS, gas + Constants.GAS_CAN_LITRES > 50.0f ? 50.0f : gas + Constants.GAS_CAN_LITRES);
 
-                            item.objectHandle.Detach();
-                            item.objectHandle.Delete();
-                            player.ResetData(EntityData.PLAYER_RIGHT_HAND);
+                            // Remove the item from the hand
+                            NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                            player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
 
                             Task.Factory.StartNew(() =>
                             {
