@@ -15,7 +15,8 @@ namespace WiredPlayers_Client.character
         {
             Events.Add("showPlayerInventory", ShowPlayerInventoryEvent);
             Events.Add("getInventoryOptions", GetInventoryOptionsEvent);
-            Events.Add("executeAction", ExecuteActionEvent); 
+            Events.Add("executeAction", ExecuteActionEvent);
+            Events.Add("closeInventory", CloseInventoryEvent);
         }
 
         private void ShowPlayerInventoryEvent(object[] args)
@@ -64,12 +65,12 @@ namespace WiredPlayers_Client.character
                     optionsList.Add("general.confiscate");
                     break;
                 case 2:
-                    // Vehicle trunk
-                    optionsList.Add("general.withdraw");
-                    break;
-                case 3:
                     // Inventory store into the trunk
                     optionsList.Add("general.store");
+                    break;
+                case 3:
+                    // Vehicle trunk
+                    optionsList.Add("general.withdraw");
                     break;
             }
 
@@ -85,6 +86,15 @@ namespace WiredPlayers_Client.character
 
             // Execute the selected action
             Events.CallRemote("processMenuAction", item, option);
+        }
+
+        private void CloseInventoryEvent(object[] args)
+        {
+            // Remove the browser
+            Browser.DestroyBrowserEvent(null);
+
+            // Clear the variables related
+            Events.CallRemote("closeInventory");
         }
     }
 }

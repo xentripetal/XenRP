@@ -139,7 +139,7 @@ namespace WiredPlayers.character
         [Command(Commands.COM_CALL, Commands.HLP_PHONE_CALL_COMMAND, GreedyArg = true)]
         public void CallCommand(Client player, string called)
         {
-            if (player.HasData(EntityData.PLAYER_PHONE_TALKING) || player.HasData(EntityData.PLAYER_CALLING) == true)
+            if (player.GetData(EntityData.PLAYER_PHONE_TALKING) != null || player.GetData(EntityData.PLAYER_CALLING) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_phone_talking);
             }
@@ -157,7 +157,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_POLICE:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -179,7 +179,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_EMERGENCY:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -201,7 +201,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_NEWS:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -223,7 +223,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_TAXI:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_TAXI_DRIVER)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_TAXI_DRIVER)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -245,7 +245,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_FASTFOOD:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_FASTFOOD)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -267,7 +267,7 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_MECHANIC:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_MECHANIC)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_JOB) == Constants.JOB_MECHANIC)
                                     {
                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
@@ -335,7 +335,7 @@ namespace WiredPlayers.character
                             {
                                 if (target.GetData(EntityData.PLAYER_PHONE) == targetPhone)
                                 {
-                                    if (target.HasData(EntityData.PLAYER_CALLING) || target.HasData(EntityData.PLAYER_PHONE_TALKING) || player.HasData(EntityData.PLAYER_PLAYING) == false)
+                                    if (target.GetData(EntityData.PLAYER_CALLING) != null || target.GetData(EntityData.PLAYER_PHONE_TALKING) != null || player.GetData(EntityData.PLAYER_PLAYING) == null)
                                     {
                                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.phone_disconnected);
                                     }
@@ -370,7 +370,7 @@ namespace WiredPlayers.character
         [Command(Commands.COM_ANSWER)]
         public void AnswerCommand(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_CALLING) || player.HasData(EntityData.PLAYER_PHONE_TALKING) == true)
+            if (player.GetData(EntityData.PLAYER_CALLING) != null || player.GetData(EntityData.PLAYER_PHONE_TALKING) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_phone_talking);
             }
@@ -379,7 +379,7 @@ namespace WiredPlayers.character
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
                     // Check if the target player is calling somebody
-                    if (target.HasData(EntityData.PLAYER_CALLING) == true)
+                    if (target.GetData(EntityData.PLAYER_CALLING) != null)
                     {
                         if (target.GetData(EntityData.PLAYER_CALLING) is int)
                         {
@@ -427,12 +427,12 @@ namespace WiredPlayers.character
         [Command(Commands.COM_HANG)]
         public void HangCommand(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_CALLING) == true)
+            if (player.GetData(EntityData.PLAYER_CALLING) != null)
             {
                 // Hang up the call
                 player.ResetData(EntityData.PLAYER_CALLING);
             }
-            else if (player.HasData(EntityData.PLAYER_PHONE_TALKING) == true)
+            else if (player.GetData(EntityData.PLAYER_PHONE_TALKING) != null)
             {
                 // Get the player he's talking with
                 int elapsed = 0;
@@ -441,7 +441,7 @@ namespace WiredPlayers.character
                 int targetPhone = target.GetData(EntityData.PLAYER_PHONE);
 
                 // Get phone call time
-                if (player.HasData(EntityData.PLAYER_PHONE_CALL_STARTED) == true)
+                if (player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED) != null)
                 {
                     elapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 

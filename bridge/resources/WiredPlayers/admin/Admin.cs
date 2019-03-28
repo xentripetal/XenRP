@@ -879,7 +879,7 @@ namespace WiredPlayers.admin
                 }
 
                 // We check whether the player is connected
-                if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
+                if (target != null && target.GetData(EntityData.PLAYER_PLAYING) != null)
                 {
                     // Getting the amount
                     if (int.TryParse(amount, out int value) == true)
@@ -1657,7 +1657,7 @@ namespace WiredPlayers.admin
                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
 
                 // Saving all connected players
-                List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(pl => pl.HasData(EntityData.PLAYER_PLAYING)).ToList();
+                List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(pl => pl.GetData(EntityData.PLAYER_PLAYING) != null).ToList();
                 foreach (Client target in connectedPlayers)
                 {
                     // Save the player into the database
@@ -1717,7 +1717,7 @@ namespace WiredPlayers.admin
         {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
             {
-                if (player.HasData(EntityData.PLAYER_ADMIN_ON_DUTY))
+                if (player.GetData(EntityData.PLAYER_ADMIN_ON_DUTY) != null)
                 {
                     player.Invincible = false;
                     player.ResetNametagColor();
@@ -1785,7 +1785,7 @@ namespace WiredPlayers.admin
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE)
             {
                 // Get all the staff playing
-                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE).ToList();
+                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null && p.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_NONE).ToList();
 
                 foreach (Client target in targetList)
                 {
@@ -1802,7 +1802,7 @@ namespace WiredPlayers.admin
             {
                 Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target.HasData(EntityData.PLAYER_PLAYING) == false)
+                if (target.GetData(EntityData.PLAYER_PLAYING) == null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
@@ -1881,7 +1881,7 @@ namespace WiredPlayers.admin
                         rolePoints = int.Parse(args[3]);
                     }
 
-                    if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
+                    if (target != null && target.GetData(EntityData.PLAYER_PLAYING) != null)
                     {
                         // We get player's role points
                         string playerMessage = string.Empty;

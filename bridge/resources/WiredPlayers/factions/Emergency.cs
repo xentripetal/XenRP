@@ -319,7 +319,7 @@ namespace WiredPlayers.factions
         public void DieCommand(Client player)
         {
             // Check if the player is dead
-            if (player.HasData(EntityData.TIME_HOSPITAL_RESPAWN) == true)
+            if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) != null)
             {
                 int totalSeconds = Globals.GetTotalSeconds();
 

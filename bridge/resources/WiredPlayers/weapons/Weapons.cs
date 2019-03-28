@@ -103,7 +103,7 @@ namespace WiredPlayers.weapons
             // Send the warning message to all factions
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_prewarn);
                 }
@@ -213,7 +213,7 @@ namespace WiredPlayers.weapons
             // Warn all the factions about the place
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null && player.GetData(EntityData.PLAYER_FACTION) > Constants.LAST_STATE_FACTION)
                 {
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_spawn_island);
                 }
@@ -230,7 +230,7 @@ namespace WiredPlayers.weapons
             // Send the warning message to all the police members
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_PLAYING) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                 {
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_spawn_island);
                 }
@@ -324,10 +324,10 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seat)
         {
-            if (vehicle.HasData(EntityData.VEHICLE_ID) && player.VehicleSeat == (int)VehicleSeat.Driver)
+            if (vehicle.GetData(EntityData.VEHICLE_ID) != null && player.VehicleSeat == (int)VehicleSeat.Driver)
             {
                 int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
-                if (!vehicle.HasData(EntityData.VEHICLE_WEAPON_UNPACKING) && GetVehicleWeaponCrates(vehicleId) > 0)
+                if (vehicle.GetData(EntityData.VEHICLE_WEAPON_UNPACKING) == null && GetVehicleWeaponCrates(vehicleId) > 0)
                 {
                     // Mark the delivery point
                     Vector3 weaponPosition = new Vector3(-2085.543f, 2600.857f, -0.4712417f);
@@ -342,10 +342,10 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (vehicle.HasData(EntityData.VEHICLE_ID) == true)
+            if (vehicle.GetData(EntityData.VEHICLE_ID) != null)
             {
                 int vehicleId = vehicle.GetData(EntityData.VEHICLE_ID);
-                if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) && GetVehicleWeaponCrates(vehicleId) > 0)
+                if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) != null && GetVehicleWeaponCrates(vehicleId) > 0)
                 {
                     player.TriggerEvent("deleteWeaponCheckpoint");
                 }
@@ -355,7 +355,7 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) == true)
+            if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) != null)
             {
                 if (checkpoint == player.GetData(EntityData.PLAYER_JOB_COLSHAPE) && player.VehicleSeat == (int)VehicleSeat.Driver)
                 {
@@ -385,7 +385,7 @@ namespace WiredPlayers.weapons
         [ServerEvent(Event.PlayerWeaponSwitch)]
         public void OnPlayerWeaponSwitch(Client player, WeaponHash oldWeapon, WeaponHash newWeapon)
         {
-            if (player.HasData(EntityData.PLAYER_PLAYING) == true)
+            if (player.GetData(EntityData.PLAYER_PLAYING) != null)
             {
                 int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
 

@@ -15,7 +15,7 @@ namespace WiredPlayers.chat
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
         {
             // Deleting player's attached label
-            if (player.HasData(EntityData.PLAYER_AME) == true)
+            if (player.GetData(EntityData.PLAYER_AME) != null)
             {
                 TextLabel label = player.GetData(EntityData.PLAYER_AME);
                 label.Detach();
@@ -29,7 +29,7 @@ namespace WiredPlayers.chat
             float distanceGap = range / Constants.CHAT_RANGES;
 
             // Get the list of the connected players
-            List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.Dimension == player.Dimension).ToList();
+            List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null && p.Dimension == player.Dimension).ToList();
             
             foreach (Client target in targetList)
             {
@@ -119,7 +119,7 @@ namespace WiredPlayers.chat
         [ServerEvent(Event.ChatMessage)]
         public void OnChatMessage(Client player, string message)
         {
-            if (player.HasData(EntityData.PLAYER_PLAYING) == false)
+            if (player.GetData(EntityData.PLAYER_PLAYING) == null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_chat);
             }
@@ -127,11 +127,11 @@ namespace WiredPlayers.chat
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else if (player.HasData(EntityData.PLAYER_ON_AIR) == true)
+            else if (player.GetData(EntityData.PLAYER_ON_AIR) != null)
             {
                 WeazelNews.SendNewsMessage(player, message);
             }
-            else if (player.HasData(EntityData.PLAYER_PHONE_TALKING) == true)
+            else if (player.GetData(EntityData.PLAYER_PHONE_TALKING) != null)
             {
                 // Target player of the message
                 Client target = player.GetData(EntityData.PLAYER_PHONE_TALKING);
@@ -225,7 +225,7 @@ namespace WiredPlayers.chat
         [Command(Commands.COM_AME, Commands.HLP_AME_COMMAND, GreedyArg = true)]
         public void AmeCommand(Client player, string message = "")
         {
-            if (player.HasData(EntityData.PLAYER_AME) == true)
+            if (player.GetData(EntityData.PLAYER_AME) != null)
             {
                 // We get player's TextLabel
                 TextLabel label = player.GetData(EntityData.PLAYER_AME);
@@ -302,7 +302,7 @@ namespace WiredPlayers.chat
                 return;
             }
             
-            if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
+            if (target != null && target.GetData(EntityData.PLAYER_PLAYING) != null)
             {
                 if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && target.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE)
                 {

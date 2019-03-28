@@ -31,7 +31,7 @@ namespace WiredPlayers.factions
 
         public static void OnPlayerDisconnected(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_HANDCUFFED) == true)
+            if (player.GetData(EntityData.PLAYER_HANDCUFFED) != null)
             {
                 // Remove player's cuffs
                 GTANetworkAPI.Object cuff = player.GetData(EntityData.PLAYER_HANDCUFFED);
@@ -74,7 +74,7 @@ namespace WiredPlayers.factions
             
             foreach (Client police in policeMembers)
             {
-                if (police.HasData(EntityData.PLAYER_REINFORCES) == true)
+                if (police.GetData(EntityData.PLAYER_REINFORCES) != null)
                 {
                     ReinforcesModel reinforces = new ReinforcesModel(police.Value, police.Position);
                     policeReinforces.Add(reinforces);
@@ -85,7 +85,7 @@ namespace WiredPlayers.factions
 
             foreach (Client police in policeMembers)
             {
-                if (police.HasData(EntityData.PLAYER_PLAYING) == true)
+                if (police.GetData(EntityData.PLAYER_PLAYING) != null)
                 {
                     // Update reinforces position for each policeman
                     police.TriggerEvent("updatePoliceReinforces", reinforcesJsonList);
@@ -341,7 +341,7 @@ namespace WiredPlayers.factions
         [Command(Commands.COM_INCRIMINATE, Commands.HLP_INCRIMINATE_COMMAND)]
         public void IncriminateCommand(Client player, string targetString)
         {
-            if (player.HasData(EntityData.PLAYER_JAIL_AREA) == false)
+            if (player.GetData(EntityData.PLAYER_JAIL_AREA) == null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_jail_area);
             }
@@ -414,7 +414,7 @@ namespace WiredPlayers.factions
                 {
                     target = NAPI.Player.GetPlayerFromName(name + " " + surname);
                 }
-                if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
+                if (target != null && target.GetData(EntityData.PLAYER_PLAYING) != null)
                 {
                     if (player.Position.DistanceTo(target.Position) > 2.5f)
                     {
@@ -482,7 +482,7 @@ namespace WiredPlayers.factions
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_handcuffed_himself);
                     }
-                    else if (target.HasData(EntityData.PLAYER_HANDCUFFED) == false)
+                    else if (target.GetData(EntityData.PLAYER_HANDCUFFED) == null)
                     {
                         string playerMessage = string.Format(InfoRes.cuffed, target.Name);
                         string targetMessage = string.Format(InfoRes.cuffed_by, player.Name);
@@ -856,13 +856,13 @@ namespace WiredPlayers.factions
                 // Get police department's members
                 List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => x.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
 
-                if (player.HasData(EntityData.PLAYER_REINFORCES) == true)
+                if (player.GetData(EntityData.PLAYER_REINFORCES) != null)
                 {
                     string targetMessage = string.Format(InfoRes.target_reinforces_canceled, player.Name);
 
                     foreach (Client target in policeMembers)
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
                         {
                             // Remove the blip from the map
                             target.TriggerEvent("reinforcesRemove", player.Value);
@@ -887,7 +887,7 @@ namespace WiredPlayers.factions
 
                     foreach (Client target in policeMembers)
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
                         {
                             if (player == target)
                             {
@@ -927,7 +927,7 @@ namespace WiredPlayers.factions
                     }
 
                     // Check whether the target player is connected
-                    if (target == null || target.HasData(EntityData.PLAYER_PLAYING) == false)
+                    if (target == null || target.GetData(EntityData.PLAYER_PLAYING) == null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                     }
@@ -1018,7 +1018,7 @@ namespace WiredPlayers.factions
                 float alcoholLevel = 0.0f;
                 Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
+                if (target.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
                 {
                     alcoholLevel = target.GetData(EntityData.PLAYER_DRUNK_LEVEL);
                 }

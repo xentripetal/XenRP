@@ -71,7 +71,7 @@ namespace WiredPlayers.factions
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_FACTION_WARNING) == true)
+            if (player.GetData(EntityData.PLAYER_FACTION_WARNING) != null)
             {
                 Checkpoint locationCheckpoint = player.GetData(EntityData.PLAYER_FACTION_WARNING);
                 locationCheckpoint.Delete();
@@ -95,7 +95,7 @@ namespace WiredPlayers.factions
                 string rank = GetPlayerFactionRank(player);
 
                 // Get the players on the faction
-                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_FACTION) == faction).ToList();
+                List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null && p.GetData(EntityData.PLAYER_FACTION) == faction).ToList();
 
                 foreach (Client target in targetList)
                 {
@@ -125,7 +125,7 @@ namespace WiredPlayers.factions
                     string rank = GetPlayerFactionRank(player);
 
                     // Get all the players in the faction
-                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && (p.GetData(EntityData.PLAYER_FACTION) == faction || CheckInternalAffairs(faction, p))).ToList();
+                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null && (p.GetData(EntityData.PLAYER_FACTION) == faction || CheckInternalAffairs(faction, p))).ToList();
 
                     foreach (Client target in targetList)
                     {
@@ -159,11 +159,11 @@ namespace WiredPlayers.factions
                     
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
-                        else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
+                        else if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
@@ -194,11 +194,11 @@ namespace WiredPlayers.factions
 
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
-                        if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
-                        else if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
+                        else if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
@@ -229,7 +229,7 @@ namespace WiredPlayers.factions
                     string name = player.GetData(EntityData.PLAYER_NAME);
 
                     // Get the players with the same radio frequency
-                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.HasData(EntityData.PLAYER_PLAYING) && p.GetData(EntityData.PLAYER_RADIO) == radio).ToList();
+                    List<Client> targetList = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null && p.GetData(EntityData.PLAYER_RADIO) == radio).ToList();
 
                     foreach (Client target in targetList)
                     {
@@ -887,7 +887,7 @@ namespace WiredPlayers.factions
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_own_death);
                     }
-                    else if (player.HasData(EntityData.PLAYER_FACTION_WARNING) == true)
+                    else if (player.GetData(EntityData.PLAYER_FACTION_WARNING) != null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_have_faction_warning);
                     }
@@ -959,7 +959,7 @@ namespace WiredPlayers.factions
                 player.SendChatMessage(Constants.COLOR_INFO + GenRes.members_online);
                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                 {
-                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_FACTION) == faction)
+                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == faction)
                     {
                         string rank = GetPlayerFactionRank(target);
 

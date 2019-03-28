@@ -19,15 +19,15 @@ namespace WiredPlayers.factions
         public static void SendNewsMessage(Client player, string message)
         {
             // Get the connected players
-            List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(target => target.HasData(EntityData.PLAYER_PLAYING)).ToList();
+            List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(target => target.GetData(EntityData.PLAYER_PLAYING) != null).ToList();
             
             foreach(Client target in connectedPlayers)
             {
-                if (player.HasData(EntityData.PLAYER_ON_AIR) && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
+                if (player.GetData(EntityData.PLAYER_ON_AIR) != null && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_NEWS)
                 {
                     target.SendChatMessage(Constants.COLOR_NEWS + GenRes.interviewer + player.Name + ": " + message);
                 }
-                else if (player.HasData(EntityData.PLAYER_ON_AIR))
+                else if (player.GetData(EntityData.PLAYER_ON_AIR) != null)
                 {
                     target.SendChatMessage(Constants.COLOR_NEWS + GenRes.guest + player.Name + ": " + message);
                 }
@@ -71,7 +71,7 @@ namespace WiredPlayers.factions
                 {
                     Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                    if (target.HasData(EntityData.PLAYER_ON_AIR) == true)
+                    if (target.GetData(EntityData.PLAYER_ON_AIR) != null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.on_air);
                     }
@@ -101,7 +101,7 @@ namespace WiredPlayers.factions
             {
                 Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
                 
-                if (target.HasData(EntityData.PLAYER_ON_AIR) == false)
+                if (target.GetData(EntityData.PLAYER_ON_AIR) == null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_on_air);
                 }
@@ -109,7 +109,7 @@ namespace WiredPlayers.factions
                 {
                     foreach (Client interviewed in NAPI.Pools.GetAllPlayers())
                     {
-                        if (interviewed.HasData(EntityData.PLAYER_ON_AIR) && interviewed != player)
+                        if (interviewed.GetData(EntityData.PLAYER_ON_AIR) != null && interviewed != player)
                         {
                             interviewed.ResetData(EntityData.PLAYER_ON_AIR);
                             interviewed.ResetData(EntityData.PLAYER_JOB_PARTNER);
@@ -145,7 +145,7 @@ namespace WiredPlayers.factions
             {
                 Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target != null && target.HasData(EntityData.PLAYER_PLAYING) == true)
+                if (target != null && target.GetData(EntityData.PLAYER_PLAYING) != null)
                 {
                     int prizeAmount = GetRemainingFounds();
                     if (prizeAmount >= prize)

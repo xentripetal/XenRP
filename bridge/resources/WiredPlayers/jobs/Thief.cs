@@ -208,7 +208,7 @@ namespace WiredPlayers.jobs
         {
             if (player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_THIEF)
             {
-                if (player.HasData(EntityData.PLAYER_HOTWIRING) == true)
+                if (player.GetData(EntityData.PLAYER_HOTWIRING) != null)
                 {
                     // Remove player's hotwire
                     player.ResetData(EntityData.PLAYER_HOTWIRING);
@@ -222,7 +222,7 @@ namespace WiredPlayers.jobs
                     
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_stopped_hotwire);
                 }
-                else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
+                else if (player.GetData(EntityData.PLAYER_ROBBERY_START) != null)
                 {
                     OnPlayerRob(player);
                 }
@@ -242,7 +242,7 @@ namespace WiredPlayers.jobs
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
                 }
-                else if (player.HasData(EntityData.PLAYER_LOCKPICKING) == true)
+                else if (player.GetData(EntityData.PLAYER_LOCKPICKING) != null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_lockpicking);
                 }
@@ -294,7 +294,7 @@ namespace WiredPlayers.jobs
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
             }
-            else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
+            else if (player.GetData(EntityData.PLAYER_ROBBERY_START) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_stealing);
             }
@@ -376,7 +376,7 @@ namespace WiredPlayers.jobs
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_thief);
             }
-            else if (player.HasData(EntityData.PLAYER_HOTWIRING) == true)
+            else if (player.GetData(EntityData.PLAYER_HOTWIRING) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_hotwiring);
             }

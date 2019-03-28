@@ -39,7 +39,7 @@ namespace WiredPlayers.jobs
                 return;
             }
 
-            if(driver.HasData(EntityData.PLAYER_TAXI_PATH) == true)
+            if(driver.GetData(EntityData.PLAYER_TAXI_PATH) != null)
             {
                 // There's already a path set for the driver
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.taxi_has_path);

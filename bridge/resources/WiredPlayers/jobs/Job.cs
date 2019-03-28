@@ -180,7 +180,7 @@ namespace WiredPlayers.jobs
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == true)
+            else if (player.GetData(EntityData.PLAYER_DELIVER_ORDER) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_delivering);
             }

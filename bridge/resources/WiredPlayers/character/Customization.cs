@@ -102,7 +102,7 @@ namespace WiredPlayers.character
         public static void RemovePlayerTattoos(Client player)
         {
             // Check if the player has been registered
-            if (!player.HasData(EntityData.PLAYER_SQL_ID)) return;
+            if (player.GetData(EntityData.PLAYER_SQL_ID) == null) return;
 
             // Get the tattoos from the player
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);

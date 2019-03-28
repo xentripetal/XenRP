@@ -144,5 +144,4 @@ function getItemIndexInArray(inventory, itemId) {
 	}
 	
 	return -1;
-}
-	
+}	

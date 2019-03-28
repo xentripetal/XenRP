@@ -180,7 +180,7 @@ namespace WiredPlayers.jobs
             {
                 if (player.VehicleSeat == (int)VehicleSeat.Driver)
                 {
-                    if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
+                    if (player.GetData(EntityData.PLAYER_JOB_ROUTE) == null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
                     {
                         // Stop the vehicle's speedometer
                         player.TriggerEvent("removeSpeedometer");
@@ -188,7 +188,7 @@ namespace WiredPlayers.jobs
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                     }
-                    else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
+                    else if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                     {
                         // Stop the vehicle's speedometer
                         player.TriggerEvent("removeSpeedometer");
@@ -205,7 +205,7 @@ namespace WiredPlayers.jobs
                         }
 
                         // Check whether route starts or he's returning to the truck
-                        if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
+                        if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
                         {
                             player.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                             player.SetData(EntityData.PLAYER_JOB_VEHICLE, vehicle);
@@ -228,7 +228,7 @@ namespace WiredPlayers.jobs
                 {
                     foreach (Client driver in vehicle.Occupants)
                     {
-                        if (driver.HasData(EntityData.PLAYER_JOB_PARTNER) && driver.VehicleSeat == (int)VehicleSeat.Driver)
+                        if (driver.GetData(EntityData.PLAYER_JOB_PARTNER) != null && driver.VehicleSeat == (int)VehicleSeat.Driver)
                         {
                             Client partner = driver.GetData(EntityData.PLAYER_JOB_PARTNER);
 
@@ -279,7 +279,7 @@ namespace WiredPlayers.jobs
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES)
+            if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES)
             {
                 if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle && player.VehicleSeat == (int)VehicleSeat.Driver)
                 {
@@ -299,7 +299,7 @@ namespace WiredPlayers.jobs
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) && player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_GARBAGE)
+            if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) != null && player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_GARBAGE)
             {
                 // Get garbage checkpoint
                 Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
@@ -336,7 +336,7 @@ namespace WiredPlayers.jobs
                 switch (action.ToLower())
                 {
                     case Commands.ARG_ROUTE:
-                        if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == true)
+                        if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null)
                         {
                             player.SendChatMessage(ErrRes.already_in_route);
                         }
@@ -367,7 +367,7 @@ namespace WiredPlayers.jobs
                         {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.garbage_in_vehicle);
                         }
-                        else if (player.HasData(EntityData.PLAYER_JOB_COLSHAPE) == false)
+                        else if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) == null)
                         {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_garbage_near);
                         }
@@ -397,7 +397,7 @@ namespace WiredPlayers.jobs
                         }
                         break;
                     case Commands.ARG_CANCEL:
-                        if (player.HasData(EntityData.PLAYER_JOB_PARTNER) == true)
+                        if (player.GetData(EntityData.PLAYER_JOB_PARTNER) != null)
                         {
                             Client partner = player.GetData(EntityData.PLAYER_JOB_PARTNER);
                             if (partner != player)
@@ -437,7 +437,7 @@ namespace WiredPlayers.jobs
                             // Remove player from partner search
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);
                         }
-                        else if (player.HasData(EntityData.PLAYER_JOB_ROUTE) == true)
+                        else if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null)
                         {
                             // Cancel the route
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);

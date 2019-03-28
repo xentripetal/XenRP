@@ -177,7 +177,7 @@ namespace WiredPlayers.vehicles
         public static void SaveAllVehicles()
         {
             List<VehicleModel> vehicleList = new List<VehicleModel>();
-            List<Vehicle> citizenVehicles = NAPI.Pools.GetAllVehicles().Where(veh => !veh.HasData(EntityData.VEHICLE_TESTING) && veh.GetData(EntityData.VEHICLE_FACTION) == 0).ToList();
+            List<Vehicle> citizenVehicles = NAPI.Pools.GetAllVehicles().Where(veh => veh.GetData(EntityData.VEHICLE_TESTING) == null && veh.GetData(EntityData.VEHICLE_FACTION) == 0).ToList();
 
             foreach (Vehicle vehicle in citizenVehicles)
             {
@@ -219,7 +219,7 @@ namespace WiredPlayers.vehicles
 
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_OPENED_TRUNK) == true)
+                if (player.GetData(EntityData.PLAYER_OPENED_TRUNK) )
                 {
                     Vehicle openedVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
                     if (openedVehicle == vehicle)
@@ -325,7 +325,7 @@ namespace WiredPlayers.vehicles
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_PARKED_VEHICLE) == true)
+            if (player.GetData(EntityData.PLAYER_PARKED_VEHICLE) != null)
             {
                 Checkpoint vehicleCheckpoint = player.GetData(EntityData.PLAYER_PARKED_VEHICLE);
 
@@ -344,9 +344,9 @@ namespace WiredPlayers.vehicles
         {
             if (Convert.ToInt32(seat) == (int)VehicleSeat.Driver)
             {
-                if (vehicle.HasData(EntityData.VEHICLE_TESTING) == true)
+                if (vehicle.GetData(EntityData.VEHICLE_TESTING) != null)
                 {
-                    if (player.HasData(EntityData.PLAYER_TESTING_VEHICLE) == true)
+                    if (player.GetData(EntityData.PLAYER_TESTING_VEHICLE) != null)
                     {
                         Vehicle testingVehicle = player.GetData(EntityData.PLAYER_TESTING_VEHICLE);
                         if (vehicle != testingVehicle)
@@ -450,7 +450,7 @@ namespace WiredPlayers.vehicles
         {
             Vehicle vehicle = player.Vehicle;
 
-            if (vehicle.HasData(EntityData.VEHICLE_TESTING) == false)
+            if (vehicle.GetData(EntityData.VEHICLE_TESTING) == null)
             {
                 // Get player's faction and job
                 int playerFaction = player.GetData(EntityData.PLAYER_FACTION);
@@ -458,15 +458,15 @@ namespace WiredPlayers.vehicles
 
                 int vehicleFaction = vehicle.GetData(EntityData.VEHICLE_FACTION);
 
-                if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
+                if (player.GetData(EntityData.PLAYER_ALREADY_FUCKING) != null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.cant_toogle_engine_while_fucking);
                 }
-                else if (vehicle.HasData(EntityData.VEHICLE_REFUELING) == true)
+                else if (vehicle.GetData(EntityData.VEHICLE_REFUELING) != null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_start_refueling);
                 }
-                else if (vehicle.HasData(EntityData.VEHICLE_WEAPON_UNPACKING) == true)
+                else if (vehicle.GetData(EntityData.VEHICLE_WEAPON_UNPACKING) != null)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_start_weapon_unpacking);
                 }
@@ -702,7 +702,7 @@ namespace WiredPlayers.vehicles
                                             if (target.VehicleSeat == (int)VehicleSeat.Driver)
                                             {
                                                 Vector3 weaponPosition = new Vector3(-2085.543f, 2600.857f, -0.4712417f);
-                                                Checkpoint weaponCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, weaponPosition, new Vector3(0.0f, 0.0f, 0.0f), 2.5f, new Color(198, 40, 40, 200));
+                                                Checkpoint weaponCheckpoint = NAPI.Checkpoint.CreateCheckpoint(4, weaponPosition, new Vector3(), 2.5f, new Color(198, 40, 40, 200));
                                                 target.SetData(EntityData.PLAYER_JOB_CHECKPOINT, weaponCheckpoint);
                                                 target.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_position_mark);
                                                 target.TriggerEvent("showWeaponCheckpoint", weaponPosition);
@@ -743,7 +743,6 @@ namespace WiredPlayers.vehicles
 
                                     if (inventory.Count > 0)
                                     {
-                                        vehicle.OpenDoor(Constants.VEHICLE_TRUNK);
                                         player.SetData(EntityData.PLAYER_OPENED_TRUNK, vehicle);
                                         player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_PLAYER);
                                     }
@@ -769,7 +768,6 @@ namespace WiredPlayers.vehicles
                                 inventory = Globals.GetVehicleTrunkInventory(vehicle);
                                 if (inventory.Count > 0)
                                 {
-                                    vehicle.OpenDoor(Constants.VEHICLE_TRUNK);
                                     player.SetData(EntityData.PLAYER_OPENED_TRUNK, vehicle);
                                     player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_TRUNK);
                                 }
@@ -991,11 +989,11 @@ namespace WiredPlayers.vehicles
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                     }
-                    else if (vehicle.HasData(EntityData.VEHICLE_REFUELING) == true)
+                    else if (vehicle.GetData(EntityData.VEHICLE_REFUELING) != null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_refueling);
                     }
-                    else if (player.HasData(EntityData.PLAYER_REFUELING) == true)
+                    else if (player.GetData(EntityData.PLAYER_REFUELING) != null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_refueling);
                     }

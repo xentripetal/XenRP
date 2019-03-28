@@ -125,7 +125,7 @@ namespace WiredPlayers.business
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_DRIVING_COLSHAPE) && player.HasData(EntityData.PLAYER_TESTING_VEHICLE) == true)
+            if (player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) != null && player.GetData(EntityData.PLAYER_TESTING_VEHICLE) != null)
             {
                 if (player.IsInVehicle && player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) == checkpoint)
                 {

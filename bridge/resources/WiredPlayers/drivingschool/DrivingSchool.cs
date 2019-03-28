@@ -108,7 +108,7 @@ namespace WiredPlayers.drivingschool
             if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
             {
                 VehicleHash vehicleHash = (VehicleHash) vehicle.Model;
-                if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
+                if (player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
                 {
                     // We check the class of the vehicle
                     if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_SEDANS)
@@ -135,7 +135,7 @@ namespace WiredPlayers.drivingschool
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_driving_not_suitable);
                     }
                 }
-                else if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
+                else if (player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.MOTORCYCLE_DRIVING_PRACTICE)
                 {
                     // We check the class of the vehicle
                     if (NAPI.Vehicle.GetVehicleClass(vehicleHash) == Constants.VEHICLE_CLASS_MOTORCYCLES)
@@ -176,7 +176,7 @@ namespace WiredPlayers.drivingschool
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (player.HasData(EntityData.PLAYER_DRIVING_EXAM) && player.HasData(EntityData.PLAYER_VEHICLE) == true)
+            if (player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null && player.GetData(EntityData.PLAYER_VEHICLE) != null)
             {
                 // Checking if is a valid vehicle
                 if (player.GetData(EntityData.PLAYER_VEHICLE) == vehicle && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.FACTION_DRIVING_SCHOOL)
@@ -199,7 +199,7 @@ namespace WiredPlayers.drivingschool
         [ServerEvent(Event.PlayerEnterCheckpoint)]
         public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
         {
-            if (player.HasData(EntityData.PLAYER_DRIVING_COLSHAPE) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
+            if (player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) != null && player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null)
             {
                 if (player.IsInVehicle && player.GetData(EntityData.PLAYER_DRIVING_EXAM) == Constants.CAR_DRIVING_PRACTICE)
                 {
@@ -300,7 +300,7 @@ namespace WiredPlayers.drivingschool
         public void OnVehicleDamage(Vehicle vehicle, float lossFirst, float lossSecond)
         {
             Client player = NAPI.Vehicle.GetVehicleDriver(vehicle);
-            if (player != null && player.HasData(EntityData.PLAYER_DRIVING_COLSHAPE) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
+            if (player != null && player.GetData(EntityData.PLAYER_DRIVING_COLSHAPE) != null && player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null)
             {
                 if (lossFirst - vehicle.Health > 5.0f)
                 {
@@ -318,7 +318,7 @@ namespace WiredPlayers.drivingschool
         {
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_PLAYING) && player.HasData(EntityData.PLAYER_DRIVING_EXAM) == true)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null && player.GetData(EntityData.PLAYER_DRIVING_EXAM) != null)
                 {
                     // Check if is driving a vehicle
                     if (player.IsInVehicle && player.VehicleSeat == (int)VehicleSeat.Driver)

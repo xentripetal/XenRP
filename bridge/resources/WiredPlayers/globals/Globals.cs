@@ -54,7 +54,7 @@ namespace WiredPlayers.globals
             // Update player list
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData(EntityData.PLAYER_PLAYING) == true)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null)
                 {
                     ScoreModel scoreModel = scoreList.First(score => score.playerId == player.Value);
                     scoreModel.playerPing = player.Ping;
@@ -69,7 +69,7 @@ namespace WiredPlayers.globals
             NAPI.World.SetTime(currentTime.Hours, currentTime.Minutes, currentTime.Seconds);
 
             int totalSeconds = GetTotalSeconds();
-            List<Client> onlinePlayers = NAPI.Pools.GetAllPlayers().Where(pl => pl.HasData(EntityData.PLAYER_PLAYING)).ToList();
+            List<Client> onlinePlayers = NAPI.Pools.GetAllPlayers().Where(pl => pl.GetData(EntityData.PLAYER_PLAYING) != null).ToList();
 
             foreach (Client player in onlinePlayers)
             {
@@ -89,12 +89,10 @@ namespace WiredPlayers.globals
                 player.SetData(EntityData.PLAYER_PLAYED, played + 1);
 
                 // Check if the player is injured waiting for the hospital respawn
-                if (player.HasData(EntityData.TIME_HOSPITAL_RESPAWN) == true)
+                if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) != null && player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds)
                 {
-                    if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds)
-                    {
-                        player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_can_die);
-                    }
+                    // Send the death warning
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_can_die);
                 }
 
                 // Check if the player has job cooldown
@@ -124,7 +122,7 @@ namespace WiredPlayers.globals
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_unjailed);
                 }
 
-                if (player.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
+                if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
                 {
                     // Lower alcohol level
                     float drunkLevel = player.GetData(EntityData.PLAYER_DRUNK_LEVEL) - 0.05f;
@@ -715,7 +713,7 @@ namespace WiredPlayers.globals
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
         {
-            if (player.HasData(EntityData.PLAYER_PLAYING) == true)
+            if (player.GetData(EntityData.PLAYER_PLAYING) != null)
             {
                 // Disconnect from the server
                 player.ResetData(EntityData.PLAYER_PLAYING);
@@ -750,7 +748,7 @@ namespace WiredPlayers.globals
         [RemoteEvent("checkPlayerEventKeyStopAnim")]
         public void CheckPlayerEventKeyStopAnimEvent(Client player)
         {
-            if (!player.HasData(EntityData.PLAYER_ANIMATION) && player.GetData(EntityData.PLAYER_KILLED) == 0)
+            if (player.GetData(EntityData.PLAYER_ANIMATION) == null && player.GetData(EntityData.PLAYER_KILLED) == 0)
             {
                 player.StopAnimation();
             }
@@ -773,7 +771,7 @@ namespace WiredPlayers.globals
         [RemoteEvent("checkPlayerEventKey")]
         public void CheckPlayerEventKeyEvent(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_PLAYING) == true)
+            if (player.GetData(EntityData.PLAYER_PLAYING) != null)
             {
                 // Check if the player's close to an ATM
                 for (int i = 0; i < Constants.ATM_LIST.Count; i++)
@@ -813,7 +811,7 @@ namespace WiredPlayers.globals
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.business_locked);
                             }
-                            else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
+                            else if (player.GetData(EntityData.PLAYER_ROBBERY_START) != null)
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.stealing_progress);
                             }
@@ -826,7 +824,7 @@ namespace WiredPlayers.globals
 
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.HasData(EntityData.PLAYER_IPL) && target != player)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_IPL) != null && target != player)
                                     {
                                         if (target.GetData(EntityData.PLAYER_IPL) == business.ipl)
                                         {
@@ -869,7 +867,7 @@ namespace WiredPlayers.globals
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_locked);
                             }
-                            else if (player.HasData(EntityData.PLAYER_ROBBERY_START) == true)
+                            else if (player.GetData(EntityData.PLAYER_ROBBERY_START) != null)
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.stealing_progress);
                             }
@@ -882,7 +880,7 @@ namespace WiredPlayers.globals
 
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) && target.HasData(EntityData.PLAYER_IPL) && target != player)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_IPL) != null && target != player)
                                     {
                                         if (target.GetData(EntityData.PLAYER_IPL) == house.ipl)
                                         {
@@ -920,7 +918,7 @@ namespace WiredPlayers.globals
                 if (lobbyExit.DistanceTo(player.Position) < 1.25f)
                 {
                     // Player must have a character selected
-                    if (player.HasData(EntityData.PLAYER_SQL_ID) == false)
+                    if (player.GetData(EntityData.PLAYER_SQL_ID) == null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_character_selected);
                     }
@@ -1070,7 +1068,7 @@ namespace WiredPlayers.globals
                     if (businessItem.alcoholLevel > 0)
                     {
                         float currentAlcohol = 0;
-                        if (player.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
+                        if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
                         {
                             currentAlcohol = player.GetData(EntityData.PLAYER_DRUNK_LEVEL);
                         }
@@ -1252,7 +1250,7 @@ namespace WiredPlayers.globals
                     string playerMessage = string.Format(InfoRes.police_retired_items_to, target.Name);
                     string targetMessage = string.Format(InfoRes.police_retired_items_from, player.Name);
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
-                   target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
+                    target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                     // Update the inventory
                     inventory = GetPlayerInventoryAndWeapons(target);
@@ -1340,6 +1338,14 @@ namespace WiredPlayers.globals
             player.TriggerEvent("updatePlayerTattoos", NAPI.Util.ToJson(playerTattooList), targetPlayer);
         }
 
+        [RemoteEvent("closeInventory")]
+        public void CloseInventoryEvent(Client player)
+        {
+            // Reset the variables related
+            player.ResetData(EntityData.PLAYER_OPENED_TRUNK);
+            player.ResetData(EntityData.PLAYER_SEARCHED_TARGET);
+        }
+
         [Command(Commands.COM_STORE)]
         public void StoreCommand(Client player)
         {
@@ -1402,7 +1408,7 @@ namespace WiredPlayers.globals
                     if (businessItem.alcoholLevel > 0)
                     {
                         float currentAlcohol = 0;
-                        if (player.HasData(EntityData.PLAYER_DRUNK_LEVEL) == true)
+                        if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
                         {
                             currentAlcohol = player.GetData(EntityData.PLAYER_DRUNK_LEVEL);
                         }
@@ -1726,7 +1732,7 @@ namespace WiredPlayers.globals
                                     {
                                         foreach (Client rndPlayer in NAPI.Pools.GetAllPlayers())
                                         {
-                                            if (rndPlayer.HasData(EntityData.PLAYER_PLAYING) && rndPlayer.GetData(EntityData.PLAYER_HOUSE_ENTERED) == house.id)
+                                            if (rndPlayer.GetData(EntityData.PLAYER_PLAYING) != null && rndPlayer.GetData(EntityData.PLAYER_HOUSE_ENTERED) == house.id)
                                             {
                                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_occupied);
                                                 return;
@@ -2091,14 +2097,14 @@ namespace WiredPlayers.globals
             switch (cancel.ToLower())
             {
                 case Commands.ARG_INTERVIEW:
-                    if (player.HasData(EntityData.PLAYER_ON_AIR) == true)
+                    if (player.GetData(EntityData.PLAYER_ON_AIR) != null)
                     {
                         player.ResetData(EntityData.PLAYER_ON_AIR);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.on_air_canceled);
                     }
                     break;
                 case Commands.ARG_SERVICE:
-                    if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == false)
+                    if (player.GetData(EntityData.PLAYER_ALREADY_FUCKING) == null)
                     {
                         player.ResetData(EntityData.PLAYER_ALREADY_FUCKING);
                         player.ResetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2107,7 +2113,7 @@ namespace WiredPlayers.globals
                     }
                     break;
                 case Commands.ARG_MONEY:
-                    if (player.HasData(EntityData.PLAYER_PAYMENT) == true)
+                    if (player.GetData(EntityData.PLAYER_PAYMENT) != null)
                     {
                         player.ResetData(EntityData.PLAYER_PAYMENT);
                         player.ResetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2115,7 +2121,7 @@ namespace WiredPlayers.globals
                     }
                     break;
                 case Commands.ARG_ORDER:
-                    if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == true)
+                    if (player.GetData(EntityData.PLAYER_DELIVER_ORDER) != null)
                     {
                         player.ResetData(EntityData.PLAYER_DELIVER_ORDER);
                         player.ResetData(EntityData.PLAYER_JOB_CHECKPOINT);
@@ -2129,7 +2135,7 @@ namespace WiredPlayers.globals
                     }
                     break;
                 case Commands.ARG_REPAINT:
-                    if (player.HasData(EntityData.PLAYER_REPAINT_VEHICLE) == true)
+                    if (player.GetData(EntityData.PLAYER_REPAINT_VEHICLE) != null)
                     {
                         // Get the mechanic and the vehicle
                         Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
@@ -2186,7 +2192,7 @@ namespace WiredPlayers.globals
                 switch (accept.ToLower())
                 {
                     case Commands.ARG_REPAIR:
-                        if (player.HasData(EntityData.PLAYER_REPAIR_VEHICLE) == true)
+                        if (player.GetData(EntityData.PLAYER_REPAIR_VEHICLE) != null)
                         {
                             Client mechanic = player.GetData(EntityData.PLAYER_JOB_PARTNER);
 
@@ -2299,7 +2305,7 @@ namespace WiredPlayers.globals
                         }
                         break;
                     case Commands.ARG_REPAINT:
-                        if (player.HasData(EntityData.PLAYER_REPAINT_VEHICLE) == true)
+                        if (player.GetData(EntityData.PLAYER_REPAINT_VEHICLE) != null)
                         {
                             Client mechanic = player.GetData(EntityData.PLAYER_JOB_PARTNER);
 
@@ -2408,11 +2414,11 @@ namespace WiredPlayers.globals
                         break;
                     case Commands.ARG_SERVICE:
 
-                        if (player.HasData(EntityData.HOOKER_TYPE_SERVICE) == false)
+                        if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) == null)
                         {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_service_offered);
                         }
-                        else  if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
+                        else if (player.GetData(EntityData.PLAYER_ALREADY_FUCKING) != null)
                         {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_fucking);
                         }
@@ -2429,12 +2435,12 @@ namespace WiredPlayers.globals
                             else
                             {
                                 Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
-                                if (player.HasData(EntityData.HOOKER_TYPE_SERVICE) == true)
+                                if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) != null)
                                 {
                                     int amount = player.GetData(EntityData.JOB_OFFER_PRICE);
                                     int money = player.GetSharedData(EntityData.PLAYER_MONEY);
 
-                                    if (target.HasData(EntityData.PLAYER_PLAYING) == true)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null)
                                     {
                                         if (amount > money)
                                         {
@@ -2516,12 +2522,12 @@ namespace WiredPlayers.globals
                         }
                         break;
                     case Commands.ARG_MONEY:
-                        if (player.HasData(EntityData.PLAYER_PAYMENT) == true)
+                        if (player.GetData(EntityData.PLAYER_PAYMENT) != null)
                         {
                             Client target = player.GetData(EntityData.PLAYER_PAYMENT);
                             int amount = player.GetData(EntityData.JOB_OFFER_PRICE);
 
-                            if (target.HasData(EntityData.PLAYER_PLAYING) == true)
+                            if (target.GetData(EntityData.PLAYER_PLAYING) != null)
                             {
                                 int money = target.GetSharedData(EntityData.PLAYER_MONEY);
 
@@ -2559,13 +2565,13 @@ namespace WiredPlayers.globals
                         }
                         break;
                     case Commands.ARG_VEHICLE:
-                        if (player.HasData(EntityData.PLAYER_SELLING_VEHICLE) == true)
+                        if (player.GetData(EntityData.PLAYER_SELLING_VEHICLE) != null)
                         {
                             Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
                             int amount = player.GetData(EntityData.PLAYER_SELLING_PRICE);
                             int vehicleId = player.GetData(EntityData.PLAYER_SELLING_VEHICLE);
 
-                            if (target.HasData(EntityData.PLAYER_PLAYING) == true)
+                            if (target.GetData(EntityData.PLAYER_PLAYING) != null)
                             {
                                 int money = player.GetSharedData(EntityData.PLAYER_BANK);
 
@@ -2617,13 +2623,13 @@ namespace WiredPlayers.globals
                         }
                         break;
                     case Commands.ARG_HOUSE:
-                        if (player.HasData(EntityData.PLAYER_SELLING_HOUSE) == true)
+                        if (player.GetData(EntityData.PLAYER_SELLING_HOUSE) != null)
                         {
                             Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
                             int amount = player.GetData(EntityData.PLAYER_SELLING_PRICE);
                             int houseId = player.GetData(EntityData.PLAYER_SELLING_HOUSE);
 
-                            if (target.HasData(EntityData.PLAYER_PLAYING) == true)
+                            if (target.GetData(EntityData.PLAYER_PLAYING) != null)
                             {
                                 int money = player.GetSharedData(EntityData.PLAYER_BANK);
 
@@ -2673,12 +2679,12 @@ namespace WiredPlayers.globals
                         }
                         break;
                     case Commands.ARG_STATE_HOUSE:
-                        if (player.HasData(EntityData.PLAYER_SELLING_HOUSE_STATE) == true)
+                        if (player.GetData(EntityData.PLAYER_SELLING_HOUSE_STATE) != null)
                         {
                             HouseModel house = House.GetHouseById(player.GetData(EntityData.PLAYER_SELLING_HOUSE_STATE));
                             int amount = (int)Math.Round(house.price * Constants.HOUSE_SALE_STATE);
 
-                            if (player.HasData(EntityData.PLAYER_PLAYING) == true)
+                            if (player.GetData(EntityData.PLAYER_PLAYING) != null)
                             {
                                 if (house.owner == player.Name)
                                 {
@@ -2739,8 +2745,7 @@ namespace WiredPlayers.globals
 
                     if (playerItem != null)
                     {
-                        player.SendChatMessage("" + playerItem.id);
-                        item.objectHandle.Delete();
+                        // Add the amount to the player item
                         playerItem.amount += item.amount;
 
                         Task.Factory.StartNew(() =>
@@ -2757,6 +2762,9 @@ namespace WiredPlayers.globals
                     // Get the new owner of the item
                     playerItem.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
                     playerItem.ownerIdentifier = player.GetData(EntityData.PLAYER_SQL_ID);
+
+                    // Delete the item on the ground
+                    item.objectHandle.Delete();
 
                     // Play the animation
                     player.PlayAnimation("random@domestic", "pickup_low", 0);
@@ -2915,7 +2923,7 @@ namespace WiredPlayers.globals
             // Send the message to the staff online
             foreach (Client target in NAPI.Pools.GetAllPlayers())
             {
-                if (target.HasData(EntityData.PLAYER_PLAYING) && target.GetData(EntityData.PLAYER_ADMIN_RANK) > 0)
+                if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_ADMIN_RANK) > 0)
                 {
                    target.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.new_admin_ticket);
                 }

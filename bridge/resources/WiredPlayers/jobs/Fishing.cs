@@ -187,7 +187,7 @@ namespace WiredPlayers.jobs
         [Command(Commands.COM_FISH)]
         public void FishCommand(Client player)
         {
-            if (player.HasData(EntityData.PLAYER_FISHING) == true)
+            if (player.GetData(EntityData.PLAYER_FISHING) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_fishing);
             }
@@ -201,7 +201,7 @@ namespace WiredPlayers.jobs
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_fisherman);
                     }
-                    else if (player.HasData(EntityData.PLAYER_FISHABLE) == false)
+                    else if (player.GetData(EntityData.PLAYER_FISHABLE) == null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_zone);
                     }

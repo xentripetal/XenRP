@@ -116,7 +116,7 @@ namespace WiredPlayers.jobs
         {
             if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES)
             {
-                if (player.HasData(EntityData.PLAYER_DELIVER_ORDER) == false && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
+                if (player.GetData(EntityData.PLAYER_DELIVER_ORDER) == null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
                 {
                     // Stop the vehicle's speedometer
                     player.TriggerEvent("removeSpeedometer");
@@ -124,7 +124,7 @@ namespace WiredPlayers.jobs
                     player.WarpOutOfVehicle();
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_delivering_order);
                 }
-                else if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
+                else if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
                 {
                     // Stop the vehicle's speedometer
                     player.TriggerEvent("removeSpeedometer");
@@ -139,7 +139,7 @@ namespace WiredPlayers.jobs
                         fastFoodTimer.Dispose();
                         fastFoodTimerList.Remove(player.Value);
                     }
-                    if (player.HasData(EntityData.PLAYER_JOB_VEHICLE) == false)
+                    if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
                     {
                         int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
                         FastfoodOrderModel order = GetFastfoodOrderFromId(orderId);
@@ -157,7 +157,7 @@ namespace WiredPlayers.jobs
         [ServerEvent(Event.PlayerExitVehicle)]
         public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
         {
-            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES && player.HasData(EntityData.PLAYER_JOB_VEHICLE) == true)
+            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_FASTFOOD + Constants.MAX_FACTION_VEHICLES && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null)
             {
                 if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle)
                 {
@@ -181,7 +181,7 @@ namespace WiredPlayers.jobs
 
                 if (playerDeliverColShape == checkpoint)
                 {
-                    if (player.HasData(EntityData.PLAYER_DELIVER_START) == true)
+                    if (player.GetData(EntityData.PLAYER_DELIVER_START) != null)
                     {
                         if (!player.IsInVehicle)
                         {

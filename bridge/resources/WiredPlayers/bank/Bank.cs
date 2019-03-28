@@ -179,7 +179,7 @@ namespace WiredPlayers.bank
                 return;
             }
 
-            if (target.HasData(EntityData.PLAYER_PLAYING) == true)
+            if (target.GetData(EntityData.PLAYER_PLAYING) != null)
             {
                 Task.Factory.StartNew(() =>
                 {

@@ -40,7 +40,7 @@ namespace WiredPlayers.jobs
                 return;
             }
 
-            if(player.HasData(EntityData.PLAYER_JOB_CHECKPOINT))
+            if(player.GetData(EntityData.PLAYER_JOB_CHECKPOINT) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_in_route);
                 return;

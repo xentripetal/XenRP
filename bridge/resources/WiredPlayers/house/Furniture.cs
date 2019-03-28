@@ -37,7 +37,7 @@ namespace WiredPlayers.house
         [Command(Commands.COM_FURNITURE, Commands.HLP_FURNITURE_COMMAND)]
         public void FurnitureCommand(Client player, string action)
         {
-            if (player.HasData(EntityData.PLAYER_HOUSE_ENTERED) == true)
+            if (player.GetData(EntityData.PLAYER_HOUSE_ENTERED) != null)
             {
                 int houseId = player.GetData(EntityData.PLAYER_HOUSE_ENTERED);
                 HouseModel house = House.GetHouseById(houseId);

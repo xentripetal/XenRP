@@ -62,7 +62,7 @@ namespace WiredPlayers.jobs
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_hooker);
             }
-            else if (player.HasData(EntityData.PLAYER_ALREADY_FUCKING) == true)
+            else if (player.GetData(EntityData.PLAYER_ALREADY_FUCKING) != null)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_fucking);
             }
