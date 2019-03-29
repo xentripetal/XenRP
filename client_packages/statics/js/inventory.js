@@ -136,6 +136,51 @@ function showInventoryOptions(optionsArrayJson, dropable) {
 	}
 }
 
+function updateInventory(item) {
+	// Get the item from the JSON
+	let itemObject = JSON.parse(item);
+
+	// Get the selected HTML element
+	let inventoryContainer = document.getElementById('inventory');
+
+	for(let i = 0; i < inventoryContainer.children.length; i++) {
+		// Get the current child
+		let itemContainer = inventoryContainer.children[i];
+
+		// Check if the hash is the same
+		let imageParts = itemContainer.lastChild.src.split('/');
+		let hash = imageParts[imageParts.length - 1].split('.')[0];
+		
+		if(itemObject.hash !== hash) continue;
+
+		if(itemObject.amount === 0) {
+			// Unselect the previous selection
+			selected = undefined;
+	
+			while (itemContainer.firstChild) {
+				// Remove all the children
+				itemContainer.removeChild(itemContainer.firstChild);
+			}
+
+			// Remove the current element and options
+			itemContainer.remove();
+
+			// Get the footer options
+			let root = document.getElementById('item-options');
+		
+			// Clear the children
+			while(root.firstChild) {
+				root.removeChild(root.firstChild);
+			}			
+		} else {
+			// Update the amount
+			itemContainer.firstChild.textContent = itemObject.amount;
+		}
+
+		break;
+	}
+}
+
 function getItemIndexInArray(inventory, itemId) {
 	for(let i = 0; i < inventory.length; i++) {
 		if(inventory[i].id === itemId) {

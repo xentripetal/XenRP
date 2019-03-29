@@ -418,6 +418,22 @@ namespace WiredPlayers.globals
             return inventory;
         }
 
+        private void UpdateInventory(Client player, ItemModel item, BusinessItemModel businessItem, int target)
+        {
+            // Create the inventory item to update
+            InventoryModel inventoryItem = new InventoryModel();
+            {
+                inventoryItem.id = item.id;
+                inventoryItem.hash = item.hash;
+                inventoryItem.description = businessItem.description;
+                inventoryItem.type = businessItem.type;
+                inventoryItem.amount = item.amount;
+            }
+
+            // Update the inventory
+            player.TriggerEvent("updateInventory", NAPI.Util.ToJson(inventoryItem), target);
+        }
+
         public static List<InventoryModel> GetPlayerInventoryAndWeapons(Client player)
         {
             List<InventoryModel> inventory = new List<InventoryModel>();
@@ -1085,6 +1101,7 @@ namespace WiredPlayers.globals
                     if (businessItem.health != 0)
                     {
                         player.Health += businessItem.health;
+                        if (player.Health > 100) player.Health = 100;
                     }
 
                     // Check if it was the last one remaining
@@ -1107,8 +1124,8 @@ namespace WiredPlayers.globals
                     }
 
                     // Update the inventory
-                    List<InventoryModel> inventory = GetPlayerInventory(player);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+
                     break;
                 case Commands.ARG_OPEN:
                     switch (item.hash)
@@ -1157,8 +1174,8 @@ namespace WiredPlayers.globals
                     player.SendChatMessage(Constants.COLOR_INFO + message);
 
                     // Update the inventory
-                    inventory = GetPlayerInventory(player);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+
                     break;
                 case Commands.ARG_EQUIP:
                     if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
@@ -1231,8 +1248,8 @@ namespace WiredPlayers.globals
                     player.SendChatMessage(Constants.COLOR_INFO + message);
 
                     // Update the inventory
-                    inventory = GetPlayerInventory(player);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_SELF);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+
                     break;
                 case Commands.ARG_CONFISCATE:
                     Client target = player.GetData(EntityData.PLAYER_SEARCHED_TARGET);
@@ -1253,8 +1270,8 @@ namespace WiredPlayers.globals
                     target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
 
                     // Update the inventory
-                    inventory = GetPlayerInventoryAndWeapons(target);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_PLAYER);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_PLAYER);
+
                     break;
                 case Commands.ARG_STORE:
                     Vehicle targetVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
@@ -1282,8 +1299,8 @@ namespace WiredPlayers.globals
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_stored_items);
 
                     // Update the inventory
-                    inventory = GetPlayerInventoryAndWeapons(player);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_PLAYER);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_VEHICLE_PLAYER);
+
                     break;
                 case Commands.ARG_WITHDRAW:
                     Vehicle sourceVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
@@ -1316,8 +1333,8 @@ namespace WiredPlayers.globals
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_withdraw_items);
 
                     // Update the inventory
-                    inventory = GetVehicleTrunkInventory(sourceVehicle);
-                    player.TriggerEvent("showPlayerInventory", NAPI.Util.ToJson(inventory), Constants.INVENTORY_TARGET_VEHICLE_TRUNK);
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_VEHICLE_TRUNK);
+
                     break;
             }
         }

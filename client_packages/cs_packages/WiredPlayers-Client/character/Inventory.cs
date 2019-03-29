@@ -16,6 +16,7 @@ namespace WiredPlayers_Client.character
             Events.Add("showPlayerInventory", ShowPlayerInventoryEvent);
             Events.Add("getInventoryOptions", GetInventoryOptionsEvent);
             Events.Add("executeAction", ExecuteActionEvent);
+            Events.Add("updateInventory", UpdateInventoryEvent);
             Events.Add("closeInventory", CloseInventoryEvent);
         }
 
@@ -86,6 +87,12 @@ namespace WiredPlayers_Client.character
 
             // Execute the selected action
             Events.CallRemote("processMenuAction", item, option);
+        }
+
+        private void UpdateInventoryEvent(object[] args)
+        {
+            // Update the items in the inventory
+            Browser.ExecuteFunctionEvent(new object[] { "updateInventory", args[0].ToString() });
         }
 
         private void CloseInventoryEvent(object[] args)

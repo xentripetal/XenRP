@@ -40,8 +40,8 @@ namespace WiredPlayers.chat
                     if (distance <= range)
                     {
                         // Getting message color
-                        string chatMessageColor = GetChatMessageColor(distance, distanceGap, true);
-                        string oocMessageColor = GetChatMessageColor(distance, distanceGap, false);
+                        string chatMessageColor = GetChatMessageColor(distance, distanceGap, false);
+                        string oocMessageColor = GetChatMessageColor(distance, distanceGap, true);
 
                         switch (type)
                         {
