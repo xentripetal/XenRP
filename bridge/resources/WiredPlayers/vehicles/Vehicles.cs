@@ -990,6 +990,10 @@ namespace WiredPlayers.vehicles
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                     }
+                    else if(player.Vehicle != null)
+                    {
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_refuel_into_vehicle);
+                    }
                     else if (vehicle.GetData(EntityData.VEHICLE_REFUELING) != null)
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_refueling);

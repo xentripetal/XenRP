@@ -2194,6 +2194,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Debes salir del vehículo para repostar..
+        /// </summary>
+        public static string vehicle_refuel_into_vehicle {
+            get {
+                return ResourceManager.GetString("vehicle_refuel_into_vehicle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El vehículo ya está siendo repostado..
         /// </summary>
         public static string vehicle_refueling {

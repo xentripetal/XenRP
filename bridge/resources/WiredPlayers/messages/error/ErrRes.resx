@@ -864,4 +864,7 @@
   <data name="vehicle_tank_full" xml:space="preserve">
     <value>El depósito del vehículo está lleno.</value>
   </data>
+  <data name="vehicle_refuel_into_vehicle" xml:space="preserve">
+    <value>Debes salir del vehículo para repostar.</value>
+  </data>
 </root>
