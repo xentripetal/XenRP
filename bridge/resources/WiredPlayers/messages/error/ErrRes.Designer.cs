@@ -2221,6 +2221,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El depósito del vehículo está lleno..
+        /// </summary>
+        public static string vehicle_tank_full {
+            get {
+                return ResourceManager.GetString("vehicle_tank_full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El maletero del vehículo está cerrado..
         /// </summary>
         public static string vehicle_trunk_closed {

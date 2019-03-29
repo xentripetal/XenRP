@@ -861,4 +861,7 @@
   <data name="player_not_own_death" xml:space="preserve">
     <value>No puedes atenderte a ti mismo.</value>
   </data>
+  <data name="vehicle_tank_full" xml:space="preserve">
+    <value>El depósito del vehículo está lleno.</value>
+  </data>
 </root>

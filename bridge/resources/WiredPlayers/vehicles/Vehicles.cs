@@ -981,7 +981,8 @@ namespace WiredPlayers.vehicles
                 if (business.type == Constants.BUSINESS_TYPE_GAS_STATION && player.Position.DistanceTo(business.position) < 20.5f)
                 {
                     Vehicle vehicle = GetClosestVehicle(player);
-                    
+
+                    float currentGas = vehicle.GetData(EntityData.VEHICLE_GAS);
                     int faction = player.GetData(EntityData.PLAYER_FACTION);
                     int job = player.GetData(EntityData.PLAYER_JOB);
 
@@ -1001,15 +1002,18 @@ namespace WiredPlayers.vehicles
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_on);
                     }
+                    else if(currentGas == 50.0f)
+                    {
+                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_tank_full);
+                    }
                     else
                     {
                         int vehicleFaction = vehicle.GetData(EntityData.VEHICLE_FACTION);
                         if (HasPlayerVehicleKeys(player, vehicle) || vehicleFaction == faction || vehicleFaction + 100 == job)
                         {
                             float gasRefueled = 0.0f;
-                            float currentGas = vehicle.GetData(EntityData.VEHICLE_GAS);
                             float gasLeft = 50.0f - currentGas;
-                            int maxMoney = (int)Math.Round(gasLeft * Constants.PRICE_GAS * business.multiplier);
+                            int maxMoney = (int)Math.Ceiling(gasLeft * Constants.PRICE_GAS * business.multiplier);
                             int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
 
                             if (amount == 0 || amount > maxMoney)
