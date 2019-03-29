@@ -169,7 +169,6 @@ namespace WiredPlayers.jobs
 
             // Cancel fishing
             player.StopAnimation();
-            player.Freeze(false);
             player.ResetData(EntityData.PLAYER_FISHING);
         }
 
@@ -178,7 +177,6 @@ namespace WiredPlayers.jobs
         {
             // Cancel fishing
             player.StopAnimation();
-            player.Freeze(false);
             player.ResetData(EntityData.PLAYER_FISHING);
             
             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.fishing_failed);
