@@ -395,7 +395,7 @@ namespace WiredPlayers.weapons
                     int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                     ItemModel item = Globals.GetItemModelFromId(itemId);
 
-                    if (int.TryParse(item.hash, out int itemHash) == true)
+                    if (NAPI.Util.WeaponNameToModel(item.hash) == 0)
                     {
                         ItemModel weaponItem = GetEquippedWeaponItemModelByHash(playerId, newWeapon);
                         player.GiveWeapon(WeaponHash.Unarmed, 1);

@@ -440,6 +440,7 @@ namespace WiredPlayers.jobs
                         else if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null)
                         {
                             // Cancel the route
+                            player.ResetData(EntityData.PLAYER_JOB_ROUTE);
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);
                             player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_route_canceled);
                         }

@@ -3492,6 +3492,32 @@ namespace WiredPlayers.globals
             new Vector3(-1827.806f, -1268.722f, 8.618273f)
         };
 
+        public static Dictionary<WeaponHash, string> WEAPON_ITEM_MODELS = new Dictionary<WeaponHash, string>()
+        {
+            { WeaponHash.AdvancedRifle, "w_ar_advancedrifle" }, { WeaponHash.APPistol, "w_pi_appistol" }, { WeaponHash.AssaultRifle, "w_ar_assaultrifle" },
+            { WeaponHash.AssaultShotgun, "w_sg_assaultshotgun" }, { WeaponHash.AssaultSMG, "w_sb_assaultsmg" }, { WeaponHash.Ball, "w_am_baseball" },
+            { WeaponHash.Bat, "w_me_bat" }, { WeaponHash.BattleAxe, "w_me_battleaxe" }, { WeaponHash.Bottle, "w_me_bottle" }, { WeaponHash.BullpupRifle, "w_ar_bullpuprifle" },
+            { WeaponHash.BullpupShotgun, "w_sg_bullpupshotgun" }, { WeaponHash.BZGas, "w_ex_bzgas" }, { WeaponHash.CarbineRifle, "w_ar_carbinerifle" },
+            { WeaponHash.CombatMG, "w_mg_combatmg" }, { WeaponHash.CombatPDW, "w_mg_combatpdw" }, { WeaponHash.CombatPistol, "w_pi_combatpistol" },
+            { WeaponHash.CompactGrenadeLauncher, "w_lr_compactgrenadelauncher" }, { WeaponHash.CompactRifle, "w_ar_compactrifle" }, { WeaponHash.Crowbar, "w_me_crowbar" },
+            { WeaponHash.Dagger, "w_me_dagger" }, { WeaponHash.DoubleBarrelShotgun, "w_sg_doublebarrelshotgun" }, { WeaponHash.FireExtinguisher, "w_am_fireextinguisher" },
+            { WeaponHash.Firework, "w_lr_firework" }, { WeaponHash.Flare, "w_am_flare" }, { WeaponHash.FlareGun, "w_pi_flaregun" }, { WeaponHash.Flashlight, "w_me_flashlight" },
+            { WeaponHash.GolfClub, "w_me_golfclub" }, { WeaponHash.Grenade, "w_ex_grenade" }, { WeaponHash.GrenadeLauncher, "w_lr_grenadelauncher" },
+            { WeaponHash.GrenadeLauncherSmoke, "w_lr_grenadelaunchersmoke" }, { WeaponHash.Gusenberg, "w_sb_gusenberg" }, { WeaponHash.Hammer, "w_me_hammer" },
+            { WeaponHash.Hatchet, "w_me_hatchet" }, { WeaponHash.HeavyPistol, "w_pi_heavypistol" }, { WeaponHash.HeavyShotgun, "w_sg_heavyshotgun" },
+            { WeaponHash.HeavySniper, "w_sr_heavysniper" }, { WeaponHash.HomingLauncher, "w_lr_hominglauncher" }, { WeaponHash.Knife, "w_me_knife" },
+            { WeaponHash.KnuckleDuster, "w_me_knuckleduster" }, { WeaponHash.Machete, "w_me_machete" }, { WeaponHash.MachinePistol, "w_pi_machinepistol" },
+            { WeaponHash.MarksmanPistol, "w_pi_marksmanpistol" }, { WeaponHash.MarksmanRifle, "w_sr_marksmanrifle" }, { WeaponHash.MG, "w_mg_mg" }, { WeaponHash.MicroSMG, "w_sb_microsmg" },
+            { WeaponHash.Minigun, "w_mg_minigun" }, { WeaponHash.MiniSMG, "w_sb_minismg" }, { WeaponHash.Molotov, "w_ex_molotov" }, { WeaponHash.Musket, "w_ar_musket" },
+            { WeaponHash.Nightstick, "w_me_nightstick" }, { WeaponHash.NightVision, "w_am_nightvision" }, { WeaponHash.Parachute, "w_am_parachute" }, { WeaponHash.PetrolCan, "w_am_petrolcan" },
+            { WeaponHash.PipeBomb, "w_ex_pipebomb" }, { WeaponHash.Pistol, "w_pi_pistol" }, { WeaponHash.Pistol50, "w_pi_pistol50" }, { WeaponHash.PoolCue, "w_me_poolcue" },
+            { WeaponHash.ProximityMine, "w_ex_proximitymine" }, { WeaponHash.PumpShotgun, "w_sg_pumpshotgun" }, { WeaponHash.Railgun, "w_ar_railgun" }, { WeaponHash.Revolver, "w_pi_revolver" },
+            { WeaponHash.RPG, "w_lr_rpg" }, { WeaponHash.SawnOffShotgun, "w_sg_sawnoffshotgun" }, { WeaponHash.SMG, "w_sb_smg" }, { WeaponHash.SmokeGrenade, "w_ex_smokegrenade" },
+            { WeaponHash.SniperRifle, "w_sr_sniperrifle" }, { WeaponHash.Snowball, "w_am_snowball" }, { WeaponHash.SNSPistol, "w_pi_snspistol" },
+            { WeaponHash.SpecialCarbine, "w_ar_specialcarbine" }, { WeaponHash.StickyBomb, "w_ex_stickybomb" }, { WeaponHash.StunGun, "w_pi_stungun" },
+            { WeaponHash.SweeperShotgun, "w_sg_sweepershotgun" }, { WeaponHash.SwitchBlade, "w_me_switchblade" }, { WeaponHash.VintagePistol, "w_pi_vintagepistol" }, { WeaponHash.Wrench, "w_me_wrench" }
+        };
+
         public enum AnimationFlags
         {
             Loop = 1 << 0,

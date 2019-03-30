@@ -2831,25 +2831,18 @@ namespace WiredPlayers.globals
                 BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
                 ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
 
+                // Check if it's a weapon or not
+                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
+
+                // Get the dropped amount
+                int amount = weaponHash != 0 ? item.amount : 1;
+                item.amount -= amount;
+
                 Task.Factory.StartNew(() =>
                 {
-                    item.amount--;
-
-                    if(item.amount == 0)
-                    {
-                        // There are no more items, we delete it
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
-                    }
-                    else
-                    {
-                        // Update the amount
-                        Database.UpdateItem(item);
-                    }
-
                     if (closestItem != null)
                     {
-                        closestItem.amount++;
+                        closestItem.amount += amount;
 
                         // Update the closest item's amount
                         Database.UpdateItem(closestItem);
@@ -2858,12 +2851,15 @@ namespace WiredPlayers.globals
                     {
                         NAPI.Task.Run(() =>
                         {
+                            // Get the hash from the item dropped
+                            uint itemHash = weaponHash != 0 ? NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]) : uint.Parse(item.hash);
+
                             closestItem = item.Copy();
-                            closestItem.amount = 1;
+                            closestItem.amount = amount;
                             closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
                             closestItem.dimension = player.Dimension;
                             closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
-                            closestItem.objectHandle = NAPI.Object.CreateObject(uint.Parse(closestItem.hash), closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
+                            closestItem.objectHandle = NAPI.Object.CreateObject(itemHash, closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
 
                             // Create the new item
                             closestItem.id = Database.AddNewItem(closestItem);
@@ -2873,11 +2869,21 @@ namespace WiredPlayers.globals
 
                     if (item.amount == 0)
                     {
-                        // Remove the item from the hand
-                        NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                        if(weaponHash != 0)
+                        {
+                            // Remove the weapon from the player
+                            player.RemoveWeapon(weaponHash);
+                        }
+                        else
+                        {
+                            // Remove the item from the hand
+                            NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                        }
+
+                        // Remove the attachment information
                         player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
 
-                        // Remove the item
+                        // There are no more items, we delete it
                         Database.RemoveItem(item.id);
                         itemList.Remove(item);
                     }
