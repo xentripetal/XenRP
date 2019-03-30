@@ -101,7 +101,7 @@ namespace WiredPlayers.globals
                 {
                     player.SetData(EntityData.PLAYER_JOB_COOLDOWN, jobCooldown - 1);
                 }
-                
+
                 // Get the remaining jail time
                 int jailTime = player.GetData(EntityData.PLAYER_JAILED);
 
@@ -545,7 +545,7 @@ namespace WiredPlayers.globals
                 }
             }
         }
-        
+
         public static void GetPlayerBasicData(Client asker, Client player)
         {
             int rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
@@ -657,6 +657,28 @@ namespace WiredPlayers.globals
             player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, attachmentJson);
 
             NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "attachItemToPlayer", player.Value, attachmentJson);
+        }
+
+        public static void RemoveItemOnRightHand(Client player)
+        {
+            // Get the item on the right hand
+            string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+            int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
+            ItemModel currentItem = GetItemModelFromId(itemId);
+
+            // Check if it's a weapon or not
+            WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(currentItem.hash);
+
+            if (weaponHash != 0)
+            {
+                // Store the weapon from the player
+                player.GiveWeapon(WeaponHash.Unarmed, 0);
+            }
+            else
+            {
+                // Remove the item from the hand
+                NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+            }
         }
 
         private int GetPlayerLevel(Client player)
@@ -2788,7 +2810,19 @@ namespace WiredPlayers.globals
                     
                     // Add the item to the player
                     BusinessItemModel businessItem = Business.GetBusinessItemFromHash(playerItem.hash);
-                    AttachItemToPlayer(player, playerItem.id, playerItem.hash, businessItem.position, businessItem.rotation);
+                    WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(playerItem.hash);
+
+                    if (weaponHash != 0)
+                    {
+                        // Give the weapon to the player
+                        player.GiveWeapon(weaponHash, 0);
+                        player.SetWeaponAmmo(weaponHash, playerItem.amount);
+                    }
+                    else
+                    {
+                        // Create the object on the player's right hand
+                        AttachItemToPlayer(player, playerItem.id, playerItem.hash, businessItem.position, businessItem.rotation);
+                    }
 
                     Task.Factory.StartNew(() =>
                     {
