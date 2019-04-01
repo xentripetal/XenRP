@@ -188,27 +188,30 @@ namespace WiredPlayers.weapons
 
             // Get crates' spawn points
             List<Vector3> weaponSpawns = GetRandomWeaponSpawns(spawnPosition);
-            
-            foreach (Vector3 spawn in weaponSpawns)
-            {
-                // Calculate weapon or ammunition crate
-                int type = currentSpawn % 2;
-                int chance = random.Next(type == 0 ? Constants.MAX_WEAPON_CHANCE : Constants.MAX_AMMO_CHANCE);
-                CrateContentModel crateContent = GetRandomCrateContent(type, chance);
 
-                // We create the crate
-                WeaponCrateModel weaponCrate = new WeaponCrateModel();
+            NAPI.Task.Run(() =>
+            {
+                foreach (Vector3 spawn in weaponSpawns)
                 {
-                    weaponCrate.contentItem = crateContent.item;
-                    weaponCrate.contentAmount = crateContent.amount;
-                    weaponCrate.position = spawn;
-                    weaponCrate.carriedEntity = string.Empty;
-                    weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, spawn, new Vector3(0.0f, 0.0f, 0.0f), 0);
+                    // Calculate weapon or ammunition crate
+                    int type = currentSpawn % 2;
+                    int chance = random.Next(type == 0 ? Constants.MAX_WEAPON_CHANCE : Constants.MAX_AMMO_CHANCE);
+                    CrateContentModel crateContent = GetRandomCrateContent(type, chance);
+
+                    // We create the crate
+                    WeaponCrateModel weaponCrate = new WeaponCrateModel();
+                    {
+                        weaponCrate.contentItem = crateContent.item;
+                        weaponCrate.contentAmount = crateContent.amount;
+                        weaponCrate.position = spawn;
+                        weaponCrate.carriedEntity = string.Empty;
+                        weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, spawn, new Vector3(0.0f, 0.0f, 0.0f), 0);
+                    }
+
+                    weaponCrateList.Add(weaponCrate);
+                    currentSpawn++;
                 }
-                
-                weaponCrateList.Add(weaponCrate);                
-                currentSpawn++;
-            }
+            });
 
             // Warn all the factions about the place
             foreach (Client player in NAPI.Pools.GetAllPlayers())
@@ -286,32 +289,28 @@ namespace WiredPlayers.weapons
 
         private static void OnWeaponEventFinished(object unused)
         {
-            weaponTimer.Dispose();
-
-            foreach (WeaponCrateModel crate in weaponCrateList)
+            NAPI.Task.Run(() =>
             {
-                if (crate.crateObject != null)
-                {
-                    crate.crateObject.Delete();
-                }
-            }
+                weaponTimer.Dispose();
 
-            // Destroy weapon crates
-            weaponCrateList = new List<WeaponCrateModel>();
-            weaponTimer = null;
+                foreach (WeaponCrateModel crate in weaponCrateList)
+                {
+                    if (crate.crateObject != null)
+                    {
+                        crate.crateObject.Delete();
+                    }
+                }
+
+                // Destroy weapon crates
+                weaponCrateList = new List<WeaponCrateModel>();
+                weaponTimer = null;
+            });
         }
 
         private int GetVehicleWeaponCrates(int vehicleId)
         {
-            int crates = 0;
-            foreach (WeaponCrateModel weaponCrate in weaponCrateList)
-            {
-                if (weaponCrate.carriedEntity == Constants.ITEM_ENTITY_VEHICLE && weaponCrate.carriedIdentifier == vehicleId)
-                {
-                    crates++;
-                }
-            }
-            return crates;
+            // Get the crates on the vehicle
+            return weaponCrateList.Where(w => w.carriedEntity == Constants.ITEM_ENTITY_VEHICLE && w.carriedIdentifier == vehicleId).Count();
         }
 
         [ServerEvent(Event.ResourceStart)]
