@@ -227,6 +227,9 @@ namespace WiredPlayers.jobs
                     {
                         foreach (Vector3 fishingPosition in Constants.FISHING_POSITION_LIST)
                         {
+                            // Check if the player is close to the area
+                            if (player.Position.DistanceTo(fishingPosition) > 2.5f) continue;
+
                             // Set player looking to the sea
                             player.Rotation = new Vector3(0.0f, 0.0f, 142.532f);
                             
