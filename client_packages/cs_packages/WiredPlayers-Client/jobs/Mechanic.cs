@@ -42,10 +42,10 @@ namespace WiredPlayers_Client.jobs
                         CarPiece piece = new CarPiece(i, pieceGroup.desc + " " + (i + 1));
                         pieceGroup.components.Add(piece);
                     }
-                }
 
-                // Add all the pieces to the list
-                vehicleComponents.Add(pieceGroup);
+                    // Add all the pieces to the list
+                    vehicleComponents.Add(pieceGroup);
+                }
             }
 
             // Show the tunning menu

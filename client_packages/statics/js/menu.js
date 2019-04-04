@@ -323,7 +323,8 @@ function populateTunningComponents() {
 			itemPrice.classList.add('item-price');
 			
 			// Add the description and price
-			itemDescription.textContent = component.desc;
+			let description = component.desc.split(' ');
+			itemDescription.textContent = i18next.t(description[0]) + ' ' + description[1];
 			itemPrice.innerHTML = '<b>' + i18next.t('general.unit-price') + '</b>' + tunningComponents[selected].products + '$';
 			
 			itemContainer.onclick = (function() {
