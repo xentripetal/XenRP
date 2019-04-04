@@ -236,6 +236,7 @@ namespace WiredPlayers.admin
                                 {
                                     string[] firstColorArray = arguments[2].Split(',');
                                     string[] secondColorArray = arguments[3].Split(',');
+
                                     if (firstColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS && secondColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS)
                                     {
                                         // Basic data for vehicle creation
@@ -245,8 +246,8 @@ namespace WiredPlayers.admin
                                         vehicle.rotation = player.Rotation;
                                         vehicle.dimension = player.Dimension;
                                         vehicle.colorType = Constants.VEHICLE_COLOR_TYPE_CUSTOM;
-                                        vehicle.firstColor = "0,0,0";
-                                        vehicle.secondColor = "0,0,0";
+                                        vehicle.firstColor = arguments[2];
+                                        vehicle.secondColor = arguments[3];
                                         vehicle.pearlescent = 0;
                                         vehicle.owner = string.Empty;
                                         vehicle.plate = string.Empty;
@@ -294,13 +295,16 @@ namespace WiredPlayers.admin
                                                     {
                                                         try
                                                         {
-                                                            /*vehicle.firstColor = new ColorModel(int.Parse(firstColorArray[0]), int.Parse(firstColorArray[1]), int.Parse(firstColorArray[2]));
-                                                            vehicle.secondColor = new ColorModel(int.Parse(secondColorArray[0]), int.Parse(secondColorArray[1]), int.Parse(secondColorArray[2]));
-                                                            NAPI.SetVehicleCustomPrimaryColor(veh, vehicle.firstColor.red, vehicle.firstColor.green, vehicle.firstColor.blue);
-                                                            NAPI.SetVehicleCustomSecondaryColor(veh, vehicle.secondColor.red, vehicle.secondColor.green, vehicle.secondColor.blue);
+                                                            vehicle.firstColor = arguments[2];
+                                                            vehicle.secondColor = arguments[3];
+
+                                                            veh.CustomPrimaryColor = new Color(int.Parse(firstColorArray[0]), int.Parse(firstColorArray[1]), int.Parse(firstColorArray[2]));
+                                                            veh.CustomSecondaryColor = new Color(int.Parse(secondColorArray[0]), int.Parse(secondColorArray[1]), int.Parse(secondColorArray[2]));
+
                                                             veh.SetData(EntityData.VEHICLE_FIRST_COLOR, vehicle.firstColor.ToString());
                                                             veh.SetData(EntityData.VEHICLE_SECOND_COLOR, vehicle.secondColor.ToString());
-                                                            Database.UpdateVehicleColor(vehicle);*/
+
+                                                            Database.UpdateVehicleColor(vehicle);
                                                         }
                                                         catch (Exception ex)
                                                         {

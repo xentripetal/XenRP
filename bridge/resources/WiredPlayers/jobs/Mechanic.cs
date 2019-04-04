@@ -418,10 +418,9 @@ namespace WiredPlayers.jobs
                 {
                     if (business.type == Constants.BUSINESS_TYPE_MECHANIC && player.Position.DistanceTo(business.position) < 25.0f)
                     {
-                        NetHandle vehicle = player.Vehicle;
-                        if (vehicle != null)
+                        if (player.IsInVehicle)
                         {
-                            player.SetData(EntityData.PLAYER_VEHICLE, vehicle);
+                            player.SetData(EntityData.PLAYER_VEHICLE, player.Vehicle);
                             player.TriggerEvent("showTunningMenu");
                         }
                         else
