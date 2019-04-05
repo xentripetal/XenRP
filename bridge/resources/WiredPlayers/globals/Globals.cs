@@ -434,6 +434,134 @@ namespace WiredPlayers.globals
             player.TriggerEvent("updateInventory", NAPI.Util.ToJson(inventoryItem), target);
         }
 
+        private void ConsumeItem(Client player, ItemModel item, BusinessItemModel businessItem)
+        {
+            item.amount--;
+
+            // Check if it changes the health
+            if (businessItem.health != 0)
+            {
+                player.Health += businessItem.health;
+                if (player.Health > 100) player.Health = 100;
+            }
+
+            if (businessItem.alcoholLevel > 0)
+            {
+                float currentAlcohol = 0;
+                if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
+                {
+                    currentAlcohol = player.GetData(EntityData.PLAYER_DRUNK_LEVEL);
+                }
+                player.SetData(EntityData.PLAYER_DRUNK_LEVEL, currentAlcohol + businessItem.alcoholLevel);
+
+                if (currentAlcohol + businessItem.alcoholLevel > Constants.WASTED_LEVEL)
+                {
+                    player.SetSharedData(EntityData.PLAYER_WALKING_STYLE, "move_m@drunk@verydrunk");
+                    NAPI.ClientEvent.TriggerClientEventForAll("changePlayerWalkingStyle", player.Handle, "move_m@drunk@verydrunk");
+                }
+            }
+
+            if (item.amount == 0)
+            {
+                // Remove the item from the hand
+                NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+
+                player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
+
+                Task.Factory.StartNew(() =>
+                {
+                    // Remove the item from the database
+                    Database.RemoveItem(item.id);
+                    itemList.Remove(item);
+                });
+            }
+            else
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    // Update the amount into the database
+                    Database.UpdateItem(item);
+                });
+            }
+
+            string message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
+            player.SendChatMessage(Constants.COLOR_INFO + message);
+        }
+
+        private void DropItem(Client player, ItemModel item, BusinessItemModel businessItem)
+        {
+            item.amount--;
+
+            // Check if there are items of the same type near
+            ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
+
+            // Check if it's a weapon or not
+            WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
+
+            // Get the dropped amount
+            int amount = weaponHash != 0 ? item.amount : 1;
+            item.amount -= amount;
+
+            Task.Factory.StartNew(() =>
+            {
+                if (closestItem != null)
+                {
+                    closestItem.amount += amount;
+
+                    // Update the closest item's amount
+                    Database.UpdateItem(closestItem);
+                }
+                else
+                {
+                    NAPI.Task.Run(() =>
+                    {
+                        // Get the hash from the item dropped
+                        uint itemHash = weaponHash != 0 ? NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]) : uint.Parse(item.hash);
+
+                        closestItem = item.Copy();
+                        closestItem.amount = amount;
+                        closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
+                        closestItem.dimension = player.Dimension;
+                        closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
+                        closestItem.objectHandle = NAPI.Object.CreateObject(itemHash, closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
+
+                        // Create the new item
+                        closestItem.id = Database.AddNewItem(closestItem);
+                        itemList.Add(closestItem);
+                    });
+                }
+
+                if (item.amount == 0)
+                {
+                    if (weaponHash != 0)
+                    {
+                        // Remove the weapon from the player
+                        player.RemoveWeapon(weaponHash);
+                    }
+                    else
+                    {
+                        // Remove the item from the hand
+                        NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                    }
+
+                    // Remove the attachment information
+                    player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
+
+                    // There are no more items, we delete it
+                    Database.RemoveItem(item.id);
+                    itemList.Remove(item);
+                }
+                else
+                {
+                    // Update the item's amount
+                    Database.UpdateItem(item);
+                }
+
+                string message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
+                player.SendChatMessage(Constants.COLOR_INFO + message);
+            });
+        }
+
         public static List<InventoryModel> GetPlayerInventoryAndWeapons(Client player)
         {
             List<InventoryModel> inventory = new List<InventoryModel>();
@@ -1098,52 +1226,8 @@ namespace WiredPlayers.globals
             switch (action.ToLower())
             {
                 case Commands.COM_CONSUME:
-                    item.amount--;
-                    message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
-                    player.SendChatMessage(Constants.COLOR_INFO + message);
-
-                    // Check if it grows alcohol level
-                    if (businessItem.alcoholLevel > 0)
-                    {
-                        float currentAlcohol = 0;
-                        if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
-                        {
-                            currentAlcohol = player.GetData(EntityData.PLAYER_DRUNK_LEVEL);
-                        }
-                        player.SetData(EntityData.PLAYER_DRUNK_LEVEL, currentAlcohol + businessItem.alcoholLevel);
-
-                        if (currentAlcohol + businessItem.alcoholLevel > Constants.WASTED_LEVEL)
-                        {
-                            player.SetSharedData(EntityData.PLAYER_WALKING_STYLE, "move_m@drunk@verydrunk");
-                            NAPI.ClientEvent.TriggerClientEventForAll("changePlayerWalkingStyle", player.Handle, "move_m@drunk@verydrunk");
-                        }
-                    }
-
-                    // Check if it changes the health
-                    if (businessItem.health != 0)
-                    {
-                        player.Health += businessItem.health;
-                        if (player.Health > 100) player.Health = 100;
-                    }
-
-                    // Check if it was the last one remaining
-                    if (item.amount == 0)
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Remove the item from the database
-                            Database.RemoveItem(item.id);
-                            itemList.Remove(item);
-                        });
-                    }
-                    else
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Update the item into the inventory
-                            Database.UpdateItem(item);
-                        });
-                    }
+                    // Consume the selected item
+                    ConsumeItem(player, item, businessItem);
 
                     // Update the inventory
                     UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
@@ -1215,59 +1299,8 @@ namespace WiredPlayers.globals
                     }
                     break;
                 case Commands.COM_DROP:
-                    item.amount--;
-
-                    // Check if there are items of the same type near
-                    ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
-
-                    if (closestItem != null)
-                    {
-                        closestItem.amount++;
-
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Update the item into the database
-                            Database.UpdateItem(item);
-                        });
-                    }
-                    else
-                    {
-                        closestItem = item.Copy();
-                        closestItem.amount = 1;
-                        closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
-                        closestItem.dimension = player.Dimension;
-                        closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
-                        closestItem.objectHandle = NAPI.Object.CreateObject(Convert.ToUInt32(closestItem.hash), closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
-
-
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Create the new item
-                            closestItem.id = Database.AddNewItem(closestItem);
-                            itemList.Add(closestItem);
-                        });
-                    }
-
-                    // Check if it was the last one
-                    if (item.amount == 0)
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            Database.RemoveItem(item.id);
-                            itemList.Remove(item);
-                        });
-                    }
-                    else
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Update the item into the database
-                            Database.UpdateItem(item);
-                        });
-                    }
-
-                    message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
-                    player.SendChatMessage(Constants.COLOR_INFO + message);
+                    // Drop the item from the inventory
+                    DropItem(player, item, businessItem);
 
                     // Update the inventory
                     UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
@@ -1426,63 +1459,16 @@ namespace WiredPlayers.globals
         {
             if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                // Get the item in the right hand
                 string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
                 int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
                 ItemModel item = GetItemModelFromId(itemId);
                 BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
-
+                
                 // Check if it's consumable
                 if (businessItem.type == Constants.ITEM_TYPE_CONSUMABLE)
                 {
-                    string message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
-
-                    item.amount--;
-
-                    if (businessItem.health != 0)
-                    {
-                        player.Health += businessItem.health;
-                    }
-
-                    if (businessItem.alcoholLevel > 0)
-                    {
-                        float currentAlcohol = 0;
-                        if (player.GetData(EntityData.PLAYER_DRUNK_LEVEL) != null)
-                        {
-                            currentAlcohol = player.GetData(EntityData.PLAYER_DRUNK_LEVEL);
-                        }
-                        player.SetData(EntityData.PLAYER_DRUNK_LEVEL, currentAlcohol + businessItem.alcoholLevel);
-
-                        if (currentAlcohol + businessItem.alcoholLevel > Constants.WASTED_LEVEL)
-                        {
-                            player.SetSharedData(EntityData.PLAYER_WALKING_STYLE, "move_m@drunk@verydrunk");
-                            NAPI.ClientEvent.TriggerClientEventForAll("changePlayerWalkingStyle", player.Handle, "move_m@drunk@verydrunk");
-                        }
-                    }
-
-                    if (item.amount == 0)
-                    {
-                        // Remove the item from the hand
-                        NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
-
-                        player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
-
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Remove the item from the database
-                            Database.UpdateItem(item);
-                        });
-                    }
-                    else
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Update the amount into the database
-                            Database.UpdateItem(item);
-                        });
-                    }
-
-                    player.SendChatMessage(Constants.COLOR_INFO + message);
+                    // Consume the item on the hand
+                    ConsumeItem(player, item, businessItem);
                 }
                 else
                 {
@@ -2863,73 +2849,9 @@ namespace WiredPlayers.globals
 
                 ItemModel item = GetItemModelFromId(itemId);
                 BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
-                ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
 
-                // Check if it's a weapon or not
-                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
-
-                // Get the dropped amount
-                int amount = weaponHash != 0 ? item.amount : 1;
-                item.amount -= amount;
-
-                Task.Factory.StartNew(() =>
-                {
-                    if (closestItem != null)
-                    {
-                        closestItem.amount += amount;
-
-                        // Update the closest item's amount
-                        Database.UpdateItem(closestItem);
-                    }
-                    else
-                    {
-                        NAPI.Task.Run(() =>
-                        {
-                            // Get the hash from the item dropped
-                            uint itemHash = weaponHash != 0 ? NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]) : uint.Parse(item.hash);
-
-                            closestItem = item.Copy();
-                            closestItem.amount = amount;
-                            closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
-                            closestItem.dimension = player.Dimension;
-                            closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
-                            closestItem.objectHandle = NAPI.Object.CreateObject(itemHash, closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
-
-                            // Create the new item
-                            closestItem.id = Database.AddNewItem(closestItem);
-                            itemList.Add(closestItem);
-                        });
-                    }
-
-                    if (item.amount == 0)
-                    {
-                        if(weaponHash != 0)
-                        {
-                            // Remove the weapon from the player
-                            player.RemoveWeapon(weaponHash);
-                        }
-                        else
-                        {
-                            // Remove the item from the hand
-                            NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
-                        }
-
-                        // Remove the attachment information
-                        player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
-
-                        // There are no more items, we delete it
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
-                    }
-                    else
-                    {
-                        // Update the item's amount
-                        Database.UpdateItem(item);
-                    }
-
-                    string message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
-                    player.SendChatMessage(Constants.COLOR_INFO + message);
-                });
+                // Drop the item on the hand
+                DropItem(player, item, businessItem);
             }
             else if (player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE) != null)
             {

@@ -67,22 +67,22 @@ namespace WiredPlayers.jobs
             Client player = (Client)playerObject;
             Client driver = player.GetData(EntityData.PLAYER_JOB_PARTNER);
 
-            // Get garbage bag
-            GTANetworkAPI.Object garbageBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
-            player.StopAnimation();
-            garbageBag.Delete();
-
-            // Get the remaining checkpoints
-            int route = driver.GetData(EntityData.PLAYER_JOB_ROUTE);
-            int checkPoint = driver.GetData(EntityData.PLAYER_JOB_CHECKPOINT) + 1;
-            int totalCheckPoints = Constants.GARBAGE_LIST.Where(x => x.route == route).Count();
-
-            // Get the current checkpoint
-            Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
-            garbageCheckpoint.Delete();
-
             NAPI.Task.Run(() =>
             {
+                // Get garbage bag
+                GTANetworkAPI.Object garbageBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
+                player.StopAnimation();
+                garbageBag.Delete();
+
+                // Get the remaining checkpoints
+                int route = driver.GetData(EntityData.PLAYER_JOB_ROUTE);
+                int checkPoint = driver.GetData(EntityData.PLAYER_JOB_CHECKPOINT) + 1;
+                int totalCheckPoints = Constants.GARBAGE_LIST.Where(x => x.route == route).Count();
+
+                // Get the current checkpoint
+                Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
+                garbageCheckpoint.Delete();
+
                 if (checkPoint < totalCheckPoints)
                 {
                     Vector3 currentGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint);
