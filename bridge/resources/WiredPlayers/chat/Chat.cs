@@ -163,7 +163,7 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Commands.COM_YELL, Commands.HLP_YELL_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_YELL, Alias = Commands.COM_YELL_ALIAS, Description = Commands.HLP_YELL_COMMAND, GreedyArg = true)]
         public void GritarCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
@@ -176,7 +176,7 @@ namespace WiredPlayers.chat
             }
         }
 
-        [Command(Commands.COM_WHISPER, Commands.HLP_WHISPER_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_WHISPER, Alias = Commands.COM_WHISPER_ALIAS, Description = Commands.HLP_WHISPER_COMMAND, GreedyArg = true)]
         public void SusurrarCommand(Client player, string message)
         {
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
@@ -201,7 +201,7 @@ namespace WiredPlayers.chat
             SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_DO, player.Dimension > 0 ? 7.5f : 20.0f);
         }
 
-        [Command(Commands.COM_OOC, Commands.HLP_OOC_COMMAND, GreedyArg = true)]
+        [Command(Commands.COM_OOC, Alias = Commands.COM_OOC_ALIAS, Description = Commands.HLP_OOC_COMMAND, GreedyArg = true)]
         public void OocCommand(Client player, string message)
         {
             SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_OOC, player.Dimension > 0 ? 5.0f : 10.0f);
