@@ -41,7 +41,7 @@ namespace WiredPlayers_Client.weapons
         private void OnPlayerWeaponShotEvent(Vector3 targetPos, Player target, Events.CancelEventArgs cancel)
         {
             // Calculate the weapon the player is holding
-            uint weaponHash = RAGE.Game.Invoker.Invoke<uint>(RAGE.Game.Natives.GetSelectedPedWeapon, Player.LocalPlayer.Handle);
+            uint weaponHash = RAGE.Game.Weapon.GetSelectedPedWeapon(Player.LocalPlayer.Handle);
 
             // Get the bullets remaining
             int bullets = Player.LocalPlayer.GetAmmoInWeapon(weaponHash);
