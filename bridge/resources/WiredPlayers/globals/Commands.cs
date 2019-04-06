@@ -2,7 +2,9 @@
 {
     public class Commands
     {
-        // Command names
+
+        #region Command Names
+
         public const string COM_SKIN = "skin";
         public const string COM_ADMIN = "aviso";
         public const string COM_COORD = "coord";
@@ -190,7 +192,10 @@
         public const string COM_PLAYER = "jugador";
         public const string COM_DELIVER = "repartir";
 
-        // Command arguments
+        #endregion
+
+        #region Command Arguments
+
         public const string ARG_INFO = "info";
         public const string ARG_CREATE = "crear";
         public const string ARG_MODIFY = "modificar";
@@ -294,7 +299,10 @@
         public const string ARG_GLASSES = "gafas";
         public const string ARG_EARRINGS = "pendientes";
 
-        // Commands help messages
+        #endregion
+
+        #region Commands Help Messages
+
         public const string HLP_COORD_COMMAND = "USO: /coord [Pos. X] [Pos. Y] [Pos. Z]";
         public const string HLP_JOB_COMMAND = "USO: /empleo [Info|Aceptar|Dejar]";
         public const string HLP_FURNITURE_COMMAND = "USO: /muebles [Colocar|Mover|Eliminar]";
@@ -438,5 +446,16 @@
         public const string HLP_INFO_COMMAND = "USO: /info [Id. jugador/Nombre jugador]";
         public const string HLP_FRISK_COMMAND = "USO: /cachear [Id. jugador/Nombre jugador]";
         public const string HLP_INCRIMINATE_COMMAND = "USO: /inculpar [Id. jugador/Nombre jugador]";
+
+        #endregion
+        
+        #region Command Aliases
+
+        public const string COM_OOC_ALIAS = "b";
+        public const string COM_WHISPER_ALIAS = "s";
+        public const string COM_YELL_ALIAS = "g";
+        public const string COM_PLAYER_ALIAS = "stats";
+
+        #endregion
     }
 }
