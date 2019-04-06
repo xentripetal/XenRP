@@ -3216,7 +3216,7 @@ namespace WiredPlayers.globals
             }
         }
 
-        [Command(Commands.COM_PLAYER)]
+        [Command(Commands.COM_PLAYER, Alias = Commands.COM_PLAYER_ALIAS)]
         public void PlayerCommand(Client player)
         {
             // Get players basic data

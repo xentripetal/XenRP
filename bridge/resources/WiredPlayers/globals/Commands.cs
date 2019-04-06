@@ -454,6 +454,7 @@
         public const string COM_OOC_ALIAS = "b";
         public const string COM_WHISPER_ALIAS = "s";
         public const string COM_YELL_ALIAS = "g";
+        public const string COM_PLAYER_ALIAS = "stats";
 
         #endregion
     }
