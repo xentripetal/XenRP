@@ -1,4 +1,5 @@
-﻿using RAGE;
+﻿using System;
+using RAGE;
 using RAGE.Elements;
 
 namespace WiredPlayers_Client.weapons
@@ -12,6 +13,8 @@ namespace WiredPlayers_Client.weapons
             Events.Add("getPlayerWeapons", GetPlayerWeaponsEvent);
             Events.Add("showWeaponCheckpoint", ShowWeaponCheckpointEvent);
             Events.Add("deleteWeaponCheckpoint", DeleteWeaponCheckpointEvent);
+
+            Events.OnPlayerWeaponShot += OnPlayerWeaponShotEvent;
         }
 
         private void GetPlayerWeaponsEvent(object[] args)
@@ -33,6 +36,18 @@ namespace WiredPlayers_Client.weapons
             // Delete the checkpoint on the map
             weaponCheckpoint.Destroy();
             weaponCheckpoint = null;
+        }
+
+        private void OnPlayerWeaponShotEvent(Vector3 targetPos, Player target, Events.CancelEventArgs cancel)
+        {
+            // Calculate the weapon the player is holding
+            uint weaponHash = RAGE.Game.Invoker.Invoke<uint>(RAGE.Game.Natives.GetSelectedPedWeapon, Player.LocalPlayer.Handle);
+
+            // Get the bullets remaining
+            int bullets = Player.LocalPlayer.GetAmmoInWeapon(weaponHash);
+
+            // Update the weapon's bullet amount
+            Events.CallRemote("updateWeaponBullets", bullets);
         }
     }
 }

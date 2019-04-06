@@ -490,8 +490,6 @@ namespace WiredPlayers.globals
 
         private void DropItem(Client player, ItemModel item, BusinessItemModel businessItem)
         {
-            item.amount--;
-
             // Check if there are items of the same type near
             ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
 
