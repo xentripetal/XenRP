@@ -38,40 +38,6 @@ function showLoginError() {
 	$('#error').removeClass('d-none');
 }
 
-function getPlayerList() {
-	mp.trigger('getConnectedPlayers');
-}
-
-function populatePlayerList(playerJSON) {
-	var playerArray = JSON.parse(playerJSON);
-	var tableBody = document.getElementById('playersTableBody');
-	while (tableBody.firstChild) {
-		tableBody.removeChild(tableBody.firstChild);
-	}
-	for (var i = 0; i < playerArray.length; i++) {
-		if (playerArray[i].playerName.length > 0) {
-			var tableRow = document.createElement("TR");
-			var playerIdColumn = document.createElement("TD");
-			var playerNameColumn = document.createElement("TD");
-			var playerPingColumn = document.createElement("TD");
-
-			playerIdColumn.innerHTML = playerArray[i].playerId;
-			playerNameColumn.innerHTML = playerArray[i].playerName;
-			playerPingColumn.innerHTML = playerArray[i].playerPing + " ms";
-
-			tableRow.appendChild(playerIdColumn);
-			tableRow.appendChild(playerNameColumn);
-			tableRow.appendChild(playerPingColumn);
-
-			tableBody.appendChild(tableRow);
-		}
-	}
-}
-
-function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function withdrawMoney() {
 	bankSelectedOption = 1;
 	$('#bank-menu').addClass('d-none');
