@@ -38,13 +38,6 @@ function showLoginError() {
 	$('#error').removeClass('d-none');
 }
 
-function selectName() {
-	var name = capitalizeFirstLetter(document.getElementById('name').value);
-	var surname = capitalizeFirstLetter(document.getElementById('surname').value);
-	var realName = name + " " + surname;
-	mp.trigger('createCharacter', realName);
-}
-
 function getPlayerList() {
 	mp.trigger('getConnectedPlayers');
 }
