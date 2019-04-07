@@ -1501,15 +1501,19 @@ namespace WiredPlayers.globals
             {
                 int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
                 BusinessModel business = Business.GetBusinessById(businessId);
+                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
                 int playerSex = player.GetData(EntityData.PLAYER_SEX);
 
                 switch (business.type)
                 {
                     case Constants.BUSINESS_TYPE_CLOTHES:
+                        // Get the clothes on the character
+                        List<ClothesModel> clothes = GetPlayerClothes(playerId);
+
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.about_complements);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping1);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping2);
-                        player.TriggerEvent("showClothesBusinessPurchaseMenu", business.name, business.multiplier);
+                        player.TriggerEvent("showClothesBusinessPurchaseMenu", NAPI.Util.ToJson(clothes), business.name, business.multiplier);
                         break;
                     case Constants.BUSINESS_TYPE_BARBER_SHOP:
                         // Load the players skin model
@@ -1517,8 +1521,6 @@ namespace WiredPlayers.globals
                         player.TriggerEvent("showHairdresserMenu", playerSex, skinModel, business.name);
                         break;
                     case Constants.BUSINESS_TYPE_TATTOO_SHOP:
-                        int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-
                         // Remove player's clothes
                         player.SetClothes(11, 15, 0);
                         player.SetClothes(3, 15, 0);
@@ -1542,7 +1544,13 @@ namespace WiredPlayers.globals
                         break;
                     default:
                         List<BusinessItemModel> businessItems = Business.GetBusinessSoldItems(business.type);
-                        player.TriggerEvent("showBusinessPurchaseMenu", NAPI.Util.ToJson(businessItems), business.name, business.multiplier);
+
+                        if(businessItems.Count > 0)
+                        {
+                            // Show the purchase menu
+                            player.TriggerEvent("showBusinessPurchaseMenu", NAPI.Util.ToJson(businessItems), business.name, business.multiplier);
+                        }
+
                         break;
                 }
             }

@@ -56,13 +56,16 @@ namespace WiredPlayers_Client.business
             // Save the new value
             facialHair[slot] = value;
 
+            // Check if the beard is out of range
+            int beardModel = facialHair[5] < 0 ? 255 : facialHair[5];
+
             // Update the player's head
             Player.LocalPlayer.SetComponentVariation(2, facialHair[0], 0, 0);
             Player.LocalPlayer.SetHairColor(facialHair[1], facialHair[2]);
-            Player.LocalPlayer.SetHeadOverlay(1, facialHair[5], 1.0f);
+            Player.LocalPlayer.SetHeadOverlay(1, beardModel, 1.0f);
             Player.LocalPlayer.SetHeadOverlay(2, facialHair[3], 1.0f);
-            Player.LocalPlayer.SetHeadOverlayColor(1, 0, facialHair[6], 0);
-            Player.LocalPlayer.SetHeadOverlayColor(2, 0, facialHair[4], 0);
+            Player.LocalPlayer.SetHeadOverlayColor(1, 1, facialHair[6], 0);
+            Player.LocalPlayer.SetHeadOverlayColor(2, 1, facialHair[4], 0);
         }
 
         private void ApplyHairdresserChangesEvent(object[] args)
@@ -73,7 +76,7 @@ namespace WiredPlayers_Client.business
             generatedFace.secondHairColor = facialHair[2];
             generatedFace.eyebrowsModel = facialHair[3];
             generatedFace.eyebrowsColor = facialHair[4];
-            generatedFace.beardModel = facialHair[5];
+            generatedFace.beardModel = facialHair[5] < 0 ? 255 : facialHair[5];
             generatedFace.beardColor = facialHair[6];
 
             Events.CallRemote("changeHairStyle", JsonConvert.SerializeObject(generatedFace));
@@ -86,8 +89,8 @@ namespace WiredPlayers_Client.business
             Player.LocalPlayer.SetHairColor(initialHair.firstHairColor, initialHair.secondHairColor);
             Player.LocalPlayer.SetHeadOverlay(1, initialHair.beardModel, 1.0f);
             Player.LocalPlayer.SetHeadOverlay(2, initialHair.eyebrowsModel, 1.0f);
-            Player.LocalPlayer.SetHeadOverlayColor(1, 0, initialHair.beardColor, 0);
-            Player.LocalPlayer.SetHeadOverlayColor(2, 0, initialHair.eyebrowsColor, 0);
+            Player.LocalPlayer.SetHeadOverlayColor(1, 1, initialHair.beardColor, 0);
+            Player.LocalPlayer.SetHeadOverlayColor(2, 1, initialHair.eyebrowsColor, 0);
         }
     }
 }

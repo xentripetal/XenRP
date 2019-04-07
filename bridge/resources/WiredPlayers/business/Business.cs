@@ -286,6 +286,18 @@ namespace WiredPlayers.business
         public void ClothesItemSelectedEvent(Client player, string clothesJson)
         {
             ClothesModel clothesModel = NAPI.Util.FromJson<ClothesModel>(clothesJson);
+
+            // Get the player's clothes
+            int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
+            List<ClothesModel> ownedClothes = Globals.GetPlayerClothes(playerId);
+
+            if (ownedClothes.Any(c => c.slot == clothesModel.slot && c.type == clothesModel.type && c.drawable == clothesModel.drawable && c.texture == clothesModel.texture))
+            {
+                // The player already has those clothes
+                player.SendChatMessage(Constants.COLOR_ERROR, ErrRes.player_owns_clothes);
+                return;
+            }
+
             int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             int sex = player.GetData(EntityData.PLAYER_SEX);
             int products = GetClothesProductsPrice(clothesModel.id, sex, clothesModel.type, clothesModel.slot);
@@ -297,8 +309,6 @@ namespace WiredPlayers.business
 
             if (playerMoney >= price)
             {
-                int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
-
                 // Substracting paid money
                 player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - price);
 

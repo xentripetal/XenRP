@@ -867,4 +867,7 @@
   <data name="vehicle_refuel_into_vehicle" xml:space="preserve">
     <value>Debes salir del vehículo para repostar.</value>
   </data>
+  <data name="player_owns_clothes" xml:space="preserve">
+    <value>Ya tienes esa prenda en tu armario.</value>
+  </data>
 </root>

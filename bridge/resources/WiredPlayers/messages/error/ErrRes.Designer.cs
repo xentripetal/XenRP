@@ -1969,6 +1969,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ya tienes esa prenda en tu armario..
+        /// </summary>
+        public static string player_owns_clothes {
+            get {
+                return ResourceManager.GetString("player_owns_clothes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ya estás repostando un vehículo..
         /// </summary>
         public static string player_refueling {
