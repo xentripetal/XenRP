@@ -30,6 +30,12 @@
 	"register": {
 		"message": "Bienvenido a WiredPlayers, para jugar necesitarás crear tu cuenta introduciendo una contraseña"
 	},
+	"players": {
+		"online": "Jugadores conectados: ",
+		"id": "ID",
+		"name": "NOMBRE",
+		"ping": "LATENCIA" 
+	},
 	"phone": {
 		"number": "Número",
 		"sms": "Envío de SMS",

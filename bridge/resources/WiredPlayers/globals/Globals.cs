@@ -51,15 +51,21 @@ namespace WiredPlayers.globals
 
         private void UpdatePlayerList(object unused)
         {
-            // Update player list
-            foreach (Client player in NAPI.Pools.GetAllPlayers())
+            // Initialize the score list
+            List<ScoreModel> scoreList = new List<ScoreModel>();
+
+            // Get all the players ingame
+            List<Client> playingPlayers = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null).ToList();
+
+            // Update the score list
+            foreach (Client player in playingPlayers)
             {
-                if (player.GetData(EntityData.PLAYER_PLAYING) != null)
-                {
-                    ScoreModel scoreModel = scoreList.First(score => score.playerId == player.Value);
-                    scoreModel.playerPing = player.Ping;
-                }
+                ScoreModel score = new ScoreModel(player.Value, player.Name, player.Ping);
+                scoreList.Add(score);
             }
+
+            // Update the list for all the players
+            playingPlayers.ForEach(p => p.TriggerEvent("updatePlayerList", NAPI.Util.ToJson(scoreList)));
         }
 
         private void OnMinuteSpent(object unused)
@@ -822,7 +828,6 @@ namespace WiredPlayers.globals
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
-            scoreList = new List<ScoreModel>();
             adminTicketList = new List<AdminTicketModel>();
             fastFoodOrderList = new List<FastfoodOrderModel>();
             truckerOrderList = new List<OrderModel>();
@@ -871,7 +876,7 @@ namespace WiredPlayers.globals
 
             // Permanent timers
             minuteTimer = new Timer(OnMinuteSpent, null, 60000, 60000);
-            playerListUpdater = new Timer(UpdatePlayerList, null, 500, 500);
+            playerListUpdater = new Timer(UpdatePlayerList, null, 750, 750);
         }
 
         [ServerEvent(Event.PlayerDisconnected)]
@@ -881,9 +886,6 @@ namespace WiredPlayers.globals
             {
                 // Disconnect from the server
                 player.ResetData(EntityData.PLAYER_PLAYING);
-
-                // Remove player from players list
-                scoreList.RemoveAll(score => score.playerId == player.Value);
 
                 // Remove opened ticket
                 adminTicketList.RemoveAll(ticket => ticket.playerId == player.Value);
@@ -1142,10 +1144,6 @@ namespace WiredPlayers.globals
                         {
                             player.Dimension = 0;
                         }
-
-                        // Add player into connected list
-                        ScoreModel scoreModel = new ScoreModel(player.Value, player.Name, player.Ping);
-                        scoreList.Add(scoreModel);
 
                         // Spawn the player into the world
                         player.Name = player.GetData(EntityData.PLAYER_NAME);

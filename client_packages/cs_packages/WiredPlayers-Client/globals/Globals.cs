@@ -14,12 +14,15 @@ namespace WiredPlayers_Client.globals
     class Globals : Events.Script
     {
         private DateTime lastTimeChecked;
-        private int playerMoney = 0;
+        private string playerMoney;
+        public static bool viewingPlayers;
         public static bool playerLogged;
         private static Dictionary<int, AttachmentModel> playerAttachments;
 
         public Globals()
         {
+            Events.Add("updatePlayerList", UpdatePlayerListEvent);
+            Events.Add("hideConnectedPlayers", HideConnectedPlayersEvent);
             Events.Add("changePlayerWalkingStyle", ChangePlayerWalkingStyleEvent);
             Events.Add("resetPlayerWalkingStyle", ResetPlayerWalkingStyleEvent);
             Events.Add("attachItemToPlayer", AttachItemToPlayerEvent);
@@ -37,6 +40,23 @@ namespace WiredPlayers_Client.globals
         {
             // Escape the apostrophe on JSON
             return jsonString.Replace("'", "\\'");
+        }
+
+        private void UpdatePlayerListEvent(object[] args)
+        {
+            if (!playerLogged || !viewingPlayers || Browser.customBrowser == null) return;
+
+            // Update the player list
+            Browser.ExecuteFunctionEvent(new object[] { "updatePlayerList", args[0].ToString() });
+        }
+
+        private void HideConnectedPlayersEvent(object[] args)
+        {
+            // Cancel the player list view
+            viewingPlayers = false;
+
+            // Destroy the browser
+            Browser.DestroyBrowserEvent(null);
         }
 
         private void ChangePlayerWalkingStyleEvent(object[] args)
@@ -190,15 +210,15 @@ namespace WiredPlayers_Client.globals
                 Vehicles.UpdateSpeedometer();
             }
 
-            // Update the player's money each 375ms
-            if (dateTime.Ticks - lastTimeChecked.Ticks >= 3750000)
+            // Update the player's money each 450ms
+            if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000)
             {
                 // Check if the player is loaded
                 object money = Player.LocalPlayer.GetSharedData("PLAYER_MONEY"); 
 
                 if(money != null)
                 {
-                    playerMoney = Convert.ToInt32(money);
+                    playerMoney = Convert.ToInt32(money) + "$";
                     lastTimeChecked = dateTime;
                 }
             }
@@ -210,7 +230,7 @@ namespace WiredPlayers_Client.globals
             }
 
             // Draw the money
-            RAGE.NUI.UIResText.Draw(playerMoney + "$", 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
+            RAGE.NUI.UIResText.Draw(playerMoney, 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
 
             // Check if the player
             if(RAGE.Game.Pad.IsControlJustPressed(0, (int)RAGE.Game.Control.VehicleSubPitchDownOnly) && Player.LocalPlayer.Vehicle != null)

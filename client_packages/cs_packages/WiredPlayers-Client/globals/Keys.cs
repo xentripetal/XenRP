@@ -69,8 +69,7 @@ namespace WiredPlayers_Client.globals
                         // Check if player can enter any place
                         Events.CallRemote("checkPlayerEventKey");
                     }
-
-                    return;
+                    break;
                 case (int)ConsoleKey.K:
                     if (Player.LocalPlayer.Vehicle != null)
                     {
@@ -79,6 +78,16 @@ namespace WiredPlayers_Client.globals
                             // Toggle vehicle's engine
                             Events.CallRemote("engineOnEventKey");
                         }
+                    }
+                    break;
+                case (int)ConsoleKey.F2:
+                    if(!Globals.viewingPlayers)
+                    {
+                        // Change the flag
+                        Globals.viewingPlayers = true;
+
+                        // Create the player list browser
+                        Browser.CreateBrowserEvent(new object[] { "package://statics/html/playerList.html" });
                     }
                     break;
             }
@@ -91,7 +100,8 @@ namespace WiredPlayers_Client.globals
             {
                 (int)ConsoleKey.E,
                 (int)ConsoleKey.F,
-                (int)ConsoleKey.K
+                (int)ConsoleKey.K,
+                (int)ConsoleKey.F2
             };
 
         }
