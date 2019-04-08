@@ -781,9 +781,9 @@ namespace WiredPlayers.globals
             asker.SendChatMessage(Constants.COLOR_HELP + GenRes.played_time + (int)played.TotalHours + "h " + played.Minutes + "m; " + GenRes.role_points + rolePoints);
         }
 
-        public static void AttachItemToPlayer(Client player, int itemId, string hash, Vector3 position, Vector3 rotation)
+        public static void AttachItemToPlayer(Client player, int itemId, string hash, string bodyPart, Vector3 position, Vector3 rotation)
         {
-            AttachmentModel attachment = new AttachmentModel(itemId, hash, position, rotation);
+            AttachmentModel attachment = new AttachmentModel(itemId, hash, bodyPart, position, rotation);
             string attachmentJson = NAPI.Util.ToJson(attachment);
 
             player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, attachmentJson);
@@ -1107,21 +1107,21 @@ namespace WiredPlayers.globals
                                 player.GiveWeapon(weapon, rightHand.amount);
 
                                 // Create the attachment
-                                AttachmentModel attachment = new AttachmentModel(rightHand.id, rightHand.hash, new Vector3(), new Vector3());
+                                AttachmentModel attachment = new AttachmentModel(rightHand.id, rightHand.hash, "IK_R_Hand", new Vector3(), new Vector3());
                                 player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, NAPI.Util.ToJson(attachment));
                             }
                             else
                             {
                                 // Give the item to the player
                                 player.GiveWeapon(WeaponHash.Unarmed, 1);
-                                AttachItemToPlayer(player, rightHand.id, rightHand.hash, businessItem.position, businessItem.rotation);
+                                AttachItemToPlayer(player, rightHand.id, rightHand.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
                             }
                         }
 
                         if (leftHand != null)
                         {
                             BusinessItemModel businessItem = Business.GetBusinessItemFromHash(leftHand.hash);
-                            AttachItemToPlayer(player, leftHand.id, leftHand.hash, businessItem.position, businessItem.rotation);
+                            AttachItemToPlayer(player, leftHand.id, leftHand.hash, "IK_L_Hand", businessItem.position, businessItem.rotation);
                             player.SetSharedData(EntityData.PLAYER_LEFT_HAND, leftHand.id);
                         }
 
@@ -1288,7 +1288,7 @@ namespace WiredPlayers.globals
                     {
                         // Set the item into the hand
                         item.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
-                        AttachItemToPlayer(player, item.id, item.hash, businessItem.position, businessItem.rotation);
+                        AttachItemToPlayer(player, item.id, item.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
 
                         message = string.Format(InfoRes.player_inventory_equip, businessItem.description.ToLower());
                         player.SendChatMessage(Constants.COLOR_INFO + message);
@@ -2811,7 +2811,7 @@ namespace WiredPlayers.globals
                     else
                     {
                         // Create the object on the player's right hand
-                        AttachItemToPlayer(player, playerItem.id, playerItem.hash, businessItem.position, businessItem.rotation);
+                        AttachItemToPlayer(player, playerItem.id, playerItem.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
                     }
 
                     Task.Factory.StartNew(() =>
@@ -2831,8 +2831,10 @@ namespace WiredPlayers.globals
                         weaponCrate.carriedEntity = Constants.ITEM_ENTITY_PLAYER;
                         weaponCrate.carriedIdentifier = player.Value;
                         player.PlayAnimation("anim@heists@box_carry@", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
-                        weaponCrate.crateObject.AttachTo(player, "PH_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3(0.0f, 0.0f, 0.0f));
-                        player.SetSharedData(EntityData.PLAYER_WEAPON_CRATE, index);
+
+                        // Create the attachment
+                        AttachmentModel attachment = new AttachmentModel(0, weaponCrate.crateObject.Model.ToString(), "IK_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3());
+                        player.SetSharedData(EntityData.PLAYER_WEAPON_CRATE, NAPI.Util.ToJson(attachment));
                     }
                     else
                     {

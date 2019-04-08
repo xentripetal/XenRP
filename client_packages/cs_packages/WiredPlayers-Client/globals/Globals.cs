@@ -89,9 +89,8 @@ namespace WiredPlayers_Client.globals
                 AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(args[1].ToString());
 
                 // Create the object for that player
-                int boneIndex = attachedPlayer.GetBoneIndexByName("IK_R_Hand");
+                int boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
                 attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
-
                 RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, false, 2, true);
 
                 // Add the attachment to the dictionary
@@ -126,6 +125,12 @@ namespace WiredPlayers_Client.globals
                 // Get the attachment on the right hand
                 object attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_RIGHT_HAND);
 
+                if(attachmentJson == null)
+                {
+                    // Check if the player has a crate
+                    attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_WEAPON_CRATE);
+                }
+
                 if (attachmentJson != null)
                 {
                     AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(attachmentJson.ToString());
@@ -133,8 +138,9 @@ namespace WiredPlayers_Client.globals
                     // If the attached item is a weapon, we don't stream it
                     if (RAGE.Game.Weapon.IsWeaponValid(Convert.ToUInt32(attachment.hash))) return;
 
+                    int boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
                     attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
-                    RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, 28422, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, true, 0, true);
+                    RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, true, 0, true);
 
                     // Add the attachment to the dictionary
                     playerAttachments.Add(playerId, attachment);
@@ -214,7 +220,7 @@ namespace WiredPlayers_Client.globals
             if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000)
             {
                 // Check if the player is loaded
-                object money = Player.LocalPlayer.GetSharedData("PLAYER_MONEY"); 
+                object money = Player.LocalPlayer.GetSharedData(Constants.HAND_MONEY); 
 
                 if(money != null)
                 {

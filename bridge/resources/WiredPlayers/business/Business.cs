@@ -193,7 +193,7 @@ namespace WiredPlayers.business
                             }
 
                             // Give the new item to the player
-                            Globals.AttachItemToPlayer(player, itemModel.id, itemModel.hash, businessItem.position, businessItem.rotation);
+                            Globals.AttachItemToPlayer(player, itemModel.id, itemModel.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
                         }
                         else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
                         {
@@ -207,7 +207,7 @@ namespace WiredPlayers.business
                             player.GiveWeapon(NAPI.Util.WeaponNameToModel(itemModel.hash), itemModel.amount);
 
                             // Add the attachment to the player
-                            AttachmentModel attachment = new AttachmentModel(itemModel.id, itemModel.hash, businessItem.position, businessItem.rotation);
+                            AttachmentModel attachment = new AttachmentModel(itemModel.id, "IK_R_Hand", itemModel.hash, businessItem.position, businessItem.rotation);
                             player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, NAPI.Util.ToJson(attachment));
 
                             // Checking if it's been bought in the Ammu-Nation

@@ -9,8 +9,10 @@ namespace WiredPlayers_Client.globals
         public static readonly int SEX_MALE = 0;
         public static readonly int SEX_FEMALE = 1;
 
+        public static readonly string HAND_MONEY = "PLAYER_MONEY";
         public static readonly string VEHICLE_DOORS_STATE = "VEHICLE_DOORS_STATE";
-        public static readonly string ITEM_ENTITY_RIGHT_HAND = "ITEM_ENTITY_RIGHT_HAND";
+        public static readonly string ITEM_ENTITY_RIGHT_HAND = "PLAYER_RIGHT_HAND";
+        public static readonly string ITEM_ENTITY_WEAPON_CRATE = "PLAYER_WEAPON_CRATE";
 
         public static readonly float CONSUME_PER_METER = 0.00065f;
 

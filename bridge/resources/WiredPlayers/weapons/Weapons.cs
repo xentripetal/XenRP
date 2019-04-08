@@ -438,7 +438,7 @@ namespace WiredPlayers.weapons
                 else
                 {
                     // Add the attachment to the player
-                    AttachmentModel attachment = new AttachmentModel(currentWeaponModel.id, currentWeaponModel.hash, new Vector3(), new Vector3());
+                    AttachmentModel attachment = new AttachmentModel(currentWeaponModel.id, currentWeaponModel.hash, "IK_R_Hand", new Vector3(), new Vector3());
                     player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, NAPI.Util.ToJson(attachment));
                 }
             }
