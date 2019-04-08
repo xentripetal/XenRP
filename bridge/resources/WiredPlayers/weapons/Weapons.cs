@@ -205,7 +205,7 @@ namespace WiredPlayers.weapons
                         weaponCrate.contentAmount = crateContent.amount;
                         weaponCrate.position = spawn;
                         weaponCrate.carriedEntity = string.Empty;
-                        weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, spawn, new Vector3(0.0f, 0.0f, 0.0f), 0);
+                        weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, spawn, new Vector3(), 0);
                     }
 
                     weaponCrateList.Add(weaponCrate);

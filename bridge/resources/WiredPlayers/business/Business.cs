@@ -189,18 +189,18 @@ namespace WiredPlayers.business
                             // Remove the previous item if there was any
                             if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
                             {
-                                Globals.RemoveItemOnRightHand(player);
+                                Globals.RemoveItemOnHands(player);
                             }
 
                             // Give the new item to the player
-                            Globals.AttachItemToPlayer(player, itemModel.id, itemModel.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
+                            Globals.AttachItemToPlayer(player, itemModel.id, itemModel.hash, "IK_R_Hand", businessItem.position, businessItem.rotation, EntityData.PLAYER_RIGHT_HAND);
                         }
                         else if (businessItem.type == Constants.ITEM_TYPE_WEAPON)
                         {
                             // Remove the previous item if there was any
                             if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
                             {
-                                Globals.RemoveItemOnRightHand(player);
+                                Globals.RemoveItemOnHands(player);
                             }
 
                             // We give the weapon to the player

@@ -781,33 +781,44 @@ namespace WiredPlayers.globals
             asker.SendChatMessage(Constants.COLOR_HELP + GenRes.played_time + (int)played.TotalHours + "h " + played.Minutes + "m; " + GenRes.role_points + rolePoints);
         }
 
-        public static void AttachItemToPlayer(Client player, int itemId, string hash, string bodyPart, Vector3 position, Vector3 rotation)
+        public static void AttachItemToPlayer(Client player, int itemId, string hash, string bodyPart, Vector3 position, Vector3 rotation, string entityKey)
         {
             AttachmentModel attachment = new AttachmentModel(itemId, hash, bodyPart, position, rotation);
             string attachmentJson = NAPI.Util.ToJson(attachment);
 
-            player.SetSharedData(EntityData.PLAYER_RIGHT_HAND, attachmentJson);
+            player.SetSharedData(entityKey, attachmentJson);
 
             NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "attachItemToPlayer", player.Value, attachmentJson);
         }
 
-        public static void RemoveItemOnRightHand(Client player)
+        public static void RemoveItemOnHands(Client player)
         {
-            // Get the item on the right hand
-            string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
-            int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
-            ItemModel currentItem = GetItemModelFromId(itemId);
-
-            // Check if it's a weapon or not
-            WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(currentItem.hash);
-
-            if (weaponHash != 0)
+            if(player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                // Store the weapon from the player
-                player.GiveWeapon(WeaponHash.Unarmed, 0);
+                // Get the item on the right hand
+                string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+                int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
+                ItemModel currentItem = GetItemModelFromId(itemId);
+
+                // Check if it's a weapon or not
+                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(currentItem.hash);
+
+                if (weaponHash != 0)
+                {
+                    // Store the weapon from the player
+                    player.GiveWeapon(WeaponHash.Unarmed, 0);
+                }
+                else
+                {
+                    // Remove the item from the hand
+                    NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                }
             }
-            else
+            else if(player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE) != null)
             {
+                // Reset the data
+                player.ResetSharedData(EntityData.PLAYER_WEAPON_CRATE);
+
                 // Remove the item from the hand
                 NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
             }
@@ -1114,14 +1125,14 @@ namespace WiredPlayers.globals
                             {
                                 // Give the item to the player
                                 player.GiveWeapon(WeaponHash.Unarmed, 1);
-                                AttachItemToPlayer(player, rightHand.id, rightHand.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
+                                AttachItemToPlayer(player, rightHand.id, rightHand.hash, "IK_R_Hand", businessItem.position, businessItem.rotation, EntityData.PLAYER_RIGHT_HAND);
                             }
                         }
 
                         if (leftHand != null)
                         {
                             BusinessItemModel businessItem = Business.GetBusinessItemFromHash(leftHand.hash);
-                            AttachItemToPlayer(player, leftHand.id, leftHand.hash, "IK_L_Hand", businessItem.position, businessItem.rotation);
+                            AttachItemToPlayer(player, leftHand.id, leftHand.hash, "IK_L_Hand", businessItem.position, businessItem.rotation, EntityData.PLAYER_LEFT_HAND);
                             player.SetSharedData(EntityData.PLAYER_LEFT_HAND, leftHand.id);
                         }
 
@@ -1288,7 +1299,7 @@ namespace WiredPlayers.globals
                     {
                         // Set the item into the hand
                         item.ownerEntity = Constants.ITEM_ENTITY_RIGHT_HAND;
-                        AttachItemToPlayer(player, item.id, item.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
+                        AttachItemToPlayer(player, item.id, item.hash, "IK_R_Hand", businessItem.position, businessItem.rotation, EntityData.PLAYER_RIGHT_HAND);
 
                         message = string.Format(InfoRes.player_inventory_equip, businessItem.description.ToLower());
                         player.SendChatMessage(Constants.COLOR_INFO + message);
@@ -2811,7 +2822,7 @@ namespace WiredPlayers.globals
                     else
                     {
                         // Create the object on the player's right hand
-                        AttachItemToPlayer(player, playerItem.id, playerItem.hash, "IK_R_Hand", businessItem.position, businessItem.rotation);
+                        AttachItemToPlayer(player, playerItem.id, playerItem.hash, "IK_R_Hand", businessItem.position, businessItem.rotation, EntityData.PLAYER_RIGHT_HAND);
                     }
 
                     Task.Factory.StartNew(() =>
@@ -2832,9 +2843,12 @@ namespace WiredPlayers.globals
                         weaponCrate.carriedIdentifier = player.Value;
                         player.PlayAnimation("anim@heists@box_carry@", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
 
-                        // Create the attachment
-                        AttachmentModel attachment = new AttachmentModel(0, weaponCrate.crateObject.Model.ToString(), "IK_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3());
-                        player.SetSharedData(EntityData.PLAYER_WEAPON_CRATE, NAPI.Util.ToJson(attachment));
+                        // Create the object on the player's arms
+                        AttachItemToPlayer(player, 0, weaponCrate.crateObject.Model.ToString(), "IK_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3(), EntityData.PLAYER_WEAPON_CRATE);
+
+                        // Remove the item's object
+                        weaponCrate.crateObject.Delete();
+                        weaponCrate.crateObject = null;
                     }
                     else
                     {
@@ -2865,13 +2879,17 @@ namespace WiredPlayers.globals
 
                 if (weaponCrate != null)
                 {
+                    // Update the new position and carrier
                     weaponCrate.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1.0f);
                     weaponCrate.carriedEntity = string.Empty;
                     weaponCrate.carriedIdentifier = 0;
 
-                    // Place the crate on the ground
-                    weaponCrate.crateObject.Detach();
-                    weaponCrate.crateObject.Position = weaponCrate.position;
+                    // Create the object on the floor
+                    weaponCrate.crateObject = NAPI.Object.CreateObject(481432069, weaponCrate.position, new Vector3(), 0);
+
+                    // Dettach the object from the player
+                    RemoveItemOnHands(player);
+                    player.StopAnimation();
 
                     string message = string.Format(InfoRes.player_inventory_drop, GenRes.weapon_crate);
                     player.SendChatMessage(Constants.COLOR_INFO + message);
