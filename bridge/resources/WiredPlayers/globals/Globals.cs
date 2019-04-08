@@ -2844,7 +2844,7 @@ namespace WiredPlayers.globals
                         player.PlayAnimation("anim@heists@box_carry@", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
 
                         // Create the object on the player's arms
-                        AttachItemToPlayer(player, 0, weaponCrate.crateObject.Model.ToString(), "IK_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3(), EntityData.PLAYER_WEAPON_CRATE);
+                        AttachItemToPlayer(player, index, weaponCrate.crateObject.Model.ToString(), "IK_R_Hand", new Vector3(0.0f, -0.5f, -0.25f), new Vector3(), EntityData.PLAYER_WEAPON_CRATE);
 
                         // Remove the item's object
                         weaponCrate.crateObject.Delete();

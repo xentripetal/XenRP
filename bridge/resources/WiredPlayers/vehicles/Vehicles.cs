@@ -219,7 +219,7 @@ namespace WiredPlayers.vehicles
 
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.GetData(EntityData.PLAYER_OPENED_TRUNK) )
+                if (player.GetData(EntityData.PLAYER_OPENED_TRUNK) != null)
                 {
                     Vehicle openedVehicle = player.GetData(EntityData.PLAYER_OPENED_TRUNK);
                     if (openedVehicle == vehicle)
@@ -669,11 +669,10 @@ namespace WiredPlayers.vehicles
                             {
                                 if (player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE) != null)
                                 {
-                                    int vehicleCrates = 0;
-
                                     // Get player's hand item
-                                    int weaponCrateIndex = player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE);
-                                    WeaponCrateModel weaponCrate = Weapons.weaponCrateList.ElementAt(weaponCrateIndex);
+                                    string attachmentJson = player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE);
+                                    AttachmentModel attachment = NAPI.Util.FromJson<AttachmentModel>(attachmentJson);
+                                    WeaponCrateModel weaponCrate = Weapons.weaponCrateList.ElementAt(attachment.itemId);
 
                                     // Store the item in the trunk
                                     weaponCrate.carriedEntity = Constants.ITEM_ENTITY_VEHICLE;
@@ -681,18 +680,10 @@ namespace WiredPlayers.vehicles
 
                                     // Remove player's weapon box
                                     player.StopAnimation();
-                                    weaponCrate.crateObject.Detach();
-                                    weaponCrate.crateObject.Delete();
-                                    player.ResetSharedData(EntityData.PLAYER_WEAPON_CRATE);
+                                    Globals.RemoveItemOnHands(player);
 
                                     // Check for any crate into vehicle's trunk
-                                    foreach (WeaponCrateModel crates in Weapons.weaponCrateList)
-                                    {
-                                        if (crates.carriedEntity == Constants.ITEM_ENTITY_VEHICLE && vehicle.GetData(EntityData.VEHICLE_ID) == crates.carriedIdentifier)
-                                        {
-                                            vehicleCrates++;
-                                        }
-                                    }
+                                    int vehicleCrates = Weapons.weaponCrateList.Where(c => c.carriedEntity == Constants.ITEM_ENTITY_VEHICLE && vehicle.GetData(EntityData.VEHICLE_ID) == c.carriedIdentifier).Count();
 
                                     if (vehicleCrates == 1)
                                     {
@@ -706,6 +697,7 @@ namespace WiredPlayers.vehicles
                                                 target.SetData(EntityData.PLAYER_JOB_CHECKPOINT, weaponCheckpoint);
                                                 target.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_position_mark);
                                                 target.TriggerEvent("showWeaponCheckpoint", weaponPosition);
+                                                break;
                                             }
                                         }
                                     }

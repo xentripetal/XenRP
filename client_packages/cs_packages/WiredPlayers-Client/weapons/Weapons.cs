@@ -1,12 +1,11 @@
-﻿using System;
-using RAGE;
+﻿using RAGE;
 using RAGE.Elements;
 
 namespace WiredPlayers_Client.weapons
 {
     class Weapons : Events.Script
     {
-        private Checkpoint weaponCheckpoint = null;
+        private Blip weaponBlip = null;
 
         public Weapons()
         {
@@ -28,14 +27,14 @@ namespace WiredPlayers_Client.weapons
             Vector3 position = (Vector3)args[0];
 
             // Set the checkpoint with the crates
-            weaponCheckpoint = new Checkpoint(0, position, 9.0f, new Vector3(0.0f, 0.0f, 0.0f), new RGBA(255, 0, 0, 70));
+            weaponBlip = new Blip(1, position, string.Empty, 1, 1);
         }
 
         private void DeleteWeaponCheckpointEvent(object[] args)
         {
             // Delete the checkpoint on the map
-            weaponCheckpoint.Destroy();
-            weaponCheckpoint = null;
+            weaponBlip.Destroy();
+            weaponBlip = null;
         }
 
         private void OnPlayerWeaponShotEvent(Vector3 targetPos, Player target, Events.CancelEventArgs cancel)

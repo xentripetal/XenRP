@@ -12,7 +12,6 @@
     <None Remove="internationalization\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="gtanetwork.api" Version="0.3.6" />
     <PackageReference Include="MySql.Data" Version="8.0.15" />
   </ItemGroup>
   <ItemGroup>
