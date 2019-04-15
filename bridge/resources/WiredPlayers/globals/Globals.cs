@@ -520,22 +520,24 @@ namespace WiredPlayers.globals
                 }
                 else
                 {
-                    NAPI.Task.Run(() =>
-                    {
-                        // Get the hash from the item dropped
-                        uint itemHash = weaponHash != 0 ? NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]) : uint.Parse(item.hash);
+                    if(weaponHash != 0 || (weaponHash == 0 && uint.TryParse(item.hash, out uint hash))) {
+                        NAPI.Task.Run(() =>
+                        {
+                            // Get the hash from the item dropped
+                            uint itemHash = weaponHash != 0 ? NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]) : uint.Parse(item.hash);
 
-                        closestItem = item.Copy();
-                        closestItem.amount = amount;
-                        closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
-                        closestItem.dimension = player.Dimension;
-                        closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
-                        closestItem.objectHandle = NAPI.Object.CreateObject(itemHash, closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
+                            closestItem = item.Copy();
+                            closestItem.amount = amount;
+                            closestItem.ownerEntity = Constants.ITEM_ENTITY_GROUND;
+                            closestItem.dimension = player.Dimension;
+                            closestItem.position = new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 0.8f);
+                            closestItem.objectHandle = NAPI.Object.CreateObject(itemHash, closestItem.position, new Vector3(0.0f, 0.0f, 0.0f), (byte)closestItem.dimension);
 
-                        // Create the new item
-                        closestItem.id = Database.AddNewItem(closestItem);
-                        itemList.Add(closestItem);
-                    });
+                            // Create the new item
+                            closestItem.id = Database.AddNewItem(closestItem);
+                            itemList.Add(closestItem);
+                        });
+                    }
                 }
 
                 if (item.amount == 0)
