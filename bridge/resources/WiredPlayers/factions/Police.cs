@@ -40,17 +40,6 @@ namespace WiredPlayers.factions
             policeSandy.Sprite = 60;
         }
 
-        public static void OnPlayerDisconnected(Client player)
-        {
-            if (player.GetData(EntityData.PLAYER_HANDCUFFED) != null)
-            {
-                // Remove player's cuffs
-                GTANetworkAPI.Object cuff = player.GetData(EntityData.PLAYER_HANDCUFFED);
-                cuff.Detach();
-                cuff.Delete();
-            }
-        }
-
         private List<string> GetDifferentPoliceControls()
         {
             List<string> policeControls = new List<string>();
@@ -493,39 +482,34 @@ namespace WiredPlayers.factions
                     {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_handcuffed_himself);
                     }
-                    else if (target.GetData(EntityData.PLAYER_HANDCUFFED) == null)
+                    else if (target.GetSharedData(EntityData.PLAYER_HANDCUFFED) == null)
                     {
+                        if(target.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
+                        {
+                            // Remove the item on the player's hand
+                            Globals.StoreItemOnHand(target);
+                        }
+
+                        // Handcuff the player
+                        Globals.AttachItemToPlayer(target, 0, NAPI.Util.GetHashKey("prop_cs_cuffs_01").ToString(), "IK_R_Hand", new Vector3(), new Vector3(), EntityData.PLAYER_HANDCUFFED);
+                        target.PlayAnimation("mp_arresting", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
+                        
                         string playerMessage = string.Format(InfoRes.cuffed, target.Name);
                         string targetMessage = string.Format(InfoRes.cuffed_by, player.Name);
-                        GTANetworkAPI.Object cuff = NAPI.Object.CreateObject(-1281059971, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
-                        cuff.AttachTo(target, "IK_R_Hand", new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f));
-                        target.PlayAnimation("mp_arresting", "idle", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.OnlyAnimateUpperBody | Constants.AnimationFlags.AllowPlayerControl));
-                        player.SetData(EntityData.PLAYER_ANIMATION, true);
-                        target.SetData(EntityData.PLAYER_HANDCUFFED, cuff);
                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                         target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
-
-                        // Disable some player movements
-                        player.TriggerEvent("toggleHandcuffed", true);
                     }
                     else
                     {
-                        GTANetworkAPI.Object cuff = target.GetData(EntityData.PLAYER_HANDCUFFED);
-
-                        cuff.Detach();
-                        cuff.Delete();
-
+                        // Remove the cuffs from the player
+                        NAPI.ClientEvent.TriggerClientEventInDimension(target.Dimension, "dettachItemFromPlayer", target.Value);
+                        target.SetSharedData(EntityData.PLAYER_HANDCUFFED, null);
                         target.StopAnimation();
-                        player.ResetData(EntityData.PLAYER_ANIMATION);
-                        target.ResetData(EntityData.PLAYER_HANDCUFFED);
 
                         string playerMessage = string.Format(InfoRes.uncuffed, target.Name);
                         string targetMessage = string.Format(InfoRes.uncuffed_by, player.Name);
                         player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
                         target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
-
-                        // Enable previously disabled player movements
-                        player.TriggerEvent("toggleHandcuffed", false);
                     }
                 }
                 else

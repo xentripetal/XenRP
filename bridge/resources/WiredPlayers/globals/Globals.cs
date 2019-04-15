@@ -580,6 +580,52 @@ namespace WiredPlayers.globals
             });
         }
 
+        public static void StoreItemOnHand(Client player)
+        {
+            // Get the item identifier
+            string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
+            int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
+
+            ItemModel item = GetItemModelFromId(itemId);
+
+            if (NAPI.Util.WeaponNameToModel(item.hash) != 0)
+            {
+                player.GiveWeapon(WeaponHash.Unarmed, 0);
+            }
+            else
+            {
+                // Remove the item from the hand
+                NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+            }
+
+            // Reset the player data
+            player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
+
+            Task.Factory.StartNew(() =>
+            {
+                // Search for items of the same type
+                ItemModel inventoryItem = GetPlayerItemModelFromHash(player.GetData(EntityData.PLAYER_SQL_ID), item.hash);
+
+                if (inventoryItem == null)
+                {
+                    // Store the item on the floor
+                    item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
+
+                    // Update the amount into the database
+                    Database.UpdateItem(item);
+                }
+                else
+                {
+                    // Add the amount to the item in the inventory
+                    inventoryItem.amount += item.amount;
+
+                    // Delete the item on the hand
+                    Database.RemoveItem(item.id);
+                    itemList.Remove(item);
+                }
+            });
+        }
+
         public static List<InventoryModel> GetPlayerInventoryAndWeapons(Client player)
         {
             List<InventoryModel> inventory = new List<InventoryModel>();
@@ -926,7 +972,6 @@ namespace WiredPlayers.globals
                 Fishing.OnPlayerDisconnected(player, type, reason);
                 Garbage.OnPlayerDisconnected(player, type, reason);
                 Hooker.OnPlayerDisconnected(player, type, reason);
-                Police.OnPlayerDisconnected(player);
                 Thief.OnPlayerDisconnected(player);
                 Vehicles.OnPlayerDisconnected(player);
                 Weapons.OnPlayerDisconnected(player);
@@ -1443,48 +1488,8 @@ namespace WiredPlayers.globals
         {
             if (player.GetSharedData(EntityData.PLAYER_RIGHT_HAND) != null)
             {
-                // Get the item identifier
-                string rightHand = player.GetSharedData(EntityData.PLAYER_RIGHT_HAND).ToString();
-                int itemId = NAPI.Util.FromJson<AttachmentModel>(rightHand).itemId;
-
-                ItemModel item = GetItemModelFromId(itemId);
-
-                if (NAPI.Util.WeaponNameToModel(item.hash) != 0)
-                {
-                    player.GiveWeapon(WeaponHash.Unarmed, 1);
-                }
-                else
-                {
-                    // Remove the item from the hand
-                    NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
-                }
-
-                // Reset the player data
-                player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
-
-                Task.Factory.StartNew(() =>
-                {
-                    // Search for items of the same type
-                    ItemModel inventoryItem = GetPlayerItemModelFromHash(player.GetData(EntityData.PLAYER_SQL_ID), item.hash);
-
-                    if(inventoryItem == null)
-                    {
-                        // Store the item on the floor
-                        item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
-
-                        // Update the amount into the database
-                        Database.UpdateItem(item);
-                    }
-                    else
-                    {
-                        // Add the amount to the item in the inventory
-                        inventoryItem.amount += item.amount;
-
-                        // Delete the item on the hand
-                        Database.RemoveItem(item.id);
-                        itemList.Remove(item);
-                    }
-                });
+                // Store the item on right hand
+                StoreItemOnHand(player);
             }
             else
             {

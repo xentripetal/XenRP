@@ -27,7 +27,8 @@ namespace WiredPlayers_Client.factions
             Events.Add("policeControlSelectedName", PoliceControlSelectedNameEvent);
             Events.Add("updatePoliceReinforces", UpdatePoliceReinforcesEvent);
             Events.Add("reinforcesRemove", ReinforcesRemoveEvent);
-            Events.Add("toggleHandcuffed", ToggleHandcuffedEvent);
+
+            Events.AddDataHandler("PLAYER_HANDCUFFED", PlayerHandcuffedStateChanged);
 
             // Initialize the reinforces
             reinforces = new Dictionary<int, Blip>();
@@ -155,10 +156,10 @@ namespace WiredPlayers_Client.factions
             reinforces.Remove(officer);
         }
 
-        private void ToggleHandcuffedEvent(object[] args)
+        private void PlayerHandcuffedStateChanged(Entity entity, object arg)
         {
-            // Get the variables from the arguments
-            handcuffed = Convert.ToBoolean(args[0]);
+            // Toggle the handcuffed state
+            handcuffed = arg != null;
         }
     }
 }
