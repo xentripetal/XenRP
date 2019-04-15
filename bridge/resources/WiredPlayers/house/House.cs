@@ -36,7 +36,7 @@ namespace WiredPlayers.house
             HouseModel house = null;
             foreach (HouseModel houseModel in houseList)
             {
-                if (player.Position.DistanceTo(houseModel.position) < distance && player.Dimension == house.dimension)
+                if (player.Position.DistanceTo(houseModel.position) < distance && player.Dimension == houseModel.dimension)
                 {
                     house = houseModel;
                     distance = player.Position.DistanceTo(houseModel.position);
