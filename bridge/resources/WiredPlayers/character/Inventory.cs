@@ -19,8 +19,12 @@ namespace WiredPlayers.character
 
             foreach (ItemModel item in groundItems)
             {
+                // Get the hash from the object
+                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
+                int hash = weaponHash == 0 ? int.Parse(item.hash) : (int)NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]);
+
                 // Create each of the items on the ground
-                item.objectHandle = NAPI.Object.CreateObject(int.Parse(item.hash), item.position, new Vector3(), 255, item.dimension);
+                item.objectHandle = NAPI.Object.CreateObject(hash, item.position, new Vector3(), 255, item.dimension);
             }
         }
     }
