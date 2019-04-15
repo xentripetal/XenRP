@@ -440,7 +440,7 @@ namespace WiredPlayers.globals
             player.TriggerEvent("updateInventory", NAPI.Util.ToJson(inventoryItem), target);
         }
 
-        private void ConsumeItem(Client player, ItemModel item, BusinessItemModel businessItem)
+        private void ConsumeItem(Client player, ItemModel item, BusinessItemModel businessItem, bool consumedFromHand)
         {
             item.amount--;
 
@@ -467,34 +467,37 @@ namespace WiredPlayers.globals
                 }
             }
 
-            if (item.amount == 0)
+            Task.Factory.StartNew(() =>
             {
-                // Remove the item from the hand
-                NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
-
-                player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
-
-                Task.Factory.StartNew(() =>
+                if (item.amount == 0)
                 {
+                    // Remove the item from the hand
+                    NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+
+                    player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
+
                     // Remove the item from the database
                     Database.RemoveItem(item.id);
                     itemList.Remove(item);
-                });
-            }
-            else
-            {
-                Task.Factory.StartNew(() =>
+                }
+                else
                 {
                     // Update the amount into the database
                     Database.UpdateItem(item);
-                });
-            }
+                }
 
-            string message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
-            player.SendChatMessage(Constants.COLOR_INFO + message);
+                if(!consumedFromHand)
+                {
+                    // Update the inventory
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+                }
+
+                string message = string.Format(InfoRes.player_inventory_consume, businessItem.description.ToLower());
+                player.SendChatMessage(Constants.COLOR_INFO + message);
+            });
         }
 
-        private void DropItem(Client player, ItemModel item, BusinessItemModel businessItem)
+        private void DropItem(Client player, ItemModel item, BusinessItemModel businessItem, bool droppedFromHand)
         {
             // Check if there are items of the same type near
             ItemModel closestItem = GetClosestItemWithHash(player, item.hash);
@@ -537,19 +540,22 @@ namespace WiredPlayers.globals
 
                 if (item.amount == 0)
                 {
-                    if (weaponHash != 0)
+                    if(droppedFromHand)
                     {
-                        // Remove the weapon from the player
-                        player.RemoveWeapon(weaponHash);
-                    }
-                    else
-                    {
-                        // Remove the item from the hand
-                        NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
-                    }
+                        // Remove the attachment information
+                        player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
 
-                    // Remove the attachment information
-                    player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
+                        if (weaponHash != 0)
+                        {
+                            // Remove the weapon from the player
+                            player.RemoveWeapon(weaponHash);
+                        }
+                        else
+                        {
+                            // Remove the item from the hand
+                            NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
+                        }
+                    }
 
                     // There are no more items, we delete it
                     Database.RemoveItem(item.id);
@@ -559,6 +565,12 @@ namespace WiredPlayers.globals
                 {
                     // Update the item's amount
                     Database.UpdateItem(item);
+                }
+
+                if(!droppedFromHand)
+                {
+                    // Update the inventory
+                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
                 }
 
                 string message = string.Format(InfoRes.player_inventory_drop, businessItem.description.ToLower());
@@ -844,7 +856,7 @@ namespace WiredPlayers.globals
             truckerOrderList = new List<OrderModel>();
 
             // Area in the lobby to change the character
-            NAPI.TextLabel.CreateTextLabel(GenRes.character_help, new Vector3(152.2911f, -1001.088f, -99f), 20.0f, 0.75f, 4, new Color(255, 255, 255), false);
+            NAPI.TextLabel.CreateTextLabel(GenRes.character_help, new Vector3(401.8016f, -1001.897f, -99.00404f), 20.0f, 0.75f, 4, new Color(255, 255, 255), false);
 
             // Add car dealer's interior
             NAPI.World.RequestIpl("shr_int");
@@ -857,6 +869,10 @@ namespace WiredPlayers.globals
 
             // Add clubhouse's door
             NAPI.World.RequestIpl("hei_bi_hw1_13_door");
+
+            // Close the doors from the lobby
+            NAPI.Object.CreateObject(NAPI.Util.GetHashKey("bkr_prop_biker_door_entry"), new Vector3(404.5286f, -996.5656f, -98.80404f), new Vector3(0.0f, 0.0f, 90.0f));
+            NAPI.Object.CreateObject(NAPI.Util.GetHashKey("bkr_prop_biker_door_entry"), new Vector3(401.2006f, -997.8686f, -98.80404f), new Vector3(0.0f, 0.0f, 270.0f));
 
             // Avoid player's respawn
             NAPI.Server.SetAutoRespawnAfterDeath(false);
@@ -1090,9 +1106,9 @@ namespace WiredPlayers.globals
             }
             else
             {
-                Vector3 lobbyExit = new Vector3(151.3791f, -1007.905f, -99f);
+                Vector3 lobbyExit = new Vector3(404.6483f, -997.2951f, -99.00404f);
 
-                if (lobbyExit.DistanceTo(player.Position) < 1.25f)
+                if (lobbyExit.DistanceTo(player.Position) < 1.75f)
                 {
                     // Player must have a character selected
                     if (player.GetData(EntityData.PLAYER_SQL_ID) == null)
@@ -1211,7 +1227,7 @@ namespace WiredPlayers.globals
                         player.SetData(EntityData.PLAYER_PLAYING, true);
                     }
                 }
-                else if (player.Position.DistanceTo(new Vector3(152.2911f, -1001.088f, -99f)) < 1.5f)
+                else if (player.Position.DistanceTo(new Vector3(401.8016f, -1001.897f, -99.00404f)) < 1.5f)
                 {
                     Task.Factory.StartNew(() =>
                     {
@@ -1234,10 +1250,7 @@ namespace WiredPlayers.globals
             {
                 case Commands.COM_CONSUME:
                     // Consume the selected item
-                    ConsumeItem(player, item, businessItem);
-
-                    // Update the inventory
-                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+                    ConsumeItem(player, item, businessItem, false);
 
                     break;
                 case Commands.ARG_OPEN:
@@ -1307,10 +1320,7 @@ namespace WiredPlayers.globals
                     break;
                 case Commands.COM_DROP:
                     // Drop the item from the inventory
-                    DropItem(player, item, businessItem);
-
-                    // Update the inventory
-                    UpdateInventory(player, item, businessItem, Constants.INVENTORY_TARGET_SELF);
+                    DropItem(player, item, businessItem, false);
 
                     break;
                 case Commands.ARG_CONFISCATE:
@@ -1475,7 +1485,7 @@ namespace WiredPlayers.globals
                 if (businessItem.type == Constants.ITEM_TYPE_CONSUMABLE)
                 {
                     // Consume the item on the hand
-                    ConsumeItem(player, item, businessItem);
+                    ConsumeItem(player, item, businessItem, true);
                 }
                 else
                 {
@@ -1522,7 +1532,7 @@ namespace WiredPlayers.globals
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.about_complements);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping1);
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.for_avoid_clipping2);
-                        player.TriggerEvent("showClothesBusinessPurchaseMenu", NAPI.Util.ToJson(clothes), business.name, business.multiplier);
+                        player.TriggerEvent("showClothesBusinessPurchaseMenu", business.name, business.multiplier);
                         break;
                     case Constants.BUSINESS_TYPE_BARBER_SHOP:
                         // Load the players skin model
@@ -2871,7 +2881,7 @@ namespace WiredPlayers.globals
                 BusinessItemModel businessItem = Business.GetBusinessItemFromHash(item.hash);
 
                 // Drop the item on the hand
-                DropItem(player, item, businessItem);
+                DropItem(player, item, businessItem, true);
             }
             else if (player.GetSharedData(EntityData.PLAYER_WEAPON_CRATE) != null)
             {

@@ -23,6 +23,13 @@
 		"amount": "Cantidad: ",
 		"inventory": "Inventario"
 	},
+	"application": {
+		"next": "Siguiente",
+		"finish": "Finalizar",
+		"previous": "Anterior",
+		"retry": "Reintentar",
+		"mistakes": "Número de fallos: "
+	},
 	"login": {
 		"message": "Bienvenido de nuevo a WiredPlayers. Para acceder al servidor, es necesario que ingreses tu contraseña",
 		"error": "La contraseña introducida es incorrecta"

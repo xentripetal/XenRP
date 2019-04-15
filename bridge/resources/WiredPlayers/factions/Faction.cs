@@ -979,5 +979,32 @@ namespace WiredPlayers.factions
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_faction);
             }
         }
+
+        [Command(Commands.COM_SIREN)]
+        public void SirenCommand(Client player)
+        {
+            if(!player.IsInVehicle || player.VehicleSeat != (int)VehicleSeat.Driver)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
+                return;
+            }
+
+            // Get the class of the vehicle
+            if(player.Vehicle.Class != Constants.VEHICLE_CLASS_EMERGENCY)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_emergency_vehicle);
+            }
+
+            // Toggle the siren status for all the players
+            bool siren = player.Vehicle.GetSharedData(EntityData.VEHICLE_SIREN_SOUND);
+            player.Vehicle.SetSharedData(EntityData.VEHICLE_SIREN_SOUND, !siren);
+            List<Client> connectedPlayers = NAPI.Pools.GetAllPlayers().Where(p => p.GetData(EntityData.PLAYER_PLAYING) != null).ToList();
+
+            foreach(Client target in connectedPlayers)
+            {
+                // Synchronize the siren state
+                target.TriggerEvent("toggleSirenState", player.Vehicle.Value, !siren);
+            }
+        }
     }
 }

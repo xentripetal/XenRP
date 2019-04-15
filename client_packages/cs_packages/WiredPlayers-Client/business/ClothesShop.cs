@@ -92,8 +92,8 @@ namespace WiredPlayers_Client.business
             ClothesModel clothesModel = new ClothesModel();
             {
                 clothesModel.type = clothesTypes[index].type;
-                clothesModel.slot = clothesTypes[index].bodyPart;
-                clothesModel.drawable = clothesTypes[index].clothesId;
+                clothesModel.bodyPart = clothesTypes[index].bodyPart;
+                clothesModel.clothesId = clothesTypes[index].clothesId;
                 clothesModel.texture = Convert.ToInt32(args[1]);
             }
 

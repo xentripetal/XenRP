@@ -916,6 +916,15 @@ namespace WiredPlayers.messages.general {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ladrón.
+        /// </summary>
+        public static string thief_job {
+            get {
+                return ResourceManager.GetString("thief_job", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Utiliza el comando ~b~/duda ~w~para solicitar ayuda de algún miembro del staff..
         /// </summary>
         public static string ticket_hint {
@@ -975,6 +984,15 @@ namespace WiredPlayers.messages.general {
         public static string transport_faction {
             get {
                 return ResourceManager.GetString("transport_faction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Transportista.
+        /// </summary>
+        public static string trucker_job {
+            get {
+                return ResourceManager.GetString("trucker_job", resourceCulture);
             }
         }
         

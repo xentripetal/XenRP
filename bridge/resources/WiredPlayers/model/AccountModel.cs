@@ -6,6 +6,7 @@
         public string forumName { get; set; }
         public int status { get; set; }
         public int lastCharacter { get; set; }
+        public bool registered { get; set; }
 
         public AccountModel() { }
 

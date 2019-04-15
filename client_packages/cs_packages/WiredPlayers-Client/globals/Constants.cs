@@ -11,10 +11,35 @@ namespace WiredPlayers_Client.globals
 
         public static readonly string HAND_MONEY = "PLAYER_MONEY";
         public static readonly string VEHICLE_DOORS_STATE = "VEHICLE_DOORS_STATE";
+        public static readonly string VEHICLE_SIREN_SOUND = "VEHICLE_SIREN_SOUND";
         public static readonly string ITEM_ENTITY_RIGHT_HAND = "PLAYER_RIGHT_HAND";
         public static readonly string ITEM_ENTITY_WEAPON_CRATE = "PLAYER_WEAPON_CRATE";
 
         public static readonly float CONSUME_PER_METER = 0.00065f;
+
+        // Vehicle types
+        public const int VEHICLE_CLASS_COMPACTS = 0;
+        public const int VEHICLE_CLASS_SEDANS = 1;
+        public const int VEHICLE_CLASS_SUVS = 2;
+        public const int VEHICLE_CLASS_COUPES = 3;
+        public const int VEHICLE_CLASS_MUSCLE = 4;
+        public const int VEHICLE_CLASS_SPORTS = 5;
+        public const int VEHICLE_CLASS_CLASSICS = 6;
+        public const int VEHICLE_CLASS_SUPER = 7;
+        public const int VEHICLE_CLASS_MOTORCYCLES = 8;
+        public const int VEHICLE_CLASS_OFFROAD = 9;
+        public const int VEHICLE_CLASS_INDUSTRIAL = 10;
+        public const int VEHICLE_CLASS_UTILITY = 11;
+        public const int VEHICLE_CLASS_VANS = 12;
+        public const int VEHICLE_CLASS_CYCLES = 13;
+        public const int VEHICLE_CLASS_BOATS = 14;
+        public const int VEHICLE_CLASS_HELICOPTERS = 15;
+        public const int VEHICLE_CLASS_PLANES = 16;
+        public const int VEHICLE_CLASS_SERVICE = 17;
+        public const int VEHICLE_CLASS_EMERGENCY = 18;
+        public const int VEHICLE_CLASS_MILITARY = 19;
+        public const int VEHICLE_CLASS_COMMERCIAL = 20;
+        public const int VEHICLE_CLASS_TRAINS = 21;
 
         public static readonly List<ClothesModel> CLOTHES_TYPES = new List<ClothesModel>()
         {

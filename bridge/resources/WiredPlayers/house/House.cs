@@ -36,7 +36,7 @@ namespace WiredPlayers.house
             HouseModel house = null;
             foreach (HouseModel houseModel in houseList)
             {
-                if (player.Position.DistanceTo(houseModel.position) < distance)
+                if (player.Position.DistanceTo(houseModel.position) < distance && player.Dimension == house.dimension)
                 {
                     house = houseModel;
                     distance = player.Position.DistanceTo(houseModel.position);
@@ -230,67 +230,93 @@ namespace WiredPlayers.house
         [Command(Commands.COM_RENT)]
         public void RentCommand(Client player)
         {
-            foreach (HouseModel house in houseList)
+            // Check if the player has a rented house
+            if(player.GetData(EntityData.PLAYER_RENT_HOUSE) > 0) 
             {
-                if (player.Position.DistanceTo(house.position) <= 1.5 && player.Dimension == house.dimension)
-                {
-                    if (player.GetData(EntityData.PLAYER_RENT_HOUSE) == 0)
-                    {
-                        if (house.status != Constants.HOUSE_STATE_RENTABLE)
-                        {
-                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_rentable);
-                        }
-                        else if (player.GetSharedData(EntityData.PLAYER_MONEY) < house.rental)
-                        {
-                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_rent_money);
-                        }
-                        else
-                        {
-                            int money = player.GetSharedData(EntityData.PLAYER_MONEY) - house.rental;
-                            string message = string.Format(InfoRes.house_rent, house.name, house.rental);
-
-                            player.SetData(EntityData.PLAYER_RENT_HOUSE, house.id);
-                            player.SetSharedData(EntityData.PLAYER_MONEY, money);
-                            house.tenants--;
-
-                            if (house.tenants == 0)
-                            {
-                                house.status = Constants.HOUSE_STATE_NONE;
-                                house.houseLabel.Text = GetHouseLabelText(house);
-                            }
-
-                            Task.Factory.StartNew(() =>
-                            {
-                                // Update house's tenants
-                                Database.UpdateHouse(house);
-                            });
-
-                            // Send the message to the player
-                            player.SendChatMessage(Constants.COLOR_INFO + message);
-                        }
-                        break;
-                    }
-                    else if (player.GetData(EntityData.PLAYER_RENT_HOUSE) == house.id)
-                    {
-                        // Remove player's rental
-                        player.SetData(EntityData.PLAYER_RENT_HOUSE, 0);
-                        house.tenants++;
-
-                        Task.Factory.StartNew(() =>
-                        {
-                            // Update house's tenants
-                            Database.UpdateHouse(house);
-                        });
-
-                        // Send the message to the player
-                        player.SendChatMessage(Constants.COLOR_INFO + string.Format(InfoRes.house_rent_stop, house.name));
-                    }
-                    else
-                    {
-                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_house_rented);
-                    }
-                }
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_house_rented);
+                return;
             }
+
+            // Get the closes house
+            HouseModel house = GetClosestHouse(player);
+
+            if(house == null)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_house_near);
+                return;
+            }
+
+            if (house.status != Constants.HOUSE_STATE_RENTABLE)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.house_not_rentable);
+                return;
+            }
+
+            // Get the player's money on hand
+            int playerMoney = player.GetSharedData(EntityData.PLAYER_MONEY);
+
+            if (playerMoney < house.rental)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_rent_money);
+                return;
+            }
+
+            // Rent the house to the player
+            player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney - house.rental);
+            player.SetData(EntityData.PLAYER_RENT_HOUSE, house.id);
+            house.tenants--;
+
+            if (house.tenants == 0)
+            {
+                house.status = Constants.HOUSE_STATE_NONE;
+                house.houseLabel.Text = GetHouseLabelText(house);
+            }
+
+            Task.Factory.StartNew(() =>
+            {
+                // Update house's tenants
+                Database.UpdateHouse(house);
+            });
+
+            // Send the message to the player
+            string message = string.Format(InfoRes.house_rent, house.name, house.rental);
+            player.SendChatMessage(Constants.COLOR_INFO + message);
+        }
+
+        [Command(Commands.COM_UNRENT)]
+        public void UnrentCommand(Client player)
+        {
+            int rentedHouse = player.GetData(EntityData.PLAYER_RENT_HOUSE);
+
+            // Check if the house has any rented house
+            if (rentedHouse == 0)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_rented_house);
+                return;
+            }
+
+            // Get the house where the player is rented
+            HouseModel house = GetHouseById(rentedHouse);
+
+            if(player.Position.DistanceTo2D(house.position) > 2.5f)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_house_door);
+                return;
+            }
+
+            // Remove player's rental
+            player.SetData(EntityData.PLAYER_RENT_HOUSE, 0);
+            house.tenants++;
+
+            Task.Factory.StartNew(() =>
+            {
+                // Update house's tenants
+                Database.UpdateHouse(house);
+            });
+
+            // Send the message to the player
+            string message = string.Format(InfoRes.house_rent_stop, house.name);
+            player.SendChatMessage(Constants.COLOR_INFO + message);
         }
 
         [Command(Commands.COM_WARDROBE)]

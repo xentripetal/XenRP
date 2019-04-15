@@ -13,7 +13,7 @@ namespace WiredPlayers.character
         {
             Vector3 worldSpawn = new Vector3(200.6641f, -932.0939f, 30.68681f);
             Vector3 rotation = new Vector3(0.0f, 0.0f, 0.0f);
-            player.Position = new Vector3(152.26, -1004.47, -99.00);
+            player.Position = new Vector3(402.9364f, -996.7154f, -99.00024f);
             player.Dimension = Convert.ToUInt32(player.Value);
 
             player.Health = 100;

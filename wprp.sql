@@ -61,6 +61,18 @@ CREATE TABLE IF NOT EXISTS `answers` (
 -- La exportación de datos fue deseleccionada.
 
 
+-- Volcando estructura para tabla gtav.applications
+DROP TABLE IF EXISTS `applications`;
+CREATE TABLE IF NOT EXISTS `applications` (
+  `account` varchar(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `mistakes` int(11) NOT NULL DEFAULT '0',
+  `submission` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`account`,`submission`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- La exportación de datos fue deseleccionada.
+
+
 -- Volcando estructura para tabla gtav.blood
 DROP TABLE IF EXISTS `blood`;
 CREATE TABLE IF NOT EXISTS `blood` (

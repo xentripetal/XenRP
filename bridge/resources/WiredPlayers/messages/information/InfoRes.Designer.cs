@@ -133,6 +133,15 @@ namespace WiredPlayers.messages.information {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Enhorabuena por aprobar la certificación, ya puedes crear tu personaje..
+        /// </summary>
+        public static string application_passed {
+            get {
+                return ResourceManager.GetString("application_passed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Datos básicos:.
         /// </summary>
         public static string basic_data {
@@ -327,6 +336,15 @@ namespace WiredPlayers.messages.information {
         public static string check_vehicle_plate {
             get {
                 return ResourceManager.GetString("check_vehicle_plate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Commandos de {0}:.
+        /// </summary>
+        public static string commands_from {
+            get {
+                return ResourceManager.GetString("commands_from", resourceCulture);
             }
         }
         

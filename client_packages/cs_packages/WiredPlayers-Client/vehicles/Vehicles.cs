@@ -12,11 +12,14 @@ namespace WiredPlayers_Client.vehicles
     {
         private Blip vehicleLocationBlip = null;
 
+        private static bool seatbelt;
         private static float kms = 0.0f;
         private static float gas = 0.0f;
         private static float distance = 0.0f;
         private static float consumed = 0.0f;
+
         public static Vector3 lastPosition = null;
+        public static Vehicle lastVehicle = null;
 
         public Vehicles()
         {
@@ -25,19 +28,23 @@ namespace WiredPlayers_Client.vehicles
             Events.Add("deleteVehicleLocation", DeleteVehicleLocationEvent);
             Events.Add("removeSpeedometer", RemoveSpeedometerEvent);
             Events.Add("toggleVehicleDoor", ToggleVehicleDoorEvent);
+            Events.Add("toggleSeatbelt", ToggleSeatbeltEvent);
             Events.OnPlayerLeaveVehicle += PlayerLeaveVehicleEvent;
             Events.OnEntityStreamIn += EntityStreamInEvent;
+
+            // Initialize the seatbelt state
+            Player.LocalPlayer.SetConfigFlag(32, !seatbelt);
         }
 
         public static void UpdateSpeedometer()
         {
-            Vehicle vehicle = Player.LocalPlayer.Vehicle;
-            Vector3 currentPosition = vehicle.Position;
+            lastVehicle = Player.LocalPlayer.Vehicle;
+            Vector3 currentPosition = lastVehicle.Position;
 
             // Get speedometer's data
-            Vector3 velocity = vehicle.GetVelocity();
-            int health = vehicle.GetHealth();
-            int maxHealth = vehicle.GetMaxHealth();
+            Vector3 velocity = lastVehicle.GetVelocity();
+            int health = lastVehicle.GetHealth();
+            int maxHealth = lastVehicle.GetMaxHealth();
 
             int healthPercent = (int)Math.Round((decimal)(health  * 100) / maxHealth);
             int speed = (int)Math.Round(Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y + velocity.Z * velocity.Z) * 3.6f);
@@ -120,13 +127,22 @@ namespace WiredPlayers_Client.vehicles
             vehicleLocationBlip = null;
         }
 
-        private void RemoveSpeedometerEvent(object[] args)
+        public static void RemoveSpeedometerEvent(object[] args)
         {
+            if (seatbelt)
+            {
+                seatbelt = false;
+                Events.CallRemote("toggleSeatbelt", seatbelt);
+            }
+
             // Reset the vehicle's position
             lastPosition = null;
 
             // Save the kilometers and gas
-            Events.CallRemote("saveVehicleConsumes", Player.LocalPlayer.Vehicle, kms, gas);
+            Events.CallRemote("saveVehicleConsumes", lastVehicle, kms, gas);
+
+            // Reset the player's vehicle
+            lastVehicle = null;
         }
 
         private void ToggleVehicleDoorEvent(object[] args)
@@ -139,7 +155,7 @@ namespace WiredPlayers_Client.vehicles
             // Get the vehicle from the server
             Vehicle vehicle = Entities.Vehicles.GetAtRemote((ushort)vehicleId);
 
-            if(opened)
+            if (opened)
             {
                 // Open the selected door
                 vehicle.SetDoorOpen(door, false, false);
@@ -149,6 +165,16 @@ namespace WiredPlayers_Client.vehicles
                 // Close the selected door
                 vehicle.SetDoorShut(door, true);
             }
+        }
+
+        private void ToggleSeatbeltEvent(object[] args)
+        {
+            // Change the seatbelt state
+            seatbelt = !seatbelt;
+            Player.LocalPlayer.SetConfigFlag(32, !seatbelt);
+
+            // Send the message to the players nearby
+            Events.CallRemote("toggleSeatbelt", seatbelt);
         }
 
         private void PlayerLeaveVehicleEvent()

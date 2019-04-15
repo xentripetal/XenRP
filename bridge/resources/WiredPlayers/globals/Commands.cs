@@ -129,6 +129,7 @@
         public const string COM_FURNITURE = "muebles";
         public const string COM_RENTABLE = "alquilable";
         public const string COM_RENT = "alquilar";
+        public const string COM_UNRENT = "desalquilar";
         public const string COM_WARDROBE = "armario";
         public const string COM_REPAIR = "reparar";
         public const string COM_REPAINT = "repintar";
@@ -191,6 +192,7 @@
         public const string COM_COMPLEMENT = "complemento";
         public const string COM_PLAYER = "jugador";
         public const string COM_DELIVER = "repartir";
+        public const string COM_SIREN = "sirena";
 
         #endregion
 
@@ -298,13 +300,14 @@
         public const string ARG_HAT = "sombrero";
         public const string ARG_GLASSES = "gafas";
         public const string ARG_EARRINGS = "pendientes";
+        public const string ARG_HELP = "ayuda";
 
         #endregion
 
         #region Commands Help Messages
 
         public const string HLP_COORD_COMMAND = "USO: /coord [Pos. X] [Pos. Y] [Pos. Z]";
-        public const string HLP_JOB_COMMAND = "USO: /empleo [Info|Aceptar|Dejar]";
+        public const string HLP_JOB_COMMAND = "USO: /empleo [Info|Aceptar|Dejar|Ayuda]";
         public const string HLP_FURNITURE_COMMAND = "USO: /muebles [Colocar|Mover|Eliminar]";
         public const string HLP_POLICE_CONTROL_COMMAND = "USO: /control [Cargar|Guardar|Renombrar|Eliminar|Limpiar]";
         public const string HLP_POLICE_PUT_COMMAND = "USO: /poner [Cono|Baliza|Barrera|Clavos]";

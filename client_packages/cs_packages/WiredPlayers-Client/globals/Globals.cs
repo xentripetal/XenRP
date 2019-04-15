@@ -1,13 +1,14 @@
 ﻿using RAGE;
 using RAGE.Elements;
-using System;
-using System.Drawing;
-using System.Collections.Generic;
 using WiredPlayers_Client.account;
 using WiredPlayers_Client.vehicles;
 using WiredPlayers_Client.jobs;
 using WiredPlayers_Client.model;
+using WiredPlayers_Client.factions;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Drawing;
+using System;
 
 namespace WiredPlayers_Client.globals
 {
@@ -212,8 +213,16 @@ namespace WiredPlayers_Client.globals
 
             if (Vehicles.lastPosition != null)
             {
-                // Update the speedometer
-                Vehicles.UpdateSpeedometer();
+                if(Player.LocalPlayer.Vehicle == null)
+                {
+                    // He fell from the vehicle, save the data
+                    Vehicles.RemoveSpeedometerEvent(null);
+                }
+                else
+                {
+                    // Update the speedometer
+                    Vehicles.UpdateSpeedometer();
+                }
             }
 
             // Update the player's money each 450ms
@@ -243,6 +252,20 @@ namespace WiredPlayers_Client.globals
             {
                 // Check if the player is on a forklift
                 Trucker.CheckPlayerStoredCrate();
+            }
+
+            // Check if the player is handcuffed
+            if(Police.handcuffed)
+            {
+                RAGE.Game.Pad.DisableControlAction(0, 12, true);
+                RAGE.Game.Pad.DisableControlAction(0, 13, true);
+                RAGE.Game.Pad.DisableControlAction(0, 14, true);
+                RAGE.Game.Pad.DisableControlAction(0, 15, true);
+                RAGE.Game.Pad.DisableControlAction(0, 16, true);
+                RAGE.Game.Pad.DisableControlAction(0, 17, true);
+                RAGE.Game.Pad.DisableControlAction(0, 22, true);
+                RAGE.Game.Pad.DisableControlAction(0, 24, true);
+                RAGE.Game.Pad.DisableControlAction(0, 25, true);
             }
 
             // Detect if a key has been pressed

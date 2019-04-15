@@ -1,5 +1,4 @@
 ﻿using GTANetworkAPI;
-using System;
 
 namespace WiredPlayers.model
 {

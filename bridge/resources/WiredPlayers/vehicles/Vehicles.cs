@@ -47,7 +47,8 @@ namespace WiredPlayers.vehicles
                         parkedCarModel.parkingId = vehModel.parking;
                         parkedCarModel.vehicle = vehModel;
                     }
-                    
+
+                    // Add the vehicle to the parking
                     Parking.parkedCars.Add(parkedCarModel);
                 }
             }
@@ -98,6 +99,12 @@ namespace WiredPlayers.vehicles
                 vehicle.CustomSecondaryColor = new Color(int.Parse(secondColor[0]), int.Parse(secondColor[1]), int.Parse(secondColor[2]));
             }
 
+            if(vehicle.Model == (uint)VehicleHash.Ambulance)
+            {
+                // Set the livery for the Fire Department
+                vehicle.Livery = 1;
+            }
+
             vehicle.SetData(EntityData.VEHICLE_ID, vehModel.id);
             vehicle.SetData(EntityData.VEHICLE_MODEL, vehModel.model);
             vehicle.SetData(EntityData.VEHICLE_POSITION, vehModel.position);
@@ -115,6 +122,7 @@ namespace WiredPlayers.vehicles
             vehicle.SetData(EntityData.VEHICLE_PARKED, vehModel.parked);
             vehicle.SetData(EntityData.VEHICLE_GAS, vehModel.gas);
             vehicle.SetData(EntityData.VEHICLE_KMS, vehModel.kms);
+            vehicle.SetSharedData(EntityData.VEHICLE_SIREN_SOUND, true);
             vehicle.SetSharedData(EntityData.VEHICLE_DOORS_STATE, NAPI.Util.ToJson(new List<bool> { false, false, false, false, false, false }));
 
             // Set vehicle's tunning
@@ -278,6 +286,7 @@ namespace WiredPlayers.vehicles
                         parkedCar.vehicle = vehicleModel;
                     }
 
+                    // Add the vehicle to the parking
                     Parking.parkedCars.Add(parkedCar);
                     vehicleModel.parking = scrapyard.id;
                 }
@@ -351,9 +360,6 @@ namespace WiredPlayers.vehicles
                         Vehicle testingVehicle = player.GetData(EntityData.PLAYER_TESTING_VEHICLE);
                         if (vehicle != testingVehicle)
                         {
-                            // Stop the vehicle's speedometer
-                            player.TriggerEvent("removeSpeedometer");
-
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                             return;
@@ -361,9 +367,6 @@ namespace WiredPlayers.vehicles
                     }
                     else
                     {
-                        // Stop the vehicle's speedometer
-                        player.TriggerEvent("removeSpeedometer");
-
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_testing_vehicle);
                         return;
@@ -381,27 +384,18 @@ namespace WiredPlayers.vehicles
 
                         if (player.GetData(EntityData.PLAYER_ADMIN_RANK) == Constants.STAFF_NONE && vehFaction == Constants.FACTION_ADMIN)
                         {
-                            // Stop the vehicle's speedometer
-                            player.TriggerEvent("removeSpeedometer");
-
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.admin_vehicle);
                             return;
                         }
                         else if (vehFaction > 0 && vehFaction < Constants.MAX_FACTION_VEHICLES && playerFaction != vehFaction && vehFaction != Constants.FACTION_DRIVING_SCHOOL && vehFaction != Constants.FACTION_ADMIN)
                         {
-                            // Stop the vehicle's speedometer
-                            player.TriggerEvent("removeSpeedometer");
-
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_faction);
                             return;
                         }
                         else if (vehFaction > Constants.MAX_FACTION_VEHICLES && playerJob != vehFaction)
                         {
-                            // Stop the vehicle's speedometer
-                            player.TriggerEvent("removeSpeedometer");
-
                             player.WarpOutOfVehicle();
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
                             return;
@@ -416,17 +410,6 @@ namespace WiredPlayers.vehicles
                 float kms = vehicle.GetData(EntityData.VEHICLE_KMS);
                 float gas = vehicle.GetData(EntityData.VEHICLE_GAS);
                 player.TriggerEvent("initializeSpeedometer", kms, gas, vehicle.EngineStatus);
-            }
-        }
-
-        [ServerEvent(Event.PlayerExitVehicle)]
-        public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
-        {
-            if (player.Seatbelt)
-            {
-                player.Seatbelt = false;
-                Chat.SendMessageToNearbyPlayers(player, InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
-                player.SendChatMessage(Constants.COLOR_INFO + InfoRes.trunk_withdraw_items);
             }
         }
 
@@ -502,6 +485,13 @@ namespace WiredPlayers.vehicles
             vehicle.SetData(EntityData.VEHICLE_GAS, gas);
         }
 
+        [RemoteEvent("toggleSeatbelt")]
+        public void ToggleSeatbeltEvent(Client player, bool seatbelt)
+        {
+            // Send the message to the nearby players
+            Chat.SendMessageToNearbyPlayers(player, seatbelt ? InfoRes.seatbelt_fasten : InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
+        }
+
         [Command(Commands.COM_SEATBELT)]
         public void SeatbeltCommand(Client player)
         {
@@ -511,8 +501,8 @@ namespace WiredPlayers.vehicles
             }
             else
             {
-                player.Seatbelt = !player.Seatbelt;
-                Chat.SendMessageToNearbyPlayers(player, player.Seatbelt ? InfoRes.seatbelt_fasten : InfoRes.seatbelt_unfasten, Constants.MESSAGE_ME, 20.0f);
+                // Change the seatbelt state
+                player.TriggerEvent("toggleSeatbelt");
             }
         }
 
@@ -530,7 +520,7 @@ namespace WiredPlayers.vehicles
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_vehicles_near);
                 }
-                else if (HasPlayerVehicleKeys(player, vehicle) == false)
+                else if (!HasPlayerVehicleKeys(player, vehicle))
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
@@ -1139,9 +1129,6 @@ namespace WiredPlayers.vehicles
                         
                         // Payment to the player
                         player.SetSharedData(EntityData.PLAYER_MONEY, playerMoney + amountGiven);
-
-                        // Stop the vehicle's speedometer
-                        player.TriggerEvent("removeSpeedometer");
 
                         player.WarpOutOfVehicle();
                         vehicle.Delete();

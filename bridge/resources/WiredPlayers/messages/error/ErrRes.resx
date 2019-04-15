@@ -870,4 +870,13 @@
   <data name="player_owns_clothes" xml:space="preserve">
     <value>Ya tienes esa prenda en tu armario.</value>
   </data>
+  <data name="not_in_house_door" xml:space="preserve">
+    <value>No estás en la puerta de tu casa.</value>
+  </data>
+  <data name="not_rented_house" xml:space="preserve">
+    <value>No estás alquilado en ninguna casa.</value>
+  </data>
+  <data name="not_emergency_vehicle" xml:space="preserve">
+    <value>No estás en un vehículo de emergencias.</value>
+  </data>
 </root>

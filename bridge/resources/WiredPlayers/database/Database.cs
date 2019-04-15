@@ -115,6 +115,7 @@ namespace WiredPlayers.database
                         account.forumName = reader.GetString("forumName");
                         account.status = reader.GetInt16("status");
                         account.lastCharacter = reader.GetInt16("lastCharacter");
+                        account.registered = true;
                     }
                 }
             }
@@ -122,25 +123,29 @@ namespace WiredPlayers.database
             return account;
         }
 
-        public static bool LoginAccount(string socialName, string password)
+        public static int LoginAccount(string socialName, string password)
         {
-            bool login = false;
+            int status = -1;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT status FROM accounts WHERE socialName = @socialName AND password = SHA2(@password, '256') LIMIT 1";
+                command.CommandText = "SELECT `status` FROM accounts WHERE socialName = @socialName AND password = SHA2(@password, '256') LIMIT 1";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@password", password);
 
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
-                    login = reader.HasRows;
+                    if(reader.HasRows)
+                    {
+                        reader.Read();
+                        status = reader.GetInt32("status");
+                    }
                 }
             }
 
-            return login;
+            return status;
         }
 
         public static void RegisterAccount(string socialName, string password)
@@ -149,9 +154,38 @@ namespace WiredPlayers.database
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO `accounts` (`socialName`, `password`) VALUES(@socialName, SHA2(@password, '256'))";
+                command.CommandText = "INSERT INTO `accounts` (`socialName`, `password`) VALUES (@socialName, SHA2(@password, '256'))";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@password", password);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void ApproveAccount(string socialName)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+
+                command.CommandText = "UPDATE `accounts` SET `status` = 1 WHERE `socialName`= @socialName LIMIT 1";
+                command.Parameters.AddWithValue("@socialName", socialName);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void RegisterApplication(string socialName, int mistakes)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+
+                command.CommandText = "INSERT INTO `applications` (`account`, `mistakes`) VALUES (@socialName, @mistakes)";
+                command.Parameters.AddWithValue("@socialName", socialName);
+                command.Parameters.AddWithValue("@mistakes", mistakes);
 
                 command.ExecuteNonQuery();
             }
@@ -1178,8 +1212,8 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE items SET ownerEntity = @ownerEntity, ownerIdentifier = @ownerIdentifier, amount = @amount, ";
-                    command.CommandText += "posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension WHERE id = @id LIMIT 1";
+                    command.CommandText = "UPDATE `items` SET `ownerEntity` = @ownerEntity, `ownerIdentifier` = @ownerIdentifier, `amount` = @amount, ";
+                    command.CommandText += "`posX` = @posX, `posY` = @posY, `posZ` = @posZ, `dimension` = @dimension WHERE `id` = @id LIMIT 1";
                     command.Parameters.AddWithValue("@ownerEntity", item.ownerEntity);
                     command.Parameters.AddWithValue("@ownerIdentifier", item.ownerIdentifier);
                     command.Parameters.AddWithValue("@amount", item.amount);
@@ -2517,6 +2551,36 @@ namespace WiredPlayers.database
             return testList;
         }
 
+        public static List<TestModel> GetQuestionAnswers(List<int> questionIds)
+        {
+            List<TestModel> testList = new List<TestModel>();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT `id`, `question`, `answer` FROM answers WHERE FIND_IN_SET(`question`, @question) != 0";
+                command.Parameters.AddWithValue("@question", string.Join(",", questionIds));
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TestModel test = new TestModel();
+                        {
+                            test.id = reader.GetInt32("id");
+                            test.question = reader.GetInt32("question");
+                            test.text = reader.GetString("answer");
+                        }
+
+                        testList.Add(test);
+                    }
+                }
+            }
+
+            return testList;
+        }
+
         public static List<TestModel> GetQuestionAnswers(int question)
         {
             List<TestModel> testList = new List<TestModel>();
@@ -2545,6 +2609,37 @@ namespace WiredPlayers.database
             }
 
             return testList;
+        }
+
+        public static int CheckCorrectAnswers(Dictionary<int, int> application)
+        {
+            int mistakes = 0;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+
+                command.CommandText = "SELECT `id`, `question` FROM `answers` WHERE FIND_IN_SET(`question`, @questions) != 0 AND `correct` = 1";
+                command.Parameters.AddWithValue("@questions", string.Join(",", new List<int>(application.Keys)));
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int answerId = reader.GetInt32("id");
+                        int questionId = reader.GetInt32("question");
+
+                        if (application[questionId] != answerId)
+                        {
+                            // Add a mistake
+                            mistakes++;
+                        }
+                    }
+                }
+            }
+
+            return mistakes;
         }
 
         public static bool CheckAnswerCorrect(int answer)

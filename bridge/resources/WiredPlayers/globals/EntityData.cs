@@ -129,6 +129,7 @@
         public const string VEHICLE_REFUELING = "VEHICLE_REFUELING";
         public const string VEHICLE_WEAPON_UNPACKING = "VEHICLE_WEAPON_UNPACKING";
         public const string VEHICLE_DOORS_STATE = "VEHICLE_DOORS_STATE";
+        public const string VEHICLE_SIREN_SOUND = "VEHICLE_SIREN_SOUND";
 
         // Generic data
         public const string SERVER_TIME = "SERVER_TIME";

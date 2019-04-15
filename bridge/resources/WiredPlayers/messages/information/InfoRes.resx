@@ -807,4 +807,10 @@
   <data name="target_paid" xml:space="preserve">
     <value>Has dado {0}$ a {1}.</value>
   </data>
+  <data name="application_passed" xml:space="preserve">
+    <value>Enhorabuena por aprobar la certificación, ya puedes crear tu personaje.</value>
+  </data>
+  <data name="commands_from" xml:space="preserve">
+    <value>Commandos de {0}:</value>
+  </data>
 </root>

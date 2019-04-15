@@ -916,6 +916,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No estás en un vehículo de emergencias..
+        /// </summary>
+        public static string not_emergency_vehicle {
+            get {
+                return ResourceManager.GetString("not_emergency_vehicle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No eres repartidor de comida rápida..
         /// </summary>
         public static string not_fastfood {
@@ -1011,6 +1020,15 @@ namespace WiredPlayers.messages.error {
         public static string not_in_carshop {
             get {
                 return ResourceManager.GetString("not_in_carshop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No estás en la puerta de tu casa..
+        /// </summary>
+        public static string not_in_house_door {
+            get {
+                return ResourceManager.GetString("not_in_house_door", resourceCulture);
             }
         }
         
@@ -1128,6 +1146,15 @@ namespace WiredPlayers.messages.error {
         public static string not_police_chief {
             get {
                 return ResourceManager.GetString("not_police_chief", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No estás alquilado en ninguna casa..
+        /// </summary>
+        public static string not_rented_house {
+            get {
+                return ResourceManager.GetString("not_rented_house", resourceCulture);
             }
         }
         

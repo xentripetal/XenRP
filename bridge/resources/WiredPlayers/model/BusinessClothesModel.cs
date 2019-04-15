@@ -8,6 +8,7 @@ namespace WiredPlayers.model
         public string description { get; set; }
         public int bodyPart { get; set; }
         public int clothesId { get; set; }
+        public int texture { get; set; }
         public int sex { get; set; }
         public int products { get; set; }
 

@@ -121,8 +121,10 @@ namespace WiredPlayers.parking
             {
                 parkedCarModel.vehicle = vehicleModel;
                 parkedCarModel.parkingId = parking.id;
-                parkedCars.Add(parkedCarModel);
             }
+
+            // Add the vehicle to the parking
+            parkedCars.Add(parkedCarModel);
 
             // Stop the vehicle's speedometer
             player.TriggerEvent("removeSpeedometer");
@@ -151,7 +153,7 @@ namespace WiredPlayers.parking
             }
             else
             {
-                if (Vehicles.HasPlayerVehicleKeys(player, player.Vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                if (!Vehicles.HasPlayerVehicleKeys(player, player.Vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
@@ -212,14 +214,14 @@ namespace WiredPlayers.parking
         [Command(Commands.COM_UNPARK, Commands.HLP_UNPARK_COMMAND)]
         public void UnparkCommand(Client player, int vehicleId)
         {
-            VehicleModel vehicle = Parking.GetParkedVehicleById(vehicleId);
+            VehicleModel vehicle = GetParkedVehicleById(vehicleId);
 
             if (vehicle == null)
             {
                 // There's no vehicle with that identifier
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_exists);
             }
-            else if (Vehicles.HasPlayerVehicleKeys(player, vehicle) == false)
+            else if (!Vehicles.HasPlayerVehicleKeys(player, vehicle))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
             }
@@ -248,7 +250,6 @@ namespace WiredPlayers.parking
                 switch (parking.type)
                 {
                     case Constants.PARKING_TYPE_PUBLIC:
-                        break;
                     case Constants.PARKING_TYPE_SCRAPYARD:
                         break;
                     case Constants.PARKING_TYPE_DEPOSIT:
@@ -271,6 +272,11 @@ namespace WiredPlayers.parking
 
                 // Get parked vehicle model
                 ParkedCarModel parkedCar = GetParkedVehicle(vehicleId);
+
+                // Set the values to unpark the vehicle
+                vehicle.dimension = player.Dimension;
+                vehicle.parking = 0;
+                vehicle.parked = 0;
 
                 // Recreate the vehicle
                 Vehicle newVehicle = Vehicles.CreateIngameVehicle(vehicle);

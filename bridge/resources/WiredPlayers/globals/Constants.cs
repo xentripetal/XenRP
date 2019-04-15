@@ -312,6 +312,9 @@ namespace WiredPlayers.globals
         public const string ITEM_ENTITY_LEFT_HAND = "Left hand";
         public const string ITEM_ENTITY_RIGHT_HAND = "Right hand";
 
+        // Application test
+        public const int APPLICATION_TEST = 0;
+
         // Driving school's licenses
         public const int LICENSE_CAR = 0;
         public const int LICENSE_MOTORCYCLE = 1;
@@ -405,11 +408,10 @@ namespace WiredPlayers.globals
         // Generic interiors
         public static List<InteriorModel> INTERIOR_LIST = new List<InteriorModel>
         {
-            new InteriorModel(GenRes.townhall, new Vector3(-1285.544f, -567.0439f, 31.71239f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, GenRes.townhall),
-            new InteriorModel(GenRes.hospital, new Vector3(-1385.481f, -976.4036f, 9.273162f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, GenRes.hospital),
-            new InteriorModel(GenRes.driving_school, new Vector3(-177.19, -1158.32, 23.81), new Vector3(-177.19, -1158.32, 23.81), "", 269, GenRes.driving_school),
-            new InteriorModel(GenRes.weazel_news, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, GenRes.weazel_news),
-            new InteriorModel(GenRes.police_station, new Vector3(-1111.952f, -824.9194f, 19.31578f), new Vector3(435.4738f, -981.7497f, 30.69148f), string.Empty, 60, GenRes.police_station),
+            new InteriorModel(GenRes.townhall, new Vector3(-329.399f, 6153.957f, 32.3133f), new Vector3(-141.1987f, -620.913f, 168.8205f), "ex_dt1_02_office_02b", 498, GenRes.townhall),
+            new InteriorModel(GenRes.hospital, new Vector3(1838.892f, 3673.627f, 34.27668f), new Vector3(275.446f, -1361.11f, 24.5378f), "Coroner_Int_On", 153, GenRes.hospital),
+            new InteriorModel(GenRes.driving_school, new Vector3(-227.6895f, 6333.742f, 32.41962f), new Vector3(-227.6895f, 6333.742f, 32.41962f), string.Empty, 269, GenRes.driving_school),
+            new InteriorModel(GenRes.weazel_news, new Vector3(-598.51, -929.95, 23.87), new Vector3(-1082.433f, -258.7667f, 37.76331f), "facelobby", 459, GenRes.weazel_news)
         };
 
         // Business IPLs from the game
@@ -578,6 +580,17 @@ namespace WiredPlayers.globals
             new JobModel(JobRes.gargage_m, JobRes.gargage_f, JOB_GARBAGE, 975),
             new JobModel(JobRes.hooker_m, JobRes.hooker_f, JOB_HOOKER, 575),
             new JobModel(JobRes.trucker_m, JobRes.trucker_f, JOB_TRUCKER, 1075)
+        };
+
+        // Job commands
+        public static Dictionary<int, List<string>> JOB_COMMANDS = new Dictionary<int, List<string>>
+        {
+            { JOB_FASTFOOD, new List<string> { Commands.COM_ORDERS } },
+            { JOB_THIEF, new List<string> { Commands.COM_FORCE, Commands.COM_STEAL, Commands.COM_HOTWIRE, Commands.COM_PAWN } },
+            { JOB_MECHANIC, new List<string> { Commands.COM_REPAIR, Commands.COM_REPAINT, Commands.COM_TUNNING } },
+            { JOB_GARBAGE, new List<string> { Commands.COM_GARBAGE } },
+            { JOB_HOOKER, new List<string> { Commands.COM_SERVICE } },
+            { JOB_TRUCKER, new List<string> { Commands.COM_ORDERS } }
         };
 
         // Uniform list
@@ -3150,7 +3163,8 @@ namespace WiredPlayers.globals
         // Pawn shops
         public static List<Vector3> PAWN_SHOP = new List<Vector3>()
         {
-            new Vector3(183.02f, -1319.41f, 29.13f)
+            new Vector3(-44.59276f, 6447.872f, 31.47821f),
+            new Vector3(1929.779f, 3721.547f, 32.8097f)
         };
 
         // Weapons crates
@@ -3277,12 +3291,13 @@ namespace WiredPlayers.globals
         // Job points
         public static List<JobPickModel> JOB_PICK_LIST = new List<JobPickModel>()
         {
-            new JobPickModel(JOB_FASTFOOD, new Vector3(-1037.697f, -1397.189f, 5.553192f), DescRes.job_fastfood),
-            new JobPickModel(JOB_HOOKER, new Vector3(136.58f, -1278.55f, 29.45f), DescRes.job_hooker),
-            new JobPickModel(JOB_GARBAGE, new Vector3(-322.088f, -1546.014f, 31.01991f), DescRes.job_garbage),
-            new JobPickModel(JOB_MECHANIC, new Vector3(486.5268f, -1314.683f, 29.22961f), DescRes.job_mechanic),
-            new JobPickModel(JOB_THIEF, new Vector3(-198.225f, -1699.521f, 33.46679f), DescRes.job_thief),
-            new JobPickModel(JOB_TRUCKER, new Vector3(1197.0f, -3253.58f, 7.09519f), DescRes.job_trucker)
+            new JobPickModel(JOB_FASTFOOD, 501, GenRes.fastfood_job, new Vector3(-133.24f, 6377.585f, 32.17684f), DescRes.job_fastfood),
+            new JobPickModel(JOB_HOOKER, 121, GenRes.hooker, new Vector3(136.58f, -1278.55f, 29.45f), DescRes.job_hooker),
+            new JobPickModel(JOB_GARBAGE, 318, GenRes.garbage_job, new Vector3(-322.088f, -1546.014f, 31.01991f), DescRes.job_garbage),
+            new JobPickModel(JOB_MECHANIC, 72, GenRes.mechanic_job, new Vector3(119.923f, 6627.261f, 31.94834f), DescRes.job_mechanic),
+            new JobPickModel(JOB_MECHANIC, 72, GenRes.mechanic_job, new Vector3(1187.899f, 2646.012f, 38.36409f), DescRes.job_mechanic),
+            new JobPickModel(JOB_THIEF, 0, GenRes.thief_job, new Vector3(1529.182f, 3794.486f, 34.46811f), DescRes.job_thief),
+            new JobPickModel(JOB_TRUCKER, 0, GenRes.trucker_job, new Vector3(1197.0f, -3253.58f, 7.09519f), DescRes.job_trucker)
         };
 
         // ATMs

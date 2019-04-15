@@ -64,7 +64,7 @@ namespace WiredPlayers_Client.character
             Events.CallRemote("setCharacterIntoCreator");
 
             // Make the camera focus the player
-            camera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("DEFAULT_SCRIPTED_CAMERA"), 152.6008f, -1003.25f, -98f, -20.0f, 0.0f, 0.0f, 90.0f, true, 2);
+            camera = RAGE.Game.Cam.CreateCameraWithParams(RAGE.Game.Misc.GetHashKey("DEFAULT_SCRIPTED_CAMERA"), 402.8974f, -998.756f, -98.25f, -20.0f, 0.0f, 0.0f, 90.0f, true, 2);
             RAGE.Game.Cam.SetCamActive(camera, true);
             RAGE.Game.Cam.RenderScriptCams(true, false, 0, true, false, 0);
 
@@ -112,12 +112,12 @@ namespace WiredPlayers_Client.character
             if(bodyPart == 0)
             {
                 // Make the camera point to the body
-                RAGE.Game.Cam.SetCamCoord(camera, 152.6008f, -1003.25f, -98f);
+                RAGE.Game.Cam.SetCamCoord(camera, 402.8974f, -998.756f, -98.25f);
             }
             else
             {
                 // Make the camera point to the face
-                RAGE.Game.Cam.SetCamCoord(camera, 152.3708f, -1001.75f, -98.45f);
+                RAGE.Game.Cam.SetCamCoord(camera, 402.8974f, -997.756f, -98.25f);
             }
         }
 

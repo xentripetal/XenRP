@@ -10,6 +10,7 @@ namespace WiredPlayers_Client.factions
 {
     class Police : Events.Script
     {
+        public static bool handcuffed;
         private string crimesJson = null;
         private string  crimesList = null;
         private string selectedControl = null;
@@ -26,6 +27,7 @@ namespace WiredPlayers_Client.factions
             Events.Add("policeControlSelectedName", PoliceControlSelectedNameEvent);
             Events.Add("updatePoliceReinforces", UpdatePoliceReinforcesEvent);
             Events.Add("reinforcesRemove", ReinforcesRemoveEvent);
+            Events.Add("toggleHandcuffed", ToggleHandcuffedEvent);
 
             // Initialize the reinforces
             reinforces = new Dictionary<int, Blip>();
@@ -151,6 +153,12 @@ namespace WiredPlayers_Client.factions
             // Delete officer's reinforces
             reinforces[officer].Destroy();
             reinforces.Remove(officer);
+        }
+
+        private void ToggleHandcuffedEvent(object[] args)
+        {
+            // Get the variables from the arguments
+            handcuffed = Convert.ToBoolean(args[0]);
         }
     }
 }

@@ -255,9 +255,9 @@ namespace WiredPlayers.business
         {
             int sex = player.GetData(EntityData.PLAYER_SEX);
             List<BusinessClothesModel> clothesList = GetBusinessClothesFromSlotType(sex, type, slot);
+
             if (clothesList.Count > 0)
             {
-                BusinessModel business = GetBusinessById(player.GetData(EntityData.PLAYER_BUSINESS_ENTERED));
                 player.TriggerEvent("showTypeClothes", NAPI.Util.ToJson(clothesList));
             }
             else
@@ -285,22 +285,33 @@ namespace WiredPlayers.business
         [RemoteEvent("clothesItemSelected")]
         public void ClothesItemSelectedEvent(Client player, string clothesJson)
         {
-            ClothesModel clothesModel = NAPI.Util.FromJson<ClothesModel>(clothesJson);
+            BusinessClothesModel clothesModel = NAPI.Util.FromJson<BusinessClothesModel>(clothesJson);
 
             // Get the player's clothes
             int playerId = player.GetData(EntityData.PLAYER_SQL_ID);
             List<ClothesModel> ownedClothes = Globals.GetPlayerClothes(playerId);
 
-            if (ownedClothes.Any(c => c.slot == clothesModel.slot && c.type == clothesModel.type && c.drawable == clothesModel.drawable && c.texture == clothesModel.texture))
+            if (ownedClothes.Any(c => c.slot == clothesModel.bodyPart && c.type == clothesModel.type && c.drawable == clothesModel.clothesId && c.texture == clothesModel.texture))
             {
                 // The player already has those clothes
-                player.SendChatMessage(Constants.COLOR_ERROR, ErrRes.player_owns_clothes);
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_owns_clothes);
                 return;
             }
 
+            // Store the data from the purchase
+            ClothesModel clothes = new ClothesModel();
+            {
+                clothes.type = clothesModel.type;
+                clothes.slot = clothesModel.bodyPart;
+                clothes.drawable = clothesModel.clothesId;
+                clothes.texture = clothesModel.texture;
+                clothes.player = playerId;
+                clothes.dressed = true;
+            };
+
             int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
             int sex = player.GetData(EntityData.PLAYER_SEX);
-            int products = GetClothesProductsPrice(clothesModel.id, sex, clothesModel.type, clothesModel.slot);
+            int products = GetClothesProductsPrice(clothesModel.clothesId, sex, clothesModel.type, clothesModel.bodyPart);
             BusinessModel business = GetBusinessById(businessId);
             int price = (int)Math.Round(products * business.multiplier);
 
@@ -325,16 +336,12 @@ namespace WiredPlayers.business
                 }
 
                 // Undress previous clothes
-                Globals.UndressClothes(playerId, clothesModel.type, clothesModel.slot);
-
-                // Store the remaining data
-                clothesModel.player = playerId;
-                clothesModel.dressed = true;
+                Globals.UndressClothes(playerId, clothesModel.type, clothesModel.bodyPart);
 
                 Task.Factory.StartNew(() => {
                     // Storing the clothes into database
-                    clothesModel.id = Database.AddClothes(clothesModel);
-                    Globals.clothesList.Add(clothesModel);
+                    clothes.id = Database.AddClothes(clothes);
+                    Globals.clothesList.Add(clothes);
 
                     // Confirmation message sent to the player
                     string purchaseMessage = string.Format(InfoRes.business_item_purchased, price);

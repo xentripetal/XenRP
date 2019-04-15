@@ -4,7 +4,9 @@ using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.messages.information;
 using WiredPlayers.messages.general;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using System;
 
 namespace WiredPlayers.character
@@ -32,8 +34,8 @@ namespace WiredPlayers.character
                         player.Kick(InfoRes.account_disabled);
                         break;
                     case 0:
-                        // Show the register window
-                        player.TriggerEvent("showRegisterWindow");
+                        // Check if the account is registered or not
+                        player.TriggerEvent(account.registered ? "accountLoginForm" : "showRegisterWindow");
                         break;
                     default:
                         // Welcome message
@@ -72,8 +74,21 @@ namespace WiredPlayers.character
         {
             Task.Factory.StartNew(() =>
             {
-                bool login = Database.LoginAccount(player.SocialClubName, password);
-                player.TriggerEvent(login ? "clearLoginWindow" : "showLoginError");
+                // Get the status of the account
+                int status = Database.LoginAccount(player.SocialClubName, password);
+
+                switch (status)
+                {
+                    case 0:
+                        LoadApplicationEvent(player);
+                        break;
+                    case 1:
+                        player.TriggerEvent("clearLoginWindow");
+                        break;
+                    default:
+                        player.TriggerEvent("showLoginError");
+                        break;
+                }
             });
         }
 
@@ -82,8 +97,44 @@ namespace WiredPlayers.character
         {
             Task.Factory.StartNew(() =>
             {
+                // Register the account
                 Database.RegisterAccount(player.SocialClubName, password);
-                player.TriggerEvent("clearRegisterWindow");
+
+                // Show the application for the player
+                LoadApplicationEvent(player);
+            });
+        }
+
+        [RemoteEvent("submitApplication")]
+        public void SubmitApplicationEvent(Client player, string answers)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                // Get all the question and answers
+                Dictionary<int, int> application = NAPI.Util.FromJson<Dictionary<int, int>>(answers);
+
+                // Check if all the answers are correct
+                int mistakes = Database.CheckCorrectAnswers(application);
+
+                if (mistakes > 0)
+                {
+                    // Tell the player his mistakes
+                    player.TriggerEvent("failedApplication", mistakes);
+                }
+                else
+                {
+                    // Tell the player he passed the test
+                    player.SendChatMessage(Constants.COLOR_INFO + InfoRes.application_passed);
+
+                    // Destroy the test window
+                    player.TriggerEvent("clearApplication");
+
+                    // Accept the account on the server
+                    Database.ApproveAccount(player.SocialClubName);
+                }
+
+                // Register the attempt on the database
+                Database.RegisterApplication(player.SocialClubName, mistakes);
             });
         }
 
@@ -128,8 +179,8 @@ namespace WiredPlayers.character
                     player.SetData(EntityData.PLAYER_NAME, playerName);
                     player.SetData(EntityData.PLAYER_AGE, playerAge);
                     player.SetData(EntityData.PLAYER_SEX, playerSex);
-                    player.SetSharedData(EntityData.PLAYER_SPAWN_POS, new Vector3(200.6641f, -932.0939f, 30.6868f));
-                    player.SetSharedData(EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 0.0f));
+                    player.SetSharedData(EntityData.PLAYER_SPAWN_POS, new Vector3(402.9364f, -996.7154f, -99.00024f));
+                    player.SetSharedData(EntityData.PLAYER_SPAWN_ROT, new Vector3(0.0f, 0.0f, 180.0f));
 
                     Database.UpdateLastCharacter(player.SocialClubName, playerId);
 
@@ -155,7 +206,10 @@ namespace WiredPlayers.character
             // Set player's position
             player.Transparency = 255;
             player.Rotation = new Vector3(0.0f, 0.0f, 180.0f);
-            player.Position = new Vector3(152.3787f, -1000.644f, -99f);
+            player.Position = new Vector3(402.9364f, -996.7154f, -99.00024f);
+
+            // Force the player's animation
+            player.PlayAnimation("amb@world_human_hang_out_street@female_arms_crossed@base", "base", (int)Constants.AnimationFlags.Loop);
         }
 
         [RemoteEvent("loadCharacter")]
@@ -178,6 +232,24 @@ namespace WiredPlayers.character
 
                 // Update last selected character
                 Database.UpdateLastCharacter(player.SocialClubName, playerModel.id);
+            });
+        }
+
+        [RemoteEvent("loadApplication")]
+        public void LoadApplicationEvent(Client player)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                // Get random questions
+                List<TestModel> applicationQuestions = Database.GetRandomQuestions(Constants.APPLICATION_TEST);
+
+                // Get the ids from each question
+                List<int> questionIds = applicationQuestions.Select(q => q.id).Distinct().ToList();
+
+                // Get the answers from the questions
+                List<TestModel> applicationAnswers = Database.GetQuestionAnswers(questionIds);
+
+                player.TriggerEvent("showApplicationTest", NAPI.Util.ToJson(applicationQuestions), NAPI.Util.ToJson(applicationAnswers));
             });
         }
     }

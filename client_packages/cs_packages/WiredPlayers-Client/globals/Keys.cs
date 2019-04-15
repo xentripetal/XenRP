@@ -1,6 +1,7 @@
 ﻿using RAGE;
 using RAGE.Elements;
 using System.Collections.Generic;
+using WiredPlayers_Client.factions;
 using System;
 
 namespace WiredPlayers_Client.globals
@@ -57,7 +58,7 @@ namespace WiredPlayers_Client.globals
             switch (key)
             {
                 case (int)ConsoleKey.E:
-                    if (Player.LocalPlayer.Vehicle == null)
+                    if (Player.LocalPlayer.Vehicle == null && !Police.handcuffed)
                     {
                         // Reset the player's animation
                         Events.CallRemote("checkPlayerEventKeyStopAnim");
@@ -71,7 +72,7 @@ namespace WiredPlayers_Client.globals
                     }
                     break;
                 case (int)ConsoleKey.K:
-                    if (Player.LocalPlayer.Vehicle != null)
+                    if (Player.LocalPlayer.Vehicle != null && !Police.handcuffed)
                     {
                         if (!Player.LocalPlayer.Vehicle.IsSeatFree(-1, 0) && Player.LocalPlayer.Vehicle.GetPedInSeat(-1, 0) == Player.LocalPlayer.Handle)
                         {

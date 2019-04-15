@@ -459,4 +459,10 @@
   <data name="equipment_help" xml:space="preserve">
     <value>Escribe el comando para acceder al equipo de policía</value>
   </data>
+  <data name="trucker_job" xml:space="preserve">
+    <value>Transportista</value>
+  </data>
+  <data name="thief_job" xml:space="preserve">
+    <value>Ladrón</value>
+  </data>
 </root>

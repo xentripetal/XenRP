@@ -1673,36 +1673,34 @@ namespace WiredPlayers.admin
 
                 // Vehicles saving
                 List<VehicleModel> vehicleList = new List<VehicleModel>();
+                List<Vehicle> citizenVehicles = NAPI.Pools.GetAllVehicles().Where(v => v.GetData(EntityData.VEHICLE_FACTION) == 0 && v.GetData(EntityData.VEHICLE_PARKING) == 0).ToList();
 
-                foreach (Vehicle vehicle in NAPI.Pools.GetAllVehicles())
+                foreach (Vehicle vehicle in citizenVehicles)
                 {
-                    if (vehicle.GetData(EntityData.VEHICLE_FACTION) == 0 && vehicle.GetData(EntityData.VEHICLE_PARKING) == 0)
+                    VehicleModel vehicleModel = new VehicleModel();
                     {
-                        VehicleModel vehicleModel = new VehicleModel();
-                        {
-                            // Getting the needed values to be stored
-                            vehicleModel.id = vehicle.GetData(EntityData.VEHICLE_ID);
-                            vehicleModel.model = vehicle.GetData(EntityData.VEHICLE_MODEL);
-                            vehicleModel.position = vehicle.Position;
-                            vehicleModel.rotation = vehicle.Rotation;
-                            vehicleModel.dimension = vehicle.Dimension;
-                            vehicleModel.colorType = vehicle.GetData(EntityData.VEHICLE_COLOR_TYPE);
-                            vehicleModel.firstColor = vehicle.GetData(EntityData.VEHICLE_FIRST_COLOR);
-                            vehicleModel.secondColor = vehicle.GetData(EntityData.VEHICLE_SECOND_COLOR);
-                            vehicleModel.pearlescent = vehicle.GetData(EntityData.VEHICLE_PEARLESCENT_COLOR);
-                            vehicleModel.faction = vehicle.GetData(EntityData.VEHICLE_FACTION);
-                            vehicleModel.plate = vehicle.GetData(EntityData.VEHICLE_PLATE);
-                            vehicleModel.owner = vehicle.GetData(EntityData.VEHICLE_OWNER);
-                            vehicleModel.price = vehicle.GetData(EntityData.VEHICLE_PRICE);
-                            vehicleModel.parking = vehicle.GetData(EntityData.VEHICLE_PARKING);
-                            vehicleModel.parked = vehicle.GetData(EntityData.VEHICLE_PARKED);
-                            vehicleModel.gas = vehicle.GetData(EntityData.VEHICLE_GAS);
-                            vehicleModel.kms = vehicle.GetData(EntityData.VEHICLE_KMS);
-                        }
-
-                        // We add the vehicle to the list
-                        vehicleList.Add(vehicleModel);
+                        // Getting the needed values to be stored
+                        vehicleModel.id = vehicle.GetData(EntityData.VEHICLE_ID);
+                        vehicleModel.model = vehicle.GetData(EntityData.VEHICLE_MODEL);
+                        vehicleModel.position = vehicle.Position;
+                        vehicleModel.rotation = vehicle.Rotation;
+                        vehicleModel.dimension = vehicle.Dimension;
+                        vehicleModel.colorType = vehicle.GetData(EntityData.VEHICLE_COLOR_TYPE);
+                        vehicleModel.firstColor = vehicle.GetData(EntityData.VEHICLE_FIRST_COLOR);
+                        vehicleModel.secondColor = vehicle.GetData(EntityData.VEHICLE_SECOND_COLOR);
+                        vehicleModel.pearlescent = vehicle.GetData(EntityData.VEHICLE_PEARLESCENT_COLOR);
+                        vehicleModel.faction = vehicle.GetData(EntityData.VEHICLE_FACTION);
+                        vehicleModel.plate = vehicle.GetData(EntityData.VEHICLE_PLATE);
+                        vehicleModel.owner = vehicle.GetData(EntityData.VEHICLE_OWNER);
+                        vehicleModel.price = vehicle.GetData(EntityData.VEHICLE_PRICE);
+                        vehicleModel.parking = vehicle.GetData(EntityData.VEHICLE_PARKING);
+                        vehicleModel.parked = vehicle.GetData(EntityData.VEHICLE_PARKED);
+                        vehicleModel.gas = vehicle.GetData(EntityData.VEHICLE_GAS);
+                        vehicleModel.kms = vehicle.GetData(EntityData.VEHICLE_KMS);
                     }
+
+                    // We add the vehicle to the list
+                    vehicleList.Add(vehicleModel);
                 }
 
                 // Saving the list into database
