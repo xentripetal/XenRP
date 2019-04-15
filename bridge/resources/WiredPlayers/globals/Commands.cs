@@ -437,7 +437,7 @@
         public const string HLP_BAN_COMMAND = "USO: /ban [Id. jugador/Nombre jugador] [Motivo]";
         public const string HLP_KICK_COMMAND = "USO: /kick [Id. jugador/Nombre jugador] [Motivo]";
         public const string HLP_JAIL_COMMAND = "USO: /jail [Id. jugador/Nombre jugador] [Minutos] [Razón]";
-        public const string HLP_LICENSE_COMMAND = "USO: /licencia [Dar|Eliminar] [Armas|Turismos|Motocicletas] [Id. jugador/Nombre jugador]";
+        public const string HLP_LICENSE_COMMAND = "USO: /licencia [Dar|Eliminar] [Arma|Turismos|Motocicletas] [Id. jugador/Nombre jugador]";
         public const string HLP_GUN_COMMAND = "USO: /gun [Id. jugador/Nombre] [Arma] [Balas]";
         public const string HLP_COMMAND_PURCHASE = "USO: /comprar [Cantidad]";
         public const string HLP_SKIN_COMMAND = "USO: /skin [Nombre del ped]";

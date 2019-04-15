@@ -2153,7 +2153,7 @@ namespace WiredPlayers.globals
                     });
 
                     player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
-                   target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
+                    target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                 }
             }
             else
