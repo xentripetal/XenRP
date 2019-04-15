@@ -13,7 +13,7 @@ namespace WiredPlayers.house
     {
         private static List<FurnitureModel> furnitureList;
 
-        public void LoadDatabaseFurniture()
+        public static void LoadDatabaseFurniture()
         {
             furnitureList = Database.LoadAllFurniture();
             foreach (FurnitureModel furnitureModel in furnitureList)

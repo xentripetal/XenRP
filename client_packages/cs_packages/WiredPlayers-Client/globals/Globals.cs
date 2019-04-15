@@ -28,6 +28,7 @@ namespace WiredPlayers_Client.globals
             Events.Add("resetPlayerWalkingStyle", ResetPlayerWalkingStyleEvent);
             Events.Add("attachItemToPlayer", AttachItemToPlayerEvent);
             Events.Add("dettachItemFromPlayer", DettachItemFromPlayerEvent);
+            Events.Add("playerLoggedIn", PlayerLoggedInEvent);
             Events.AddDataHandler("SERVER_TIME", PlayerConnectionStateChanged);
             Events.OnEntityStreamIn += OnEntityStreamInEvent;
             Events.OnEntityStreamOut += OnEntityStreamOutEvent;
@@ -113,6 +114,12 @@ namespace WiredPlayers_Client.globals
                 attachment.Destroy();
                 playerAttachments.Remove(playerId);
             }
+        }
+
+        private void PlayerLoggedInEvent(object[] args)
+        {
+            // Show the player as logged
+            playerLogged = true;
         }
 
         public static void OnEntityStreamInEvent(Entity entity)
@@ -206,66 +213,68 @@ namespace WiredPlayers_Client.globals
 
         private void TickEvent(List<Events.TickNametagData> nametags)
         {
-            // Check if the player is connected
-            if (!playerLogged) return;
-
+            // Get the current time
             DateTime dateTime = DateTime.UtcNow;
 
-            if (Vehicles.lastPosition != null)
+            // Check if the player is connected
+            if (playerLogged)
             {
-                if(Player.LocalPlayer.Vehicle == null)
+                if (Vehicles.lastPosition != null)
                 {
-                    // He fell from the vehicle, save the data
-                    Vehicles.RemoveSpeedometerEvent(null);
+                    if (Player.LocalPlayer.Vehicle == null)
+                    {
+                        // He fell from the vehicle, save the data
+                        Vehicles.RemoveSpeedometerEvent(null);
+                    }
+                    else
+                    {
+                        // Update the speedometer
+                        Vehicles.UpdateSpeedometer();
+                    }
                 }
-                else
+
+                // Update the player's money each 450ms
+                if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000)
                 {
-                    // Update the speedometer
-                    Vehicles.UpdateSpeedometer();
+                    // Check if the player is loaded
+                    object money = Player.LocalPlayer.GetSharedData(Constants.HAND_MONEY);
+
+                    if (money != null)
+                    {
+                        playerMoney = Convert.ToInt32(money) + "$";
+                        lastTimeChecked = dateTime;
+                    }
                 }
-            }
 
-            // Update the player's money each 450ms
-            if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000)
-            {
-                // Check if the player is loaded
-                object money = Player.LocalPlayer.GetSharedData(Constants.HAND_MONEY); 
-
-                if(money != null)
+                if (Fishing.fishingState > 0)
                 {
-                    playerMoney = Convert.ToInt32(money) + "$";
-                    lastTimeChecked = dateTime;
+                    // Start the fishing minigame
+                    Fishing.DrawFishingMinigame();
                 }
-            }
 
-            if (Fishing.fishingState > 0)
-            {
-                // Start the fishing minigame
-                Fishing.DrawFishingMinigame();
-            }
+                // Draw the money
+                RAGE.NUI.UIResText.Draw(playerMoney, 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
 
-            // Draw the money
-            RAGE.NUI.UIResText.Draw(playerMoney, 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
+                // Check if the player
+                if (RAGE.Game.Pad.IsControlJustPressed(0, (int)RAGE.Game.Control.VehicleSubPitchDownOnly) && Player.LocalPlayer.Vehicle != null)
+                {
+                    // Check if the player is on a forklift
+                    Trucker.CheckPlayerStoredCrate();
+                }
 
-            // Check if the player
-            if(RAGE.Game.Pad.IsControlJustPressed(0, (int)RAGE.Game.Control.VehicleSubPitchDownOnly) && Player.LocalPlayer.Vehicle != null)
-            {
-                // Check if the player is on a forklift
-                Trucker.CheckPlayerStoredCrate();
-            }
-
-            // Check if the player is handcuffed
-            if(Police.handcuffed)
-            {
-                RAGE.Game.Pad.DisableControlAction(0, 12, true);
-                RAGE.Game.Pad.DisableControlAction(0, 13, true);
-                RAGE.Game.Pad.DisableControlAction(0, 14, true);
-                RAGE.Game.Pad.DisableControlAction(0, 15, true);
-                RAGE.Game.Pad.DisableControlAction(0, 16, true);
-                RAGE.Game.Pad.DisableControlAction(0, 17, true);
-                RAGE.Game.Pad.DisableControlAction(0, 22, true);
-                RAGE.Game.Pad.DisableControlAction(0, 24, true);
-                RAGE.Game.Pad.DisableControlAction(0, 25, true);
+                // Check if the player is handcuffed
+                if (Police.handcuffed)
+                {
+                    RAGE.Game.Pad.DisableControlAction(0, 12, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 13, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 14, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 15, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 16, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 17, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 22, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 24, true);
+                    RAGE.Game.Pad.DisableControlAction(0, 25, true);
+                }
             }
 
             // Detect if a key has been pressed

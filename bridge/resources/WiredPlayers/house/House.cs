@@ -15,7 +15,7 @@ namespace WiredPlayers.house
     {
         public static List<HouseModel> houseList;
 
-        public void LoadDatabaseHouses()
+        public static void LoadDatabaseHouses()
         {
             houseList = Database.LoadAllHouses();
             foreach (HouseModel houseModel in houseList)

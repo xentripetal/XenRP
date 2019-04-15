@@ -1225,6 +1225,7 @@ namespace WiredPlayers.globals
 
                         // Toggle connection flag
                         player.SetData(EntityData.PLAYER_PLAYING, true);
+                        player.TriggerEvent("playerLoggedIn");
                     }
                 }
                 else if (player.Position.DistanceTo(new Vector3(401.8016f, -1001.897f, -99.00404f)) < 1.5f)
@@ -1456,13 +1457,31 @@ namespace WiredPlayers.globals
                     NAPI.ClientEvent.TriggerClientEventInDimension(player.Dimension, "dettachItemFromPlayer", player.Value);
                 }
 
-                item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
+                // Reset the player data
                 player.ResetSharedData(EntityData.PLAYER_RIGHT_HAND);
 
                 Task.Factory.StartNew(() =>
                 {
-                    // Update the amount into the database
-                    Database.UpdateItem(item);
+                    // Search for items of the same type
+                    ItemModel inventoryItem = GetPlayerItemModelFromHash(player.GetData(EntityData.PLAYER_SQL_ID), item.hash);
+
+                    if(inventoryItem == null)
+                    {
+                        // Store the item on the floor
+                        item.ownerEntity = Constants.ITEM_ENTITY_PLAYER;
+
+                        // Update the amount into the database
+                        Database.UpdateItem(item);
+                    }
+                    else
+                    {
+                        // Add the amount to the item in the inventory
+                        inventoryItem.amount += item.amount;
+
+                        // Delete the item on the hand
+                        Database.RemoveItem(item.id);
+                        itemList.Remove(item);
+                    }
                 });
             }
             else

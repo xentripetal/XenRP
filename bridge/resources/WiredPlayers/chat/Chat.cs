@@ -50,7 +50,7 @@ namespace WiredPlayers.chat
                                 target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_say + message);
                                 break;
                             case Constants.MESSAGE_YELL:
-                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_yell + message);
+                                target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_yell + message + "!");
                                 break;
                             case Constants.MESSAGE_WHISPER:
                                 target.SendChatMessage(chatMessageColor + player.Name + GenRes.chat_whisper + message);
@@ -148,6 +148,13 @@ namespace WiredPlayers.chat
                 SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_TALK, player.Dimension > 0 ? 7.5f : 10.0f);
                 NAPI.Util.ConsoleOutput("[ID:" + player.Value + "]" + player.Name + GenRes.chat_say + message);
             }
+        }
+
+        [RemoteEvent("playerNotLoggedCommand")]
+        public void PlayerNotLoggedCommandEvent(Client player)
+        {
+            // Send the message to the player
+            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_cant_command);
         }
 
         [Command(Commands.COM_SAY, Commands.HLP_SAY_COMMAND, GreedyArg = true)]

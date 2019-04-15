@@ -42,30 +42,25 @@ namespace WiredPlayers.database
             connectionString = "SERVER=" + host + "; DATABASE=" + db + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
 
             // Business loading
-            Business businessClass = new Business();
-            businessClass.LoadDatabaseBusiness();
+            Business.LoadDatabaseBusiness();
 
             // House loading
-            House houseClass = new House();
-            houseClass.LoadDatabaseHouses();
+            House.LoadDatabaseHouses();
 
             // Furniture loading
-            Furniture furnitureClass = new Furniture();
-            furnitureClass.LoadDatabaseFurniture();
+            Furniture.LoadDatabaseFurniture();
 
             // Tunning loading
             Mechanic.tunningList = LoadAllTunning();
 
             // Parkings loading
-            Parking parkingClass = new Parking();
-            parkingClass.LoadDatabaseParkings();
+            Parking.LoadDatabaseParkings();
 
             // Vehicle loading
-            Vehicles vehiclesClass = new Vehicles();
-            vehiclesClass.LoadDatabaseVehicles();
+            Vehicles.LoadDatabaseVehicles();
 
             // Item loading
-            Globals.itemList = LoadAllItems();
+            Inventory.LoadDatabaseItems();
 
             // Police controls loading
             Police.policeControlList = LoadAllPoliceControls();
@@ -1184,11 +1179,15 @@ namespace WiredPlayers.database
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO items (hash, ownerEntity, ownerIdentifier, amount) VALUES (@hash, @ownerEntity, @ownerIdentifier, @amount)";
+                    command.CommandText = "INSERT INTO `items` (`hash`, `ownerEntity`, `ownerIdentifier`, `amount`, `posX`, `posY`, `posZ`)";
+                    command.CommandText += " VALUES (@hash, @ownerEntity, @ownerIdentifier, @amount, @posX, @posY, @posZ)";
                     command.Parameters.AddWithValue("@hash", item.hash);
                     command.Parameters.AddWithValue("@ownerEntity", item.ownerEntity);
                     command.Parameters.AddWithValue("@ownerIdentifier", item.ownerIdentifier);
                     command.Parameters.AddWithValue("@amount", item.amount);
+                    command.Parameters.AddWithValue("@posX", item.position.X);
+                    command.Parameters.AddWithValue("@posY", item.position.Y);
+                    command.Parameters.AddWithValue("@posZ", item.position.Z);
 
                     command.ExecuteNonQuery();
                     itemId = (int)command.LastInsertedId;

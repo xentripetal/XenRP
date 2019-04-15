@@ -16,6 +16,7 @@ namespace WiredPlayers.model
         public ItemModel Copy()
         {
             ItemModel itemModel = new ItemModel();
+
             itemModel.id = id;
             itemModel.hash = hash;
             itemModel.ownerEntity = ownerEntity;
@@ -24,6 +25,7 @@ namespace WiredPlayers.model
             itemModel.position = position;
             itemModel.dimension = dimension;
             itemModel.objectHandle = objectHandle;
+
             return itemModel;
         }
     }

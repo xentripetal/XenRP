@@ -19,7 +19,7 @@ namespace WiredPlayers.parking
         public static List<ParkingModel> parkingList;
         public static List<ParkedCarModel> parkedCars;
 
-        public void LoadDatabaseParkings()
+        public static void LoadDatabaseParkings()
         {
             parkingList = Database.LoadAllParkings();
             foreach (ParkingModel parking in parkingList)

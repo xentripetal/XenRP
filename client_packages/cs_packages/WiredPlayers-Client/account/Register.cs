@@ -74,9 +74,6 @@ namespace WiredPlayers_Client.account
 
             // Show the message on the panel
             Browser.DestroyBrowserEvent(null);
-
-            // Show the player as logged
-            Globals.playerLogged = true;
         }
 
         private void CreatePlayerAccountEvent(object[] args)

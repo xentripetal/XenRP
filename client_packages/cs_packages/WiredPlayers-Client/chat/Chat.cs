@@ -14,6 +14,8 @@ namespace WiredPlayers_Client.chat
 
         public Chat()
         {
+            Events.OnPlayerCommand += OnPlayerCommandEvent;
+
             // TODO More information about how chat works needed
             /*
             // Register the events
@@ -27,6 +29,18 @@ namespace WiredPlayers_Client.chat
 
             // Lock the chat
             Locked = true;*/
+        }
+
+        private void OnPlayerCommandEvent(string cmd, Events.CancelEventArgs cancel)
+        {
+            if(!Globals.playerLogged)
+            {
+                // Send the message to the player
+                Events.CallRemote("playerNotLoggedCommand");
+
+                // Cancel the command
+                cancel.Cancel = true;
+            }
         }
 
         public static void SetVisible(bool visible)

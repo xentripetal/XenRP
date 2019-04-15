@@ -23,7 +23,7 @@ namespace WiredPlayers.vehicles
         private static Dictionary<int, Timer> gasTimerList;
         private static Dictionary<int, Timer> vehicleRespawnTimerList;
 
-        public void LoadDatabaseVehicles()
+        public static void LoadDatabaseVehicles()
         {
             // Create the timer dictionaries
             gasTimerList = new Dictionary<int, Timer>();

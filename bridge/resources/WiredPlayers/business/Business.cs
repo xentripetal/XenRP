@@ -16,7 +16,7 @@ namespace WiredPlayers.business
     {
         public static List<BusinessModel> businessList;
 
-        public void LoadDatabaseBusiness()
+        public static void LoadDatabaseBusiness()
         {
             businessList = Database.LoadAllBusiness();
             foreach (BusinessModel businessModel in businessList)
