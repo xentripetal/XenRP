@@ -1096,6 +1096,15 @@ namespace WiredPlayers.messages.error {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No estás en tu zona de trabajo..
+        /// </summary>
+        public static string not_in_work_place {
+            get {
+                return ResourceManager.GetString("not_in_work_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El jugador objetivo no está participando en una entrevista..
         /// </summary>
         public static string not_on_air {

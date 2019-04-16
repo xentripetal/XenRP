@@ -60,6 +60,46 @@ namespace WiredPlayers.jobs
             player.SendChatMessage(Constants.COLOR_HELP + commands);
         }
 
+        private bool IsPlayerOnWorkPlace(Client player)
+        {
+            bool onWorkPlace = false;
+
+            int job = player.GetData(EntityData.PLAYER_JOB);
+            int faction = player.GetData(EntityData.PLAYER_FACTION);
+
+            if (job > 0)
+            {
+                // Check if it's close to the point where he got the job
+                onWorkPlace = player.Position.DistanceTo(Constants.JOB_PICK_LIST[job].position) < 2.0f;
+            }
+            else if(faction > 0)
+            {
+                // Store the Vector where the lockers are located
+                Vector3 lockers = null;
+
+                switch(faction)
+                {
+                    case Constants.FACTION_POLICE:
+                        lockers = new Vector3(450.8223f, -992.0941f, 30.68958f);
+                        break;
+                    case Constants.FACTION_EMERGENCY:
+                        lockers = new Vector3(268.8305f, -1363.443f, 24.53779f);
+                        break;
+                    case Constants.FACTION_SHERIFF:
+                        Vector3 paletoLockers = new Vector3(-448.7167f, 6011.534f, 31.71639f);
+                        Vector3 sandyLockers = new Vector3(1852.255f, 3689.962f, 34.26704f);
+
+                        // Get the closest lockers
+                        lockers = player.Position.DistanceTo(paletoLockers) < player.Position.DistanceTo(sandyLockers) ? paletoLockers : sandyLockers;
+                        break;
+                }
+
+                onWorkPlace = lockers != null && player.Position.DistanceTo(lockers) < 5.0f;
+            }
+
+            return onWorkPlace;
+        }
+
         [Command(Commands.COM_JOB, Commands.HLP_JOB_COMMAND)]
         public void JobCommand(Client player, string action)
         {
@@ -157,6 +197,10 @@ namespace WiredPlayers.jobs
             else if (playerJob == 0 && playerFaction == 0)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_no_job);
+            }
+            else if(!IsPlayerOnWorkPlace(player))
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_work_place);
             }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 1)
             {

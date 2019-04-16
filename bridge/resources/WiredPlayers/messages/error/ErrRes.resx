@@ -879,4 +879,7 @@
   <data name="not_emergency_vehicle" xml:space="preserve">
     <value>No estás en un vehículo de emergencias.</value>
   </data>
+  <data name="not_in_work_place" xml:space="preserve">
+    <value>No estás en tu zona de trabajo.</value>
+  </data>
 </root>
