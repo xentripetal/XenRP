@@ -3008,10 +3008,11 @@ namespace WiredPlayers.globals
 
         public static List<Vector3> CARSHOP_SPAWNS = new List<Vector3>()
         {
-            new Vector3(-47.8021f, -1116.419f, 26.43427f),
-            new Vector3(-50.66175f, -1116.753f, 26.4342f),
-            new Vector3(-53.51776f, -1116.721f, 26.43449f),
-            new Vector3(-56.41209f, -1116.901f, 26.43442f)
+            new Vector3(-207.5757f, 6219.714f, 31.49114f),
+            new Vector3(-205.2744f, 6221.958f, 31.49089f),
+            new Vector3(-203.0463f, 6224.42f, 31.4899f),
+            new Vector3(-200.6914f, 6226.81f, 31.49411f),
+            new Vector3(-198.3211f, 6229.246f, 31.50067f)
         };
 
         public static List<Vector3> BIKESHOP_SPAWNS = new List<Vector3>()
@@ -3387,80 +3388,44 @@ namespace WiredPlayers.globals
 
         public static List<Vector3> CAR_LICENSE_CHECKPOINTS = new List<Vector3>()
         {
-            new Vector3(-221.63, -1156.04, 21.95),
-            new Vector3(-123.01, -1137.775, 24.56),
-            new Vector3(-81.99, -1114.58, 24.53),
-            new Vector3(-30.89, -976.36, 28.11),
-            new Vector3(9.19, -970.07, 28.22),
-            new Vector3(77.56, -995.07, 28.22),
-            new Vector3(197.29, -1037.55, 28.22),
-            new Vector3(381.57, -1054.85, 28.04),
-            new Vector3(479.38, -1043.03, 33.35),
-            new Vector3(594.48, -1028.04, 35.86),
-            new Vector3(760.46, -1008.56, 25.06),
-            new Vector3(805.76, -1007.79, 25.02),
-            new Vector3(991.11, -1010.97, 40.84),
-            new Vector3(811.15, -1084.02, 27.41),
-            new Vector3(780.87, -1027.07, 25.05),
-            new Vector3(637.33, -1017.92, 35.68),
-            new Vector3(415.05, -1045.53, 28.31),
-            new Vector3(378.14, -1128.62, 28.18),
-            new Vector3(236.98, -1134.07, 28.06),
-            new Vector3(181.38, -1132.89, 28.07),
-            new Vector3(83.77, -1136.89, 27.93),
-            new Vector3(49.46, -1245.83, 28.06),
-            new Vector3(69.28, -1341.32, 28.09),
-            new Vector3(-73.81, -1364.52, 28.21),
-            new Vector3(-210.84, -1413.05, 30.07),
-            new Vector3(-268.74, -1404.05, 30.11),
-            new Vector3(-265.67, -1191.25, 22.36),
-            new Vector3(-246.74, -1148.72, 21.79)
+            new Vector3(-210.185f, 6332.839f, 30.82618f),
+            new Vector3(-292.3593f, 6245.958f, 30.93763f),
+            new Vector3(-357.4913f, 6301.83f, 29.39157f),
+            new Vector3(-180.3696f, 6465.34f, 30.14923f),
+            new Vector3(-126.9398f, 6431.469f, 30.97843f),
+            new Vector3(-40.52503f, 6491.655f, 30.91457f),
+            new Vector3(68.51f, 6600.582f, 30.90891f),
+            new Vector3(136.5284f, 6538.029f, 30.97347f),
+            new Vector3(-95.59881f, 6292.953f, 30.86639f),
+            new Vector3(-162.9532f, 6351.154f, 30.98549f),
+            new Vector3(-216.7924f, 6345.928f, 31.24967f)
         };
 
         public static List<Vector3> BIKE_LICENSE_CHECKPOINTS = new List<Vector3>()
         {
-            new Vector3(-221.63, -1156.04, 21.95),
-            new Vector3(-246.4477, -1132.908, 21.84),
-            new Vector3(-510.7749, -1074.368, 21.60),
-            new Vector3(-538.9323, -987.1205, 22.16),
-            new Vector3(-615.7797, -955.1476, 20.31),
-            new Vector3(-748.9092, -953.4031, 16.28),
-            new Vector3(-742.6716, -859.597, 21.28),
-            new Vector3(-836.6662, -834.0764, 18.21),
-            new Vector3(-1061.384, -775.3281, 18.15),
-            new Vector3(-1214.395, -605.4772, 25.93),
-            new Vector3(-1420.104, -731.9043, 22.30),
-            new Vector3(-1400.814, -791.8732, 18.72),
-            new Vector3(-1307.51, -893.167, 10.26),
-            new Vector3(-1228.521, -1136.944, 6.56),
-            new Vector3(-1164.738, -1321.457, 3.91),
-            new Vector3(-785.803, -1134.188, 9.42),
-            new Vector3(-646.7411, -1292.766, 9.48),
-            new Vector3(-542.0643, -1182.95, 17.44),
-            new Vector3(-473.185, -1423.335, 28.01),
-            new Vector3(-217.8618, -1463.097, 30.09),
-            new Vector3(-49.84166, -1598.771, 28.08),
-            new Vector3(59.0152, -1523.776, 28.09),
-            new Vector3(141.2012, -1417.891, 28.13),
-            new Vector3(217.4024, -1146.925, 28.15),
-            new Vector3(218.6274, -1067.475, 28.05),
-            new Vector3(279.9226, -879.2997, 28.06),
-            new Vector3(199.1688, -822.5041, 29.83),
-            new Vector3(56.39607, -775.7272, 30.64),
-            new Vector3(-108.6394, -1114.953, 24.44),
-            new Vector3(-220.5649, -1152.499, 21.8)
+            new Vector3(-210.185f, 6332.839f, 30.82618f),
+            new Vector3(-292.3593f, 6245.958f, 30.93763f),
+            new Vector3(-357.4913f, 6301.83f, 29.39157f),
+            new Vector3(-180.3696f, 6465.34f, 30.14923f),
+            new Vector3(-126.9398f, 6431.469f, 30.97843f),
+            new Vector3(-40.52503f, 6491.655f, 30.91457f),
+            new Vector3(68.51f, 6600.582f, 30.90891f),
+            new Vector3(136.5284f, 6538.029f, 30.97347f),
+            new Vector3(-95.59881f, 6292.953f, 30.86639f),
+            new Vector3(-162.9532f, 6351.154f, 30.98549f),
+            new Vector3(-216.7924f, 6345.928f, 31.24967f)
         };
 
         public static List<Vector3> FISHING_POSITION_LIST = new List<Vector3>()
         {
-            new Vector3(-1827.806f, -1268.722f, 8.618273f),
-            new Vector3(-1832.525f, -1264.608f, 8.618273f),
-            new Vector3(-1837.586f, -1260.174f, 8.618273f),
-            new Vector3(-1842.251f, -1256.036f, 8.618273f),
-            new Vector3(-1847.622f, -1251.621f, 8.618273f),
-            new Vector3(-1852.511f, -1248.537f, 8.618273f),
-            new Vector3(-1865.566f, -1237.584f, 8.618273f),
-            new Vector3(-1827.806f, -1268.722f, 8.618273f)
+            new Vector3(-273.9995f, 6642.273f, 7.39921f),
+            new Vector3(-275.8697f, 6640.357f, 7.548759f),
+            new Vector3(-278.201f, 6638.141f, 7.552301f),
+            new Vector3(-280.1694f, 6636.17f, 7.552289f),
+            new Vector3(-282.4903f, 6633.953f, 7.481426f),
+            new Vector3(-284.8904f, 6631.555f, 7.339838f),
+            new Vector3(-287.5817f, 6629.255f, 7.186343f),
+            new Vector3(-287.5817f, 6629.255f, 7.186343f)
         };
 
         public static Dictionary<WeaponHash, string> WEAPON_ITEM_MODELS = new Dictionary<WeaponHash, string>()

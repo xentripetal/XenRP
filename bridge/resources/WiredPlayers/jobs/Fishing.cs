@@ -231,7 +231,7 @@ namespace WiredPlayers.jobs
                             if (player.Position.DistanceTo(fishingPosition) > 2.5f) continue;
 
                             // Set player looking to the sea
-                            player.Rotation = new Vector3(0.0f, 0.0f, 142.532f);
+                            player.Rotation = new Vector3(0.0f, 0.0f, 52.532f);
                             
                             if (bait.amount == 1)
                             {
