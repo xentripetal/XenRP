@@ -180,6 +180,20 @@ CREATE TABLE IF NOT EXISTS `controls` (
 -- La exportación de datos fue deseleccionada.
 
 
+-- Volcando estructura para tabla gtav.crimes
+DROP TABLE IF EXISTS `crimes`;
+CREATE TABLE IF NOT EXISTS `crimes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `description` varchar(256) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `jail` int(11) NOT NULL DEFAULT '0',
+  `fine` int(11) NOT NULL DEFAULT '0',
+  `reminder` varchar(128) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- La exportación de datos fue deseleccionada.
+
+
 -- Volcando estructura para tabla gtav.fines
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (

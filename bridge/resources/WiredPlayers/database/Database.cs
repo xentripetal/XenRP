@@ -62,8 +62,11 @@ namespace WiredPlayers.database
             // Item loading
             Inventory.LoadDatabaseItems();
 
+            // Crimes loading
+            LoadCrimes();
+
             // Police controls loading
-            Police.policeControlList = LoadAllPoliceControls();
+            LoadAllPoliceControls();
 
             // Radio frequency channels loading
             Faction.channelList = LoadAllChannels();
@@ -1604,9 +1607,39 @@ namespace WiredPlayers.database
             return furnitureList;
         }
 
-        public static List<PoliceControlModel> LoadAllPoliceControls()
+        public static void LoadCrimes()
         {
-            List<PoliceControlModel> policeControlList = new List<PoliceControlModel>();
+            // Initialize the list
+            Police.crimeList = new List<CrimeModel>();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+
+                command.CommandText = "SELECT * FROM `crimes`";
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        CrimeModel crime = new CrimeModel();
+                        {
+                            crime.crime = reader.GetString("description");
+                            crime.jail = reader.GetInt32("jail");
+                            crime.fine = reader.GetInt32("fine");
+                            crime.reminder = reader.GetString("reminder");
+                        }
+
+                        Police.crimeList.Add(crime);
+                    }
+                }
+            }
+        }
+
+        public static void LoadAllPoliceControls()
+        {
+            Police.policeControlList = new List<PoliceControlModel>();
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -1630,12 +1663,10 @@ namespace WiredPlayers.database
                         policeControl.position = new Vector3(posX, posY, posZ);
                         policeControl.rotation = new Vector3(0.0f, 0.0f, rot);
 
-                        policeControlList.Add(policeControl);
+                        Police.policeControlList.Add(policeControl);
                     }
                 }
             }
-
-            return policeControlList;
         }
 
         public static List<ParkingModel> LoadAllParkings()

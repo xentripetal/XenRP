@@ -19,6 +19,8 @@ namespace WiredPlayers.factions
     public class Police : Script
     {
         private readonly TextLabel equipmentLabel;
+
+        public static List<CrimeModel> crimeList;
         public static List<PoliceControlModel> policeControlList;
 
         public Police()
@@ -369,7 +371,7 @@ namespace WiredPlayers.factions
                     }
                     else
                     {
-                        string crimeList = NAPI.Util.ToJson(Constants.CRIME_LIST);
+                        string crimeList = NAPI.Util.ToJson(crimeList);
                         player.SetData(EntityData.PLAYER_INCRIMINATED_TARGET, target);
                         player.TriggerEvent("showCrimesMenu", crimeList);
                     }

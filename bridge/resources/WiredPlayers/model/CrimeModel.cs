@@ -8,13 +8,5 @@ namespace WiredPlayers.model
         public int jail { get; set; }
         public int fine { get; set; }
         public string reminder { get; set; }
-
-        public CrimeModel(string crime, int jail, int fine, string reminder)
-        {
-            this.crime = crime;
-            this.jail = jail;
-            this.fine = fine;
-            this.reminder = reminder;
-        }
     }
 }

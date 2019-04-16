@@ -702,50 +702,6 @@ namespace WiredPlayers.globals
             new GunModel(WeaponHash.DoubleBarrelShotgun, ITEM_HASH_SHOTGUN_AMMO_CLIP, 2)
         };
 
-        // Crime list
-        public static List<CrimeModel> CRIME_LIST = new List<CrimeModel>()
-        {
-            new CrimeModel("Omisión de indicaciones policiales", 20, 500, "Quitar 2 puntos del carnet"),
-            new CrimeModel("Conducción en estado alterado", 10, 800, "Quitar 3 puntos del carnet"),
-            new CrimeModel("Conducción temeraria sin víctimas", 10, 500, "Quitar 3 puntos del carnet"),
-            new CrimeModel("Conducción temeraria con víctimas", 25, 1000, "Retirada del carnet"),
-            new CrimeModel("Atropello sin fuga", 10, 1000, "Quitar 6 puntos del carnet"),
-            new CrimeModel("Atropello con fuga", 20, 2000, "Retirada del carnet"),
-            new CrimeModel("Accidente y huida", 15, 1500, "Quitar 6 puntos del carnet"),
-            new CrimeModel("Participación en carreras ilegales", 25, 4500, "Retirada del carnet"),
-            new CrimeModel("Matrícula no registrada", 30, 5000, "Retirada del carnet y del vehículo"),
-            new CrimeModel("Alteración del orden público", 15, 300, ""),
-            new CrimeModel("Desacato a la autoridad", 20, 900, ""),
-            new CrimeModel("Obstrucción de la justicia", 10, 700, ""),
-            new CrimeModel("Huida a pie tras advertencia", 10, 800, ""),
-            new CrimeModel("Destrucción del mobiliario público", 20, 1000, ""),
-            new CrimeModel("Agresión a civil sin armas", 15, 800, ""),
-            new CrimeModel("Agresión a civil con armas", 20, 2500, ""),
-            new CrimeModel("Agresión a un agente sin armas", 30, 3000, ""),
-            new CrimeModel("Agresión a un agente con armas", 60, 5000, ""),
-            new CrimeModel("Estafa o fraude", 20, 4000, ""),
-            new CrimeModel("Complice de rapto", 30, 4000, ""),
-            new CrimeModel("Rapto", 60, 8000, ""),
-            new CrimeModel("Complice de homicidio", 30, 10000, ""),
-            new CrimeModel("Homicidio", 60, 15000, ""),
-            new CrimeModel("Homicidio a un agente", 120, 40000, ""),
-            new CrimeModel("Llamada falsa a emergencias", 15, 1000, ""),
-            new CrimeModel("Intento de homicidio", 60, 10000, ""),
-            new CrimeModel("Intento de homicidio a un agente", 60, 15000, ""),
-            new CrimeModel("Atraco a civil", 15, 500, "Retirada de los artículos robados"),
-            new CrimeModel("Atraco a local", 20, 600, "Retirada de los artículos robados"),
-            new CrimeModel("Robo en domicilio", 20, 600, "Retirada de los artículos robados"),
-            new CrimeModel("Robo en vehículo", 20, 600, "Retirada de los artículos robados"),
-            new CrimeModel("Atraco o robo con fuga", 20, 800, ""),
-            new CrimeModel("Cómplice de atraco o robo", 10, 400, ""),
-            new CrimeModel("Atraco a una entidad financiera", 30, 6000, ""),
-            new CrimeModel("Allanamiento de morada", 15, 1000, ""),
-            new CrimeModel("Posesión de arma sin licencia", 60, 10000, "Retirada del arma"),
-            new CrimeModel("Uso indebido de armas con licencia", 60, 20000, "Retirada de la licencia"),
-            new CrimeModel("Suplantación de indentidad", 50, 10000, ""),
-            new CrimeModel("Suplantación de departamento estatal", 100, 20000, "")
-        };
-
         // Jail positions
         public static List<Vector3> JAIL_SPAWNS = new List<Vector3>
         {
