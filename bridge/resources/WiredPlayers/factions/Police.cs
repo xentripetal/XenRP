@@ -371,9 +371,8 @@ namespace WiredPlayers.factions
                     }
                     else
                     {
-                        string crimeList = NAPI.Util.ToJson(crimeList);
                         player.SetData(EntityData.PLAYER_INCRIMINATED_TARGET, target);
-                        player.TriggerEvent("showCrimesMenu", crimeList);
+                        player.TriggerEvent("showCrimesMenu", NAPI.Util.ToJson(crimeList));
                     }
                 }
                 else
