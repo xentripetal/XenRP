@@ -738,8 +738,10 @@ namespace WiredPlayers.globals
             }
         }
 
-        public static void GetPlayerBasicData(Client asker, Client player)
+        public static void ShowPlayerData(Client asker, Client player)
         {
+
+
             int rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
             string sex = player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? GenRes.sex_male : GenRes.sex_female;
             string age = player.GetData(EntityData.PLAYER_AGE) + GenRes.years;
@@ -3280,7 +3282,7 @@ namespace WiredPlayers.globals
         public void PlayerCommand(Client player)
         {
             // Get players basic data
-            GetPlayerBasicData(player, player);
+            PlayerData.RetrieveBasicDataEvent(player, player);
         }
     }
 }

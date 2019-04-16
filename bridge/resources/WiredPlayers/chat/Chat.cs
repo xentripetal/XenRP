@@ -261,23 +261,20 @@ namespace WiredPlayers.chat
         [Command(Commands.COM_MEGAPHONE, Commands.HLP_MEGAPHONE_COMMAND, GreedyArg = true)]
         public void MegafonoCommand(Client player, string message)
         {
-            if (player.IsInVehicle)
-            {
-                int vehicleFaction = player.Vehicle.GetData(EntityData.VEHICLE_FACTION);
-
-                if (vehicleFaction == Constants.FACTION_POLICE || vehicleFaction == Constants.FACTION_EMERGENCY)
-                {
-                    SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_MEGAPHONE, 45.0f);
-                }
-                else
-                {
-                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_megaphone);
-                }
-            }
-            else
+            if (!player.IsInVehicle)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);
+                return;
             }
+
+            if(player.Vehicle.Class != Constants.VEHICLE_CLASS_EMERGENCY)
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.vehicle_not_megaphone);
+                return;
+            }
+
+            // Send the message with the megaphone
+            SendMessageToNearbyPlayers(player, message, Constants.MESSAGE_MEGAPHONE, 45.0f);
         }
 
         [Command(Commands.COM_PM, Commands.HLP_MP_COMMAND, GreedyArg = true)]

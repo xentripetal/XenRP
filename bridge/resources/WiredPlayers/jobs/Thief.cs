@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using System.Linq;
 
 namespace WiredPlayers.jobs
 {
@@ -79,13 +80,13 @@ namespace WiredPlayers.jobs
                 robberyTimerList.Remove(player.Value);
             }
 
-            foreach (Client target in NAPI.Pools.GetAllPlayers())
+            // Get all the members from any police faction
+            List<Client> members = NAPI.Pools.GetAllPlayers().Where(m => Faction.IsPoliceMember(m) && m.GetData(EntityData.PLAYER_ON_DUTY) == 1).ToList();
+
+            foreach (Client target in members)
             {
-                if (target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
-                {
-                   target.SendChatMessage(Constants.COLOR_INFO + InfoRes.police_warning);
-                    target.SetData(EntityData.PLAYER_EMERGENCY_WITH_WARN, player.Position);
-                }
+                target.SendChatMessage(Constants.COLOR_INFO + InfoRes.police_warning);
+                target.SetData(EntityData.PLAYER_EMERGENCY_WITH_WARN, player.Position);
             }
             
             player.SendChatMessage(Constants.COLOR_SUCCESS + SuccRes.veh_hotwireed);
@@ -189,17 +190,20 @@ namespace WiredPlayers.jobs
             }
 
             // Create the police report
-            FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_POLICE, player.Value, robberyPlace, robberyPosition, -1, robberyHour);
-            Faction.factionWarningList.Add(factionWarning);
-            
+            FactionWarningModel policeWarning = new FactionWarningModel(Constants.FACTION_POLICE, player.Value, robberyPlace, robberyPosition, -1, robberyHour);
+            FactionWarningModel sheriffWarning = new FactionWarningModel(Constants.FACTION_SHERIFF, player.Value, robberyPlace, robberyPosition, -1, robberyHour);
+            Faction.factionWarningList.Add(policeWarning);
+            Faction.factionWarningList.Add(sheriffWarning); 
+
             string warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
-            
-            foreach (Client target in NAPI.Pools.GetAllPlayers())
+
+            // Get all the members from any police faction
+            List<Client> members = NAPI.Pools.GetAllPlayers().Where(m => Faction.IsPoliceMember(m) && m.GetData(EntityData.PLAYER_ON_DUTY) == 1).ToList();
+
+            foreach (Client target in members)
             {
-                if (target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && target.GetData(EntityData.PLAYER_ON_DUTY) == 1)
-                {
-                   target.SendChatMessage(Constants.COLOR_INFO + warnMessage);
-                }
+                // Send the warning
+                target.SendChatMessage(Constants.COLOR_INFO + warnMessage);
             }
         }
 

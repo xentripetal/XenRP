@@ -5,6 +5,7 @@ using WiredPlayers.character;
 using WiredPlayers.messages.error;
 using WiredPlayers.messages.general;
 using WiredPlayers.messages.information;
+using System.Linq;
 
 namespace WiredPlayers.jobs
 {
@@ -26,7 +27,6 @@ namespace WiredPlayers.jobs
                     jobBlip.ShortRange = true;
                     jobBlip.Sprite = job.blip;
                 }
-
             }
         }
 
@@ -70,7 +70,7 @@ namespace WiredPlayers.jobs
             if (job > 0)
             {
                 // Check if it's close to the point where he got the job
-                onWorkPlace = player.Position.DistanceTo(Constants.JOB_PICK_LIST[job].position) < 2.0f;
+                onWorkPlace = player.Position.DistanceTo(Constants.JOB_PICK_LIST.Where(j => j.job == job).First().position) < 2.0f;
             }
             else if(faction > 0)
             {

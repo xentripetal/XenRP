@@ -219,6 +219,9 @@ namespace WiredPlayers_Client.globals
             // Check if the player is connected
             if (playerLogged)
             {
+                // Disable reloading
+                RAGE.Game.Pad.DisableControlAction(0, 140, true);
+
                 if (Vehicles.lastPosition != null)
                 {
                     if (Player.LocalPlayer.Vehicle == null)

@@ -72,7 +72,7 @@ namespace WiredPlayers.factions
         private void UpdateReinforcesRequests(object unused)
         {
             List<ReinforcesModel> policeReinforces = new List<ReinforcesModel>();
-            List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => x.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
+            List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => Faction.IsPoliceMember(x)).ToList();
             
             foreach (Client police in policeMembers)
             {
@@ -254,7 +254,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -301,7 +301,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -355,7 +355,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -397,7 +397,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -465,7 +465,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -535,7 +535,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+            else if (Faction.IsPoliceMember(player))
             {
                 switch (action.ToLower())
                 {
@@ -669,7 +669,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -745,52 +745,52 @@ namespace WiredPlayers.factions
             if (player.GetData(EntityData.PLAYER_KILLED) != 0)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
+                return;
             }
-            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
+
+            if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
+                return;
             }
-            else
-            {
-                PoliceControlModel policeControl;
 
-                if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
-                {
-                    switch (item.ToLower())
-                    {
-                        case Commands.ARG_CONE:
-                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_CONE, player.Position, player.Rotation);
-                            policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
-                            policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_CONE, policeControl.position, policeControl.rotation);
-                            policeControlList.Add(policeControl);
-                            break;
-                        case Commands.ARG_BEACON:
-                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BEACON, player.Position, player.Rotation);
-                            policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
-                            policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BEACON, policeControl.position, policeControl.rotation);
-                            policeControlList.Add(policeControl);
-                            break;
-                        case Commands.ARG_BARRIER:
-                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BARRIER, player.Position, player.Rotation);
-                            policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
-                            policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BARRIER, policeControl.position, policeControl.rotation);
-                            policeControlList.Add(policeControl);
-                            break;
-                        case Commands.ARG_SPIKES:
-                            policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_SPIKES, player.Position, player.Rotation);
-                            policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
-                            policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_SPIKES, policeControl.position, policeControl.rotation);
-                            policeControlList.Add(policeControl);
-                            break;
-                        default:
-                            player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POLICE_PUT_COMMAND);
-                            break;
-                    }
-                }
-                else
-                {
-                    player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
-                }
+            if(!Faction.IsPoliceMember(player))
+            {
+                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
+                return;
+            }
+
+            PoliceControlModel policeControl;
+
+            switch (item.ToLower())
+            {
+                case Commands.ARG_CONE:
+                    policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_CONE, player.Position, player.Rotation);
+                    policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
+                    policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_CONE, policeControl.position, policeControl.rotation);
+                    policeControlList.Add(policeControl);
+                    break;
+                case Commands.ARG_BEACON:
+                    policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BEACON, player.Position, player.Rotation);
+                    policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
+                    policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BEACON, policeControl.position, policeControl.rotation);
+                    policeControlList.Add(policeControl);
+                    break;
+                case Commands.ARG_BARRIER:
+                    policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_BARRIER, player.Position, player.Rotation);
+                    policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
+                    policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_BARRIER, policeControl.position, policeControl.rotation);
+                    policeControlList.Add(policeControl);
+                    break;
+                case Commands.ARG_SPIKES:
+                    policeControl = new PoliceControlModel(0, string.Empty, Constants.POLICE_DEPLOYABLE_SPIKES, player.Position, player.Rotation);
+                    policeControl.position = new Vector3(policeControl.position.X, policeControl.position.Y, policeControl.position.Z - 1.0f);
+                    policeControl.controlObject = NAPI.Object.CreateObject(Constants.POLICE_DEPLOYABLE_SPIKES, policeControl.position, policeControl.rotation);
+                    policeControlList.Add(policeControl);
+                    break;
+                default:
+                    player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_POLICE_PUT_COMMAND);
+                    break;
             }
         }
 
@@ -805,7 +805,7 @@ namespace WiredPlayers.factions
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            else if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -835,7 +835,7 @@ namespace WiredPlayers.factions
         [Command(Commands.COM_REINFORCES)]
         public void ReinforcesCommand(Client player)
         {
-            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+            if (!Faction.IsPoliceMember(player))
             {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
             }
@@ -850,7 +850,7 @@ namespace WiredPlayers.factions
             else
             {
                 // Get police department's members
-                List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(x => x.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE).ToList();
+                List<Client> policeMembers = NAPI.Pools.GetAllPlayers().Where(p => Faction.IsPoliceMember(p)).ToList();
 
                 if (player.GetData(EntityData.PLAYER_REINFORCES) != null)
                 {
@@ -905,7 +905,7 @@ namespace WiredPlayers.factions
         [Command(Commands.COM_LICENSE, Commands.HLP_LICENSE_COMMAND, GreedyArg = true)]
         public void LicenseCommand(Client player, string args)
         {
-            if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) == 6)
+            if (Faction.IsPoliceMember(player) && player.GetData(EntityData.PLAYER_RANK) == 6)
             {
                 string[] arguments = args.Trim().Split(' ');
                 if (arguments.Length == 3 || arguments.Length == 4)
@@ -1009,7 +1009,7 @@ namespace WiredPlayers.factions
         [Command(Commands.COM_BREATHALYZER, Commands.HLP_ALCOHOLIMETER_COMMAND)]
         public void BreathalyzerCommand(Client player, string targetString)
         {
-            if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE && player.GetData(EntityData.PLAYER_RANK) > 0)
+            if (Faction.IsPoliceMember(player) && player.GetData(EntityData.PLAYER_RANK) > 0)
             {
                 float alcoholLevel = 0.0f;
                 Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);

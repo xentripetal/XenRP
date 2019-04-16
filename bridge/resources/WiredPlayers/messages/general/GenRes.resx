@@ -465,4 +465,7 @@
   <data name="thief_job" xml:space="preserve">
     <value>Ladrón</value>
   </data>
+  <data name="sheriff_faction" xml:space="preserve">
+    <value>Sheriff</value>
+  </data>
 </root>

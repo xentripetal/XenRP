@@ -2,6 +2,7 @@
 using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
+using WiredPlayers.factions;
 using WiredPlayers.messages.information;
 using WiredPlayers.messages.general;
 using WiredPlayers.messages.error;
@@ -157,9 +158,9 @@ namespace WiredPlayers.character
                             case Constants.NUMBER_POLICE:
                                 foreach (Client target in NAPI.Pools.GetAllPlayers())
                                 {
-                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null && Faction.IsPoliceMember(target))
                                     {
-                                       target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
+                                        target.SendChatMessage(Constants.COLOR_INFO + InfoRes.central_call);
                                         peopleOnline++;
                                     }
                                 }

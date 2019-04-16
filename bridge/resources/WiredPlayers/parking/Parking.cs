@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using WiredPlayers.factions;
 
 namespace WiredPlayers.parking
 {
@@ -153,7 +154,7 @@ namespace WiredPlayers.parking
             }
             else
             {
-                if (!Vehicles.HasPlayerVehicleKeys(player, player.Vehicle) && player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                if (!Vehicles.HasPlayerVehicleKeys(player, player.Vehicle) && !Faction.IsPoliceMember(player))
                 {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_car_keys);
                 }
@@ -193,7 +194,7 @@ namespace WiredPlayers.parking
                             }
                             break;
                         case Constants.PARKING_TYPE_DEPOSIT:
-                            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_POLICE)
+                            if (!Faction.IsPoliceMember(player))
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_police_faction);
                             }

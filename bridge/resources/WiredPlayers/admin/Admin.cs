@@ -1852,7 +1852,7 @@ namespace WiredPlayers.admin
                 if (target != null)
                 {
                     // Get player's basic data
-                    Globals.GetPlayerBasicData(player, target);
+                    PlayerData.RetrieveBasicDataEvent(player, target);
                 }
                 else
                 {

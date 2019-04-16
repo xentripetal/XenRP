@@ -93,5 +93,14 @@ namespace WiredPlayers_Client.globals
             new Vector3(1275.54f, -3287.54f, 5.90159f),
             new Vector3(1275.4f, -3293.04f, 5.90159f),
         };
+
+        public static List<string> VALID_WEAPONS = new List<string>()
+        {
+            "weapon_pistol", "weapon_combatpistol", "weapon_pistol50", "weapon_snspistol", "weapon_heavypistol", "weapon_vintagepistol", "weapon_marksmanpistol",
+            "weapon_revolver", "weapon_appistol", "weapon_flaregun", "weapon_microsmg", "weapon_machinepistol", "weapon_smg", "weapon_combatpdw", "weapon_mg",
+            "weapon_combatmg", "weapon_gusenberg", "weapon_minismg", "weapon_assaultrifle", "weapon_carbinerifle", "weapon_advancedrifle", "weapon_specialcarbine",
+            "weapon_bullpuprifle", "weapon_compactrifle", "weapon_sniperrifle", "weapon_heavysniper", "weapon_marksmanrifle", "weapon_pumpshotgun", "weapon_sawnoffshotgun",
+            "weapon_assaultshotgun", "weapon_bullpupshotgun", "weapon_musket", "weapon_heavyshotgun", "weapon_dbshotgun", "weapon_autoshotgun"
+        };
     }
 }

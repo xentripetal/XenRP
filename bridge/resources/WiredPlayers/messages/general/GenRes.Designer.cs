@@ -853,6 +853,15 @@ namespace WiredPlayers.messages.general {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Sheriff.
+        /// </summary>
+        public static string sheriff_faction {
+            get {
+                return ResourceManager.GetString("sheriff_faction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a SMS de .
         /// </summary>
         public static string sms_from {

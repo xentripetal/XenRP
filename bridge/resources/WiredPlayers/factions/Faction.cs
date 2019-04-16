@@ -44,6 +44,12 @@ namespace WiredPlayers.factions
             return factionWarningList.Where(factionWarn => factionWarn.playerId == playerId && factionWarn.faction == faction).FirstOrDefault();
         }
 
+        public static bool IsPoliceMember(Client player)
+        {
+            int faction = player.GetData(EntityData.PLAYER_FACTION);
+            return (faction == Constants.FACTION_POLICE || faction == Constants.FACTION_SHERIFF) && player.GetData(EntityData.PLAYER_RANK) > 0;
+        }
+
         private ChannelModel GetPlayerOwnedChannel(int playerId)
         {
             // Get the channel owned by a player
@@ -159,7 +165,7 @@ namespace WiredPlayers.factions
                     
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
-                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && IsPoliceMember(target))
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
@@ -188,13 +194,13 @@ namespace WiredPlayers.factions
             }
             else
             {
-                if (player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                if (IsPoliceMember(player))
                 {
                     string rank = GetPlayerFactionRank(player);
 
                     foreach (Client target in NAPI.Pools.GetAllPlayers())
                     {
-                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                        if (target.GetData(EntityData.PLAYER_PLAYING) != null && IsPoliceMember(target))
                         {
                             target.SendChatMessage(Constants.COLOR_RADIO_POLICE + GenRes.radio + rank + " " + player.Name + GenRes.chat_say + message);
                         }
@@ -551,7 +557,28 @@ namespace WiredPlayers.factions
                                 target.SetData(EntityData.PLAYER_RANK, 1);
 
                                 // Sending the message to the player
-                               target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
+                                target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
+                            }
+                            break;
+                        case Constants.FACTION_SHERIFF:
+                            if (target.GetData(EntityData.PLAYER_JOB) > 0)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_job);
+                            }
+                            else if (rank < 6)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_recruit);
+                            }
+                            else
+                            {
+                                string targetMessage = string.Format(InfoRes.faction_recruited, GenRes.sheriff_faction);
+
+                                // We get the player into the faction
+                                target.SetData(EntityData.PLAYER_FACTION, Constants.FACTION_SHERIFF);
+                                target.SetData(EntityData.PLAYER_RANK, 1);
+
+                                // Sending the message to the player
+                                target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
                             }
                             break;
                         default:
@@ -657,6 +684,18 @@ namespace WiredPlayers.factions
                             break;
                         case Constants.FACTION_TAXI_DRIVER:
                             if (rank < 5)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
+                            }
+                            else
+                            {
+                                // We kick the player from the faction
+                                target.SetData(EntityData.PLAYER_FACTION, 0);
+                                target.SetData(EntityData.PLAYER_RANK, 0);
+                            }
+                            break;
+                        case Constants.FACTION_SHERIFF:
+                            if (rank < 6)
                             {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_dismiss);
                             }
@@ -777,6 +816,17 @@ namespace WiredPlayers.factions
                                 target.SetData(EntityData.PLAYER_RANK, givenRank);
                             }
                             break;
+                        case Constants.FACTION_SHERIFF:
+                            if (rank < 5)
+                            {
+                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.rank_too_low_rank);
+                            }
+                            else
+                            {
+                                // Change player's rank
+                                target.SetData(EntityData.PLAYER_RANK, givenRank);
+                            }
+                            break;
                         default:
                             if (rank < 6)
                             {
@@ -868,7 +918,7 @@ namespace WiredPlayers.factions
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
 
-            if (faction == Constants.FACTION_POLICE || faction == Constants.FACTION_EMERGENCY)
+            if (IsPoliceMember(player) || faction == Constants.FACTION_EMERGENCY)
             {
                 try
                 {
@@ -918,7 +968,7 @@ namespace WiredPlayers.factions
         {
             int faction = player.GetData(EntityData.PLAYER_FACTION);
 
-            if (faction == Constants.FACTION_POLICE || faction == Constants.FACTION_EMERGENCY)
+            if (IsPoliceMember(player) || faction == Constants.FACTION_EMERGENCY)
             {
                 try
                 {

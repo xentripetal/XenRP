@@ -2,14 +2,15 @@
 using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
+using WiredPlayers.factions;
 using WiredPlayers.messages.administration;
 using WiredPlayers.messages.error;
 using WiredPlayers.messages.information;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using System;
 using System.Linq;
+using System;
 
 namespace WiredPlayers.weapons
 {
@@ -233,7 +234,7 @@ namespace WiredPlayers.weapons
             // Send the warning message to all the police members
             foreach (Client player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.GetData(EntityData.PLAYER_PLAYING) != null && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_POLICE)
+                if (player.GetData(EntityData.PLAYER_PLAYING) != null && Faction.IsPoliceMember(player))
                 {
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.weapon_spawn_island);
                 }
@@ -445,11 +446,11 @@ namespace WiredPlayers.weapons
         }
 
         [RemoteEvent("reloadPlayerWeapon")]
-        public void ReloadPlayerWeaponEvent(Client player)
+        public void ReloadPlayerWeaponEvent(Client player, int currentBullets)
         {
             WeaponHash weapon = player.CurrentWeapon;
             int maxCapacity = GetGunAmmunitionCapacity(weapon);
-            int currentBullets = player.GetWeaponAmmo(weapon);
+
             if (currentBullets < maxCapacity)
             {
                 string bulletType = GetGunAmmunitionType(weapon);
@@ -492,7 +493,7 @@ namespace WiredPlayers.weapons
 
                     // Reload the weapon
                     player.SetWeaponAmmo(weapon, currentBullets);
-                    //NAPI.Native.SendNativeToPlayer(player, Hash.MAKE_PED_RELOAD, player);
+                    player.TriggerEvent("makePlayerReload");
                 }
             }
         }

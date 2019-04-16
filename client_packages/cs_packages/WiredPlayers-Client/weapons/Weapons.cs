@@ -1,5 +1,7 @@
 ﻿using RAGE;
 using RAGE.Elements;
+using WiredPlayers_Client.globals;
+using System.Linq;
 
 namespace WiredPlayers_Client.weapons
 {
@@ -9,11 +11,23 @@ namespace WiredPlayers_Client.weapons
 
         public Weapons()
         {
+            Events.Add("makePlayerReload", MakePlayerReloadEvent);
             Events.Add("getPlayerWeapons", GetPlayerWeaponsEvent);
             Events.Add("showWeaponCheckpoint", ShowWeaponCheckpointEvent);
             Events.Add("deleteWeaponCheckpoint", DeleteWeaponCheckpointEvent);
 
             Events.OnPlayerWeaponShot += OnPlayerWeaponShotEvent;
+        }
+
+        public static bool IsValidWeapon(int weapon)
+        {
+            return Constants.VALID_WEAPONS.Where(w => RAGE.Game.Misc.GetHashKey(w) == (uint)weapon).Count() > 0;
+        }
+
+        private void MakePlayerReloadEvent(object[] args)
+        {
+            // Reload the weapon
+            Player.LocalPlayer.TaskReloadWeapon(true);
         }
 
         private void GetPlayerWeaponsEvent(object[] args)

@@ -2,6 +2,7 @@
 using RAGE.Elements;
 using System.Collections.Generic;
 using WiredPlayers_Client.factions;
+using WiredPlayers_Client.weapons;
 using System;
 
 namespace WiredPlayers_Client.globals
@@ -65,7 +66,7 @@ namespace WiredPlayers_Client.globals
                     }
                     break;
                 case (int)ConsoleKey.F:
-                    if (Player.LocalPlayer.Vehicle == null)
+                    if (Player.LocalPlayer.Vehicle == null && !Police.handcuffed)
                     {
                         // Check if player can enter any place
                         Events.CallRemote("checkPlayerEventKey");
@@ -78,6 +79,22 @@ namespace WiredPlayers_Client.globals
                         {
                             // Toggle vehicle's engine
                             Events.CallRemote("engineOnEventKey");
+                        }
+                    }
+                    break;
+                case (int)ConsoleKey.R:
+                    if (Player.LocalPlayer.Vehicle == null && !Police.handcuffed)
+                    {
+                        int weapon = 0;
+                        Player.LocalPlayer.GetCurrentWeapon(ref weapon, true);
+
+                        if(weapon > 0 && !Player.LocalPlayer.IsReloading() && Weapons.IsValidWeapon(weapon))
+                        {
+                            int ammo = 0;
+                            Player.LocalPlayer.GetAmmoInClip((uint)weapon, ref ammo);
+
+                            // Reload the weapon
+                            Events.CallRemote("reloadPlayerWeapon", ammo);
                         }
                     }
                     break;
@@ -102,6 +119,7 @@ namespace WiredPlayers_Client.globals
                 (int)ConsoleKey.E,
                 (int)ConsoleKey.F,
                 (int)ConsoleKey.K,
+                (int)ConsoleKey.R,
                 (int)ConsoleKey.F2
             };
 
