@@ -1,12 +1,9 @@
-# WiredPlayers RolePlay GameMode
-WiredPlayers is a RolePlay project made for RAGE Multiplayer, it uses C# as main language for both server and client. I started with it back in March 2017 and I'm still upgrading its functionality with suggestions received from people using this gamemode.
+# XenRP: RageMP RP Gamemode (Based on [Wired-RP](https://github.com/xabier1989/WiredPlayers-RP))
+XenRP is a RolePlay project made for RAGE Multiplayer, it uses C# as main language for both server and client. It is based on [Wired-RP](https://github.com/xabier1989/WiredPlayers-RP) and will slowly be deviating further from this source. 
 
-## Helping the project
-There are multiple ways of helping to this project. You can add changes to the source, suggest new features or, if you feel so, you can also donate to the creator clicking [HERE](https://paypal.me/XabiWiredPlayers)
 
-## Update Log
-
-* The update log can be seen by checking this page -> [Update Log](https://github.com/xabier1989/WiredPlayers-RP/wiki/Update-Log) 
+## Changes from Wired-RP (actively adding more)
+* Ditched multilingual support due to issues with culture in .Net Core 2.2
 
 ## Getting Started
 
