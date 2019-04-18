@@ -1,9 +1,7 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model
-{
-    public class ItemModel
-    {
+namespace WiredPlayers.model {
+    public class ItemModel {
         public int id { get; set; }
         public string hash { get; set; }
         public string ownerEntity { get; set; }
@@ -13,9 +11,8 @@ namespace WiredPlayers.model
         public uint dimension { get; set; }
         public Object objectHandle { get; set; }
 
-        public ItemModel Copy()
-        {
-            ItemModel itemModel = new ItemModel();
+        public ItemModel Copy() {
+            var itemModel = new ItemModel();
 
             itemModel.id = id;
             itemModel.hash = hash;

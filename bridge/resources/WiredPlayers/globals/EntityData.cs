@@ -1,7 +1,5 @@
-﻿namespace WiredPlayers.globals
-{
-    public class EntityData
-    {
+﻿namespace WiredPlayers.globals {
+    public class EntityData {
         // Player's data
         public const string PLAYER_SQL_ID = "PLAYER_SQL_ID";
         public const string PLAYER_NAME = "PLAYER_NAME";

@@ -118,51 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="license_exam_passed" xml:space="preserve">
-    <value>Has aprobado el examen teórico.</value>
+    <value>You passed the theoric exam.</value>
   </data>
   <data name="license_drive_passed" xml:space="preserve">
-    <value>Has aprobado el examen práctico.</value>
+    <value>You passed the practical exam.</value>
   </data>
   <data name="vehicle_purchased" xml:space="preserve">
-    <value>Has comprado tu vehículo.</value>
+    <value>You purchased your vehicle.</value>
   </data>
   <data name="admin_revived" xml:space="preserve">
-    <value>El administrador {0} te ha revivido.</value>
+    <value>The staff {0} revived you.</value>
   </data>
   <data name="possitive_result" xml:space="preserve">
-    <value>{0} ha conseguido un resultado positivo.</value>
+    <value>{0} had a possitive result.</value>
   </data>
   <data name="lockpicked" xml:space="preserve">
-    <value>Has logrado forzar la cerradura.</value>
+    <value>You successfully lockpicked.</value>
   </data>
   <data name="veh_locked" xml:space="preserve">
-    <value>ha bloqueado el vehículo.</value>
+    <value>locked his vehicle.</value>
   </data>
   <data name="veh_unlocked" xml:space="preserve">
-    <value>ha desbloqueado el vehículo.</value>
+    <value>unlocked his vehicle.</value>
   </data>
   <data name="veh_hotwireed" xml:space="preserve">
-    <value>Has conseguido arrancar el vehículo.</value>
+    <value>You managed to hotwire the vehicle.</value>
   </data>
   <data name="target_reanimated" xml:space="preserve">
-    <value>El doctor {0} ha conseguido reanimarte.</value>
+    <value>The doctor {0} reanimated you.</value>
   </data>
   <data name="interview_accepted" xml:space="preserve">
-    <value>{0} ha aceptado tu solicitud de entrevista.</value>
+    <value>{0} accepted your interview request.</value>
   </data>
   <data name="hooker_client_satisfied" xml:space="preserve">
-    <value>Has terminado con este cliente.</value>
+    <value>You've finished with this client.</value>
   </data>
   <data name="hooker_service_finished" xml:space="preserve">
-    <value>El servicio de la prostituta ha terminado.</value>
+    <value>The hooker's service has finished.</value>
   </data>
   <data name="help_request_sent" xml:space="preserve">
-    <value>Tu duda ha sido enviada correctamente, espera a que te atienda un miembro del staff.</value>
+    <value>A new ticket has been generated, wait for a staff member to answer it.</value>
   </data>
   <data name="vehicle_scrapyard" xml:space="preserve">
-    <value>Has recibido {0}$ por desguazar tu vehículo.</value>
+    <value>You received {0}$ for scrapping your vehicle.</value>
   </data>
   <data name="house_sold" xml:space="preserve">
-    <value>Has vendido tu casa al estado por un valor de {0}$</value>
+    <value>You sold yous house for {0}$</value>
   </data>
 </root>

@@ -118,243 +118,243 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="none_m" xml:space="preserve">
-    <value>Civil</value>
+    <value>Civilian</value>
   </data>
   <data name="none_f" xml:space="preserve">
-    <value>Civil</value>
+    <value>Civilian</value>
   </data>
   <data name="lspd_0_m" xml:space="preserve">
-    <value>Soplón</value>
+    <value>Snitch</value>
   </data>
   <data name="lspd_0_f" xml:space="preserve">
-    <value>Soplona</value>
+    <value>Snitch</value>
   </data>
   <data name="lspd_1_m" xml:space="preserve">
-    <value>Cadete</value>
+    <value>Cadet</value>
   </data>
   <data name="lspd_1_f" xml:space="preserve">
-    <value>Cadete</value>
+    <value>Cadet</value>
   </data>
   <data name="lspd_2_m" xml:space="preserve">
-    <value>Oficial</value>
+    <value>Officer</value>
   </data>
   <data name="lspd_2_f" xml:space="preserve">
-    <value>Oficial</value>
+    <value>Officer</value>
   </data>
   <data name="lspd_3_m" xml:space="preserve">
-    <value>Sargento</value>
+    <value>Sergeant</value>
   </data>
   <data name="lspd_3_f" xml:space="preserve">
-    <value>Sargento</value>
+    <value>Sergeant</value>
   </data>
   <data name="lspd_4_m" xml:space="preserve">
-    <value>Teniente</value>
+    <value>Lieutenant</value>
   </data>
   <data name="lspd_4_f" xml:space="preserve">
-    <value>Teniente</value>
+    <value>Lieutenant</value>
   </data>
   <data name="lspd_5_m" xml:space="preserve">
-    <value>Capitán</value>
+    <value>Captain</value>
   </data>
   <data name="lspd_5_f" xml:space="preserve">
-    <value>Capitán</value>
+    <value>Captain</value>
   </data>
   <data name="lspd_6_m" xml:space="preserve">
-    <value>Comisario</value>
+    <value>Commissar</value>
   </data>
   <data name="lspd_6_f" xml:space="preserve">
-    <value>Comisaria</value>
+    <value>Commissar</value>
   </data>
   <data name="lspd_7_m" xml:space="preserve">
-    <value>Asuntos Internos</value>
+    <value>Internal Affairs</value>
   </data>
   <data name="lspd_7_f" xml:space="preserve">
-    <value>Asuntos Internos</value>
+    <value>Internal Affairs</value>
   </data>
   <data name="ems_1_m" xml:space="preserve">
-    <value>Auxiliar</value>
+    <value>Auxiliary</value>
   </data>
   <data name="ems_1_f" xml:space="preserve">
-    <value>Auxiliar</value>
+    <value>Auxiliary</value>
   </data>
   <data name="ems_2_m" xml:space="preserve">
-    <value>Enfermero</value>
+    <value>Nurse</value>
   </data>
   <data name="ems_2_f" xml:space="preserve">
-    <value>Enfermera</value>
+    <value>Nurse</value>
   </data>
   <data name="ems_3_m" xml:space="preserve">
-    <value>Cirujano adjunto</value>
+    <value>Adjunct surgeon</value>
   </data>
   <data name="ems_3_f" xml:space="preserve">
-    <value>Cirujana adjunta</value>
+    <value>Adjunct surgeon</value>
   </data>
   <data name="ems_4_m" xml:space="preserve">
-    <value>Paramédico</value>
+    <value>Paramedic</value>
   </data>
   <data name="ems_4_f" xml:space="preserve">
-    <value>Paramédico</value>
+    <value>Paramedic</value>
   </data>
   <data name="ems_5_m" xml:space="preserve">
-    <value>Cirujano de primera</value>
+    <value>First class surgeon</value>
   </data>
   <data name="ems_5_f" xml:space="preserve">
-    <value>Cirujana de primera</value>
+    <value>First class surgeon</value>
   </data>
   <data name="ems_6_m" xml:space="preserve">
-    <value>Médico</value>
+    <value>Medic</value>
   </data>
   <data name="ems_6_f" xml:space="preserve">
-    <value>Médico</value>
+    <value>Medic</value>
   </data>
   <data name="ems_7_m" xml:space="preserve">
-    <value>Cirujano jefe</value>
+    <value>Chief surgeon</value>
   </data>
   <data name="ems_7_f" xml:space="preserve">
-    <value>Cirujana jefa</value>
+    <value>Chief surgeon</value>
   </data>
   <data name="ems_8_m" xml:space="preserve">
-    <value>Jefe de urgencias</value>
+    <value>Head of emergency</value>
   </data>
   <data name="ems_8_f" xml:space="preserve">
-    <value>Jefa de urgencias</value>
+    <value>Head of emergency</value>
   </data>
   <data name="ems_9_m" xml:space="preserve">
-    <value>Subdirector</value>
+    <value>Vice principal</value>
   </data>
   <data name="ems_9_f" xml:space="preserve">
-    <value>Subdirectora</value>
+    <value>Vice principal</value>
   </data>
   <data name="ems_10_m" xml:space="preserve">
-    <value>Director</value>
+    <value>Principal</value>
   </data>
   <data name="ems_10_f" xml:space="preserve">
-    <value>Directora</value>
+    <value>Principal</value>
   </data>
   <data name="news_1_m" xml:space="preserve">
-    <value>Becario</value>
+    <value>Scholar</value>
   </data>
   <data name="news_1_f" xml:space="preserve">
-    <value>Becaria</value>
+    <value>Scholar</value>
   </data>
   <data name="news_2_m" xml:space="preserve">
-    <value>Periodista</value>
+    <value>Journalist</value>
   </data>
   <data name="news_2_f" xml:space="preserve">
-    <value>Periodista</value>
+    <value>Journalist</value>
   </data>
   <data name="news_3_m" xml:space="preserve">
-    <value>Locutor</value>
+    <value>Broadcaster</value>
   </data>
   <data name="news_3_f" xml:space="preserve">
-    <value>Locutora</value>
+    <value>Broadcaster</value>
   </data>
   <data name="news_4_m" xml:space="preserve">
-    <value>Subdirector</value>
+    <value>Vice principal</value>
   </data>
   <data name="news_4_f" xml:space="preserve">
-    <value>Subdirectora</value>
+    <value>Vice principal</value>
   </data>
   <data name="news_5_m" xml:space="preserve">
-    <value>Director</value>
+    <value>Principal</value>
   </data>
   <data name="news_5_f" xml:space="preserve">
-    <value>Directora</value>
+    <value>Principal</value>
   </data>
   <data name="town_1_m" xml:space="preserve">
-    <value>Becario</value>
+    <value>Scholar</value>
   </data>
   <data name="town_1_f" xml:space="preserve">
-    <value>Becaria</value>
+    <value>Scholar</value>
   </data>
   <data name="town_2_m" xml:space="preserve">
-    <value>Funcionario</value>
+    <value>Official</value>
   </data>
   <data name="town_2_f" xml:space="preserve">
-    <value>Funcionaria</value>
+    <value>Official</value>
   </data>
   <data name="town_3_m" xml:space="preserve">
-    <value>Jefe de departamento</value>
+    <value>Head of department</value>
   </data>
   <data name="town_3_f" xml:space="preserve">
-    <value>Jefa de departamento</value>
+    <value>Head of department</value>
   </data>
   <data name="town_4_m" xml:space="preserve">
-    <value>Alcalde</value>
+    <value>Mayor</value>
   </data>
   <data name="town_4_f" xml:space="preserve">
-    <value>Alcaldesa</value>
+    <value>Mayor</value>
   </data>
   <data name="lstd_1_m" xml:space="preserve">
-    <value>Conductor</value>
+    <value>Driver</value>
   </data>
   <data name="lstd_1_f" xml:space="preserve">
-    <value>Conductora</value>
+    <value>Driver</value>
   </data>
   <data name="lstd_2_m" xml:space="preserve">
-    <value>Veterano</value>
+    <value>Veteran</value>
   </data>
   <data name="lstd_2_f" xml:space="preserve">
-    <value>Veterana</value>
+    <value>Veteran</value>
   </data>
   <data name="lstd_3_m" xml:space="preserve">
-    <value>Gerente</value>
+    <value>Manager</value>
   </data>
   <data name="lstd_3_f" xml:space="preserve">
-    <value>Gerente</value>
+    <value>Manager</value>
   </data>
   <data name="lstd_4_m" xml:space="preserve">
-    <value>Vicepresidente</value>
+    <value>Vice president</value>
   </data>
   <data name="lstd_4_f" xml:space="preserve">
-    <value>Vicepresidenta</value>
+    <value>Vice president</value>
   </data>
   <data name="lstd_5_m" xml:space="preserve">
-    <value>Presidente</value>
+    <value>President</value>
   </data>
   <data name="lstd_5_f" xml:space="preserve">
-    <value>Presidenta</value>
+    <value>President</value>
   </data>
   <data name="unemployed_m" xml:space="preserve">
-    <value>Desempleado</value>
+    <value>Unemployed</value>
   </data>
   <data name="unemployed_f" xml:space="preserve">
-    <value>Desempleada</value>
+    <value>Unemployed</value>
   </data>
   <data name="fastfood_m" xml:space="preserve">
-    <value>Repartidor</value>
+    <value>Delivery man</value>
   </data>
   <data name="fastfood_f" xml:space="preserve">
-    <value>Repartidora</value>
+    <value>Delivery woman</value>
   </data>
   <data name="thief_m" xml:space="preserve">
-    <value>Ladrón</value>
+    <value>Thief</value>
   </data>
   <data name="thief_f" xml:space="preserve">
-    <value>Ladrona</value>
+    <value>Thief</value>
   </data>
   <data name="mechanic_m" xml:space="preserve">
-    <value>Mecánico</value>
+    <value>Mechanic</value>
   </data>
   <data name="mechanic_f" xml:space="preserve">
-    <value>Mecánica</value>
+    <value>Mechanic</value>
   </data>
   <data name="gargage_m" xml:space="preserve">
-    <value>Basurero</value>
+    <value>Garbage man</value>
   </data>
   <data name="gargage_f" xml:space="preserve">
-    <value>Basurera</value>
+    <value>Garbage woman</value>
   </data>
   <data name="hooker_m" xml:space="preserve">
-    <value>Gigoló</value>
+    <value>Gigolo</value>
   </data>
   <data name="hooker_f" xml:space="preserve">
-    <value>Prostituta</value>
+    <value>Prostitute</value>
   </data>
   <data name="trucker_f" xml:space="preserve">
-    <value>Camionera</value>
+    <value>Trucker</value>
   </data>
   <data name="trucker_m" xml:space="preserve">
-    <value>Camionero</value>
+    <value>Trucker</value>
   </data>
 </root>

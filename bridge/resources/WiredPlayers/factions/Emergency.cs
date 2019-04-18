@@ -1,40 +1,31 @@
-﻿using GTANetworkAPI;
-using WiredPlayers.model;
-using WiredPlayers.globals;
-using WiredPlayers.database;
-using WiredPlayers.house;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using GTANetworkAPI;
 using WiredPlayers.business;
+using WiredPlayers.database;
+using WiredPlayers.globals;
+using WiredPlayers.house;
 using WiredPlayers.messages.error;
 using WiredPlayers.messages.information;
 using WiredPlayers.messages.success;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+using WiredPlayers.model;
 
-namespace WiredPlayers.factions
-{
-    public class Emergency : Script
-    {
+namespace WiredPlayers.factions {
+    public class Emergency : Script {
         public static List<BloodModel> bloodList;
 
-        private void CreateEmergencyReport(DeathModel death)
-        {
+        private void CreateEmergencyReport(DeathModel death) {
             // Get the server time
-            int totalSeconds = Globals.GetTotalSeconds();
+            var totalSeconds = Globals.GetTotalSeconds();
 
-            if (death.killer.Value == Constants.ENVIRONMENT_KILL)
-            {
+            if (death.killer.Value == Constants.ENVIRONMENT_KILL) {
                 // Check if the player was dead
                 int databaseKiller = death.player.GetData(EntityData.PLAYER_KILLED);
 
-                if (databaseKiller == 0)
-                {
-                    // There's no killer, we set the environment as killer
-                    death.player.SetData(EntityData.PLAYER_KILLED, Constants.ENVIRONMENT_KILL);
-                }
+                if (databaseKiller == 0) death.player.SetData(EntityData.PLAYER_KILLED, Constants.ENVIRONMENT_KILL);
             }
-            else
-            {
+            else {
                 int killerId = death.killer.GetData(EntityData.PLAYER_SQL_ID);
                 death.player.SetData(EntityData.PLAYER_KILLED, killerId);
             }
@@ -44,39 +35,29 @@ namespace WiredPlayers.factions
             death.player.SendChatMessage(Constants.COLOR_INFO + InfoRes.emergency_warn);
         }
 
-        private int GetRemainingBlood()
-        {
-            int remaining = 0;
-            foreach (BloodModel blood in bloodList)
-            {
+        private int GetRemainingBlood() {
+            var remaining = 0;
+            foreach (var blood in bloodList)
                 if (blood.used)
-                {
                     remaining--;
-                }
                 else
-                {
                     remaining++;
-                }
-            }
             return remaining;
         }
 
-        public static void CancelPlayerDeath(Client player)
-        {
+        public static void CancelPlayerDeath(Client player) {
             player.Invincible = false;
             NAPI.Player.SpawnPlayer(player, player.Position);
             player.SetData(EntityData.PLAYER_KILLED, 0);
             player.ResetData(EntityData.TIME_HOSPITAL_RESPAWN);
 
             // Get the death warning
-            FactionWarningModel factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);
+            var factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);
 
-            if (factionWarn != null)
-            {
-                if (factionWarn.takenBy >= 0)
-                {
+            if (factionWarn != null) {
+                if (factionWarn.takenBy >= 0) {
                     // Tell the player who attended the report it's been canceled
-                    Client doctor = Globals.GetPlayerById(factionWarn.takenBy);
+                    var doctor = Globals.GetPlayerById(factionWarn.takenBy);
                     doctor.SendChatMessage(Constants.COLOR_INFO + InfoRes.faction_warn_canceled);
                 }
 
@@ -85,8 +66,7 @@ namespace WiredPlayers.factions
             }
         }
 
-        private void TeleportPlayerToHospital(Client player)
-        {
+        private void TeleportPlayerToHospital(Client player) {
             player.Dimension = 0;
             player.Invincible = false;
             player.Position = new Vector3(-1385.481f, -976.4036f, 9.273162f);
@@ -97,51 +77,44 @@ namespace WiredPlayers.factions
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Client player, Client killer, uint weapon)
-        {
-            if(player.GetData(EntityData.PLAYER_KILLED) == 0)
-            {
-                DeathModel death = new DeathModel(player, killer, weapon);
+        public void OnPlayerDeath(Client player, Client killer, uint weapon) {
+            if (player.GetData(EntityData.PLAYER_KILLED) == 0) {
+                var death = new DeathModel(player, killer, weapon);
 
                 Vector3 deathPosition = null;
-                string deathPlace = string.Empty;
-                string deathHour = DateTime.Now.ToString("h:mm:ss tt");
+                var deathPlace = string.Empty;
+                var deathHour = DateTime.Now.ToString("h:mm:ss tt");
 
                 // Checking if player died into a house or business
-                if (player.GetData(EntityData.PLAYER_HOUSE_ENTERED) > 0)
-                {
+                if (player.GetData(EntityData.PLAYER_HOUSE_ENTERED) > 0) {
                     int houseId = player.GetData(EntityData.PLAYER_HOUSE_ENTERED);
-                    HouseModel house = House.GetHouseById(houseId);
+                    var house = House.GetHouseById(houseId);
                     deathPosition = house.position;
                     deathPlace = house.name;
                 }
-                else if (player.GetData(EntityData.PLAYER_BUSINESS_ENTERED) > 0)
-                {
+                else if (player.GetData(EntityData.PLAYER_BUSINESS_ENTERED) > 0) {
                     int businessId = player.GetData(EntityData.PLAYER_BUSINESS_ENTERED);
-                    BusinessModel business = Business.GetBusinessById(businessId);
+                    var business = Business.GetBusinessById(businessId);
                     deathPosition = business.position;
                     deathPlace = business.name;
                 }
-                else
-                {
+                else {
                     deathPosition = player.Position;
                 }
 
                 // We add the report to the list
-                FactionWarningModel factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace, deathPosition, -1, deathHour);
+                var factionWarning = new FactionWarningModel(Constants.FACTION_EMERGENCY, player.Value, deathPlace,
+                    deathPosition, -1, deathHour);
                 Faction.factionWarningList.Add(factionWarning);
 
                 // Report message
-                string warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
+                var warnMessage = string.Format(InfoRes.emergency_warning, Faction.factionWarningList.Count - 1);
 
                 // Sending the report to all the emergency department's members
-                foreach (Client target in NAPI.Pools.GetAllPlayers())
-                {
-                    if (target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY && target.GetData(EntityData.PLAYER_ON_DUTY) > 0)
-                    {
-                       target.SendChatMessage(Constants.COLOR_INFO + warnMessage);
-                    }
-                }
+                foreach (var target in NAPI.Pools.GetAllPlayers())
+                    if (target.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY &&
+                        target.GetData(EntityData.PLAYER_ON_DUTY) > 0)
+                        target.SendChatMessage(Constants.COLOR_INFO + warnMessage);
 
                 // Create the emergency report
                 CreateEmergencyReport(death);
@@ -149,26 +122,24 @@ namespace WiredPlayers.factions
         }
 
         [Command(Commands.COM_HEAL, Commands.HLP_HEAL_COMMAND)]
-        public void HealCommand(Client player, string targetString)
-        {
-            Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+        public void HealCommand(Client player, string targetString) {
+            var target = int.TryParse(targetString, out var targetId)
+                ? Globals.GetPlayerById(targetId)
+                : NAPI.Player.GetPlayerFromName(targetString);
 
-            if(target == null)
-            {
+            if (target == null) {
                 // The player is not connected
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 return;
             }
 
-            if(player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_EMERGENCY)
-            {
+            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_EMERGENCY) {
                 // The player is not a medic
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_emergency_faction);
                 return;
             }
 
-            if(target.Health >= 100)
-            {
+            if (target.Health >= 100) {
                 // The target player is not injured
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_hurt);
                 return;
@@ -177,51 +148,42 @@ namespace WiredPlayers.factions
             // We heal the character
             target.Health = 100;
 
-            foreach (Client targetPlayer in NAPI.Pools.GetAllPlayers())
-            {
-                if (targetPlayer.Position.DistanceTo(player.Position) < 20.0f)
-                {
-                    string message = string.Format(InfoRes.medic_reanimated, player.Name, target.Name);
+            foreach (var targetPlayer in NAPI.Pools.GetAllPlayers())
+                if (targetPlayer.Position.DistanceTo(player.Position) < 20.0f) {
+                    var message = string.Format(InfoRes.medic_reanimated, player.Name, target.Name);
                     targetPlayer.SendChatMessage(Constants.COLOR_CHAT_ME + message);
                 }
-            }
 
 
-            string playerMessage = string.Format(InfoRes.medic_healed_player, target.Name);
-            string targetMessage = string.Format(InfoRes.player_healed_medic, player.Name);
+            var playerMessage = string.Format(InfoRes.medic_healed_player, target.Name);
+            var targetMessage = string.Format(InfoRes.player_healed_medic, player.Name);
             player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
             target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
         }
 
         [Command(Commands.COM_REANIMATE, Commands.HLP_REANIMATE_COMMAND)]
-        public void ReanimateCommand(Client player, string targetString)
-        {
-            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_EMERGENCY)
-            {
+        public void ReanimateCommand(Client player, string targetString) {
+            if (player.GetData(EntityData.PLAYER_FACTION) != Constants.FACTION_EMERGENCY) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_emergency_faction);
             }
-            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
-            {
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else if (player.GetData(EntityData.PLAYER_KILLED) != 0)
-            {
+            else if (player.GetData(EntityData.PLAYER_KILLED) != 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else
-            {
-                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+            else {
+                var target = int.TryParse(targetString, out var targetId)
+                    ? Globals.GetPlayerById(targetId)
+                    : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target != null)
-                {
-                    if (target.GetData(EntityData.PLAYER_KILLED) != 0)
-                    {
-                        if (GetRemainingBlood() > 0)
-                        {
+                if (target != null) {
+                    if (target.GetData(EntityData.PLAYER_KILLED) != 0) {
+                        if (GetRemainingBlood() > 0) {
                             CancelPlayerDeath(target);
 
                             // We create blood model
-                            BloodModel bloodModel = new BloodModel();
+                            var bloodModel = new BloodModel();
                             {
                                 bloodModel.doctor = player.GetData(EntityData.PLAYER_SQL_ID);
                                 bloodModel.patient = target.GetData(EntityData.PLAYER_SQL_ID);
@@ -229,58 +191,50 @@ namespace WiredPlayers.factions
                                 bloodModel.used = true;
                             }
 
-                            Task.Factory.StartNew(() =>
-                            {
+                            Task.Factory.StartNew(() => {
                                 // Add the blood consumption to the database
                                 bloodModel.id = Database.AddBloodTransaction(bloodModel);
                                 bloodList.Add(bloodModel);
 
                                 // Send the confirmation message to both players
-                                string playerMessage = string.Format(InfoRes.player_reanimated, target.Name);
-                                string targetMessage = string.Format(SuccRes.target_reanimated, player.Name);
+                                var playerMessage = string.Format(InfoRes.player_reanimated, target.Name);
+                                var targetMessage = string.Format(SuccRes.target_reanimated, player.Name);
                                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + playerMessage);
                                 target.SendChatMessage(Constants.COLOR_SUCCESS + targetMessage);
                             });
                         }
-                        else
-                        {
+                        else {
                             // There's no blood left
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_blood_left);
                         }
                     }
-                    else
-                    {
+                    else {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_dead);
                     }
                 }
-                else
-                {
+                else {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
         [Command(Commands.COM_EXTRACT, Commands.HLP_EXTRACT_COMMAND)]
-        public void ExtractCommand(Client player, string targetString)
-        {
-            if (player.GetData(EntityData.PLAYER_KILLED) != 0)
-            {
+        public void ExtractCommand(Client player, string targetString) {
+            if (player.GetData(EntityData.PLAYER_KILLED) != 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
-            {
+            else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
             }
-            else
-            {
-                Client target = int.TryParse(targetString, out int targetId) ? Globals.GetPlayerById(targetId) : NAPI.Player.GetPlayerFromName(targetString);
+            else {
+                var target = int.TryParse(targetString, out var targetId)
+                    ? Globals.GetPlayerById(targetId)
+                    : NAPI.Player.GetPlayerFromName(targetString);
 
-                if (target != null && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY)
-                {
-                    if (target.Health > 15)
-                    {
+                if (target != null && player.GetData(EntityData.PLAYER_FACTION) == Constants.FACTION_EMERGENCY) {
+                    if (target.Health > 15) {
                         // We create the blood model
-                        BloodModel blood = new BloodModel();
+                        var blood = new BloodModel();
                         {
                             blood.doctor = player.GetData(EntityData.PLAYER_SQL_ID);
                             blood.patient = target.GetData(EntityData.PLAYER_SQL_ID);
@@ -288,69 +242,58 @@ namespace WiredPlayers.factions
                             blood.used = false;
                         }
 
-                        Task.Factory.StartNew(() =>
-                        {
+                        Task.Factory.StartNew(() => {
                             // We add the blood unit to the database
                             blood.id = Database.AddBloodTransaction(blood);
                             bloodList.Add(blood);
 
                             target.Health -= 15;
-                            
-                            string playerMessage = string.Format(InfoRes.blood_extracted, target.Name);
-                            string targetMessage = string.Format(InfoRes.blood_extracted, player.Name);
+
+                            var playerMessage = string.Format(InfoRes.blood_extracted, target.Name);
+                            var targetMessage = string.Format(InfoRes.blood_extracted, player.Name);
                             player.SendChatMessage(playerMessage);
                             target.SendChatMessage(targetMessage);
                         });
                     }
-                    else
-                    {
+                    else {
                         player.SendChatMessage(ErrRes.low_blood);
                     }
                 }
-                else
-                {
+                else {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
                 }
             }
         }
 
         [Command(Commands.COM_DIE)]
-        public void DieCommand(Client player)
-        {
+        public void DieCommand(Client player) {
             // Check if the player is dead
-            if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) != null)
-            {
-                int totalSeconds = Globals.GetTotalSeconds();
+            if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) != null) {
+                var totalSeconds = Globals.GetTotalSeconds();
 
-                if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds)
-                {
+                if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds) {
                     // Move player to the hospital
                     TeleportPlayerToHospital(player);
 
                     // Get the report generated with the death
-                    FactionWarningModel factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);
+                    var factionWarn = Faction.GetFactionWarnByTarget(player.Value, Constants.FACTION_EMERGENCY);
 
-                    if (factionWarn != null)
-                    {
-                        if (factionWarn.takenBy >= 0)
-                        {
+                    if (factionWarn != null) {
+                        if (factionWarn.takenBy >= 0) {
                             // Tell the player who attended the report it's been canceled
-                            Client doctor = Globals.GetPlayerById(factionWarn.takenBy);
+                            var doctor = Globals.GetPlayerById(factionWarn.takenBy);
                             doctor.SendChatMessage(Constants.COLOR_INFO + InfoRes.faction_warn_canceled);
                         }
 
                         // Remove the report from the list
                         Faction.factionWarningList.Remove(factionWarn);
                     }
-
                 }
-                else
-                {
+                else {
                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.death_time_not_passed);
                 }
             }
-            else
-            {
+            else {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_dead);
             }
         }

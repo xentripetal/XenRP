@@ -1,57 +1,49 @@
-﻿using GTANetworkAPI;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using GTANetworkAPI;
 using WiredPlayers.globals;
-using WiredPlayers.model;
 using WiredPlayers.messages.error;
 using WiredPlayers.messages.general;
 using WiredPlayers.messages.information;
-using System.Collections.Generic;
-using System.Threading;
-using System.Linq;
-using System;
+using Object = GTANetworkAPI.Object;
 
-namespace WiredPlayers.jobs
-{
-    public class Garbage : Script
-    {
+namespace WiredPlayers.jobs {
+    public class Garbage : Script {
         private static Dictionary<int, Timer> garbageTimerList;
 
-        public Garbage()
-        {
+        public Garbage() {
             // Initialize the variables
             garbageTimerList = new Dictionary<int, Timer>();
         }
 
-        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason)
-        {
-            if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == true)
-            {
+        public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
+            if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer)) {
                 garbageTimer.Dispose();
                 garbageTimerList.Remove(player.Value);
             }
         }
 
-        private void RespawnGarbageVehicle(Vehicle vehicle)
-        {
+        private void RespawnGarbageVehicle(Vehicle vehicle) {
             vehicle.Repair();
             vehicle.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
             vehicle.Rotation = vehicle.GetData(EntityData.VEHICLE_ROTATION);
         }
 
-        private void OnGarbageTimer(object playerObject)
-        {
-            Client player = (Client)playerObject;
+        private void OnGarbageTimer(object playerObject) {
+            var player = (Client) playerObject;
             Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
             Vehicle vehicle = player.GetData(EntityData.PLAYER_JOB_VEHICLE);
-            
+
             RespawnGarbageVehicle(vehicle);
 
             // Cancel the garbage route
             player.ResetData(EntityData.PLAYER_JOB_VEHICLE);
             player.ResetData(EntityData.PLAYER_JOB_CHECKPOINT);
             target.ResetData(EntityData.PLAYER_JOB_CHECKPOINT);
-            
-            if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == true)
-            {
+
+            if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer)) {
                 // Remove the timer
                 garbageTimer.Dispose();
                 garbageTimerList.Remove(player.Value);
@@ -62,34 +54,32 @@ namespace WiredPlayers.jobs
             target.SendChatMessage(Constants.COLOR_ERROR + ErrRes.job_vehicle_abandoned);
         }
 
-        private void OnGarbageCollectedTimer(object playerObject)
-        {
-            Client player = (Client)playerObject;
+        private void OnGarbageCollectedTimer(object playerObject) {
+            var player = (Client) playerObject;
             Client driver = player.GetData(EntityData.PLAYER_JOB_PARTNER);
 
-            NAPI.Task.Run(() =>
-            {
+            NAPI.Task.Run(() => {
                 // Get garbage bag
-                GTANetworkAPI.Object garbageBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
+                Object garbageBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
                 player.StopAnimation();
                 garbageBag.Delete();
 
                 // Get the remaining checkpoints
                 int route = driver.GetData(EntityData.PLAYER_JOB_ROUTE);
                 int checkPoint = driver.GetData(EntityData.PLAYER_JOB_CHECKPOINT) + 1;
-                int totalCheckPoints = Constants.GARBAGE_LIST.Where(x => x.route == route).Count();
+                var totalCheckPoints = Constants.GARBAGE_LIST.Where(x => x.route == route).Count();
 
                 // Get the current checkpoint
                 Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
                 garbageCheckpoint.Delete();
 
-                if (checkPoint < totalCheckPoints)
-                {
-                    Vector3 currentGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint);
-                    Vector3 nextGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint + 1);
+                if (checkPoint < totalCheckPoints) {
+                    var currentGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint);
+                    var nextGarbagePosition = GetGarbageCheckPointPosition(route, checkPoint + 1);
 
                     // Show the next checkpoint
-                    garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
+                    garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow,
+                        currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
 
                     driver.SetData(EntityData.PLAYER_JOB_CHECKPOINT, checkPoint);
                     player.SetData(EntityData.PLAYER_JOB_CHECKPOINT, checkPoint);
@@ -98,12 +88,14 @@ namespace WiredPlayers.jobs
                     player.TriggerEvent("showGarbageCheckPoint", currentGarbagePosition);
 
                     // Add the garbage bag
-                    garbageBag = NAPI.Object.CreateObject(628215202, currentGarbagePosition, new Vector3(0.0f, 0.0f, 0.0f));
+                    garbageBag = NAPI.Object.CreateObject(628215202, currentGarbagePosition,
+                        new Vector3(0.0f, 0.0f, 0.0f));
                     player.SetData(EntityData.PLAYER_GARBAGE_BAG, garbageBag);
                 }
-                else
-                {
-                    garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, new Vector3(-339.0206f, -1560.117f, 25.23038f), new Vector3(), 2.5f, new Color(198, 40, 40, 200));
+                else {
+                    garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard,
+                        new Vector3(-339.0206f, -1560.117f, 25.23038f), new Vector3(), 2.5f,
+                        new Color(198, 40, 40, 200));
 
                     driver.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_finished);
 
@@ -114,25 +106,24 @@ namespace WiredPlayers.jobs
                 player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_collected);
             });
 
-            if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == true)
-            {
+            if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer)) {
                 garbageTimer.Dispose();
                 garbageTimerList.Remove(player.Value);
             }
         }
 
-        private Vector3 GetGarbageCheckPointPosition(int route, int checkPoint)
-        {
+        private Vector3 GetGarbageCheckPointPosition(int route, int checkPoint) {
             // Get the garbage
-            GarbageModel garbage = Constants.GARBAGE_LIST.Where(garbageModel => garbageModel.route == route && garbageModel.checkPoint == checkPoint).FirstOrDefault();
+            var garbage = Constants.GARBAGE_LIST
+                .Where(garbageModel => garbageModel.route == route && garbageModel.checkPoint == checkPoint)
+                .FirstOrDefault();
 
             return garbage?.position;
         }
 
-        private void FinishGarbageRoute(Client driver, bool canceled = false)
-        {
+        private void FinishGarbageRoute(Client driver, bool canceled = false) {
             Client partner = driver.GetData(EntityData.PLAYER_JOB_PARTNER);
-            
+
             RespawnGarbageVehicle(driver.Vehicle);
 
             // Destroy the previous checkpoint
@@ -154,8 +145,7 @@ namespace WiredPlayers.jobs
             partner.ResetData(EntityData.PLAYER_JOB_VEHICLE);
             partner.ResetData(EntityData.PLAYER_ANIMATION);
 
-            if (!canceled)
-            {
+            if (!canceled) {
                 // Pay the earnings to both players
                 int driverMoney = driver.GetSharedData(EntityData.PLAYER_MONEY);
                 int partnerMoney = partner.GetSharedData(EntityData.PLAYER_MONEY);
@@ -163,7 +153,7 @@ namespace WiredPlayers.jobs
                 partner.SetSharedData(EntityData.PLAYER_MONEY, partnerMoney + Constants.MONEY_GARBAGE_ROUTE);
 
                 // Send the message with the earnings
-                string message = string.Format(InfoRes.garbage_earnings, Constants.MONEY_GARBAGE_ROUTE);
+                var message = string.Format(InfoRes.garbage_earnings, Constants.MONEY_GARBAGE_ROUTE);
                 driver.SendChatMessage(Constants.COLOR_INFO + message);
                 partner.SendChatMessage(Constants.COLOR_INFO + message);
             }
@@ -177,68 +167,57 @@ namespace WiredPlayers.jobs
         }
 
         [ServerEvent(Event.PlayerEnterVehicle)]
-        public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seat)
-        {
-            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES)
-            {
-                if (player.VehicleSeat == (int)VehicleSeat.Driver)
-                {
-                    if (player.GetData(EntityData.PLAYER_JOB_ROUTE) == null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
-                    {
+        public void OnPlayerEnterVehicle(Client player, Vehicle vehicle, sbyte seat) {
+            if (vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES) {
+                if (player.VehicleSeat == (int) VehicleSeat.Driver) {
+                    if (player.GetData(EntityData.PLAYER_JOB_ROUTE) == null &&
+                        player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null) {
                         // Stop the vehicle's speedometer
                         player.TriggerEvent("removeSpeedometer");
 
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                     }
-                    else if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle)
-                    {
+                    else if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null &&
+                             player.GetData(EntityData.PLAYER_JOB_VEHICLE) != vehicle) {
                         // Stop the vehicle's speedometer
                         player.TriggerEvent("removeSpeedometer");
 
                         player.WarpOutOfVehicle();
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_your_job_vehicle);
                     }
-                    else
-                    {
-                        if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == true)
-                        {
+                    else {
+                        if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer)) {
                             garbageTimer.Dispose();
                             garbageTimerList.Remove(player.Value);
                         }
 
                         // Check whether route starts or he's returning to the truck
-                        if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null)
-                        {
+                        if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == null) {
                             player.SetData(EntityData.PLAYER_JOB_PARTNER, player);
                             player.SetData(EntityData.PLAYER_JOB_VEHICLE, vehicle);
                             player.SendChatMessage(Constants.COLOR_INFO + InfoRes.player_waiting_partner);
                         }
-                        else
-                        {
+                        else {
                             // We continue with the previous route
                             Client partner = player.GetData(EntityData.PLAYER_JOB_PARTNER);
                             int garbageRoute = player.GetData(EntityData.PLAYER_JOB_ROUTE);
                             int checkPoint = player.GetData(EntityData.PLAYER_JOB_CHECKPOINT);
-                            Vector3 garbagePosition = GetGarbageCheckPointPosition(garbageRoute, checkPoint);
+                            var garbagePosition = GetGarbageCheckPointPosition(garbageRoute, checkPoint);
 
                             player.TriggerEvent("showGarbageCheckPoint", garbagePosition);
                             partner.TriggerEvent("showGarbageCheckPoint", garbagePosition);
                         }
                     }
                 }
-                else
-                {
-                    foreach (Client driver in vehicle.Occupants)
-                    {
-                        if (driver.GetData(EntityData.PLAYER_JOB_PARTNER) != null && driver.VehicleSeat == (int)VehicleSeat.Driver)
-                        {
+                else {
+                    foreach (var driver in vehicle.Occupants)
+                        if (driver.GetData(EntityData.PLAYER_JOB_PARTNER) != null &&
+                            driver.VehicleSeat == (int) VehicleSeat.Driver) {
                             Client partner = driver.GetData(EntityData.PLAYER_JOB_PARTNER);
 
-                            if (partner == driver)
-                            {
-                                if (player.GetData(EntityData.PLAYER_ON_DUTY) == 1)
-                                {
+                            if (partner == driver) {
+                                if (player.GetData(EntityData.PLAYER_ON_DUTY) == 1) {
                                     // Link both players as partners
                                     player.SetData(EntityData.PLAYER_JOB_PARTNER, driver);
                                     driver.SetData(EntityData.PLAYER_JOB_PARTNER, player);
@@ -250,27 +229,29 @@ namespace WiredPlayers.jobs
                                     player.SetData(EntityData.PLAYER_JOB_CHECKPOINT, 0);
 
                                     // Create the first checkpoint
-                                    Vector3 currentGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 0);
-                                    Vector3 nextGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 1);
-                                    Checkpoint garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderSingleArrow, currentGarbagePosition, nextGarbagePosition, 2.5f, new Color(198, 40, 40, 200));
+                                    var currentGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 0);
+                                    var nextGarbagePosition = GetGarbageCheckPointPosition(garbageRoute, 1);
+                                    var garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(
+                                        CheckpointType.CylinderSingleArrow, currentGarbagePosition, nextGarbagePosition,
+                                        2.5f, new Color(198, 40, 40, 200));
                                     player.SetData(EntityData.PLAYER_JOB_COLSHAPE, garbageCheckpoint);
 
                                     // Add garbage bag
-                                    GTANetworkAPI.Object trashBag = NAPI.Object.CreateObject(628215202, currentGarbagePosition, new Vector3(0.0f, 0.0f, 0.0f));
+                                    var trashBag = NAPI.Object.CreateObject(628215202, currentGarbagePosition,
+                                        new Vector3(0.0f, 0.0f, 0.0f));
                                     player.SetData(EntityData.PLAYER_GARBAGE_BAG, trashBag);
 
                                     driver.TriggerEvent("showGarbageCheckPoint", currentGarbagePosition);
                                     player.TriggerEvent("showGarbageCheckPoint", currentGarbagePosition);
                                 }
-                                else
-                                {
+                                else {
                                     player.WarpOutOfVehicle();
                                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
                                 }
                             }
+
                             return;
                         }
-                    }
 
                     // There's no player driving, kick the passenger
                     player.WarpOutOfVehicle();
@@ -280,76 +261,57 @@ namespace WiredPlayers.jobs
         }
 
         [ServerEvent(Event.PlayerExitVehicle)]
-        public void OnPlayerExitVehicle(Client player, Vehicle vehicle)
-        {
-            if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && vehicle.GetData(EntityData.VEHICLE_FACTION) == Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES)
-            {
-                if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle && player.VehicleSeat == (int)VehicleSeat.Driver)
-                {
+        public void OnPlayerExitVehicle(Client player, Vehicle vehicle) {
+            if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) != null && vehicle.GetData(EntityData.VEHICLE_FACTION) ==
+                Constants.JOB_GARBAGE + Constants.MAX_FACTION_VEHICLES)
+                if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle &&
+                    player.VehicleSeat == (int) VehicleSeat.Driver) {
                     Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
-                    string warn = string.Format(InfoRes.job_vehicle_left, 45);
+                    var warn = string.Format(InfoRes.job_vehicle_left, 45);
                     player.SendChatMessage(Constants.COLOR_INFO + warn);
                     player.TriggerEvent("deleteGarbageCheckPoint");
                     target.TriggerEvent("deleteGarbageCheckPoint");
 
                     // Create the timer for driver to get into the vehicle
-                    Timer garbageTimer = new Timer(OnGarbageTimer, player, 45000, Timeout.Infinite);
+                    var garbageTimer = new Timer(OnGarbageTimer, player, 45000, Timeout.Infinite);
                     garbageTimerList.Add(player.Value, garbageTimer);
                 }
-            }
         }
 
         [ServerEvent(Event.PlayerEnterCheckpoint)]
-        public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player)
-        {
-            if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) != null && player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_GARBAGE)
-            {
+        public void OnPlayerEnterCheckpoint(Checkpoint checkpoint, Client player) {
+            if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) != null &&
+                player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_GARBAGE) {
                 // Get garbage checkpoint
                 Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
 
-                if (player.VehicleSeat == (int)VehicleSeat.Driver && garbageCheckpoint == checkpoint)
-                {
+                if (player.VehicleSeat == (int) VehicleSeat.Driver && garbageCheckpoint == checkpoint) {
                     NetHandle vehicle = player.Vehicle;
                     if (player.GetData(EntityData.PLAYER_JOB_VEHICLE) == vehicle)
-                    {
-                        // Finish the route
                         FinishGarbageRoute(player);
-                    }
                     else
-                    {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle_job);
-                    }
                 }
             }
         }
 
         [Command(Commands.COM_GARBAGE, Commands.HLP_GARBAGE_JOB_COMMAND)]
-        public void GarbageCommand(Client player, string action)
-        {
+        public void GarbageCommand(Client player, string action) {
             if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_GARBAGE)
-            {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_garbage);
-            }
             else if (player.GetData(EntityData.PLAYER_ON_DUTY) == 0)
-            {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_on_duty);
-            }
             else
-            {
-                switch (action.ToLower())
-                {
+                switch (action.ToLower()) {
                     case Commands.ARG_ROUTE:
-                        if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null)
-                        {
+                        if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null) {
                             player.SendChatMessage(ErrRes.already_in_route);
                         }
-                        else
-                        {
-                            Random random = new Random();
-                            int garbageRoute = random.Next(Constants.MAX_GARBAGE_ROUTES);
+                        else {
+                            var random = new Random();
+                            var garbageRoute = random.Next(Constants.MAX_GARBAGE_ROUTES);
                             player.SetData(EntityData.PLAYER_JOB_ROUTE, garbageRoute);
-                            switch (garbageRoute)
-                            {
+                            switch (garbageRoute) {
                                 case 0:
                                     player.SendChatMessage(Constants.COLOR_INFO + GenRes.route_north);
                                     break;
@@ -364,60 +326,53 @@ namespace WiredPlayers.jobs
                                     break;
                             }
                         }
+
                         break;
                     case Commands.ARG_PICKUP:
-                        if (player.IsInVehicle)
-                        {
+                        if (player.IsInVehicle) {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.garbage_in_vehicle);
                         }
-                        else if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) == null)
-                        {
+                        else if (player.GetData(EntityData.PLAYER_JOB_COLSHAPE) == null) {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_garbage_near);
                         }
-                        else
-                        {
+                        else {
                             Checkpoint garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
-                            if (player.Position.DistanceTo(garbageCheckpoint.Position) < 3.5f)
-                            {
-                                if (garbageTimerList.TryGetValue(player.Value, out Timer garbageTimer) == false)
-                                {
-                                    player.PlayAnimation("anim@move_m@trash", "pickup", (int)(Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
+                            if (player.Position.DistanceTo(garbageCheckpoint.Position) < 3.5f) {
+                                if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer) == false) {
+                                    player.PlayAnimation("anim@move_m@trash", "pickup",
+                                        (int) (Constants.AnimationFlags.Loop |
+                                               Constants.AnimationFlags.AllowPlayerControl));
                                     player.SetData(EntityData.PLAYER_ANIMATION, true);
 
                                     // Make the timer for garbage collection
                                     garbageTimer = new Timer(OnGarbageCollectedTimer, player, 15000, Timeout.Infinite);
                                     garbageTimerList.Add(player.Value, garbageTimer);
                                 }
-                                else
-                                {
+                                else {
                                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_garbage);
                                 }
                             }
-                            else
-                            {
+                            else {
                                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_garbage_near);
                             }
                         }
+
                         break;
                     case Commands.ARG_CANCEL:
-                        if (player.GetData(EntityData.PLAYER_JOB_PARTNER) != null)
-                        {
+                        if (player.GetData(EntityData.PLAYER_JOB_PARTNER) != null) {
                             Client partner = player.GetData(EntityData.PLAYER_JOB_PARTNER);
-                            if (partner != player)
-                            {
-                                GTANetworkAPI.Object trashBag = null;
+                            if (partner != player) {
+                                Object trashBag = null;
                                 Checkpoint garbageCheckpoint = null;
 
-                                if (player.VehicleSeat == (int)VehicleSeat.Driver)
-                                {
+                                if (player.VehicleSeat == (int) VehicleSeat.Driver) {
                                     // Driver canceled
                                     trashBag = player.GetData(EntityData.PLAYER_GARBAGE_BAG);
                                     garbageCheckpoint = player.GetData(EntityData.PLAYER_JOB_COLSHAPE);
                                     player.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_finished);
                                     partner.TriggerEvent("deleteGarbageCheckPoint");
                                 }
-                                else
-                                {
+                                else {
                                     // Passenger canceled
                                     trashBag = partner.GetData(EntityData.PLAYER_GARBAGE_BAG);
                                     garbageCheckpoint = partner.GetData(EntityData.PLAYER_JOB_COLSHAPE);
@@ -429,10 +384,11 @@ namespace WiredPlayers.jobs
                                 garbageCheckpoint.Delete();
 
                                 // Create finish checkpoint
-                                garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(CheckpointType.CylinderCheckerboard, new Vector3(-339.0206f, -1560.117f, 25.23038f), new Vector3(), 2.5f, new Color(198, 40, 40, 200));
+                                garbageCheckpoint = NAPI.Checkpoint.CreateCheckpoint(
+                                    CheckpointType.CylinderCheckerboard, new Vector3(-339.0206f, -1560.117f, 25.23038f),
+                                    new Vector3(), 2.5f, new Color(198, 40, 40, 200));
                             }
-                            else
-                            {
+                            else {
                                 // Player doesn't have any partner
                                 player.SendChatMessage(Constants.COLOR_INFO + InfoRes.route_canceled);
                             }
@@ -440,23 +396,21 @@ namespace WiredPlayers.jobs
                             // Remove player from partner search
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);
                         }
-                        else if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null)
-                        {
+                        else if (player.GetData(EntityData.PLAYER_JOB_ROUTE) != null) {
                             // Cancel the route
                             player.ResetData(EntityData.PLAYER_JOB_ROUTE);
                             player.ResetData(EntityData.PLAYER_JOB_PARTNER);
                             player.SendChatMessage(Constants.COLOR_INFO + InfoRes.garbage_route_canceled);
                         }
-                        else
-                        {
+                        else {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_route);
                         }
+
                         break;
                     default:
                         player.SendChatMessage(Constants.COLOR_HELP + Commands.HLP_GARBAGE_JOB_COMMAND);
                         break;
                 }
-            }
         }
     }
 }

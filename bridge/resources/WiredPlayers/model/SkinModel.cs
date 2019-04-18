@@ -1,9 +1,7 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model
-{
-    public class SkinModel : Script
-    {
+namespace WiredPlayers.model {
+    public class SkinModel : Script {
         public int firstHeadShape { get; set; }
         public int secondHeadShape { get; set; }
 

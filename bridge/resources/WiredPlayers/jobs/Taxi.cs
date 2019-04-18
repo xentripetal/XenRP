@@ -1,46 +1,37 @@
-﻿using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.drivingschool;
-using WiredPlayers.messages.error;
+﻿using System;
 using System.Linq;
-using System;
+using GTANetworkAPI;
+using WiredPlayers.drivingschool;
+using WiredPlayers.globals;
+using WiredPlayers.messages.error;
 
-namespace WiredPlayers.jobs
-{
-    public class Taxi : Script
-    {
+namespace WiredPlayers.jobs {
+    public class Taxi : Script {
         [ServerEvent(Event.PlayerEnterVehicle)]
-        public void PlayerEnterVehicleEvent(Client player, Vehicle vehicle, sbyte seat)
-        {
-            if(vehicle.Model == (uint)VehicleHash.Taxi && seat == (sbyte)VehicleSeat.Driver)
-            {
-                // Check if the player has a taxi driver license
-                if(DrivingSchool.GetPlayerLicenseStatus(player, Constants.LICENSE_TAXI) == -1)
-                {
+        public void PlayerEnterVehicleEvent(Client player, Vehicle vehicle, sbyte seat) {
+            if (vehicle.Model == (uint) VehicleHash.Taxi && seat == (sbyte) VehicleSeat.Driver)
+                if (DrivingSchool.GetPlayerLicenseStatus(player, Constants.LICENSE_TAXI) == -1) {
                     // Stop the vehicle's speedometer
                     player.TriggerEvent("removeSpeedometer");
 
                     player.WarpOutOfVehicle();
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_taxi_license);
                 }
-            }
         }
 
         [RemoteEvent("requestTaxiDestination")]
-        public void RequestTaxiDestinationEvent(Client player, Vector3 position)
-        {
+        public void RequestTaxiDestinationEvent(Client player, Vector3 position) {
             // Check if there's someone driving the taxi
-            Client driver = player.Vehicle.Occupants.Where(d => d.VehicleSeat == (int)VehicleSeat.Driver).FirstOrDefault();
+            var driver = player.Vehicle.Occupants.Where(d => d.VehicleSeat == (int) VehicleSeat.Driver)
+                .FirstOrDefault();
 
-            if(driver == null)
-            {
+            if (driver == null) {
                 // Nobody's driving the vehicle
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_taxi_driver);
                 return;
             }
 
-            if(driver.GetData(EntityData.PLAYER_TAXI_PATH) != null)
-            {
+            if (driver.GetData(EntityData.PLAYER_TAXI_PATH) != null) {
                 // There's already a path set for the driver
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.taxi_has_path);
                 return;
@@ -55,8 +46,7 @@ namespace WiredPlayers.jobs
         }
 
         [RemoteEvent("taxiDestinationReached")]
-        public void TaxiDestinationReachedEvent(Client player)
-        {
+        public void TaxiDestinationReachedEvent(Client player) {
             // Get the customer
             Client customer = player.GetData(EntityData.PLAYER_JOB_PARTNER);
 
@@ -65,11 +55,10 @@ namespace WiredPlayers.jobs
             customer.ResetData(EntityData.PLAYER_JOB_PARTNER);
 
             // Make the payment
-            int amount = 500;
+            var amount = 500;
             int customerMoney = customer.GetSharedData(EntityData.PLAYER_MONEY) - amount;
-            
-            if(customerMoney < 0)
-            {
+
+            if (customerMoney < 0) {
                 amount = Math.Abs(customerMoney);
                 customerMoney = 0;
 

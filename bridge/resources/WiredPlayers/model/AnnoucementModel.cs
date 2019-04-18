@@ -1,9 +1,5 @@
-﻿using System;
-
-namespace WiredPlayers.model
-{
-    public class AnnoucementModel
-    {
+﻿namespace WiredPlayers.model {
+    public class AnnoucementModel {
         public int id { get; set; }
         public int winner { get; set; }
         public int journalist { get; set; }

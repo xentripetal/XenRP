@@ -1,10 +1,7 @@
 ﻿using GTANetworkAPI;
-using System;
 
-namespace WiredPlayers.model
-{
-    public class PlayerModel
-    {
+namespace WiredPlayers.model {
+    public class PlayerModel {
         public int id { get; set; }
         public string realName { get; set; }
         public int adminRank { get; set; }

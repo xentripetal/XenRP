@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	i18next.use(window.i18nextXHRBackend).init({
 		backend: {
-			loadPath: '../i18n/es.json'
+			loadPath: '../i18n/en.json'
 		}
 	}, function(err, t) {
 		jqueryI18next.init(i18next, $, {

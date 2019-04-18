@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Xentripetal\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Xentripetal\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_WiredPlayers-Client.-1184076124.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Xentripetal\Downloads\RageMP\server-files\client_packages\cs_packages\WiredPlayers-Client" t="IncludeRecursive">
+      <e p="account" t="Include">
+        <e p="Login.cs" t="Include" />
+        <e p="Register.cs" t="Include" />
+      </e>
+      <e p="bank" t="Include">
+        <e p="Bank.cs" t="Include" />
+      </e>
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="business" t="Include">
+        <e p="Business.cs" t="Include" />
+        <e p="ClothesShop.cs" t="Include" />
+        <e p="Hairdresser.cs" t="Include" />
+        <e p="TattooShop.cs" t="Include" />
+      </e>
+      <e p="cardealer" t="Include">
+        <e p="CarDealer.cs" t="Include" />
+      </e>
+      <e p="character" t="Include">
+        <e p="Character.cs" t="Include" />
+        <e p="Inventory.cs" t="Include" />
+        <e p="PlayerData.cs" t="Include" />
+        <e p="Telephone.cs" t="Include" />
+      </e>
+      <e p="chat" t="Include">
+        <e p="Chat.cs" t="Include" />
+      </e>
+      <e p="drivingschool" t="Include">
+        <e p="DrivingSchool.cs" t="Include" />
+      </e>
+      <e p="factions" t="Include">
+        <e p="Faction.cs" t="Include" />
+        <e p="Police.cs" t="Include" />
+      </e>
+      <e p="globals" t="Include">
+        <e p="Browser.cs" t="Include" />
+        <e p="Constants.cs" t="Include" />
+        <e p="Doors.cs" t="Include" />
+        <e p="Globals.cs" t="Include" />
+        <e p="Keys.cs" t="Include" />
+      </e>
+      <e p="house" t="Include">
+        <e p="Furniture.cs" t="Include" />
+        <e p="House.cs" t="Include" />
+      </e>
+      <e p="jobs" t="Include">
+        <e p="FastFood.cs" t="Include" />
+        <e p="Fishing.cs" t="Include" />
+        <e p="Garbage.cs" t="Include" />
+        <e p="Mechanic.cs" t="Include" />
+        <e p="Taxi.cs" t="Include" />
+        <e p="Trucker.cs" t="Include" />
+      </e>
+      <e p="model" t="Include">
+        <e p="AttachmentModel.cs" t="Include" />
+        <e p="BusinessItem.cs" t="Include" />
+        <e p="CarDealerVehicle.cs" t="Include" />
+        <e p="CarPiece.cs" t="Include" />
+        <e p="ClothesModel.cs" t="Include" />
+        <e p="Contact.cs" t="Include" />
+        <e p="DrivingTest.cs" t="Include" />
+        <e p="FaceOption.cs" t="Include" />
+        <e p="FacialHair.cs" t="Include" />
+        <e p="FurnitureModel.cs" t="Include" />
+        <e p="PlayerModel.cs" t="Include" />
+        <e p="Procedure.cs" t="Include" />
+        <e p="Reinforces.cs" t="Include" />
+        <e p="Tattoo.cs" t="Include" />
+        <e p="TestModel.cs" t="Include" />
+      </e>
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="WiredPlayers-Client.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="townhall" t="Include">
+        <e p="TownHall.cs" t="Include" />
+      </e>
+      <e p="vehicles" t="Include">
+        <e p="Vehicles.cs" t="Include" />
+      </e>
+      <e p="weapons" t="Include">
+        <e p="Weapons.cs" t="Include" />
+      </e>
+      <e p="WiredPlayers-Client.csproj" t="IncludeRecursive" />
+      <e p="WiredPlayers-Client.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

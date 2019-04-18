@@ -75,10 +75,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DescRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="messages\description\DescRes.en-GB.resx">
-      <LastGenOutput>DescRes.en-GB.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="messages\factions\FacRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FacRes.Designer.cs</LastGenOutput>
@@ -122,10 +118,6 @@
     <EmbeddedResource Update="messages\administration\AdminRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AdminRes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="messages\administration\AdminRes.en-GB.resx">
-      <LastGenOutput>AdminRes.en-GB.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="messages\success\SuccRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

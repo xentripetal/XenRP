@@ -1,27 +1,23 @@
-﻿using GTANetworkAPI;
-using WiredPlayers.model;
-using WiredPlayers.globals;
+﻿using System.Linq;
+using GTANetworkAPI;
 using WiredPlayers.database;
-using System.Collections.Generic;
-using System.Linq;
+using WiredPlayers.globals;
 
-namespace WiredPlayers.character
-{
-    public class Inventory : Script
-    {
-        public static void LoadDatabaseItems()
-        {
+namespace WiredPlayers.character {
+    public class Inventory : Script {
+        public static void LoadDatabaseItems() {
             // Create the item list
             Globals.itemList = Database.LoadAllItems();
 
             // Get the objects on the ground
-            List<ItemModel> groundItems = Globals.itemList.Where(it => it.ownerEntity == Constants.ITEM_ENTITY_GROUND).ToList();
+            var groundItems = Globals.itemList.Where(it => it.ownerEntity == Constants.ITEM_ENTITY_GROUND).ToList();
 
-            foreach (ItemModel item in groundItems)
-            {
+            foreach (var item in groundItems) {
                 // Get the hash from the object
-                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
-                int hash = weaponHash == 0 ? int.Parse(item.hash) : (int)NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]);
+                var weaponHash = NAPI.Util.WeaponNameToModel(item.hash);
+                var hash = weaponHash == 0
+                    ? int.Parse(item.hash)
+                    : (int) NAPI.Util.GetHashKey(Constants.WEAPON_ITEM_MODELS[weaponHash]);
 
                 // Create each of the items on the ground
                 item.objectHandle = NAPI.Object.CreateObject(hash, item.position, new Vector3(), 255, item.dimension);

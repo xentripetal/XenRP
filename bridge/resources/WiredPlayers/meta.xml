@@ -7,9 +7,9 @@
 
   <settings>
     <!-- Database connection settings -->
-    <setting name="host" value="127.0.0.1"/>
-    <setting name="username" value="gta"/>
-    <setting name="password" value="gta5server-WP"/>
+    <setting name="host" value="localhost"/>
+    <setting name="username" value="root"/>
+    <setting name="password" value=""/>
     <setting name="database" value="gtav"/>
 
     <!-- Gamemode language settings -->

@@ -1,7 +1,5 @@
-﻿namespace WiredPlayers.model
-{
-    public class ClothesModel
-    {
+﻿namespace WiredPlayers.model {
+    public class ClothesModel {
         public int id { get; set; }
         public int player { get; set; }
         public int type { get; set; }

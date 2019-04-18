@@ -1,9 +1,5 @@
-﻿using System;
-
-namespace WiredPlayers.model
-{
-    public class BankOperationModel
-    {
+﻿namespace WiredPlayers.model {
+    public class BankOperationModel {
         public string source { get; set; }
         public string receiver { get; set; }
         public string type { get; set; }

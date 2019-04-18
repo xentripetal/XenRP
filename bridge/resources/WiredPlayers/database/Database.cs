@@ -1,45 +1,43 @@
-﻿using GTANetworkAPI;
-using MySql.Data.MySqlClient;
-using WiredPlayers.model;
-using WiredPlayers.character;
-using WiredPlayers.vehicles;
-using WiredPlayers.house;
-using WiredPlayers.globals;
-using WiredPlayers.business;
-using WiredPlayers.parking;
-using WiredPlayers.admin;
-using WiredPlayers.jobs;
-using WiredPlayers.factions;
-using WiredPlayers.messages.general;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using System.Text;
-using System;
+using System.Threading;
+using GTANetworkAPI;
+using MySql.Data.MySqlClient;
+using WiredPlayers.admin;
+using WiredPlayers.business;
+using WiredPlayers.character;
+using WiredPlayers.factions;
+using WiredPlayers.globals;
+using WiredPlayers.house;
+using WiredPlayers.jobs;
+using WiredPlayers.messages.general;
+using WiredPlayers.model;
+using WiredPlayers.parking;
+using WiredPlayers.vehicles;
 
-namespace WiredPlayers.database
-{
-    public class Database : Script
-    {
-
+namespace WiredPlayers.database {
+    public class Database : Script {
         private static string connectionString;
 
         [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
-        {
+        public void OnResourceStart() {
             // Set the encoding
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // Set the culture
-            string culture = NAPI.Resource.GetSetting<string>(this, "culture");
+            var culture = NAPI.Resource.GetSetting<string>(this, "culture");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+            NAPI.Util.ConsoleOutput("Current Culture: " + Thread.CurrentThread.CurrentUICulture.Name);
 
             // Create the database connection string
-            string host = NAPI.Resource.GetSetting<string>(this, "host");
-            string user = NAPI.Resource.GetSetting<string>(this, "username");
-            string pass = NAPI.Resource.GetSetting<string>(this, "password");
-            string db = NAPI.Resource.GetSetting<string>(this, "database");
-            connectionString = "SERVER=" + host + "; DATABASE=" + db + "; UID=" + user + "; PASSWORD=" + pass + "; SSLMODE=required;";
+            var host = NAPI.Resource.GetSetting<string>(this, "host");
+            var user = NAPI.Resource.GetSetting<string>(this, "username");
+            var pass = NAPI.Resource.GetSetting<string>(this, "password");
+            var db = NAPI.Resource.GetSetting<string>(this, "database");
+            connectionString = "SERVER=" + host + "; DATABASE=" + db + "; UID=" + user + "; PASSWORD=" + pass +
+                               "; SSLMODE=none;";
 
             // Business loading
             Business.LoadDatabaseBusiness();
@@ -90,25 +88,21 @@ namespace WiredPlayers.database
             Admin.permissionList = LoadAllPermissions();
         }
 
-        public static AccountModel GetAccount(string socialName)
-        {
-
-            AccountModel account = new AccountModel();
+        public static AccountModel GetAccount(string socialName) {
+            var account = new AccountModel();
             {
                 account.status = 0;
             }
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT forumName, status, lastCharacter FROM accounts WHERE socialName = @socialName LIMIT 1";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT forumName, status, lastCharacter FROM accounts WHERE socialName = @socialName LIMIT 1";
                 command.Parameters.AddWithValue("@socialName", socialName);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
                         account.forumName = reader.GetString("forumName");
                         account.status = reader.GetInt16("status");
@@ -121,22 +115,19 @@ namespace WiredPlayers.database
             return account;
         }
 
-        public static int LoginAccount(string socialName, string password)
-        {
-            int status = -1;
+        public static int LoginAccount(string socialName, string password) {
+            var status = -1;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT `status` FROM accounts WHERE socialName = @socialName AND password = SHA2(@password, '256') LIMIT 1";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT `status` FROM accounts WHERE socialName = @socialName AND password = SHA2(@password, '256') LIMIT 1";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@password", password);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if(reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
                         status = reader.GetInt32("status");
                     }
@@ -146,13 +137,12 @@ namespace WiredPlayers.database
             return status;
         }
 
-        public static void RegisterAccount(string socialName, string password)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+        public static void RegisterAccount(string socialName, string password) {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO `accounts` (`socialName`, `password`) VALUES (@socialName, SHA2(@password, '256'))";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "INSERT INTO `accounts` (`socialName`, `password`) VALUES (@socialName, SHA2(@password, '256'))";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@password", password);
 
@@ -160,12 +150,10 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void ApproveAccount(string socialName)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+        public static void ApproveAccount(string socialName) {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
 
                 command.CommandText = "UPDATE `accounts` SET `status` = 1 WHERE `socialName`= @socialName LIMIT 1";
                 command.Parameters.AddWithValue("@socialName", socialName);
@@ -174,14 +162,13 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void RegisterApplication(string socialName, int mistakes)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+        public static void RegisterApplication(string socialName, int mistakes) {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
 
-                command.CommandText = "INSERT INTO `applications` (`account`, `mistakes`) VALUES (@socialName, @mistakes)";
+                command.CommandText =
+                    "INSERT INTO `applications` (`account`, `mistakes`) VALUES (@socialName, @mistakes)";
                 command.Parameters.AddWithValue("@socialName", socialName);
                 command.Parameters.AddWithValue("@mistakes", mistakes);
 
@@ -189,45 +176,35 @@ namespace WiredPlayers.database
             }
         }
 
-        public static int GetPlayerStatus(string name)
-        {
-            int status = 0;
+        public static int GetPlayerStatus(string name) {
+            var status = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT status FROM users WHERE name = @name LIMIT 1";
                 command.Parameters.AddWithValue("@name", name);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        status = reader.GetInt16("status");
-                    }
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) status = reader.GetInt16("status");
                 }
             }
 
             return status;
         }
 
-        public static List<string> GetAccountCharacters(string account)
-        {
-            List<string> characters = new List<string>();
+        public static List<string> GetAccountCharacters(string account) {
+            var characters = new List<string>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT name FROM users WHERE socialName = @account";
                 command.Parameters.AddWithValue("@account", account);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string name = reader.GetString("name");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var name = reader.GetString("name");
                         characters.Add(name);
                     }
                 }
@@ -236,17 +213,15 @@ namespace WiredPlayers.database
             return characters;
         }
 
-        public static int CreateCharacter(Client player, PlayerModel playerModel, SkinModel skin)
-        {
-            int playerId = 0;
+        public static int CreateCharacter(Client player, PlayerModel playerModel, SkinModel skin) {
+            var playerId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO users (name, age, sex, socialName) VALUES (@playerName, @playerAge, @playerSex, @socialName)";
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                        "INSERT INTO users (name, age, sex, socialName) VALUES (@playerName, @playerAge, @playerSex, @socialName)";
                     command.Parameters.AddWithValue("@playerName", playerModel.realName);
                     command.Parameters.AddWithValue("@playerAge", playerModel.age);
                     command.Parameters.AddWithValue("@playerSex", playerModel.sex);
@@ -254,14 +229,19 @@ namespace WiredPlayers.database
                     command.ExecuteNonQuery();
 
                     // Get the inserted identifier
-                    playerId = (int)command.LastInsertedId;
+                    playerId = (int) command.LastInsertedId;
 
                     // Store player's skin
-                    command.CommandText = "INSERT INTO skins VALUES (@playerId, @firstHeadShape, @secondHeadShape, @firstSkinTone, @secondSkinTone, @headMix, @skinMix, ";
-                    command.CommandText += "@hairModel, @firstHairColor, @secondHairColor, @beardModel, @beardColor, @chestModel, @chestColor, @blemishesModel, @ageingModel, ";
-                    command.CommandText += "@complexionModel, @sundamageModel, @frecklesModel, @noseWidth, @noseHeight, @noseLength, @noseBridge, @noseTip, @noseShift, @browHeight, ";
-                    command.CommandText += "@browWidth, @cheekboneHeight, @cheekboneWidth, @cheeksWidth, @eyes, @lips, @jawWidth, @jawHeight, @chinLength, @chinPosition, @chinWidth, ";
-                    command.CommandText += "@chinShape, @neckWidth, @eyesColor, @eyebrowsModel, @eyebrowsColor, @makeupModel, @blushModel, @blushColor, @lipstickModel, @lipstickColor)";
+                    command.CommandText =
+                        "INSERT INTO skins VALUES (@playerId, @firstHeadShape, @secondHeadShape, @firstSkinTone, @secondSkinTone, @headMix, @skinMix, ";
+                    command.CommandText +=
+                        "@hairModel, @firstHairColor, @secondHairColor, @beardModel, @beardColor, @chestModel, @chestColor, @blemishesModel, @ageingModel, ";
+                    command.CommandText +=
+                        "@complexionModel, @sundamageModel, @frecklesModel, @noseWidth, @noseHeight, @noseLength, @noseBridge, @noseTip, @noseShift, @browHeight, ";
+                    command.CommandText +=
+                        "@browWidth, @cheekboneHeight, @cheekboneWidth, @cheeksWidth, @eyes, @lips, @jawWidth, @jawHeight, @chinLength, @chinPosition, @chinWidth, ";
+                    command.CommandText +=
+                        "@chinShape, @neckWidth, @eyesColor, @eyebrowsModel, @eyebrowsColor, @makeupModel, @blushModel, @blushColor, @lipstickModel, @lipstickColor)";
                     command.Parameters.AddWithValue("@playerId", playerId);
                     command.Parameters.AddWithValue("@firstHeadShape", skin.firstHeadShape);
                     command.Parameters.AddWithValue("@secondHeadShape", skin.secondHeadShape);
@@ -311,8 +291,7 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@lipstickColor", skin.lipstickColor);
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION CreateCharacter] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION CreateCharacter] " + ex.StackTrace);
                     player.TriggerEvent("characterNameDuplicated", playerModel.realName);
@@ -322,21 +301,17 @@ namespace WiredPlayers.database
             return playerId;
         }
 
-        public static SkinModel GetCharacterSkin(int characterId)
-        {
-            SkinModel skin = new SkinModel();
+        public static SkinModel GetCharacterSkin(int characterId) {
+            var skin = new SkinModel();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM skins WHERE characterId = @characterId LIMIT 1";
                 command.Parameters.AddWithValue("@characterId", characterId);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
                         skin.firstHeadShape = reader.GetInt32("firstHeadShape");
                         skin.secondHeadShape = reader.GetInt32("secondHeadShape");
@@ -391,16 +366,15 @@ namespace WiredPlayers.database
             return skin;
         }
 
-        public static void UpdateCharacterHair(int playerId, SkinModel skin)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateCharacterHair(int playerId, SkinModel skin) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "UPDATE skins SET hairModel = @hairModel, firstHairColor = @firstHairColor, secondHairColor = @secondHairColor, beardModel = @beardModel, ";
-                    command.CommandText += "beardColor = @beardColor, eyebrowsModel = @eyebrowsModel, eyebrowsColor = @eyebrowsColor WHERE characterId = @playerId LIMIT 1";
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                        "UPDATE skins SET hairModel = @hairModel, firstHairColor = @firstHairColor, secondHairColor = @secondHairColor, beardModel = @beardModel, ";
+                    command.CommandText +=
+                        "beardColor = @beardColor, eyebrowsModel = @eyebrowsModel, eyebrowsColor = @eyebrowsColor WHERE characterId = @playerId LIMIT 1";
                     command.Parameters.AddWithValue("@hairModel", skin.hairModel);
                     command.Parameters.AddWithValue("@firstHairColor", skin.firstHairColor);
                     command.Parameters.AddWithValue("@secondHairColor", skin.secondHairColor);
@@ -411,34 +385,29 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@playerId", playerId);
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateCharacterHair] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateCharacterHair] " + ex.StackTrace);
                 }
             }
         }
 
-        public static PlayerModel LoadCharacterInformationById(int characterId)
-        {
-            PlayerModel character = new PlayerModel();
+        public static PlayerModel LoadCharacterInformationById(int characterId) {
+            var character = new PlayerModel();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM users WHERE id = @characterId LIMIT 1";
                 command.Parameters.AddWithValue("@characterId", characterId);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
-                        float rot = reader.GetFloat("rotation");
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
+                        var rot = reader.GetFloat("rotation");
 
                         character.id = reader.GetInt32("id");
                         character.realName = reader.GetString("name");
@@ -482,26 +451,22 @@ namespace WiredPlayers.database
             return character;
         }
 
-        public static PlayerModel LoadCharacterInformationByName(string characterName)
-        {
-            PlayerModel character = new PlayerModel();
+        public static PlayerModel LoadCharacterInformationByName(string characterName) {
+            var character = new PlayerModel();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM users WHERE name = @characterName LIMIT 1 ";
                 command.Parameters.AddWithValue("@characterName", characterName);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
-                        float rot = reader.GetFloat("rotation");
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
+                        var rot = reader.GetFloat("rotation");
 
                         character.id = reader.GetInt32("id");
                         character.realName = reader.GetString("name");
@@ -545,19 +510,21 @@ namespace WiredPlayers.database
             return character;
         }
 
-        public static void SaveCharacterInformation(PlayerModel player)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void SaveCharacterInformation(PlayerModel player) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "UPDATE users SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, money = @money, bank = @bank, health = @health, armor = @armor, ";
-                    command.CommandText += "radio = @radio, killed = @killed, jailed = @jailed, faction = @faction, job = @job, `rank` = @rank, duty = @duty, phone = @phone, carKeys = @carKeys, ";
-                    command.CommandText += "documentation = @documentation, licenses = @licenses, insurance = @insurance, weaponLicense = @weaponLicense, houseRent = @houseRent, ";
-                    command.CommandText += "houseEntered = @houseEntered, businessEntered = @businessEntered, employeeCooldown = @employeeCooldown, jobCooldown = @jobCooldown, ";
-                    command.CommandText += "jobDeliver = @jobDeliver, jobPoints = @jobPoints, rolePoints = @rolePoints, played = @played WHERE id = @playerId LIMIT 1";
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                        "UPDATE users SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, money = @money, bank = @bank, health = @health, armor = @armor, ";
+                    command.CommandText +=
+                        "radio = @radio, killed = @killed, jailed = @jailed, faction = @faction, job = @job, `rank` = @rank, duty = @duty, phone = @phone, carKeys = @carKeys, ";
+                    command.CommandText +=
+                        "documentation = @documentation, licenses = @licenses, insurance = @insurance, weaponLicense = @weaponLicense, houseRent = @houseRent, ";
+                    command.CommandText +=
+                        "houseEntered = @houseEntered, businessEntered = @businessEntered, employeeCooldown = @employeeCooldown, jobCooldown = @jobCooldown, ";
+                    command.CommandText +=
+                        "jobDeliver = @jobDeliver, jobPoints = @jobPoints, rolePoints = @rolePoints, played = @played WHERE id = @playerId LIMIT 1";
                     command.Parameters.AddWithValue("@posX", player.position.X);
                     command.Parameters.AddWithValue("@posY", player.position.Y);
                     command.Parameters.AddWithValue("@posZ", player.position.Z);
@@ -592,48 +559,41 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveCharacterInformation] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveCharacterInformation] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void UpdateLastCharacter(string socialName, int playerId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateLastCharacter(string socialName, int playerId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "UPDATE accounts SET lastCharacter = @playerId WHERE socialName = @socialName";
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                        "UPDATE accounts SET lastCharacter = @playerId WHERE socialName = @socialName";
                     command.Parameters.AddWithValue("@playerId", playerId);
                     command.Parameters.AddWithValue("@socialName", socialName);
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateLastCharacter] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateLastCharacter] " + ex.StackTrace);
                 }
             }
         }
 
-        public static bool FindCharacter(string name)
-        {
-            bool found = false;
+        public static bool FindCharacter(string name) {
+            var found = false;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT id FROM users WHERE name = @name LIMIT 1";
                 command.Parameters.AddWithValue("@name", name);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
+                using (var reader = command.ExecuteReader()) {
                     found = reader.HasRows;
                 }
             }
@@ -641,16 +601,16 @@ namespace WiredPlayers.database
             return found;
         }
 
-        public static List<BankOperationModel> GetBankOperations(string playerName, int start, int count)
-        {
-            List<BankOperationModel> operations = new List<BankOperationModel>();
+        public static List<BankOperationModel> GetBankOperations(string playerName, int start, int count) {
+            var operations = new List<BankOperationModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = @opTransfer ";
-                command.CommandText += "OR type = @opDeposit OR type = @opWithdraw) ORDER BY date DESC, hour DESC LIMIT @start, @count";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = @opTransfer ";
+                command.CommandText +=
+                    "OR type = @opDeposit OR type = @opWithdraw) ORDER BY date DESC, hour DESC LIMIT @start, @count";
                 command.Parameters.AddWithValue("@playerName", playerName);
                 command.Parameters.AddWithValue("@opTransfer", GenRes.bank_op_transfer);
                 command.Parameters.AddWithValue("@opDeposit", GenRes.bank_op_deposit);
@@ -658,11 +618,9 @@ namespace WiredPlayers.database
                 command.Parameters.AddWithValue("@start", start);
                 command.Parameters.AddWithValue("@count", count);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        BankOperationModel bankOperation = new BankOperationModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var bankOperation = new BankOperationModel();
                         {
                             bankOperation.source = reader.GetString("source");
                             bankOperation.receiver = reader.GetString("receiver");
@@ -680,25 +638,21 @@ namespace WiredPlayers.database
             return operations;
         }
 
-        public static List<VehicleModel> LoadAllVehicles()
-        {
-            List<VehicleModel> vehicleList = new List<VehicleModel>();
+        public static List<VehicleModel> LoadAllVehicles() {
+            var vehicleList = new List<VehicleModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM vehicles";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        VehicleModel vehicle = new VehicleModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
-                        float rotation = reader.GetFloat("rotation");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var vehicle = new VehicleModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
+                        var rotation = reader.GetFloat("rotation");
 
                         vehicle.id = reader.GetInt32("id");
                         vehicle.model = reader.GetString("model");
@@ -728,18 +682,17 @@ namespace WiredPlayers.database
             return vehicleList;
         }
 
-        public static int AddNewVehicle(VehicleModel vehicle)
-        {
-            int vehId = 0;
+        public static int AddNewVehicle(VehicleModel vehicle) {
+            var vehId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO vehicles (model, posX, posY, posZ, rotation, firstColor, secondColor, dimension, faction, owner, plate, gas) ";
-                    command.CommandText += "VALUES (@model, @posX, @posY, @posZ, @rotation, @firstColor, @secondColor, @dimension, @faction, @owner, @plate, @gas)";
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                        "INSERT INTO vehicles (model, posX, posY, posZ, rotation, firstColor, secondColor, dimension, faction, owner, plate, gas) ";
+                    command.CommandText +=
+                        "VALUES (@model, @posX, @posY, @posZ, @rotation, @firstColor, @secondColor, @dimension, @faction, @owner, @plate, @gas)";
                     command.Parameters.AddWithValue("@model", vehicle.model);
                     command.Parameters.AddWithValue("@posX", vehicle.position.X);
                     command.Parameters.AddWithValue("@posY", vehicle.position.Y);
@@ -754,10 +707,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@gas", vehicle.gas);
 
                     command.ExecuteNonQuery();
-                    vehId = (int)command.LastInsertedId;
+                    vehId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewVehicle] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewVehicle] " + ex.StackTrace);
                 }
@@ -766,17 +718,15 @@ namespace WiredPlayers.database
             return vehId;
         }
 
-        public static void UpdateVehicleColor(VehicleModel vehicle)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateVehicleColor(VehicleModel vehicle) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE vehicles SET colorType = @colorType, firstColor = @firstColor, ";
-                    command.CommandText += "secondColor = @secondColor, pearlescent = @pearlescent WHERE id = @vehId LIMIT 1";
+                    command.CommandText +=
+                        "secondColor = @secondColor, pearlescent = @pearlescent WHERE id = @vehId LIMIT 1";
                     command.Parameters.AddWithValue("@colorType", vehicle.colorType);
                     command.Parameters.AddWithValue("@firstColor", vehicle.firstColor);
                     command.Parameters.AddWithValue("@secondColor", vehicle.secondColor);
@@ -785,24 +735,21 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleColor] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleColor] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void UpdateVehiclePosition(VehicleModel vehicle)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateVehiclePosition(VehicleModel vehicle) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation WHERE id = @vehId LIMIT 1";
+                    command.CommandText =
+                        "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation WHERE id = @vehId LIMIT 1";
                     command.Parameters.AddWithValue("@posX", vehicle.position.X);
                     command.Parameters.AddWithValue("@posY", vehicle.position.Y);
                     command.Parameters.AddWithValue("@posZ", vehicle.position.Z);
@@ -811,22 +758,18 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehiclePosition] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehiclePosition] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void UpdateVehicleSingleValue(string table, int value, int vehicleId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateVehicleSingleValue(string table, int value, int vehicleId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE vehicles SET " + table + " = @value WHERE id = @vehId LIMIT 1";
                     command.Parameters.AddWithValue("@value", value);
@@ -834,22 +777,18 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleSingleValue] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleSingleValue] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void UpdateVehicleSingleString(string table, string value, int vehicleId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateVehicleSingleString(string table, string value, int vehicleId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE vehicles SET " + table + " = @value WHERE id = @vehId LIMIT 1";
                     command.Parameters.AddWithValue("@value", value);
@@ -857,27 +796,27 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleSingleString] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateVehicleSingleString] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void SaveVehicle(VehicleModel vehicle)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void SaveVehicle(VehicleModel vehicle) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, colorType = @colorType, ";
-                    command.CommandText += "firstColor = @firstColor, secondColor = @secondColor, pearlescent = @pearlescent, dimension = @dimension, ";
-                    command.CommandText += "engine = @engine, locked = @locked, faction = @faction, owner = @owner, plate = @plate, price = @price, ";
-                    command.CommandText += "parking = @parking, parkedTime = @parkedTime, gas = @gas, kms = @kms WHERE id = @vehId LIMIT 1";
+                    command.CommandText =
+                        "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, colorType = @colorType, ";
+                    command.CommandText +=
+                        "firstColor = @firstColor, secondColor = @secondColor, pearlescent = @pearlescent, dimension = @dimension, ";
+                    command.CommandText +=
+                        "engine = @engine, locked = @locked, faction = @faction, owner = @owner, plate = @plate, price = @price, ";
+                    command.CommandText +=
+                        "parking = @parking, parkedTime = @parkedTime, gas = @gas, kms = @kms WHERE id = @vehId LIMIT 1";
                     command.Parameters.AddWithValue("@posX", vehicle.position.X);
                     command.Parameters.AddWithValue("@posY", vehicle.position.Y);
                     command.Parameters.AddWithValue("@posZ", vehicle.position.Z);
@@ -901,30 +840,29 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveVehicle] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveVehicle] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void SaveAllVehicles(List<VehicleModel> vehicleList)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void SaveAllVehicles(List<VehicleModel> vehicleList) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, colorType = @colorType, ";
-                    command.CommandText += "firstColor = @firstColor, secondColor = @secondColor, pearlescent = @pearlescent, dimension = @dimension, ";
-                    command.CommandText += "engine = @engine, locked = @locked, faction = @faction, owner = @owner, plate = @plate, price = @price, ";
-                    command.CommandText += "parking = @parking, parkedTime = @parkedTime, gas = @gas, kms = @kms WHERE id = @vehId LIMIT 1";
+                    command.CommandText =
+                        "UPDATE vehicles SET posX = @posX, posY = @posY, posZ = @posZ, rotation = @rotation, colorType = @colorType, ";
+                    command.CommandText +=
+                        "firstColor = @firstColor, secondColor = @secondColor, pearlescent = @pearlescent, dimension = @dimension, ";
+                    command.CommandText +=
+                        "engine = @engine, locked = @locked, faction = @faction, owner = @owner, plate = @plate, price = @price, ";
+                    command.CommandText +=
+                        "parking = @parking, parkedTime = @parkedTime, gas = @gas, kms = @kms WHERE id = @vehId LIMIT 1";
 
-                    foreach (VehicleModel vehicle in vehicleList)
-                    {
+                    foreach (var vehicle in vehicleList) {
                         command.Parameters.Clear();
 
                         command.Parameters.AddWithValue("@posX", vehicle.position.X);
@@ -951,51 +889,42 @@ namespace WiredPlayers.database
                         command.ExecuteNonQuery();
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveAllVehicles] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION SaveAllVehicles] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void RemoveVehicle(int vehicleId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RemoveVehicle(int vehicleId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM vehicles WHERE id = @vehicleId LIMIT 1";
                     command.Parameters.AddWithValue("@vehicleId", vehicleId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveVehicle] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveVehicle] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<TunningModel> LoadAllTunning()
-        {
-            List<TunningModel> tunningList = new List<TunningModel>();
+        public static List<TunningModel> LoadAllTunning() {
+            var tunningList = new List<TunningModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM tunning";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TunningModel tunning = new TunningModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var tunning = new TunningModel();
                         {
                             tunning.id = reader.GetInt32("id");
                             tunning.vehicle = reader.GetInt32("vehicle");
@@ -1011,27 +940,24 @@ namespace WiredPlayers.database
             return tunningList;
         }
 
-        public static int AddTunning(TunningModel tunning)
-        {
-            int tunningId = 0;
+        public static int AddTunning(TunningModel tunning) {
+            var tunningId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO tunning (vehicle, slot, component) VALUES (@vehicle, @slot, @component)";
+                    command.CommandText =
+                        "INSERT INTO tunning (vehicle, slot, component) VALUES (@vehicle, @slot, @component)";
                     command.Parameters.AddWithValue("@vehicle", tunning.vehicle);
                     command.Parameters.AddWithValue("@slot", tunning.slot);
                     command.Parameters.AddWithValue("@component", tunning.component);
 
                     command.ExecuteNonQuery();
-                    tunningId = (int)command.LastInsertedId;
+                    tunningId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddTunning] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddTunning] " + ex.StackTrace);
                 }
@@ -1040,36 +966,29 @@ namespace WiredPlayers.database
             return tunningId;
         }
 
-        public static void RemoveTunning(int tunningId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RemoveTunning(int tunningId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM tunning WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", tunningId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveTunning] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveTunning] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void TransferMoneyToPlayer(string name, int amount)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void TransferMoneyToPlayer(string name, int amount) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE users SET bank = bank + @amount WHERE name = @name LIMIT 1";
                     command.Parameters.AddWithValue("@name", name);
@@ -1077,24 +996,21 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION TransferMoneyToPlayer] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION TransferMoneyToPlayer] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void LogPayment(string source, string receiver, string type, int amount)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void LogPayment(string source, string receiver, string type, int amount) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO money VALUES (@source, @receiver, @type, @amount, CURDATE(), CURTIME())";
+                    command.CommandText =
+                        "INSERT INTO money VALUES (@source, @receiver, @type, @amount, CURDATE(), CURTIME())";
                     command.Parameters.AddWithValue("@source", source);
                     command.Parameters.AddWithValue("@receiver", receiver);
                     command.Parameters.AddWithValue("@type", type);
@@ -1102,24 +1018,21 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION LogPayment] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION LogPayment] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void LogHotwire(string playerName, int vehicleId, Vector3 position)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void LogHotwire(string playerName, int vehicleId, Vector3 position) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO hotwires VALUES (@vehicleId, @playerName, @posX, @posY, @posZ, NOW())";
+                    command.CommandText =
+                        "INSERT INTO hotwires VALUES (@vehicleId, @playerName, @posX, @posY, @posZ, NOW())";
                     command.Parameters.AddWithValue("@playerName", playerName);
                     command.Parameters.AddWithValue("@vehicleId", vehicleId);
                     command.Parameters.AddWithValue("@posX", position.X);
@@ -1128,32 +1041,27 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION LogHotwire] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION LogHotwire] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<ItemModel> LoadAllItems()
-        {
-            List<ItemModel> itemList = new List<ItemModel>();
+        public static List<ItemModel> LoadAllItems() {
+            var itemList = new List<ItemModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM items";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ItemModel item = new ItemModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var item = new ItemModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
 
                         item.id = reader.GetInt32("id");
                         item.hash = reader.GetString("hash");
@@ -1171,19 +1079,18 @@ namespace WiredPlayers.database
             return itemList;
         }
 
-        public static int AddNewItem(ItemModel item)
-        {
-            int itemId = 0;
+        public static int AddNewItem(ItemModel item) {
+            var itemId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO `items` (`hash`, `ownerEntity`, `ownerIdentifier`, `amount`, `posX`, `posY`, `posZ`)";
-                    command.CommandText += " VALUES (@hash, @ownerEntity, @ownerIdentifier, @amount, @posX, @posY, @posZ)";
+                    command.CommandText =
+                        "INSERT INTO `items` (`hash`, `ownerEntity`, `ownerIdentifier`, `amount`, `posX`, `posY`, `posZ`)";
+                    command.CommandText +=
+                        " VALUES (@hash, @ownerEntity, @ownerIdentifier, @amount, @posX, @posY, @posZ)";
                     command.Parameters.AddWithValue("@hash", item.hash);
                     command.Parameters.AddWithValue("@ownerEntity", item.ownerEntity);
                     command.Parameters.AddWithValue("@ownerIdentifier", item.ownerIdentifier);
@@ -1193,10 +1100,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@posZ", item.position.Z);
 
                     command.ExecuteNonQuery();
-                    itemId = (int)command.LastInsertedId;
+                    itemId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewItem] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewItem] " + ex.StackTrace);
                 }
@@ -1205,17 +1111,16 @@ namespace WiredPlayers.database
             return itemId;
         }
 
-        public static void UpdateItem(ItemModel item)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateItem(ItemModel item) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE `items` SET `ownerEntity` = @ownerEntity, `ownerIdentifier` = @ownerIdentifier, `amount` = @amount, ";
-                    command.CommandText += "`posX` = @posX, `posY` = @posY, `posZ` = @posZ, `dimension` = @dimension WHERE `id` = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE `items` SET `ownerEntity` = @ownerEntity, `ownerIdentifier` = @ownerIdentifier, `amount` = @amount, ";
+                    command.CommandText +=
+                        "`posX` = @posX, `posY` = @posY, `posZ` = @posZ, `dimension` = @dimension WHERE `id` = @id LIMIT 1";
                     command.Parameters.AddWithValue("@ownerEntity", item.ownerEntity);
                     command.Parameters.AddWithValue("@ownerIdentifier", item.ownerIdentifier);
                     command.Parameters.AddWithValue("@amount", item.amount);
@@ -1227,54 +1132,45 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateItem] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateItem] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void RemoveItem(int id)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RemoveItem(int id) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM items WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", id);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveItem] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveItem] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<BusinessModel> LoadAllBusiness()
-        {
-            List<BusinessModel> businessList = new List<BusinessModel>();
+        public static List<BusinessModel> LoadAllBusiness() {
+            var businessList = new List<BusinessModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM business";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        BusinessModel business = new BusinessModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var business = new BusinessModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
 
                         business.id = reader.GetInt32("id");
                         business.type = reader.GetInt32("type");
@@ -1294,17 +1190,16 @@ namespace WiredPlayers.database
             return businessList;
         }
 
-        public static void UpdateBusiness(BusinessModel business)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateBusiness(BusinessModel business) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
-                    command.CommandText += "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
+                    command.CommandText +=
+                        "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@type", business.type);
                     command.Parameters.AddWithValue("@ipl", business.ipl);
                     command.Parameters.AddWithValue("@posX", business.position.X);
@@ -1321,28 +1216,25 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateBusiness] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateBusiness] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void UpdateAllBusiness(List<BusinessModel> businessList)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateAllBusiness(List<BusinessModel> businessList) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
-                    command.CommandText += "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
+                    command.CommandText +=
+                        "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
 
-                    foreach (BusinessModel business in businessList)
-                    {
+                    foreach (var business in businessList) {
                         command.Parameters.Clear();
 
                         command.Parameters.AddWithValue("@type", business.type);
@@ -1362,26 +1254,23 @@ namespace WiredPlayers.database
                         command.ExecuteNonQuery();
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateAllBusiness] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateAllBusiness] " + ex.StackTrace);
                 }
             }
         }
 
-        public static int AddNewBusiness(BusinessModel business)
-        {
-            int businessId = 0;
+        public static int AddNewBusiness(BusinessModel business) {
+            var businessId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO business (type, ipl, posX, posY, posZ, dimension) VALUES (@type, @ipl, @posX, @posY, @posZ, @dimension)";
+                    command.CommandText =
+                        "INSERT INTO business (type, ipl, posX, posY, posZ, dimension) VALUES (@type, @ipl, @posX, @posY, @posZ, @dimension)";
                     command.Parameters.AddWithValue("@type", business.type);
                     command.Parameters.AddWithValue("@ipl", business.ipl);
                     command.Parameters.AddWithValue("@posX", business.position.X);
@@ -1390,10 +1279,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@dimension", business.dimension);
 
                     command.ExecuteNonQuery();
-                    businessId = (int)command.LastInsertedId;
+                    businessId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.StackTrace);
                 }
@@ -1402,46 +1290,38 @@ namespace WiredPlayers.database
             return businessId;
         }
 
-        public static void DeleteBusiness(int businessId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeleteBusiness(int businessId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM business WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", businessId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<HouseModel> LoadAllHouses()
-        {
-            List<HouseModel> houseList = new List<HouseModel>();
+        public static List<HouseModel> LoadAllHouses() {
+            var houseList = new List<HouseModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM houses";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        HouseModel house = new HouseModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var house = new HouseModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
 
                         house.id = reader.GetInt32("id");
                         house.ipl = reader.GetString("ipl");
@@ -1463,18 +1343,16 @@ namespace WiredPlayers.database
             return houseList;
         }
 
-        public static int AddHouse(HouseModel house)
-        {
-            int houseId = 0;
+        public static int AddHouse(HouseModel house) {
+            var houseId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO houses (ipl, posX, posY, posZ, dimension) VALUES (@ipl, @posX, @posY, @posZ, @dimension)";
+                    command.CommandText =
+                        "INSERT INTO houses (ipl, posX, posY, posZ, dimension) VALUES (@ipl, @posX, @posY, @posZ, @dimension)";
                     command.Parameters.AddWithValue("@ipl", house.ipl);
                     command.Parameters.AddWithValue("@posX", house.position.X);
                     command.Parameters.AddWithValue("@posY", house.position.Y);
@@ -1482,10 +1360,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@dimension", house.dimension);
 
                     command.ExecuteNonQuery();
-                    houseId = (int)command.LastInsertedId;
+                    houseId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddHouse] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddHouse] " + ex.StackTrace);
                 }
@@ -1494,17 +1371,16 @@ namespace WiredPlayers.database
             return houseId;
         }
 
-        public static void UpdateHouse(HouseModel house)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateHouse(HouseModel house) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE houses SET ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, price = @price, ";
-                    command.CommandText += "owner = @owner, status = @status, tenants = @tenants, rental = @rental, locked = @locked WHERE id = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE houses SET ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, price = @price, ";
+                    command.CommandText +=
+                        "owner = @owner, status = @status, tenants = @tenants, rental = @rental, locked = @locked WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@ipl", house.ipl);
                     command.Parameters.AddWithValue("@posX", house.position.X);
                     command.Parameters.AddWithValue("@posY", house.position.Y);
@@ -1521,77 +1397,64 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateHouse] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateHouse] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void DeleteHouse(int houseId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeleteHouse(int houseId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM houses WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", houseId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteHouse] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteHouse] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void KickTenantsOut(int houseId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void KickTenantsOut(int houseId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE users SET houseRent = 0 where houseRent = @houseRent";
                     command.Parameters.AddWithValue("@houseRent", houseId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION KickTenantsOut] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION KickTenantsOut] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<FurnitureModel> LoadAllFurniture()
-        {
-            List<FurnitureModel> furnitureList = new List<FurnitureModel>();
+        public static List<FurnitureModel> LoadAllFurniture() {
+            var furnitureList = new List<FurnitureModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM furniture";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        FurnitureModel furniture = new FurnitureModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
-                        float rot = reader.GetFloat("rotation");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var furniture = new FurnitureModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
+                        var rot = reader.GetFloat("rotation");
 
                         furniture.id = reader.GetInt32("id");
                         furniture.hash = reader.GetUInt32("hash");
@@ -1607,23 +1470,19 @@ namespace WiredPlayers.database
             return furnitureList;
         }
 
-        public static void LoadCrimes()
-        {
+        public static void LoadCrimes() {
             // Initialize the list
             Police.crimeList = new List<CrimeModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
 
                 command.CommandText = "SELECT * FROM `crimes`";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        CrimeModel crime = new CrimeModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var crime = new CrimeModel();
                         {
                             crime.crime = reader.GetString("description");
                             crime.jail = reader.GetInt32("jail");
@@ -1637,25 +1496,21 @@ namespace WiredPlayers.database
             }
         }
 
-        public static void LoadAllPoliceControls()
-        {
+        public static void LoadAllPoliceControls() {
             Police.policeControlList = new List<PoliceControlModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM controls";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        PoliceControlModel policeControl = new PoliceControlModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
-                        float rot = reader.GetFloat("rotation");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var policeControl = new PoliceControlModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
+                        var rot = reader.GetFloat("rotation");
 
                         policeControl.id = reader.GetInt32("id");
                         policeControl.name = reader.GetString("name");
@@ -1669,24 +1524,20 @@ namespace WiredPlayers.database
             }
         }
 
-        public static List<ParkingModel> LoadAllParkings()
-        {
-            List<ParkingModel> parkingList = new List<ParkingModel>();
+        public static List<ParkingModel> LoadAllParkings() {
+            var parkingList = new List<ParkingModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM parkings";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ParkingModel parking = new ParkingModel();
-                        float posX = reader.GetFloat("posX");
-                        float posY = reader.GetFloat("posY");
-                        float posZ = reader.GetFloat("posZ");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var parking = new ParkingModel();
+                        var posX = reader.GetFloat("posX");
+                        var posY = reader.GetFloat("posY");
+                        var posZ = reader.GetFloat("posZ");
 
                         parking.id = reader.GetInt32("id");
                         parking.type = reader.GetInt32("type");
@@ -1702,28 +1553,25 @@ namespace WiredPlayers.database
             return parkingList;
         }
 
-        public static int AddParking(ParkingModel parking)
-        {
-            int parkingId = 0;
+        public static int AddParking(ParkingModel parking) {
+            var parkingId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO parkings (type, posX, posY, posZ) VALUES (@type, @posX, @posY, @posZ)";
+                    command.CommandText =
+                        "INSERT INTO parkings (type, posX, posY, posZ) VALUES (@type, @posX, @posY, @posZ)";
                     command.Parameters.AddWithValue("@type", parking.type);
                     command.Parameters.AddWithValue("@posX", parking.position.X);
                     command.Parameters.AddWithValue("@posY", parking.position.Y);
                     command.Parameters.AddWithValue("@posZ", parking.position.Z);
 
                     command.ExecuteNonQuery();
-                    parkingId = (int)command.LastInsertedId;
+                    parkingId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddParking] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddParking] " + ex.StackTrace);
                 }
@@ -1732,16 +1580,14 @@ namespace WiredPlayers.database
             return parkingId;
         }
 
-        public static void UpdateParking(ParkingModel parking)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateParking(ParkingModel parking) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE parkings SET type = @type, house = @house, posX = @posX, posY = @posY, posZ = @posZ, capacity = @capacity WHERE id = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE parkings SET type = @type, house = @house, posX = @posX, posY = @posY, posZ = @posZ, capacity = @capacity WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@type", parking.type);
                     command.Parameters.AddWithValue("@house", parking.houseId);
                     command.Parameters.AddWithValue("@posX", parking.position.X);
@@ -1752,44 +1598,36 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateParking] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateParking] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void DeleteParking(int parkingId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeleteParking(int parkingId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM parkings WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", parkingId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteParking] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteParking] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void RenamePoliceControl(string sourceName, string targetName)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RenamePoliceControl(string sourceName, string targetName) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE controls SET name = @targetName WHERE name = @sourceName";
                     command.Parameters.AddWithValue("@targetName", targetName);
@@ -1797,48 +1635,41 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RenamePoliceControl] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RenamePoliceControl] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void DeletePoliceControl(string name)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeletePoliceControl(string name) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM controls WHERE name = @name";
                     command.Parameters.AddWithValue("@name", name);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeletePoliceControl] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeletePoliceControl] " + ex.StackTrace);
                 }
             }
         }
 
-        public static int AddPoliceControlItem(PoliceControlModel policeControlItem)
-        {
-            int policeControlId = 0;
+        public static int AddPoliceControlItem(PoliceControlModel policeControlItem) {
+            var policeControlId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO controls (name, item, posX, posY, posZ, rotation) VALUES (@name, @item, @posX, @posY, @posZ, @rotation)";
+                    command.CommandText =
+                        "INSERT INTO controls (name, item, posX, posY, posZ, rotation) VALUES (@name, @item, @posX, @posY, @posZ, @rotation)";
                     command.Parameters.AddWithValue("@name", policeControlItem.name);
                     command.Parameters.AddWithValue("@item", policeControlItem.item);
                     command.Parameters.AddWithValue("@posX", policeControlItem.position.X);
@@ -1847,10 +1678,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@rotation", policeControlItem.rotation.Z);
 
                     command.ExecuteNonQuery();
-                    policeControlId = (int)command.LastInsertedId;
+                    policeControlId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddPoliceControlItem] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddPoliceControlItem] " + ex.StackTrace);
                 }
@@ -1859,44 +1689,36 @@ namespace WiredPlayers.database
             return policeControlId;
         }
 
-        public static void DeletePoliceControlItem(int policeControlItemId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeletePoliceControlItem(int policeControlItemId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM controls WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", policeControlItemId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeletePoliceControlItem] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeletePoliceControlItem] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<FineModel> LoadPlayerFines(string name)
-        {
-            List<FineModel> fineList = new List<FineModel>();
+        public static List<FineModel> LoadPlayerFines(string name) {
+            var fineList = new List<FineModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM fines WHERE target = @target";
                 command.Parameters.AddWithValue("@target", name);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        FineModel fine = new FineModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var fine = new FineModel();
                         {
                             fine.officer = reader.GetString("officer");
                             fine.target = reader.GetString("target");
@@ -1913,14 +1735,11 @@ namespace WiredPlayers.database
             return fineList;
         }
 
-        public static void InsertFine(FineModel fine)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void InsertFine(FineModel fine) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "INSERT INTO fines VALUES (@officer, @target, @amount, @reason, NOW())";
                     command.Parameters.AddWithValue("@officer", fine.officer);
@@ -1930,28 +1749,25 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION InsertFine] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION InsertFine] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void RemoveFines(List<FineModel> fineList)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RemoveFines(List<FineModel> fineList) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "DELETE FROM fines WHERE officer = @officer AND target = @target AND date = @date LIMIT 1";
+                    command.CommandText =
+                        "DELETE FROM fines WHERE officer = @officer AND target = @target AND date = @date LIMIT 1";
 
-                    foreach (FineModel fine in fineList)
-                    {
-                        DateTime dateTime = DateTime.ParseExact(fine.date, "d/M/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                    foreach (var fine in fineList) {
+                        var dateTime = DateTime.ParseExact(fine.date, "d/M/yyyy h:mm:ss tt",
+                            CultureInfo.InvariantCulture);
                         fine.date = dateTime.ToString("yyyy-dd-MM HH:mm:ss");
 
                         command.Parameters.Clear();
@@ -1964,29 +1780,24 @@ namespace WiredPlayers.database
                         command.ExecuteNonQuery();
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveFines] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveFines] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<ChannelModel> LoadAllChannels()
-        {
-            List<ChannelModel> channelList = new List<ChannelModel>();
+        public static List<ChannelModel> LoadAllChannels() {
+            var channelList = new List<ChannelModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM channels";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ChannelModel channel = new ChannelModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var channel = new ChannelModel();
                         {
                             channel.id = reader.GetInt32("id");
                             channel.owner = reader.GetInt32("owner");
@@ -2001,26 +1812,22 @@ namespace WiredPlayers.database
             return channelList;
         }
 
-        public static int AddChannel(ChannelModel channel)
-        {
-            int channelId = 0;
+        public static int AddChannel(ChannelModel channel) {
+            var channelId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "INSERT INTO channels (owner, password) VALUES (@owner, @password)";
                     command.Parameters.AddWithValue("@owner", channel.owner);
                     command.Parameters.AddWithValue("@password", channel.password);
 
                     command.ExecuteNonQuery();
-                    channelId = (int)command.LastInsertedId;
+                    channelId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddChannel] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddChannel] " + ex.StackTrace);
                 }
@@ -2029,14 +1836,11 @@ namespace WiredPlayers.database
             return channelId;
         }
 
-        public static void UpdateChannel(ChannelModel channel)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateChannel(ChannelModel channel) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE channels SET password = @password WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@password", channel.password);
@@ -2044,73 +1848,60 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateChannel] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateChannel] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void RemoveChannel(int channelId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void RemoveChannel(int channelId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM channels WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", channelId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveChannel] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION RemoveChannel] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void DisconnectFromChannel(int channelId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DisconnectFromChannel(int channelId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE users SET radio = 0 WHERE radio = @radio";
                     command.Parameters.AddWithValue("@radio", channelId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DisconnectFromChannel] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DisconnectFromChannel] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<BloodModel> LoadAllBlood()
-        {
-            List<BloodModel> bloodList = new List<BloodModel>();
+        public static List<BloodModel> LoadAllBlood() {
+            var bloodList = new List<BloodModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM blood";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        BloodModel blood = new BloodModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var blood = new BloodModel();
                         {
                             blood.id = reader.GetInt32("id");
                             blood.doctor = reader.GetInt32("doctor");
@@ -2126,21 +1917,17 @@ namespace WiredPlayers.database
             return bloodList;
         }
 
-        public static List<AnnoucementModel> LoadAllAnnoucements()
-        {
-            List<AnnoucementModel> annoucementList = new List<AnnoucementModel>();
+        public static List<AnnoucementModel> LoadAllAnnoucements() {
+            var annoucementList = new List<AnnoucementModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM news";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        AnnoucementModel announcementModel = new AnnoucementModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var announcementModel = new AnnoucementModel();
                         {
                             announcementModel.id = reader.GetInt32("id");
                             announcementModel.winner = reader.GetInt32("journalist");
@@ -2158,28 +1945,25 @@ namespace WiredPlayers.database
             return annoucementList;
         }
 
-        public static int AddBloodTransaction(BloodModel blood)
-        {
-            int bloodId = 0;
+        public static int AddBloodTransaction(BloodModel blood) {
+            var bloodId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO blood (doctor, patient, bloodType, used, date) VALUES (@doctor, @patient, @bloodType, @used, NOW())";
+                    command.CommandText =
+                        "INSERT INTO blood (doctor, patient, bloodType, used, date) VALUES (@doctor, @patient, @bloodType, @used, NOW())";
                     command.Parameters.AddWithValue("@doctor", blood.doctor);
                     command.Parameters.AddWithValue("@patient", blood.patient);
                     command.Parameters.AddWithValue("@bloodType", blood.type);
                     command.Parameters.AddWithValue("@used", blood.used);
 
                     command.ExecuteNonQuery();
-                    bloodId = (int)command.LastInsertedId;
+                    bloodId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddBloodTransaction] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddBloodTransaction] " + ex.StackTrace);
                 }
@@ -2188,28 +1972,25 @@ namespace WiredPlayers.database
             return bloodId;
         }
 
-        public static int SendAnnoucement(AnnoucementModel annoucement)
-        {
-            int annoucementId = 0;
+        public static int SendAnnoucement(AnnoucementModel annoucement) {
+            var annoucementId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO news (winner, annoucement, amount, given, date) VALUES (@winner, @annoucement, @amount, @given, NOW())";
+                    command.CommandText =
+                        "INSERT INTO news (winner, annoucement, amount, given, date) VALUES (@winner, @annoucement, @amount, @given, NOW())";
                     command.Parameters.AddWithValue("@winner", annoucement.winner);
                     command.Parameters.AddWithValue("@annoucement", annoucement.annoucement);
                     command.Parameters.AddWithValue("@amount", annoucement.amount);
                     command.Parameters.AddWithValue("@given", annoucement.given);
 
                     command.ExecuteNonQuery();
-                    annoucementId = (int)command.LastInsertedId;
+                    annoucementId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION SendAnnoucement] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION SendAnnoucement] " + ex.StackTrace);
                 }
@@ -2218,18 +1999,16 @@ namespace WiredPlayers.database
             return annoucementId;
         }
 
-        public static int GivePrize(AnnoucementModel prize)
-        {
-            int prizeId = 0;
+        public static int GivePrize(AnnoucementModel prize) {
+            var prizeId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO news (winner, journalist, annoucement, amount, given, date) VALUES (@winner, @journalist, @annoucement, @amount, @given, NOW())";
+                    command.CommandText =
+                        "INSERT INTO news (winner, journalist, annoucement, amount, given, date) VALUES (@winner, @journalist, @annoucement, @amount, @given, NOW())";
                     command.Parameters.AddWithValue("@winner", prize.winner);
                     command.Parameters.AddWithValue("@journalist", prize.journalist);
                     command.Parameters.AddWithValue("@annoucement", prize.annoucement);
@@ -2237,10 +2016,9 @@ namespace WiredPlayers.database
                     command.Parameters.AddWithValue("@given", prize.given);
 
                     command.ExecuteNonQuery();
-                    prizeId = (int)command.LastInsertedId;
+                    prizeId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION GivePrize] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION GivePrize] " + ex.StackTrace);
                 }
@@ -2249,21 +2027,17 @@ namespace WiredPlayers.database
             return prizeId;
         }
 
-        public static List<ClothesModel> LoadAllClothes()
-        {
-            List<ClothesModel> clothesList = new List<ClothesModel>();
+        public static List<ClothesModel> LoadAllClothes() {
+            var clothesList = new List<ClothesModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM clothes";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ClothesModel clothes = new ClothesModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var clothes = new ClothesModel();
                         {
                             clothes.id = reader.GetInt32("id");
                             clothes.player = reader.GetInt32("player");
@@ -2282,18 +2056,16 @@ namespace WiredPlayers.database
             return clothesList;
         }
 
-        public static int AddClothes(ClothesModel clothes)
-        {
-            int clothesId = 0;
+        public static int AddClothes(ClothesModel clothes) {
+            var clothesId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO clothes (player, type, slot, drawable, texture, dressed) VALUES (@player, @type, @slot, @drawable, @texture, @dressed)";
+                    command.CommandText =
+                        "INSERT INTO clothes (player, type, slot, drawable, texture, dressed) VALUES (@player, @type, @slot, @drawable, @texture, @dressed)";
                     command.Parameters.AddWithValue("@player", clothes.player);
                     command.Parameters.AddWithValue("@type", clothes.type);
                     command.Parameters.AddWithValue("@slot", clothes.slot);
@@ -2303,10 +2075,9 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
 
-                    clothesId = (int)command.LastInsertedId;
+                    clothesId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddClothes] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddClothes] " + ex.StackTrace);
                 }
@@ -2315,14 +2086,11 @@ namespace WiredPlayers.database
             return clothesId;
         }
 
-        public static void UpdateClothes(ClothesModel clothes)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void UpdateClothes(ClothesModel clothes) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "UPDATE clothes SET dressed = @dressed WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@dressed", clothes.dressed);
@@ -2330,29 +2098,24 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateClothes] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION UpdateClothes] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<TattooModel> LoadAllTattoos()
-        {
-            List<TattooModel> tattooList = new List<TattooModel>();
+        public static List<TattooModel> LoadAllTattoos() {
+            var tattooList = new List<TattooModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM tattoos";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TattooModel tattoo = new TattooModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var tattoo = new TattooModel();
                         {
                             tattoo.player = reader.GetInt32("player");
                             tattoo.slot = reader.GetInt32("zone");
@@ -2368,18 +2131,16 @@ namespace WiredPlayers.database
             return tattooList;
         }
 
-        public static bool AddTattoo(TattooModel tattoo)
-        {
-            bool inserted = false;
+        public static bool AddTattoo(TattooModel tattoo) {
+            var inserted = false;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO tattoos (player, zone, library, hash) VALUES (@player, @zone, @library, @hash)";
+                    command.CommandText =
+                        "INSERT INTO tattoos (player, zone, library, hash) VALUES (@player, @zone, @library, @hash)";
                     command.Parameters.AddWithValue("@player", tattoo.player);
                     command.Parameters.AddWithValue("@zone", tattoo.slot);
                     command.Parameters.AddWithValue("@library", tattoo.library);
@@ -2388,8 +2149,7 @@ namespace WiredPlayers.database
                     command.ExecuteNonQuery();
                     inserted = true;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddTattoo] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddTattoo] " + ex.StackTrace);
                 }
@@ -2398,21 +2158,17 @@ namespace WiredPlayers.database
             return inserted;
         }
 
-        public static List<ContactModel> LoadAllContacts()
-        {
-            List<ContactModel> contactList = new List<ContactModel>();
+        public static List<ContactModel> LoadAllContacts() {
+            var contactList = new List<ContactModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM contacts";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ContactModel contact = new ContactModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var contact = new ContactModel();
                         {
                             contact.id = reader.GetInt32("id");
                             contact.owner = reader.GetInt32("owner");
@@ -2428,27 +2184,24 @@ namespace WiredPlayers.database
             return contactList;
         }
 
-        public static int AddNewContact(ContactModel contact)
-        {
-            int contactId = 0;
+        public static int AddNewContact(ContactModel contact) {
+            var contactId = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO contacts (owner, contactNumber, contactName) VALUES (@owner, @contactNumber, @contactName)";
+                    command.CommandText =
+                        "INSERT INTO contacts (owner, contactNumber, contactName) VALUES (@owner, @contactNumber, @contactName)";
                     command.Parameters.AddWithValue("@owner", contact.owner);
                     command.Parameters.AddWithValue("@contactNumber", contact.contactNumber);
                     command.Parameters.AddWithValue("@contactName", contact.contactName);
 
                     command.ExecuteNonQuery();
-                    contactId = (int)command.LastInsertedId;
+                    contactId = (int) command.LastInsertedId;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewContact] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddNewContact] " + ex.StackTrace);
                 }
@@ -2457,117 +2210,101 @@ namespace WiredPlayers.database
             return contactId;
         }
 
-        public static void ModifyContact(ContactModel contact)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void ModifyContact(ContactModel contact) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "UPDATE contacts SET contactNumber = @contactNumber, contactName = @contactName WHERE id = @id LIMIT 1";
+                    command.CommandText =
+                        "UPDATE contacts SET contactNumber = @contactNumber, contactName = @contactName WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@contactNumber", contact.contactNumber);
                     command.Parameters.AddWithValue("@contactName", contact.contactName);
                     command.Parameters.AddWithValue("@id", contact.id);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION ModifyContact] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION ModifyContact] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void DeleteContact(int contactId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void DeleteContact(int contactId) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "DELETE FROM contacts WHERE id = @id LIMIT 1";
                     command.Parameters.AddWithValue("@id", contactId);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteContact] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION DeleteContact] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void AddCallLog(int phone, int target, int time)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void AddCallLog(int phone, int target, int time) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO calls (phone, target, time, date) VALUES (@phone, @target, @time, NOW())";
+                    command.CommandText =
+                        "INSERT INTO calls (phone, target, time, date) VALUES (@phone, @target, @time, NOW())";
                     command.Parameters.AddWithValue("@phone", phone);
                     command.Parameters.AddWithValue("@target", target);
                     command.Parameters.AddWithValue("@time", time);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddCallLog] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddCallLog] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void AddSMSLog(int phone, int target, string message)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void AddSMSLog(int phone, int target, string message) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO sms (phone, target, message, date) VALUES (@phone, @target, @message, NOW())";
+                    command.CommandText =
+                        "INSERT INTO sms (phone, target, message, date) VALUES (@phone, @target, @message, NOW())";
                     command.Parameters.AddWithValue("@phone", phone);
                     command.Parameters.AddWithValue("@target", target);
                     command.Parameters.AddWithValue("@message", message);
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddSMSLog] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddSMSLog] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<TestModel> GetRandomQuestions(int license)
-        {
-            List<TestModel> testList = new List<TestModel>();
+        public static List<TestModel> GetRandomQuestions(int license) {
+            var testList = new List<TestModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT DISTINCT(id) AS id, question FROM questions WHERE license = @license ORDER BY RAND() LIMIT @questions";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT DISTINCT(id) AS id, question FROM questions WHERE license = @license ORDER BY RAND() LIMIT @questions";
                 command.Parameters.AddWithValue("@license", license);
                 command.Parameters.AddWithValue("@questions", Constants.MAX_LICENSE_QUESTIONS);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TestModel test = new TestModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var test = new TestModel();
                         {
                             test.id = reader.GetInt32("id");
                             test.text = reader.GetString("question");
@@ -2581,22 +2318,19 @@ namespace WiredPlayers.database
             return testList;
         }
 
-        public static List<TestModel> GetQuestionAnswers(List<int> questionIds)
-        {
-            List<TestModel> testList = new List<TestModel>();
+        public static List<TestModel> GetQuestionAnswers(List<int> questionIds) {
+            var testList = new List<TestModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT `id`, `question`, `answer` FROM answers WHERE FIND_IN_SET(`question`, @question) != 0";
+                var command = connection.CreateCommand();
+                command.CommandText =
+                    "SELECT `id`, `question`, `answer` FROM answers WHERE FIND_IN_SET(`question`, @question) != 0";
                 command.Parameters.AddWithValue("@question", string.Join(",", questionIds));
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TestModel test = new TestModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var test = new TestModel();
                         {
                             test.id = reader.GetInt32("id");
                             test.question = reader.GetInt32("question");
@@ -2611,22 +2345,18 @@ namespace WiredPlayers.database
             return testList;
         }
 
-        public static List<TestModel> GetQuestionAnswers(int question)
-        {
-            List<TestModel> testList = new List<TestModel>();
+        public static List<TestModel> GetQuestionAnswers(int question) {
+            var testList = new List<TestModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT id, answer FROM answers WHERE question = @question";
                 command.Parameters.AddWithValue("@question", question);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TestModel test = new TestModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var test = new TestModel();
                         {
                             test.id = reader.GetInt32("id");
                             test.text = reader.GetString("answer");
@@ -2641,30 +2371,23 @@ namespace WiredPlayers.database
             return testList;
         }
 
-        public static int CheckCorrectAnswers(Dictionary<int, int> application)
-        {
-            int mistakes = 0;
+        public static int CheckCorrectAnswers(Dictionary<int, int> application) {
+            var mistakes = 0;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
 
-                command.CommandText = "SELECT `id`, `question` FROM `answers` WHERE FIND_IN_SET(`question`, @questions) != 0 AND `correct` = 1";
+                command.CommandText =
+                    "SELECT `id`, `question` FROM `answers` WHERE FIND_IN_SET(`question`, @questions) != 0 AND `correct` = 1";
                 command.Parameters.AddWithValue("@questions", string.Join(",", new List<int>(application.Keys)));
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int answerId = reader.GetInt32("id");
-                        int questionId = reader.GetInt32("question");
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var answerId = reader.GetInt32("id");
+                        var questionId = reader.GetInt32("question");
 
-                        if (application[questionId] != answerId)
-                        {
-                            // Add a mistake
-                            mistakes++;
-                        }
+                        if (application[questionId] != answerId) mistakes++;
                     }
                 }
             }
@@ -2672,21 +2395,17 @@ namespace WiredPlayers.database
             return mistakes;
         }
 
-        public static bool CheckAnswerCorrect(int answer)
-        {
-            bool correct = false;
+        public static bool CheckAnswerCorrect(int answer) {
+            var correct = false;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT correct FROM answers WHERE id = @id LIMIT 1";
                 command.Parameters.AddWithValue("@id", answer);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
+                using (var reader = command.ExecuteReader()) {
+                    if (reader.HasRows) {
                         reader.Read();
                         correct = reader.GetBoolean("correct");
                     }
@@ -2696,16 +2415,14 @@ namespace WiredPlayers.database
             return correct;
         }
 
-        public static void AddAdminLog(string admin, string player, string action, int time, string reason)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void AddAdminLog(string admin, string player, string action, int time, string reason) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
-                    command.CommandText = "INSERT INTO `admin` (`source`, `target`, `action`, `time`, `reason`, `date`) VALUES (@source, @target, @action, @time, @reason, CURRENT_TIMESTAMP)";
+                    command.CommandText =
+                        "INSERT INTO `admin` (`source`, `target`, `action`, `time`, `reason`, `date`) VALUES (@source, @target, @action, @time, @reason, CURRENT_TIMESTAMP)";
                     command.Parameters.AddWithValue("@source", admin);
                     command.Parameters.AddWithValue("@target", player);
                     command.Parameters.AddWithValue("@action", action);
@@ -2714,22 +2431,18 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddAdminLog] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddAdminLog] " + ex.StackTrace);
                 }
             }
         }
 
-        public static void AddLicensedWeapon(int itemId, string buyer)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
+        public static void AddLicensedWeapon(int itemId, string buyer) {
+            using (var connection = new MySqlConnection(connectionString)) {
+                try {
                     connection.Open();
-                    MySqlCommand command = connection.CreateCommand();
+                    var command = connection.CreateCommand();
 
                     command.CommandText = "INSERT INTO licensed (item, buyer, date) VALUES (@item, @buyer, NOW())";
                     command.Parameters.AddWithValue("@item", itemId);
@@ -2737,29 +2450,24 @@ namespace WiredPlayers.database
 
                     command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddLicensedWeapon] " + ex.Message);
                     NAPI.Util.ConsoleOutput("[EXCEPTION AddLicensedWeapon] " + ex.StackTrace);
                 }
             }
         }
 
-        public static List<PermissionModel> LoadAllPermissions()
-        {
-            List<PermissionModel> permissionList = new List<PermissionModel>();
+        public static List<PermissionModel> LoadAllPermissions() {
+            var permissionList = new List<PermissionModel>();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            using (var connection = new MySqlConnection(connectionString)) {
                 connection.Open();
-                MySqlCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM permissions";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        PermissionModel permission = new PermissionModel();
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var permission = new PermissionModel();
                         {
                             permission.playerId = reader.GetInt32("playerId");
                             permission.command = reader.GetString("command");

@@ -1,18 +1,15 @@
-﻿using GTANetworkAPI;
+﻿using System;
+using System.Threading.Tasks;
+using GTANetworkAPI;
+using WiredPlayers.database;
 using WiredPlayers.globals;
 using WiredPlayers.model;
-using WiredPlayers.database;
-using System.Threading.Tasks;
-using System;
 
-namespace WiredPlayers.character
-{
-    public class Character : Script
-    {
-        public static void InitializePlayerData(Client player)
-        {
-            Vector3 worldSpawn = new Vector3(200.6641f, -932.0939f, 30.68681f);
-            Vector3 rotation = new Vector3(0.0f, 0.0f, 0.0f);
+namespace WiredPlayers.character {
+    public class Character : Script {
+        public static void InitializePlayerData(Client player) {
+            var worldSpawn = new Vector3(200.6641f, -932.0939f, 30.68681f);
+            var rotation = new Vector3(0.0f, 0.0f, 0.0f);
             player.Position = new Vector3(402.9364f, -996.7154f, -99.00024f);
             player.Dimension = Convert.ToUInt32(player.Value);
 
@@ -62,9 +59,8 @@ namespace WiredPlayers.character
             player.SetData(EntityData.PLAYER_STATUS, 0);
         }
 
-        public static void SaveCharacterData(Client player)
-        {
-            PlayerModel character = new PlayerModel();
+        public static void SaveCharacterData(Client player) {
+            var character = new PlayerModel();
             {
                 character.position = player.Position;
                 character.rotation = player.Rotation;
@@ -92,22 +88,21 @@ namespace WiredPlayers.character
                 character.jobPoints = player.GetData(EntityData.PLAYER_JOB_POINTS);
                 character.rolePoints = player.GetData(EntityData.PLAYER_ROLE_POINTS);
                 character.played = player.GetData(EntityData.PLAYER_PLAYED);
-                character.jailed = player.GetData(EntityData.PLAYER_JAIL_TYPE) + "," + player.GetData(EntityData.PLAYER_JAILED);
+                character.jailed = player.GetData(EntityData.PLAYER_JAIL_TYPE) + "," +
+                                   player.GetData(EntityData.PLAYER_JAILED);
 
                 character.money = player.GetSharedData(EntityData.PLAYER_MONEY);
                 character.bank = player.GetSharedData(EntityData.PLAYER_BANK);
             }
 
-            Task.Factory.StartNew(() =>
-            {
+            Task.Factory.StartNew(() => {
                 // Save the player into database
                 Database.SaveCharacterInformation(character);
             });
         }
 
-        public static void LoadCharacterData(Client player, PlayerModel character)
-        {
-            string[] jail = character.jailed.Split(',');
+        public static void LoadCharacterData(Client player, PlayerModel character) {
+            var jail = character.jailed.Split(',');
 
             player.SetSharedData(EntityData.PLAYER_MONEY, character.money);
             player.SetSharedData(EntityData.PLAYER_BANK, character.bank);

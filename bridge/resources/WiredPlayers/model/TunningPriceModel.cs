@@ -1,14 +1,11 @@
-﻿namespace WiredPlayers.model
-{
-    public class TunningPriceModel
-    {
-        public int slot { get; set; }
-        public int products { get; set; }
-
-        public TunningPriceModel(int slot, int products)
-        {
+﻿namespace WiredPlayers.model {
+    public class TunningPriceModel {
+        public TunningPriceModel(int slot, int products) {
             this.slot = slot;
             this.products = products;
         }
+
+        public int slot { get; set; }
+        public int products { get; set; }
     }
 }

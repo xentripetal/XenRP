@@ -1,10 +1,7 @@
 ﻿using GTANetworkAPI;
-using System;
 
-namespace WiredPlayers.model
-{
-    public class VehicleModel
-    {
+namespace WiredPlayers.model {
+    public class VehicleModel {
         public int id { get; set; }
         public string model { get; set; }
         public string owner { get; set; }

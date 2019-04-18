@@ -1,9 +1,7 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model
-{
-    public class FurnitureModel
-    {
+namespace WiredPlayers.model {
+    public class FurnitureModel {
         public int id { get; set; }
         public uint hash { get; set; }
         public uint house { get; set; }

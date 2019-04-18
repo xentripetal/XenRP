@@ -1,9 +1,7 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model
-{
-    public class BusinessModel
-    {
+namespace WiredPlayers.model {
+    public class BusinessModel {
         public int id { get; set; }
         public int type { get; set; }
         public string ipl { get; set; }
