@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.messages.administration;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.messages.administration;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.weapons {
+namespace XenRP.weapons {
     public class Weapons : Script {
         private static Timer weaponTimer;
         private static List<Timer> vehicleWeaponTimer;

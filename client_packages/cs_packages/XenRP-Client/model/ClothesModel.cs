@@ -1,7 +1,14 @@
-﻿namespace WiredPlayers_Client.model
-{
-    class ClothesModel
-    {
+﻿namespace XenRP.Client.model {
+    internal class ClothesModel {
+        public ClothesModel() {
+        }
+
+        public ClothesModel(int type, int slot, string description) {
+            this.type = type;
+            this.slot = slot;
+            this.description = description;
+        }
+
         public int clothesId { get; set; }
         public string description { get; set; }
         public int textures { get; set; }
@@ -11,14 +18,5 @@
         public int drawable { get; set; }
         public int texture { get; set; }
         public int products { get; set; }
-
-        public ClothesModel() { }
-
-        public ClothesModel(int type, int slot, string description)
-        {
-            this.type = type;
-            this.slot = slot;
-            this.description = description;
-        }
     }
 }

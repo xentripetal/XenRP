@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.character;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
+using XenRP.character;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Job : Script {
         public Job() {
             foreach (var job in Constants.JOB_PICK_LIST) {

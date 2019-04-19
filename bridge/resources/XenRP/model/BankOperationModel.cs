@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class BankOperationModel {
         public string source { get; set; }
         public string receiver { get; set; }

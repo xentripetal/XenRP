@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
 
-namespace WiredPlayers.bank {
+namespace XenRP.bank {
     public class Bank : Script {
         [RemoteEvent("executeBankOperation")]
         public void ExecuteBankOperationEvent(Client player, int operation, int amount, string targetName) {

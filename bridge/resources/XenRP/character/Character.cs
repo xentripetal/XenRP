@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.model;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class Character : Script {
         public static void InitializePlayerData(Client player) {
             var worldSpawn = new Vector3(200.6641f, -932.0939f, 30.68681f);

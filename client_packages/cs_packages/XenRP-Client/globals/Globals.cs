@@ -1,27 +1,29 @@
-﻿using RAGE;
-using RAGE.Elements;
-using WiredPlayers_Client.account;
-using WiredPlayers_Client.vehicles;
-using WiredPlayers_Client.jobs;
-using WiredPlayers_Client.model;
-using WiredPlayers_Client.factions;
-using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System;
+using Newtonsoft.Json;
+using RAGE;
+using RAGE.Elements;
+using RAGE.Game;
+using RAGE.NUI;
+using XenRP.Client.account;
+using XenRP.Client.factions;
+using XenRP.Client.jobs;
+using XenRP.Client.model;
+using XenRP.Client.vehicles;
+using Entity = RAGE.Elements.Entity;
+using Player = RAGE.Elements.Player;
+using Type = RAGE.Elements.Type;
 
-namespace WiredPlayers_Client.globals
-{
-    class Globals : Events.Script
-    {
-        private DateTime lastTimeChecked;
-        private string playerMoney;
+namespace XenRP.Client.globals {
+    internal class Globals : Events.Script {
         public static bool viewingPlayers;
         public static bool playerLogged;
         private static Dictionary<int, AttachmentModel> playerAttachments;
+        private DateTime lastTimeChecked;
+        private string playerMoney;
 
-        public Globals()
-        {
+        public Globals() {
             Events.Add("updatePlayerList", UpdatePlayerListEvent);
             Events.Add("hideConnectedPlayers", HideConnectedPlayersEvent);
             Events.Add("changePlayerWalkingStyle", ChangePlayerWalkingStyleEvent);
@@ -38,22 +40,19 @@ namespace WiredPlayers_Client.globals
             playerAttachments = new Dictionary<int, AttachmentModel>();
         }
 
-        public static string EscapeJsonCharacters(string jsonString)
-        {
+        public static string EscapeJsonCharacters(string jsonString) {
             // Escape the apostrophe on JSON
             return jsonString.Replace("'", "\\'");
         }
 
-        private void UpdatePlayerListEvent(object[] args)
-        {
+        private void UpdatePlayerListEvent(object[] args) {
             if (!playerLogged || !viewingPlayers || Browser.customBrowser == null) return;
 
             // Update the player list
-            Browser.ExecuteFunctionEvent(new object[] { "updatePlayerList", args[0].ToString() });
+            Browser.ExecuteFunctionEvent(new object[] {"updatePlayerList", args[0].ToString()});
         }
 
-        private void HideConnectedPlayersEvent(object[] args)
-        {
+        private void HideConnectedPlayersEvent(object[] args) {
             // Cancel the player list view
             viewingPlayers = false;
 
@@ -61,54 +60,51 @@ namespace WiredPlayers_Client.globals
             Browser.DestroyBrowserEvent(null);
         }
 
-        private void ChangePlayerWalkingStyleEvent(object[] args)
-        {
+        private void ChangePlayerWalkingStyleEvent(object[] args) {
             // Get the player
-            Player player = (Player)args[0];
-            string clipSet = args[1].ToString();
+            var player = (Player) args[0];
+            var clipSet = args[1].ToString();
 
             player.SetMovementClipset(clipSet, 0.1f);
         }
 
-        private void ResetPlayerWalkingStyleEvent(object[] args)
-        {
+        private void ResetPlayerWalkingStyleEvent(object[] args) {
             // Get the player
-            Player player = (Player)args[0];
+            var player = (Player) args[0];
 
             player.ResetMovementClipset(0.0f);
         }
 
-        private void AttachItemToPlayerEvent(object[] args)
-        {
+        private void AttachItemToPlayerEvent(object[] args) {
             // Get the remote player
-            int playerId = Convert.ToInt32(args[0]);
-            Player attachedPlayer = Entities.Players.GetAtRemote((ushort)playerId);
+            var playerId = Convert.ToInt32(args[0]);
+            var attachedPlayer = Entities.Players.GetAtRemote((ushort) playerId);
 
             // Check if the player is in the stream range
-            if (Entities.Players.Streamed.Contains(attachedPlayer) || Player.LocalPlayer.Equals(attachedPlayer))
-            {
+            if (Entities.Players.Streamed.Contains(attachedPlayer) || Player.LocalPlayer.Equals(attachedPlayer)) {
                 // Get the attachment
-                AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(args[1].ToString());
+                var attachment = JsonConvert.DeserializeObject<AttachmentModel>(args[1].ToString());
 
                 // Create the object for that player
-                int boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
-                attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
-                RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, false, 2, true);
+                var boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
+                attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position,
+                    new Vector3(), 255, attachedPlayer.Dimension);
+                RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex,
+                    attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X,
+                    attachment.rotation.Y, attachment.rotation.Z, false, false, false, false, 2, true);
 
                 // Add the attachment to the dictionary
                 playerAttachments.Add(playerId, attachment);
             }
         }
 
-        private void DettachItemFromPlayerEvent(object[] args)
-        {
+        private void DettachItemFromPlayerEvent(object[] args) {
             // Get the remote player
-            int playerId = Convert.ToInt32(args[0]);
+            var playerId = Convert.ToInt32(args[0]);
 
-            if (playerAttachments.ContainsKey(playerId))
-            {
+            if (playerAttachments.ContainsKey(playerId)) {
                 // Get the attachment
-                MapObject attachment = playerAttachments[playerId].attach;
+                var attachment = playerAttachments[playerId].attach;
 
                 // Remove it from the player and world
                 attachment.Destroy();
@@ -116,39 +112,35 @@ namespace WiredPlayers_Client.globals
             }
         }
 
-        private void PlayerLoggedInEvent(object[] args)
-        {
+        private void PlayerLoggedInEvent(object[] args) {
             // Show the player as logged
             playerLogged = true;
         }
 
-        public static void OnEntityStreamInEvent(Entity entity)
-        {
-            if (entity.Type == RAGE.Elements.Type.Player)
-            {
+        public static void OnEntityStreamInEvent(Entity entity) {
+            if (entity.Type == Type.Player) {
                 // Get the identifier of the player
                 int playerId = entity.RemoteId;
-                Player attachedPlayer = Entities.Players.GetAtRemote((ushort)playerId);
+                var attachedPlayer = Entities.Players.GetAtRemote((ushort) playerId);
 
                 // Get the attachment on the right hand
-                object attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_RIGHT_HAND);
+                var attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_RIGHT_HAND);
 
-                if(attachmentJson == null)
-                {
-                    // Check if the player has a crate
+                if (attachmentJson == null)
                     attachmentJson = attachedPlayer.GetSharedData(Constants.ITEM_ENTITY_WEAPON_CRATE);
-                }
 
-                if (attachmentJson != null)
-                {
-                    AttachmentModel attachment = JsonConvert.DeserializeObject<AttachmentModel>(attachmentJson.ToString());
+                if (attachmentJson != null) {
+                    var attachment = JsonConvert.DeserializeObject<AttachmentModel>(attachmentJson.ToString());
 
                     // If the attached item is a weapon, we don't stream it
-                    if (RAGE.Game.Weapon.IsWeaponValid(Convert.ToUInt32(attachment.hash))) return;
+                    if (Weapon.IsWeaponValid(Convert.ToUInt32(attachment.hash))) return;
 
-                    int boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
-                    attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position, new Vector3(), 255, attachedPlayer.Dimension);
-                    RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex, attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X, attachment.rotation.Y, attachment.rotation.Z, false, false, false, true, 0, true);
+                    var boneIndex = attachedPlayer.GetBoneIndexByName(attachment.bodyPart);
+                    attachment.attach = new MapObject(Convert.ToUInt32(attachment.hash), attachedPlayer.Position,
+                        new Vector3(), 255, attachedPlayer.Dimension);
+                    RAGE.Game.Entity.AttachEntityToEntity(attachment.attach.Handle, attachedPlayer.Handle, boneIndex,
+                        attachment.offset.X, attachment.offset.Y, attachment.offset.Z, attachment.rotation.X,
+                        attachment.rotation.Y, attachment.rotation.Z, false, false, false, true, 0, true);
 
                     // Add the attachment to the dictionary
                     playerAttachments.Add(playerId, attachment);
@@ -156,17 +148,14 @@ namespace WiredPlayers_Client.globals
             }
         }
 
-        public static void OnEntityStreamOutEvent(Entity entity)
-        {
-            if (entity.Type == RAGE.Elements.Type.Player)
-            {
+        public static void OnEntityStreamOutEvent(Entity entity) {
+            if (entity.Type == Type.Player) {
                 // Get the player's identifier
                 int playerId = entity.RemoteId;
 
-                if(playerAttachments.ContainsKey(playerId))
-                {
+                if (playerAttachments.ContainsKey(playerId)) {
                     // Get the attached object
-                    MapObject attachment = playerAttachments[playerId].attach;
+                    var attachment = playerAttachments[playerId].attach;
 
                     // Destroy the attachment
                     attachment.Destroy();
@@ -175,8 +164,7 @@ namespace WiredPlayers_Client.globals
             }
         }
 
-        public static void OnGuiReadyEvent()
-        {
+        public static void OnGuiReadyEvent() {
             // Remove health regeneration
             RAGE.Game.Player.SetPlayerHealthRechargeMultiplier(0.0f);
 
@@ -184,24 +172,22 @@ namespace WiredPlayers_Client.globals
             RAGE.Game.Player.DisablePlayerVehicleRewards();
 
             // Remove the fade out after player's death
-            RAGE.Game.Misc.SetFadeOutAfterDeath(false);
+            Misc.SetFadeOutAfterDeath(false);
 
             // Freeze the player until he logs in
             Player.LocalPlayer.FreezePosition(true);
         }
 
-        private void PlayerConnectionStateChanged(Entity entity, object arg)
-        {
-            if(entity == Player.LocalPlayer)
-            {
-                string[] serverTime = Player.LocalPlayer.GetSharedData("SERVER_TIME").ToString().Split(":");
+        private void PlayerConnectionStateChanged(Entity entity, object arg) {
+            if (entity == Player.LocalPlayer) {
+                var serverTime = Player.LocalPlayer.GetSharedData("SERVER_TIME").ToString().Split(":");
 
-                int hours = int.Parse(serverTime[0]);
-                int minutes = int.Parse(serverTime[1]);
-                int seconds = int.Parse(serverTime[2]);
+                var hours = int.Parse(serverTime[0]);
+                var minutes = int.Parse(serverTime[1]);
+                var seconds = int.Parse(serverTime[2]);
 
                 // Set the hour from the server
-                RAGE.Game.Clock.SetClockTime(hours, minutes, seconds);
+                Clock.SetClockTime(hours, minutes, seconds);
 
                 // Get the current timestamp
                 lastTimeChecked = DateTime.UtcNow;
@@ -211,83 +197,61 @@ namespace WiredPlayers_Client.globals
             }
         }
 
-        private void TickEvent(List<Events.TickNametagData> nametags)
-        {
+        private void TickEvent(List<Events.TickNametagData> nametags) {
             // Get the current time
-            DateTime dateTime = DateTime.UtcNow;
+            var dateTime = DateTime.UtcNow;
 
             // Check if the player is connected
-            if (playerLogged)
-            {
+            if (playerLogged) {
                 // Disable reloading
-                RAGE.Game.Pad.DisableControlAction(0, 140, true);
+                Pad.DisableControlAction(0, 140, true);
 
-                if (Vehicles.lastPosition != null)
-                {
+                if (Vehicles.lastPosition != null) {
                     if (Player.LocalPlayer.Vehicle == null)
-                    {
-                        // He fell from the vehicle, save the data
                         Vehicles.RemoveSpeedometerEvent(null);
-                    }
                     else
-                    {
-                        // Update the speedometer
                         Vehicles.UpdateSpeedometer();
-                    }
                 }
 
                 // Update the player's money each 450ms
-                if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000)
-                {
+                if (dateTime.Ticks - lastTimeChecked.Ticks >= 4500000) {
                     // Check if the player is loaded
-                    object money = Player.LocalPlayer.GetSharedData(Constants.HAND_MONEY);
+                    var money = Player.LocalPlayer.GetSharedData(Constants.HAND_MONEY);
 
-                    if (money != null)
-                    {
+                    if (money != null) {
                         playerMoney = Convert.ToInt32(money) + "$";
                         lastTimeChecked = dateTime;
                     }
                 }
 
-                if (Fishing.fishingState > 0)
-                {
-                    // Start the fishing minigame
-                    Fishing.DrawFishingMinigame();
-                }
+                if (Fishing.fishingState > 0) Fishing.DrawFishingMinigame();
 
                 // Draw the money
-                RAGE.NUI.UIResText.Draw(playerMoney, 1900, 60, RAGE.Game.Font.Pricedown, 0.5f, Color.DarkOliveGreen, RAGE.NUI.UIResText.Alignment.Right, true, true, 0);
+                UIResText.Draw(playerMoney, 1900, 60, Font.Pricedown, 0.5f, Color.DarkOliveGreen,
+                    UIResText.Alignment.Right, true, true, 0);
 
                 // Check if the player
-                if (RAGE.Game.Pad.IsControlJustPressed(0, (int)RAGE.Game.Control.VehicleSubPitchDownOnly) && Player.LocalPlayer.Vehicle != null)
-                {
-                    // Check if the player is on a forklift
-                    Trucker.CheckPlayerStoredCrate();
-                }
+                if (Pad.IsControlJustPressed(0, (int) Control.VehicleSubPitchDownOnly) &&
+                    Player.LocalPlayer.Vehicle != null) Trucker.CheckPlayerStoredCrate();
 
                 // Check if the player is handcuffed
-                if (Police.handcuffed)
-                {
-                    RAGE.Game.Pad.DisableControlAction(0, 12, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 13, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 14, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 15, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 16, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 17, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 22, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 24, true);
-                    RAGE.Game.Pad.DisableControlAction(0, 25, true);
+                if (Police.handcuffed) {
+                    Pad.DisableControlAction(0, 12, true);
+                    Pad.DisableControlAction(0, 13, true);
+                    Pad.DisableControlAction(0, 14, true);
+                    Pad.DisableControlAction(0, 15, true);
+                    Pad.DisableControlAction(0, 16, true);
+                    Pad.DisableControlAction(0, 17, true);
+                    Pad.DisableControlAction(0, 22, true);
+                    Pad.DisableControlAction(0, 24, true);
+                    Pad.DisableControlAction(0, 25, true);
                 }
             }
 
             // Detect if a key has been pressed
-            int key = Keys.DetectPressedKey(dateTime.Ticks);
+            var key = Keys.DetectPressedKey(dateTime.Ticks);
 
-            if (key >= 0)
-            {
-                // Fire the event for the pressed key
-                Keys.FireKeyPressed(key);
-            }
+            if (key >= 0) Keys.FireKeyPressed(key);
         }
     }
 }

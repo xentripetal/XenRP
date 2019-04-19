@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class DeathModel {
         public DeathModel(Client player, Client killer, uint weapon) {
             this.player = player;

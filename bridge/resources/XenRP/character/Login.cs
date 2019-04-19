@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class Login : Script {
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Client player) {

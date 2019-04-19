@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class CarShopVehicleModel {
         public CarShopVehicleModel(VehicleHash hash, int carShop, int type, int price) {
             this.hash = hash;

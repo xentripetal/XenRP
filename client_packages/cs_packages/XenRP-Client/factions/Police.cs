@@ -1,23 +1,20 @@
-﻿using RAGE;
-using RAGE.Elements;
-using WiredPlayers_Client.globals;
-using WiredPlayers_Client.model;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System;
+using RAGE;
+using RAGE.Elements;
+using XenRP.Client.globals;
+using XenRP.Client.model;
 
-namespace WiredPlayers_Client.factions
-{
-    class Police : Events.Script
-    {
+namespace XenRP.Client.factions {
+    internal class Police : Events.Script {
         public static bool handcuffed;
-        private string crimesJson = null;
-        private string  crimesList = null;
-        private string selectedControl = null;
-        private Dictionary<int, Blip> reinforces = null;
+        private string crimesJson;
+        private string crimesList;
+        private readonly Dictionary<int, Blip> reinforces;
+        private string selectedControl;
 
-        public Police()
-        {
+        public Police() {
             Events.Add("showCrimesMenu", ShowCrimesMenuEvent);
             Events.Add("applyCrimes", ApplyCrimesEvent);
             Events.Add("executePlayerCrimes", ExecutePlayerCrimesEvent);
@@ -34,17 +31,16 @@ namespace WiredPlayers_Client.factions
             reinforces = new Dictionary<int, Blip>();
         }
 
-        private void ShowCrimesMenuEvent(object[] args)
-        {
+        private void ShowCrimesMenuEvent(object[] args) {
             // Save crimes list
             crimesJson = args[0].ToString();
 
             // Show crimes menu
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/sideMenu.html", "populateCrimesMenu", crimesJson, string.Empty });
+            Browser.CreateBrowserEvent(new object[]
+                {"package://statics/html/sideMenu.html", "populateCrimesMenu", crimesJson, string.Empty});
         }
 
-        private void ApplyCrimesEvent(object[] args)
-        {
+        private void ApplyCrimesEvent(object[] args) {
             // Store crimes to be applied
             crimesList = args[0].ToString();
 
@@ -52,11 +48,11 @@ namespace WiredPlayers_Client.factions
             Browser.DestroyBrowserEvent(null);
 
             // Show the confirmation window
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/crimesConfirm.html", "populateCrimesConfirmMenu", crimesList });
+            Browser.CreateBrowserEvent(new object[]
+                {"package://statics/html/crimesConfirm.html", "populateCrimesConfirmMenu", crimesList});
         }
 
-        private void ExecutePlayerCrimesEvent(object[] args)
-        {
+        private void ExecutePlayerCrimesEvent(object[] args) {
             // Destroy the confirmation menu
             Browser.DestroyBrowserEvent(null);
 
@@ -64,46 +60,38 @@ namespace WiredPlayers_Client.factions
             Events.CallRemote("applyCrimesToPlayer", crimesList);
         }
 
-        private void BackCrimesMenuEvent(object[] args)
-        {
+        private void BackCrimesMenuEvent(object[] args) {
             // Destroy the confirmation menu
             Browser.DestroyBrowserEvent(null);
 
             // Show crimes menu
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/sideMenu.html", "populateCrimesMenu", crimesJson, crimesList });
+            Browser.CreateBrowserEvent(new object[]
+                {"package://statics/html/sideMenu.html", "populateCrimesMenu", crimesJson, crimesList});
         }
 
-        private void LoadPoliceControlListEvent(object[] args)
-        {
+        private void LoadPoliceControlListEvent(object[] args) {
             // Show the menu with the police control list
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/sideMenu.html", "populatePoliceControlMenu", args[0].ToString() });
+            Browser.CreateBrowserEvent(new object[]
+                {"package://statics/html/sideMenu.html", "populatePoliceControlMenu", args[0].ToString()});
         }
 
-        private void ProccessPoliceControlActionEvent(object[] args)
-        {
+        private void ProccessPoliceControlActionEvent(object[] args) {
             // Get the variables from the arguments
-            string control = args[0] == null ? string.Empty : args[0].ToString();
+            var control = args[0] == null ? string.Empty : args[0].ToString();
 
             // Check the selected option
-            int controlOption = (int)Player.LocalPlayer.GetSharedData("PLAYER_POLICE_CONTROL");
+            var controlOption = (int) Player.LocalPlayer.GetSharedData("PLAYER_POLICE_CONTROL");
 
-            switch (controlOption)
-            {
+            switch (controlOption) {
                 case 1:
                     if (control.Length == 0)
-                    {
-                        // Save the police control with a new name
-                        Browser.CreateBrowserEvent(new object[] { "package://statics/html/policeControlName.html" });
-                    }
+                        Browser.CreateBrowserEvent(new object[] {"package://statics/html/policeControlName.html"});
                     else
-                    {
-                        // Override the existing police control
                         Events.CallRemote("policeControlSelected", control);
-                    }
                     break;
                 case 2:
                     // Show the window to change control's name
-                    Browser.CreateBrowserEvent(new object[] { "package://statics/html/policeControlName.html" });
+                    Browser.CreateBrowserEvent(new object[] {"package://statics/html/policeControlName.html"});
                     selectedControl = control;
                     break;
                 default:
@@ -113,32 +101,27 @@ namespace WiredPlayers_Client.factions
             }
         }
 
-        private void PoliceControlSelectedNameEvent(object[] args)
-        {
+        private void PoliceControlSelectedNameEvent(object[] args) {
             // Save the police control with a new name
             Events.CallRemote("updatePoliceControlName", selectedControl, args[0].ToString());
         }
 
-        private void UpdatePoliceReinforcesEvent(object[] args)
-        {
-            List<Reinforces> updatedReinforces = JsonConvert.DeserializeObject<List<Reinforces>>(args[0].ToString());
+        private void UpdatePoliceReinforcesEvent(object[] args) {
+            var updatedReinforces = JsonConvert.DeserializeObject<List<Reinforces>>(args[0].ToString());
 
             // Search for policemen asking for reinforces
-            foreach(Reinforces reinforcesModel in updatedReinforces)
-            {
+            foreach (var reinforcesModel in updatedReinforces) {
                 // Get the identifier
-                int police = reinforcesModel.playerId;
-                Vector3 position = reinforcesModel.position;
+                var police = reinforcesModel.playerId;
+                var position = reinforcesModel.position;
 
-                if(reinforces.ContainsKey(police))
-                {
+                if (reinforces.ContainsKey(police)) {
                     // Update the blip's position
                     reinforces[police].SetCoords(position.X, position.Y, position.Z);
                 }
-                else
-                {
+                else {
                     // Create a blip on the map
-                    Blip reinforcesBlip = new Blip(487, position, string.Empty, 1, 38);
+                    var reinforcesBlip = new Blip(487, position, string.Empty, 1, 38);
 
                     // Add the new member to the array
                     reinforces[police] = reinforcesBlip;
@@ -146,18 +129,16 @@ namespace WiredPlayers_Client.factions
             }
         }
 
-        private void ReinforcesRemoveEvent(object[] args)
-        {
+        private void ReinforcesRemoveEvent(object[] args) {
             // Get the variables from the arguments
-            int officer = Convert.ToInt32(args[0]);
+            var officer = Convert.ToInt32(args[0]);
 
             // Delete officer's reinforces
             reinforces[officer].Destroy();
             reinforces.Remove(officer);
         }
 
-        private void PlayerHandcuffedStateChanged(Entity entity, object arg)
-        {
+        private void PlayerHandcuffedStateChanged(Entity entity, object arg) {
             // Toggle the handcuffed state
             handcuffed = arg != null;
         }

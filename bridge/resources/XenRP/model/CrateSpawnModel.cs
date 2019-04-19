@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class CrateSpawnModel {
         public CrateSpawnModel(int spawnPoint, Vector3 position) {
             this.spawnPoint = spawnPoint;

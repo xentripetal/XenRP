@@ -4,19 +4,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.business;
-using WiredPlayers.chat;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.jobs;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
-using WiredPlayers.model;
-using WiredPlayers.parking;
-using WiredPlayers.weapons;
+using XenRP.business;
+using XenRP.chat;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.jobs;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.messages.success;
+using XenRP.model;
+using XenRP.parking;
+using XenRP.weapons;
 
-namespace WiredPlayers.vehicles {
+namespace XenRP.vehicles {
     public class Vehicles : Script {
         private static Dictionary<int, Timer> gasTimerList;
         private static Dictionary<int, Timer> vehicleRespawnTimerList;

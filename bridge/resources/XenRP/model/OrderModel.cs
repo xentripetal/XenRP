@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class OrderModel {
         public int id { get; set; }
         public Vector3 position { get; set; }

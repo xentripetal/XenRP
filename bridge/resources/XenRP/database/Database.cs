@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading;
 using GTANetworkAPI;
 using MySql.Data.MySqlClient;
-using WiredPlayers.admin;
-using WiredPlayers.business;
-using WiredPlayers.character;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.house;
-using WiredPlayers.jobs;
-using WiredPlayers.messages.general;
-using WiredPlayers.model;
-using WiredPlayers.parking;
-using WiredPlayers.vehicles;
+using XenRP.admin;
+using XenRP.business;
+using XenRP.character;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.house;
+using XenRP.jobs;
+using XenRP.messages.general;
+using XenRP.model;
+using XenRP.parking;
+using XenRP.vehicles;
 
-namespace WiredPlayers.database {
+namespace XenRP.database {
     public class Database : Script {
         private static string connectionString;
 
@@ -26,10 +26,6 @@ namespace WiredPlayers.database {
             // Set the encoding
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            // Set the culture
-            var culture = NAPI.Resource.GetSetting<string>(this, "culture");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-            NAPI.Util.ConsoleOutput("Current Culture: " + Thread.CurrentThread.CurrentUICulture.Name);
 
             // Create the database connection string
             var host = NAPI.Resource.GetSetting<string>(this, "host");

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
+using XenRP.database;
+using XenRP.globals;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class Inventory : Script {
         public static void LoadDatabaseItems() {
             // Create the item list

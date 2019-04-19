@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class FactionWarningModel {
         public FactionWarningModel(int faction, int playerId, string place, Vector3 position, int takenBy,
             string hour) {

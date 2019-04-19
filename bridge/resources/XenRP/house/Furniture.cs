@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.model;
 
-namespace WiredPlayers.house {
+namespace XenRP.house {
     public class Furniture : Script {
         private static List<FurnitureModel> furnitureList;
 

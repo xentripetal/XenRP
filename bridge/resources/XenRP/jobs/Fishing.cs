@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Fishing : Script {
         private static Dictionary<int, Timer> fishingTimerList;
 

@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class JobModel {
         public JobModel(string descriptionMale, string descriptionFemale, int job, int salary) {
             this.descriptionMale = descriptionMale;

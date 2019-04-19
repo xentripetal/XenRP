@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.globals {
+﻿namespace XenRP.globals {
     public class Commands {
         #region Command Names
 

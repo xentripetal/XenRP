@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class AttachmentModel {
         public AttachmentModel(int itemId, string hash, string bodyPart, Vector3 offset, Vector3 rotation) {
             this.itemId = itemId;

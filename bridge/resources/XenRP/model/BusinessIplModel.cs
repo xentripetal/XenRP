@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class BusinessIplModel {
         public BusinessIplModel(int type, string ipl, Vector3 position) {
             this.type = type;

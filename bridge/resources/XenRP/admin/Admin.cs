@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.business;
-using WiredPlayers.character;
-using WiredPlayers.database;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.house;
-using WiredPlayers.messages.administration;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
-using WiredPlayers.model;
-using WiredPlayers.parking;
-using WiredPlayers.vehicles;
-using WiredPlayers.weapons;
+using GTANetworkMethods;
+using XenRP.business;
+using XenRP.character;
+using XenRP.database;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.house;
+using XenRP.messages.administration;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.messages.success;
+using XenRP.model;
+using XenRP.parking;
+using XenRP.vehicles;
+using XenRP.weapons;
+using Task = System.Threading.Tasks.Task;
+using Vehicle = GTANetworkAPI.Vehicle;
 
-namespace WiredPlayers.admin {
+namespace XenRP.admin {
     public class Admin : Script {
         public static List<PermissionModel> permissionList;
 
@@ -139,6 +141,21 @@ namespace WiredPlayers.admin {
             }
         }
 
+        [Command("object")]
+        public void ObjectCommand(Client player, string obj) {
+            int modelId;
+            if (!int.TryParse(obj, out modelId)) {
+                modelId = (int) NAPI.Util.PickupNameToModel(obj);
+                if (modelId == 0) {
+                    player.SendChatMessage(Constants.COLOR_ERROR + "Invalid model given. must be an int or a pickup name.");
+                    return;
+                }
+            }
+            var test = NAPI.Object.CreateObject(int.Parse(obj), player.Position + new Vector3(0, 0, -1), player.Rotation);
+            test.FreezePosition = false;
+            player.SendChatMessage(Constants.COLOR_HELP+ "Object created.");
+        }
+
         [Command(Commands.COM_GUN, Commands.HLP_GUN_COMMAND)]
         public void GunCommand(Client player, string targetString, string weaponName, int ammo) {
             if (player.GetData(EntityData.PLAYER_ADMIN_RANK) > Constants.STAFF_GAME_MASTER) {
@@ -193,6 +210,9 @@ namespace WiredPlayers.admin {
                                 if (arguments.Length == 4) {
                                     var firstColorArray = arguments[2].Split(',');
                                     var secondColorArray = arguments[3].Split(',');
+                                    if (NAPI.Util.VehicleNameToModel(vehicle.model) == 0) {
+                                     player.SendChatMessage(Constants.COLOR_HELP + "Invalid vehicle model.");   
+                                    }
 
                                     if (firstColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS &&
                                         secondColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS) {

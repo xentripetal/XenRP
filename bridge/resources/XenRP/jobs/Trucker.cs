@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
+using XenRP.globals;
+using XenRP.messages.error;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Trucker : Script {
         public static void CheckTruckerOrders(Client player) {
             // Get the deliverable orders

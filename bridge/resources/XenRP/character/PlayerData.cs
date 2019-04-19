@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.messages.general;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.messages.general;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class PlayerData : Script {
         public static void RetrieveBasicDataEvent(Client asker, Client player) {
             // Get the basic data

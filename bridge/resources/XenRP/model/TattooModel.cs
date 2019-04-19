@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class TattooModel {
         public int player { get; set; }
         public int slot { get; set; }

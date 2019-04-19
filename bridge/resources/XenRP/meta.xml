@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <meta>
-  <info name="WiredPlayers" author="Xabi" type="gamemode"/>
+  <info name="XenRP" author="Xentripetal" type="gamemode"/>
   
   <!-- Gamemode library -->
-  <script src="bin/Debug/netcoreapp2.2/WiredPlayers.dll" />
+  <script src="bin/Debug/netcoreapp2.2/XenRP.dll" />
 
   <settings>
     <!-- Database connection settings -->
@@ -12,8 +12,6 @@
     <setting name="password" value=""/>
     <setting name="database" value="gtav"/>
 
-    <!-- Gamemode language settings -->
-    <setting name="culture" value="en-US"/>
   </settings>
 
 </meta>

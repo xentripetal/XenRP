@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class BusinessTattooModel {
         public BusinessTattooModel(int slot, string name, string library, string maleHash, string femaleHash,
             int price) {

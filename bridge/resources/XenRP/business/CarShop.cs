@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
-using WiredPlayers.vehicles;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.model;
+using XenRP.vehicles;
 
-namespace WiredPlayers.business {
+namespace XenRP.business {
     public class CarShop : Script {
         private TextLabel carShopTextLabel;
         private TextLabel motorbikeShopTextLabel;

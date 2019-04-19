@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class AnnoucementModel {
         public int id { get; set; }
         public int winner { get; set; }

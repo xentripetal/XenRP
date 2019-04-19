@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class FurnitureModel {
         public int id { get; set; }
         public uint hash { get; set; }

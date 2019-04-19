@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class GarbageModel {
         public GarbageModel(int route, int checkPoint, Vector3 position) {
             this.route = route;

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.business;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.house;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
-using WiredPlayers.model;
+using XenRP.business;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.house;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.messages.success;
+using XenRP.model;
 
-namespace WiredPlayers.factions {
+namespace XenRP.factions {
     public class Emergency : Script {
         public static List<BloodModel> bloodList;
 

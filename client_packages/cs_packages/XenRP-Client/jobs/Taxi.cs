@@ -1,11 +1,6 @@
 ﻿using RAGE;
 
-namespace WiredPlayers_Client.jobs
-{
-    class Taxi : Events.Script
-    {
-        public Taxi()
-        {
-        }
+namespace XenRP.Client.jobs {
+    internal class Taxi : Events.Script {
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class UniformModel {
         public UniformModel(int type, int factionJob, int characterSex, int uniformSlot, int uniformDrawable,
             int uniformTexture) {

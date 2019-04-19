@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class HouseModel {
         public int id { get; set; }
         public string ipl { get; set; }

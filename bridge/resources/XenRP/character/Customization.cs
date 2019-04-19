@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.model;
+using XenRP.globals;
+using XenRP.model;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class Customization : Script {
         public static void ApplyPlayerCustomization(Client player, SkinModel skinModel, int sex) {
             // Populate the head

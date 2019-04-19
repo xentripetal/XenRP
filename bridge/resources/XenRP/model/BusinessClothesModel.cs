@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class BusinessClothesModel {
         public BusinessClothesModel(int type, string description, int bodyPart, int clothesId, int sex, int products) {
             this.type = type;

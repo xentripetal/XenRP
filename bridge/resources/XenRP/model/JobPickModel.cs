@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class JobPickModel {
         public JobPickModel(int job, uint blip, string name, Vector3 position, string description) {
             this.job = job;

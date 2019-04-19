@@ -4,17 +4,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.drivingschool;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
-using WiredPlayers.vehicles;
-using WiredPlayers.weapons;
+using XenRP.database;
+using XenRP.drivingschool;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.model;
+using XenRP.vehicles;
+using XenRP.weapons;
 
-namespace WiredPlayers.factions {
+namespace XenRP.factions {
     public class Police : Script {
         public static List<CrimeModel> crimeList;
         public static List<PoliceControlModel> policeControlList;

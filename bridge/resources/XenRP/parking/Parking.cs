@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.house;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
-using WiredPlayers.vehicles;
+using XenRP.database;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.house;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.model;
+using XenRP.vehicles;
 
-namespace WiredPlayers.parking {
+namespace XenRP.parking {
     public class Parking : Script {
         public static List<ParkingModel> parkingList;
         public static List<ParkedCarModel> parkedCars;

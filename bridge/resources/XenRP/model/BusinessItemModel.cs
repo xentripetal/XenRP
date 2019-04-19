@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class BusinessItemModel {
         public BusinessItemModel(string description, string hash, int type, int products, float weight, int health,
             int uses, Vector3 position, Vector3 rotation, int business, float alcoholLevel) {

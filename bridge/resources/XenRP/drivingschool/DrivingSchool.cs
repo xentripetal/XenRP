@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
-using WiredPlayers.model;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.messages.success;
+using XenRP.model;
 
-namespace WiredPlayers.drivingschool {
+namespace XenRP.drivingschool {
     public class DrivingSchool : Script {
         private static Dictionary<int, Timer> drivingSchoolTimerList;
 

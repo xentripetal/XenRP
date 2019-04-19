@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class FastFood : Script {
         private static Dictionary<int, Timer> fastFoodTimerList;
 

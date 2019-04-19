@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.business;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
-using WiredPlayers.vehicles;
+using XenRP.business;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.model;
+using XenRP.vehicles;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     internal class Mechanic : Script {
         public static List<TunningModel> tunningList;
 

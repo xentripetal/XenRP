@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class SkinModel : Script {
         public int firstHeadShape { get; set; }
         public int secondHeadShape { get; set; }

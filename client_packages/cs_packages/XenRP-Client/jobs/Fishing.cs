@@ -1,11 +1,12 @@
-﻿using RAGE;
-using RAGE.Elements;
-using System;
+﻿using System;
+using System.Drawing;
+using RAGE;
+using RAGE.Game;
+using RAGE.NUI;
+using Player = RAGE.Elements.Player;
 
-namespace WiredPlayers_Client.jobs
-{
-    class Fishing : Events.Script
-    {
+namespace XenRP.Client.jobs {
+    internal class Fishing : Events.Script {
         private static int width;
         private static int height;
         private static int fishingSuccess;
@@ -17,8 +18,7 @@ namespace WiredPlayers_Client.jobs
 
         public static int fishingState;
 
-        public Fishing()
-        {
+        public Fishing() {
             Events.Add("startPlayerFishing", StartPlayerFishingEvent);
             Events.Add("fishingBaitTaken", FishingBaitTakenEvent);
 
@@ -26,35 +26,30 @@ namespace WiredPlayers_Client.jobs
             fishingAchieveStart = 0;
 
             // Get the game resolution
-            RAGE.Game.Graphics.GetActiveScreenResolution(ref width, ref height);
+            Graphics.GetActiveScreenResolution(ref width, ref height);
 
             // Calculate the bar's maximum and minimum values
             fishingBarMin = width - 425;
             fishingBarMax = width - 27;
         }
 
-        private void StartPlayerFishingEvent(object[] args)
-        {
+        private void StartPlayerFishingEvent(object[] args) {
             // Start the fishing minigame
             fishingState = 1;
             Player.LocalPlayer.FreezePosition(true);
         }
 
-        private void FishingBaitTakenEvent(object[] args)
-        {
+        private void FishingBaitTakenEvent(object[] args) {
             // Start the fishing minigame
-            Random random = new Random();
-            fishingAchieveStart = (int)Math.Round(random.NextDouble() * 390 + fishingBarMin);
+            var random = new Random();
+            fishingAchieveStart = (int) Math.Round(random.NextDouble() * 390 + fishingBarMin);
             fishingSuccess = 0;
             fishingState = 3;
         }
 
-        public static void DrawFishingMinigame()
-        {
-            if (RAGE.Game.Pad.IsControlJustPressed(0, 24))
-            {
-                switch(fishingState)
-                {
+        public static void DrawFishingMinigame() {
+            if (Pad.IsControlJustPressed(0, 24)) {
+                switch (fishingState) {
                     case 1:
                         // Start fishing
                         fishingState = 2;
@@ -68,35 +63,32 @@ namespace WiredPlayers_Client.jobs
                         Events.CallRemote("fishingCanceled");
                         break;
                     case 3:
-                        if (fishingBarPosition > fishingAchieveStart && fishingBarPosition < fishingAchieveStart + 15)
-                        {
+                        if (fishingBarPosition > fishingAchieveStart && fishingBarPosition < fishingAchieveStart + 15) {
                             // Valid catch
                             fishingSuccess++;
 
-                            if (fishingSuccess == 3)
-                            {
+                            if (fishingSuccess == 3) {
                                 // Fishing succeed
                                 fishingState = -1;
                                 Player.LocalPlayer.FreezePosition(false);
                                 Events.CallRemote("fishingSuccess");
                             }
-                            else
-                            {
+                            else {
                                 // Generate the new bars
                                 movementRight = true;
                                 fishingBarPosition = width - 224;
 
-                                Random random = new Random();
-                                fishingAchieveStart = (int)Math.Round(random.NextDouble() * 390 + fishingBarMin);
+                                var random = new Random();
+                                fishingAchieveStart = (int) Math.Round(random.NextDouble() * 390 + fishingBarMin);
                             }
                         }
-                        else
-                        {
+                        else {
                             // Player failed catching
                             fishingState = -1;
                             Player.LocalPlayer.FreezePosition(false);
                             Events.CallRemote("fishingCanceled");
                         }
+
                         break;
                 }
 
@@ -104,35 +96,30 @@ namespace WiredPlayers_Client.jobs
                 return;
             }
 
-            if (fishingState == 3)
-            {
+            if (fishingState == 3) {
                 // Draw the minigame bar
-                RAGE.NUI.UIResRectangle.Draw(width - 425, height - 40, 400, 25, System.Drawing.Color.FromArgb(200, 0, 0, 0));
+                UIResRectangle.Draw(width - 425, height - 40, 400, 25, Color.FromArgb(200, 0, 0, 0));
 
                 // Draw the success bar
-                RAGE.NUI.UIResRectangle.Draw(fishingAchieveStart, height - 40, 10, 25, System.Drawing.Color.FromArgb(255, 0, 255, 0));
+                UIResRectangle.Draw(fishingAchieveStart, height - 40, 10, 25, Color.FromArgb(255, 0, 255, 0));
 
                 // Draw the moving bar
-                RAGE.NUI.UIResRectangle.Draw(fishingBarPosition, height - 41, 2, 26, System.Drawing.Color.FromArgb(255, 255, 255, 255));
+                UIResRectangle.Draw(fishingBarPosition, height - 41, 2, 26, Color.FromArgb(255, 255, 255, 255));
 
-                if (movementRight)
-                {
+                if (movementRight) {
                     // Move the bar to the right
                     fishingBarPosition++;
 
-                    if (fishingBarPosition > fishingBarMax)
-                    {
+                    if (fishingBarPosition > fishingBarMax) {
                         fishingBarPosition = fishingBarMax;
                         movementRight = false;
                     }
                 }
-                else
-                {
+                else {
                     // Move the bar to the left
                     fishingBarPosition--;
 
-                    if (fishingBarPosition < fishingBarMin)
-                    {
+                    if (fishingBarPosition < fishingBarMin) {
                         fishingBarPosition = fishingBarMin;
                         movementRight = true;
                     }

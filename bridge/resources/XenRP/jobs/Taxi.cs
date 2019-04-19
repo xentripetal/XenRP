@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.drivingschool;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
+using XenRP.drivingschool;
+using XenRP.globals;
+using XenRP.messages.error;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Taxi : Script {
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void PlayerEnterVehicleEvent(Client player, Vehicle vehicle, sbyte seat) {

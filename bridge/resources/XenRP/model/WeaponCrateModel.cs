@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class WeaponCrateModel {
         public string contentItem { get; set; }
         public int contentAmount { get; set; }

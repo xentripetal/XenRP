@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class BusinessBlipModel {
         public BusinessBlipModel(int id, int blip) {
             this.id = id;

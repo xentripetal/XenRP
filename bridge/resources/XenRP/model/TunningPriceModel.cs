@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class TunningPriceModel {
         public TunningPriceModel(int slot, int products) {
             this.slot = slot;

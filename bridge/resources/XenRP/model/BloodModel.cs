@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class BloodModel {
         public int id { get; set; }
         public int doctor { get; set; }

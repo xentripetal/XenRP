@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class PermissionModel {
         public int playerId { get; set; }
         public string command { get; set; }

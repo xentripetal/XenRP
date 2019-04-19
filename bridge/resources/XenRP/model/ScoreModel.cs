@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class ScoreModel {
         public ScoreModel(int playerId, string playerName, int playerPing) {
             this.playerId = playerId;

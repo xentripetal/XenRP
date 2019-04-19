@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
 using Object = GTANetworkAPI.Object;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Garbage : Script {
         private static Dictionary<int, Timer> garbageTimerList;
 

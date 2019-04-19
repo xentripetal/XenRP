@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class GunModel {
         public GunModel(WeaponHash weapon, string ammunition, int capacity) {
             this.weapon = weapon;

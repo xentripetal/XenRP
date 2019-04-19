@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class EmergencyWarnModel {
         public EmergencyWarnModel(string patient, string paramedic, string time) {
             this.patient = patient;

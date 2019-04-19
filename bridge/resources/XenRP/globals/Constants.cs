@@ -1,12 +1,12 @@
 ﻿using GTANetworkAPI;
-using WiredPlayers.model;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.jobs;
-using WiredPlayers.messages.items;
-using WiredPlayers.messages.description;
 using System.Collections.Generic;
+using XenRP.messages.description;
+using XenRP.messages.general;
+using XenRP.messages.items;
+using XenRP.messages.jobs;
+using XenRP.model;
 
-namespace WiredPlayers.globals
+namespace XenRP.globals
 {
     public class Constants
     {

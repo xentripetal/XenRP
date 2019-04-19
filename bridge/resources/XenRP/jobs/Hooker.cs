@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.messages.success;
 
-namespace WiredPlayers.jobs {
+namespace XenRP.jobs {
     public class Hooker : Script {
         public static Dictionary<int, Timer> sexTimerList;
 

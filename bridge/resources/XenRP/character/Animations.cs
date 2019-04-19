@@ -1,8 +1,8 @@
 ﻿using GTANetworkAPI;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
+using XenRP.globals;
+using XenRP.messages.error;
 
-namespace WiredPlayers.character {
+namespace XenRP.character {
     public class Animations : Script {
         [Command(Commands.COM_GRAB)]
         public void GrabCommand(Client player) {

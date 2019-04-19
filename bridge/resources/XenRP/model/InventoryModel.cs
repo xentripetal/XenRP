@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class InventoryModel {
         public int id { get; set; }
         public string hash { get; set; }

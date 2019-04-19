@@ -1,19 +1,11 @@
 ﻿using System;
 using RAGE;
 using RAGE.Ui;
-using WiredPlayers_Client.globals;
+using XenRP.Client.globals;
 
-namespace WiredPlayers_Client.chat
-{
-    class Chat : Events.Script
-    {
-        public static bool Visible { get; private set; }
-        public static bool Opened { get; private set; }
-        public static bool Locked { get; private set; }
-        public static HtmlWindow ChatBrowser { get; private set; }
-
-        public Chat()
-        {
+namespace XenRP.Client.chat {
+    internal class Chat : Events.Script {
+        public Chat() {
             Events.OnPlayerCommand += OnPlayerCommandEvent;
 
             // TODO More information about how chat works needed
@@ -31,10 +23,13 @@ namespace WiredPlayers_Client.chat
             Locked = true;*/
         }
 
-        private void OnPlayerCommandEvent(string cmd, Events.CancelEventArgs cancel)
-        {
-            if(!Globals.playerLogged)
-            {
+        public static bool Visible { get; private set; }
+        public static bool Opened { get; private set; }
+        public static bool Locked { get; private set; }
+        public static HtmlWindow ChatBrowser { get; private set; }
+
+        private void OnPlayerCommandEvent(string cmd, Events.CancelEventArgs cancel) {
+            if (!Globals.playerLogged) {
                 // Send the message to the player
                 Events.CallRemote("playerNotLoggedCommand");
 
@@ -43,14 +38,11 @@ namespace WiredPlayers_Client.chat
             }
         }
 
-        public static void SetVisible(bool visible)
-        {
-            if (visible)
-            {
+        public static void SetVisible(bool visible) {
+            if (visible) {
                 // Show the chat
             }
-            else
-            {
+            else {
                 // Hide the chat
                 ChatBrowser.Active = false;
             }
@@ -59,18 +51,15 @@ namespace WiredPlayers_Client.chat
             Visible = visible;
         }
 
-        public static void SetOpened(bool opened)
-        {
-            if (opened)
-            {
+        public static void SetOpened(bool opened) {
+            if (opened) {
                 // Open the chat
                 Cursor.Visible = true;
                 RAGE.Chat.Show(true);
                 RAGE.Chat.Activate(true);
                 ChatBrowser.ExecuteJs("focusChat();");
             }
-            else
-            {
+            else {
                 // Close the chat
                 Cursor.Visible = Browser.customBrowser != null;
                 ChatBrowser.ExecuteJs("disableChatInput();");
@@ -80,25 +69,22 @@ namespace WiredPlayers_Client.chat
             Opened = opened;
         }
 
-        public static void SetLocked(bool locked)
-        {
+        public static void SetLocked(bool locked) {
             // Toggle the locked state
             Locked = locked;
         }
 
-        private void ToggleChatLockEvent(object[] args)
-        {
+        private void ToggleChatLockEvent(object[] args) {
             // Get the locked state
-            bool locked = Convert.ToBoolean(args[0]);
+            var locked = Convert.ToBoolean(args[0]);
 
             // Change the state
             SetLocked(locked);
         }
 
-        private void ToggleChatOpenEvent(object[] args)
-        {
+        private void ToggleChatOpenEvent(object[] args) {
             // Get the locked state
-            bool opened = Convert.ToBoolean(args[0]);
+            var opened = Convert.ToBoolean(args[0]);
 
             // Change the state
             SetOpened(opened);

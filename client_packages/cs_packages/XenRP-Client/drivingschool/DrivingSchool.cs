@@ -1,22 +1,19 @@
-﻿using RAGE;
-using RAGE.Elements;
-using Newtonsoft.Json;
-using WiredPlayers_Client.model;
-using WiredPlayers_Client.globals;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Newtonsoft.Json;
+using RAGE;
+using RAGE.Elements;
+using XenRP.Client.globals;
+using XenRP.Client.model;
 
-namespace WiredPlayers_Client.drivingschool
-{
-    class DrivingSchool : Events.Script
-    {
-        private Blip licenseBlip = null;
-        private List<DrivingTest> questionsList;
+namespace XenRP.Client.drivingschool {
+    internal class DrivingSchool : Events.Script {
         private List<DrivingTest> answersList;
+        private Blip licenseBlip;
+        private List<DrivingTest> questionsList;
 
-        public DrivingSchool()
-        {
+        public DrivingSchool() {
             Events.Add("startLicenseExam", StartLicenseExamEvent);
             Events.Add("getNextTestQuestion", GetNextTestQuestionEvent);
             Events.Add("submitAnswer", SubmitAnswerEvent);
@@ -25,11 +22,10 @@ namespace WiredPlayers_Client.drivingschool
             Events.Add("deleteLicenseCheckpoint", DeleteLicenseCheckpointEvent);
         }
 
-        private void StartLicenseExamEvent(object[] args)
-        {
+        private void StartLicenseExamEvent(object[] args) {
             // Get the variables from the arguments
-            string questionsJson = args[0].ToString();
-            string answersJson = args[1].ToString();
+            var questionsJson = args[0].ToString();
+            var answersJson = args[1].ToString();
 
             // Get the exam questions and answers
             questionsList = JsonConvert.DeserializeObject<List<DrivingTest>>(questionsJson);
@@ -40,35 +36,33 @@ namespace WiredPlayers_Client.drivingschool
             Chat.Show(false);
 
             // Show the question
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/licenseExam.html", "getFirstTestQuestion" });
+            Browser.CreateBrowserEvent(new object[]
+                {"package://statics/html/licenseExam.html", "getFirstTestQuestion"});
         }
 
-        private void GetNextTestQuestionEvent(object[] args)
-        {
+        private void GetNextTestQuestionEvent(object[] args) {
             // Get the current question number
-            int index = (int)Player.LocalPlayer.GetSharedData("PLAYER_LICENSE_QUESTION");
+            var index = (int) Player.LocalPlayer.GetSharedData("PLAYER_LICENSE_QUESTION");
 
             // Load the question and initialize the answers
-            string questionText = questionsList[index].text;
+            var questionText = questionsList[index].text;
 
-            List<DrivingTest> answers = answersList.Where(test => test.question == questionsList[index].id).ToList();
-            string answersJson = JsonConvert.SerializeObject(answers);
+            var answers = answersList.Where(test => test.question == questionsList[index].id).ToList();
+            var answersJson = JsonConvert.SerializeObject(answers);
 
             // Show the question into the browser
-            Browser.ExecuteFunctionEvent(new object[] { "populateQuestionAnswers", questionText, answersJson });
+            Browser.ExecuteFunctionEvent(new object[] {"populateQuestionAnswers", questionText, answersJson});
         }
 
-        private void SubmitAnswerEvent(object[] args)
-        {
+        private void SubmitAnswerEvent(object[] args) {
             // Get the variables from the arguments
-            int answer = Convert.ToInt32(args[0]);
+            var answer = Convert.ToInt32(args[0]);
 
             // Check if the answer is correct
             Events.CallRemote("checkAnswer", answer);
         }
 
-        private void FinishLicenseExamEvent(object[] args)
-        {
+        private void FinishLicenseExamEvent(object[] args) {
             // Enable the chat
             Chat.Activate(true);
             Chat.Show(true);
@@ -77,25 +71,17 @@ namespace WiredPlayers_Client.drivingschool
             Browser.DestroyBrowserEvent(null);
         }
 
-        private void ShowLicenseCheckpointEvent(object[] args)
-        {
+        private void ShowLicenseCheckpointEvent(object[] args) {
             // Get the variables from the arguments
-            Vector3 position = (Vector3)args[0];
+            var position = (Vector3) args[0];
 
             if (licenseBlip == null)
-            {
-                // Create a blip on the map
                 licenseBlip = new Blip(1, position, string.Empty, 1, 1);
-            }
             else
-            {
-                // Update blip's position
                 licenseBlip.SetCoords(position.X, position.Y, position.Z);
-            }
         }
 
-        private void DeleteLicenseCheckpointEvent(object[] args)
-        {
+        private void DeleteLicenseCheckpointEvent(object[] args) {
             // Destroy the blip on the map
             licenseBlip.Destroy();
             licenseBlip = null;

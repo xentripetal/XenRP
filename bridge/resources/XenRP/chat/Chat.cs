@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using GTANetworkAPI;
-using WiredPlayers.factions;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.success;
+using XenRP.factions;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.success;
 
-namespace WiredPlayers.chat {
+namespace XenRP.chat {
     public class Chat : Script {
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
             // Deleting player's attached label

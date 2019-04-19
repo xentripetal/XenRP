@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class WeaponProbabilityModel {
         public WeaponProbabilityModel(int type, string hash, int amount, int minChance, int maxChance) {
             this.type = type;

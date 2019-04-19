@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.character;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.character;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.business {
+namespace XenRP.business {
     public class Business : Script {
         public static List<BusinessModel> businessList;
 

@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class FactionModel {
         public FactionModel(string descriptionMale, string descriptionFemale, int faction, int rank, int salary) {
             this.descriptionMale = descriptionMale;

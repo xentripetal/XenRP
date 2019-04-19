@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class ReinforcesModel {
         public ReinforcesModel(int playerId, Vector3 position) {
             this.playerId = playerId;

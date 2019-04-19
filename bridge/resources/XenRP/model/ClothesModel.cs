@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class ClothesModel {
         public int id { get; set; }
         public int player { get; set; }

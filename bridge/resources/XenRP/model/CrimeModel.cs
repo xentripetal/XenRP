@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class CrimeModel {
         public string crime { get; set; }
         public int jail { get; set; }

@@ -1,18 +1,15 @@
-﻿using RAGE;
-using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
-using WiredPlayers_Client.globals;
 using System.Linq;
-using System;
+using Newtonsoft.Json;
+using RAGE;
+using XenRP.Client.globals;
 
-namespace WiredPlayers_Client.character
-{
-    class Inventory : Events.Script
-    {
+namespace XenRP.Client.character {
+    internal class Inventory : Events.Script {
         private static int targetType;
 
-        public Inventory()
-        {
+        public Inventory() {
             Events.Add("showPlayerInventory", ShowPlayerInventoryEvent);
             Events.Add("getInventoryOptions", GetInventoryOptionsEvent);
             Events.Add("executeAction", ExecuteActionEvent);
@@ -20,44 +17,32 @@ namespace WiredPlayers_Client.character
             Events.Add("closeInventory", CloseInventoryEvent);
         }
 
-        private void ShowPlayerInventoryEvent(object[] args)
-        {
+        private void ShowPlayerInventoryEvent(object[] args) {
             // Store all the inventory data
             targetType = Convert.ToInt32(args[1]);
 
             // Show player's inventory
-            Browser.CreateBrowserEvent(new object[] { "package://statics/html/inventory.html", "populateInventory", args[0].ToString(), "general.inventory" });
+            Browser.CreateBrowserEvent(new object[] {
+                "package://statics/html/inventory.html", "populateInventory", args[0].ToString(), "general.inventory"
+            });
         }
 
-        private void GetInventoryOptionsEvent(object[] args)
-        {
+        private void GetInventoryOptionsEvent(object[] args) {
             // Get the variables from the arguments
-            int itemType = Convert.ToInt32(args[0]);
-            string itemHash = args[1].ToString();
+            var itemType = Convert.ToInt32(args[0]);
+            var itemHash = args[1].ToString();
 
-            List<string> optionsList = new List<string>();
-            bool dropable = false;
+            var optionsList = new List<string>();
+            var dropable = false;
 
-            switch (targetType)
-            {
+            switch (targetType) {
                 case 0:
                     // Player's inventory
                     if (itemType == 0)
-                    {
-                        // Consumable item
                         optionsList.Add("general.consume");
-                    }
-                    else if (itemType == 2)
-                    {
-                        // Container item
-                        optionsList.Add("general.open");
-                    }
+                    else if (itemType == 2) optionsList.Add("general.open");
 
-                    if (itemHash.All(char.IsDigit))
-                    {
-                        // Equipable
-                        optionsList.Add("general.equip");
-                    }
+                    if (itemHash.All(char.IsDigit)) optionsList.Add("general.equip");
 
                     dropable = true;
                     break;
@@ -76,27 +61,25 @@ namespace WiredPlayers_Client.character
             }
 
             // Show the options into the inventory
-            Browser.ExecuteFunctionEvent(new object[] { "showInventoryOptions", JsonConvert.SerializeObject(optionsList), dropable });
+            Browser.ExecuteFunctionEvent(new object[]
+                {"showInventoryOptions", JsonConvert.SerializeObject(optionsList), dropable});
         }
 
-        private void ExecuteActionEvent(object[] args)
-        {
+        private void ExecuteActionEvent(object[] args) {
             // Get the variables from the arguments
-            int item = Convert.ToInt32(args[0]);
-            string option = args[1].ToString();
+            var item = Convert.ToInt32(args[0]);
+            var option = args[1].ToString();
 
             // Execute the selected action
             Events.CallRemote("processMenuAction", item, option);
         }
 
-        private void UpdateInventoryEvent(object[] args)
-        {
+        private void UpdateInventoryEvent(object[] args) {
             // Update the items in the inventory
-            Browser.ExecuteFunctionEvent(new object[] { "updateInventory", args[0].ToString() });
+            Browser.ExecuteFunctionEvent(new object[] {"updateInventory", args[0].ToString()});
         }
 
-        private void CloseInventoryEvent(object[] args)
-        {
+        private void CloseInventoryEvent(object[] args) {
             // Remove the browser
             Browser.DestroyBrowserEvent(null);
 

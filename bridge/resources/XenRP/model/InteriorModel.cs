@@ -1,6 +1,6 @@
 ﻿using GTANetworkAPI;
 
-namespace WiredPlayers.model {
+namespace XenRP.model {
     public class InteriorModel {
         public InteriorModel(string captionMessage, Vector3 entrancePosition, Vector3 exitPosition, string iplName,
             int blipId, string blipName) {

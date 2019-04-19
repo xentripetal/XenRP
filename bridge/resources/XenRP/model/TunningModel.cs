@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class TunningModel {
         public int id { get; set; }
         public int vehicle { get; set; }

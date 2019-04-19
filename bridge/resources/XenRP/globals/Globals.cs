@@ -4,25 +4,25 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.business;
-using WiredPlayers.character;
-using WiredPlayers.chat;
-using WiredPlayers.database;
-using WiredPlayers.drivingschool;
-using WiredPlayers.factions;
-using WiredPlayers.house;
-using WiredPlayers.jobs;
-using WiredPlayers.messages.administration;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.messages.success;
-using WiredPlayers.model;
-using WiredPlayers.parking;
-using WiredPlayers.vehicles;
-using WiredPlayers.weapons;
+using XenRP.business;
+using XenRP.character;
+using XenRP.chat;
+using XenRP.database;
+using XenRP.drivingschool;
+using XenRP.factions;
+using XenRP.house;
+using XenRP.jobs;
+using XenRP.messages.administration;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.messages.success;
+using XenRP.model;
+using XenRP.parking;
+using XenRP.vehicles;
+using XenRP.weapons;
 
-namespace WiredPlayers.globals {
+namespace XenRP.globals {
     public class Globals : Script {
         public static int orderGenerationTime;
         public static List<FastfoodOrderModel> fastFoodOrderList;

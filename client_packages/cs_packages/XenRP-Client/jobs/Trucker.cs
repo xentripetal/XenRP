@@ -1,50 +1,47 @@
-﻿using RAGE;
-using RAGE.Elements;
-using WiredPlayers_Client.globals;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RAGE;
+using RAGE.Elements;
+using RAGE.Game;
+using XenRP.Client.globals;
+using Player = RAGE.Elements.Player;
+using Vehicle = RAGE.Elements.Vehicle;
 
-namespace WiredPlayers_Client.jobs
-{
-    class Trucker : Events.Script
-    {
+namespace XenRP.Client.jobs {
+    internal class Trucker : Events.Script {
         private static List<MapObject> crateList;
 
-        public Trucker()
-        {
+        public Trucker() {
             Events.Add("createTruckerCrates", CreateTruckerCratesEvent);
         }
 
-        public static void CheckPlayerStoredCrate()
-        {
-            if(crateList != null && crateList.Count > 0 && RAGE.Game.Misc.GetHashKey("forklift") == Player.LocalPlayer.Vehicle.Model) {
+        public static void CheckPlayerStoredCrate() {
+            if (crateList != null && crateList.Count > 0 &&
+                Misc.GetHashKey("forklift") == Player.LocalPlayer.Vehicle.Model) {
                 // Check if the player has any crate near
                 if (GetCrateInRange(Player.LocalPlayer.Vehicle, 1.5f) == null) return;
 
                 // Store the crate into the closest vehicle
-                Vehicle truck = StoreCrateIntoVehicle("mule");
+                var truck = StoreCrateIntoVehicle("mule");
 
-                if(truck != null)
-                {
-                    
+                if (truck != null) {
                 }
             }
-            else
-            {
+            else {
                 Player.LocalPlayer.Vehicle.SetDoorOpen(2, false, false);
                 Player.LocalPlayer.Vehicle.SetDoorOpen(3, false, false);
             }
         }
 
-        private void CreateTruckerCratesEvent(object[] args)
-        {
+        private void CreateTruckerCratesEvent(object[] args) {
             // Initialize the crates
             crateList = new List<MapObject>();
 
-            foreach (Vector3 crate in Constants.TRUCKER_CRATES)
-            {
-                MapObject crateObject = new MapObject(RAGE.Game.Misc.GetHashKey("prop_boxpile_04a"), crate, new Vector3(0.0f, 0.0f, 0.0f));
-                crateObject.SetPhysicsParams(17.5f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f);
+            foreach (var crate in Constants.TRUCKER_CRATES) {
+                var crateObject = new MapObject(Misc.GetHashKey("prop_boxpile_04a"), crate,
+                    new Vector3(0.0f, 0.0f, 0.0f));
+                crateObject.SetPhysicsParams(17.5f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
+                    -1.0f);
                 crateObject.SetActivatePhysicsAsSoonAsItIsUnfrozen(true);
                 crateObject.FreezePosition(false);
 
@@ -53,20 +50,18 @@ namespace WiredPlayers_Client.jobs
             }
         }
 
-        private static Vehicle StoreCrateIntoVehicle(string model, float distance = 2.5f)
-        {
-            uint vehicleHash = RAGE.Game.Misc.GetHashKey(model);
+        private static Vehicle StoreCrateIntoVehicle(string model, float distance = 2.5f) {
+            var vehicleHash = Misc.GetHashKey(model);
 
             // Get the list of vehicles with selected model and trunk opened
-            List<Vehicle> truckList = Entities.Vehicles.Streamed.Where(veh => veh.IsDoorFullyOpen(2) && veh.Model == vehicleHash).ToList();
+            var truckList = Entities.Vehicles.Streamed.Where(veh => veh.IsDoorFullyOpen(2) && veh.Model == vehicleHash)
+                .ToList();
 
-            foreach(Vehicle truck in truckList)
-            {
+            foreach (var truck in truckList) {
                 // Get the closest crate
-                MapObject crate = GetCrateInRange(truck, distance);
+                var crate = GetCrateInRange(truck, distance);
 
-                if (crate != null)
-                {
+                if (crate != null) {
                     // Remove the crate from the game
                     crateList.Remove(crate);
                     crate.Destroy();
@@ -78,16 +73,10 @@ namespace WiredPlayers_Client.jobs
             return null;
         }
 
-        private static MapObject GetCrateInRange(Vehicle truck, float distance)
-        {
-            foreach(MapObject crate in crateList)
-            {
-                if(crate.Position.DistanceTo(truck.Position) <= distance)
-                {
-                    // We found the crate the player is storing
+        private static MapObject GetCrateInRange(Vehicle truck, float distance) {
+            foreach (var crate in crateList)
+                if (crate.Position.DistanceTo(truck.Position) <= distance)
                     return crate;
-                }
-            }
 
             return null;
         }

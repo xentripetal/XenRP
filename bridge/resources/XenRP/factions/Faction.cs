@@ -5,15 +5,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using GTANetworkAPI;
-using WiredPlayers.chat;
-using WiredPlayers.database;
-using WiredPlayers.globals;
-using WiredPlayers.messages.error;
-using WiredPlayers.messages.general;
-using WiredPlayers.messages.information;
-using WiredPlayers.model;
+using XenRP.chat;
+using XenRP.database;
+using XenRP.globals;
+using XenRP.messages.error;
+using XenRP.messages.general;
+using XenRP.messages.information;
+using XenRP.model;
 
-namespace WiredPlayers.factions {
+namespace XenRP.factions {
     public class Faction : Script {
         public static List<ChannelModel> channelList;
         public static List<FactionWarningModel> factionWarningList;
@@ -741,7 +741,7 @@ namespace WiredPlayers.factions {
 
                 foreach (var factionWarning in factionWarningList) {
                     if (factionWarning.faction == faction) {
-                        var message = string.Empty;
+                        string message;
                         if (factionWarning.place.Length > 0)
                             message = currentElement + ". " + GenRes.time + factionWarning.hour + ", " + GenRes.place +
                                       factionWarning.place;

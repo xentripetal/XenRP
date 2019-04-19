@@ -1,4 +1,4 @@
-﻿namespace WiredPlayers.model {
+﻿namespace XenRP.model {
     public class FineModel {
         public string officer { get; set; }
         public string target { get; set; }
