@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GTANetworkAPI;
 using XenRP.business;
 using XenRP.character;
@@ -17,8 +18,6 @@ using XenRP.model;
 using XenRP.parking;
 using XenRP.vehicles;
 using XenRP.weapons;
-using Task = System.Threading.Tasks.Task;
-using Vehicle = GTANetworkAPI.Vehicle;
 
 namespace XenRP.admin {
     public class Admin : Script {
@@ -195,9 +194,8 @@ namespace XenRP.admin {
                                 if (arguments.Length == 4) {
                                     var firstColorArray = arguments[2].Split(',');
                                     var secondColorArray = arguments[3].Split(',');
-                                    if (NAPI.Util.VehicleNameToModel(vehicle.model) == 0) {
-                                     player.SendChatMessage(Constants.COLOR_HELP + "Invalid vehicle model.");   
-                                    }
+                                    if (NAPI.Util.VehicleNameToModel(vehicle.model) == 0)
+                                        player.SendChatMessage(Constants.COLOR_HELP + "Invalid vehicle model.");
 
                                     if (firstColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS &&
                                         secondColorArray.Length == Constants.TOTAL_COLOR_ELEMENTS) {

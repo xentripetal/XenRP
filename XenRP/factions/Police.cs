@@ -778,7 +778,7 @@ namespace XenRP.factions {
                                     case Commands.ARG_WEAPON:
                                         // Add one month to the license
                                         target.SetData(EntityData.PLAYER_WEAPON_LICENSE,
-                                            Globals.GetTotalSeconds() + 2628000);
+                                            Scheduler.GetTotalSeconds() + 2628000);
 
                                         playerMessage = string.Format(InfoRes.weapon_license_given, target.Name);
                                         targetMessage = string.Format(InfoRes.weapon_license_received, player.Name);
@@ -795,7 +795,7 @@ namespace XenRP.factions {
                                 switch (arguments[1].ToLower()) {
                                     case Commands.ARG_WEAPON:
                                         // Adjust the date to the current one
-                                        target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Globals.GetTotalSeconds());
+                                        target.SetData(EntityData.PLAYER_WEAPON_LICENSE, Scheduler.GetTotalSeconds());
 
                                         playerMessage = string.Format(InfoRes.weapon_license_removed, target.Name);
                                         targetMessage = string.Format(InfoRes.weapon_license_lost, player.Name);

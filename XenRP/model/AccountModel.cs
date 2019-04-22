@@ -1,7 +1,6 @@
 ﻿namespace XenRP.model {
     public class AccountModel {
-        public AccountModel() {
-        }
+        public AccountModel() { }
 
         public AccountModel(string socialName, string forumName, int status, int lastCharacter) {
             this.socialName = socialName;

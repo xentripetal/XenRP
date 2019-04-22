@@ -1,7 +1,6 @@
 ﻿namespace XenRP.Client.model {
     internal class CarDealerVehicle {
-        public CarDealerVehicle() {
-        }
+        public CarDealerVehicle() { }
 
         public CarDealerVehicle(string model, uint hash, int carShop, int type, int price) {
             this.model = model;

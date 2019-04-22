@@ -343,7 +343,7 @@ namespace XenRP.character {
                                 target.SendChatMessage(Constants.COLOR_INFO + InfoRes.call_taken);
 
                                 // Store call starting time
-                                target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
+                                target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Scheduler.GetTotalSeconds());
                                 return;
                             }
                         }
@@ -357,7 +357,7 @@ namespace XenRP.character {
                             target.SendChatMessage(Constants.COLOR_INFO + InfoRes.call_taken);
 
                             // Store call starting time
-                            target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Globals.GetTotalSeconds());
+                            target.SetData(EntityData.PLAYER_PHONE_CALL_STARTED, Scheduler.GetTotalSeconds());
                             return;
                         }
                     }
@@ -382,7 +382,7 @@ namespace XenRP.character {
 
                 // Get phone call time
                 if (player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED) != null) {
-                    elapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
+                    elapsed = Scheduler.GetTotalSeconds() - player.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 
                     Task.Factory.StartNew(() => {
                         // Update the elapsed time into the database
@@ -390,7 +390,7 @@ namespace XenRP.character {
                     });
                 }
                 else {
-                    elapsed = Globals.GetTotalSeconds() - target.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
+                    elapsed = Scheduler.GetTotalSeconds() - target.GetData(EntityData.PLAYER_PHONE_CALL_STARTED);
 
                     Task.Factory.StartNew(() => {
                         // Update the elapsed time into the database

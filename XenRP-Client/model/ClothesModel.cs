@@ -1,7 +1,6 @@
 ﻿namespace XenRP.Client.model {
     internal class ClothesModel {
-        public ClothesModel() {
-        }
+        public ClothesModel() { }
 
         public ClothesModel(int type, int slot, string description) {
             this.type = type;

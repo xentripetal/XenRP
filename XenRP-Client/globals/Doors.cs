@@ -78,10 +78,9 @@ namespace XenRP.Client.globals {
                 return;
             }
 
-            if (colshape == clubhouseDoor) {
+            if (colshape == clubhouseDoor)
                 Object.SetStateOfClosestDoorOfType(Misc.GetHashKey("v_ilev_lostdoor"), 981.7533f, -102.7987f, 74.84873f,
                     true, 0.0f, false);
-            }
         }
     }
 }

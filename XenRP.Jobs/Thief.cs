@@ -86,7 +86,7 @@ namespace XenRP.jobs {
         private void OnPlayerRob(object playerObject) {
             var player = (Client) playerObject;
             int playerSqlId = player.GetData(EntityData.PLAYER_SQL_ID);
-            int timeElapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_ROBBERY_START);
+            int timeElapsed = Scheduler.GetTotalSeconds() - player.GetData(EntityData.PLAYER_ROBBERY_START);
             var stolenItemsDecimal = timeElapsed / Constants.ITEMS_ROBBED_PER_TIME;
             var totalStolenItems = (int) Math.Round(stolenItemsDecimal);
 
@@ -263,7 +263,7 @@ namespace XenRP.jobs {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_already_stealing);
             }
             else if (player.GetData(EntityData.PLAYER_JOB_COOLDOWN) > 0) {
-                int timeLeft = player.GetData(EntityData.PLAYER_JOB_COOLDOWN) - Globals.GetTotalSeconds();
+                int timeLeft = player.GetData(EntityData.PLAYER_JOB_COOLDOWN) - Scheduler.GetTotalSeconds();
                 var message = string.Format(ErrRes.player_cooldown_thief, timeLeft);
                 player.SendChatMessage(Constants.COLOR_ERROR + message);
             }
@@ -282,7 +282,7 @@ namespace XenRP.jobs {
                         // Start stealing items
                         player.PlayAnimation("misscarstealfinalecar_5_ig_3", "crouchloop",
                             (int) Constants.AnimationFlags.Loop);
-                        player.SetData(EntityData.PLAYER_ROBBERY_START, Globals.GetTotalSeconds());
+                        player.SetData(EntityData.PLAYER_ROBBERY_START, Scheduler.GetTotalSeconds());
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.searching_value_items);
                         player.SetData(EntityData.PLAYER_ANIMATION, true);
                         player.Freeze(true);
@@ -307,7 +307,7 @@ namespace XenRP.jobs {
                         // Start stealing items
                         player.PlayAnimation("veh@plane@cuban@front@ds@base", "hotwire",
                             (int) (Constants.AnimationFlags.Loop | Constants.AnimationFlags.AllowPlayerControl));
-                        player.SetData(EntityData.PLAYER_ROBBERY_START, Globals.GetTotalSeconds());
+                        player.SetData(EntityData.PLAYER_ROBBERY_START, Scheduler.GetTotalSeconds());
                         player.SendChatMessage(Constants.COLOR_INFO + InfoRes.searching_value_items);
                         player.SetData(EntityData.PLAYER_ANIMATION, true);
 

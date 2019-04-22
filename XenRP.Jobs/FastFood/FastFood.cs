@@ -4,19 +4,19 @@ using System.Linq;
 using System.Threading;
 using GTANetworkAPI;
 using XenRP.globals;
+using XenRP.house;
 using XenRP.messages.error;
 using XenRP.messages.information;
 using XenRP.model;
 
-namespace XenRP.Jobs {
+namespace XenRP.Jobs.FastFood {
     public class FastFood : Script {
         private static Dictionary<int, Timer> fastFoodTimerList;
 
         public FastFood() {
-            // Initialize the class data
             fastFoodTimerList = new Dictionary<int, Timer>();
         }
-
+        
         [ServerEvent(Event.PlayerDisconnected)]
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
             if (fastFoodTimerList.TryGetValue(player.Value, out var fastFoodTimer)) {
@@ -28,7 +28,7 @@ namespace XenRP.Jobs {
 
         public static void CheckFastfoodOrders(Client player) {
             // Get the deliverable orders
-            var fastFoodOrders = Globals.fastFoodOrderList.Where(o => !o.taken).ToList();
+            var fastFoodOrders = JobScheduler.FastFoodOrderList.Where(o => !o.taken).ToList();
 
             if (fastFoodOrders.Count == 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_none);
@@ -49,7 +49,7 @@ namespace XenRP.Jobs {
         private int GetFastFoodOrderAmount(Client player) {
             var amount = 0;
             int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
-            foreach (var order in Globals.fastFoodOrderList)
+            foreach (var order in JobScheduler.FastFoodOrderList)
                 if (order.id == orderId) {
                     amount += order.pizzas * Constants.PRICE_PIZZA;
                     amount += order.hamburgers * Constants.PRICE_HAMBURGER;
@@ -62,7 +62,7 @@ namespace XenRP.Jobs {
 
         private FastfoodOrderModel GetFastfoodOrderFromId(int orderId) {
             // Get the fastfood order from the specified identifier
-            return Globals.fastFoodOrderList.Where(orderModel => orderModel.id == orderId).FirstOrDefault();
+            return JobScheduler.FastFoodOrderList.Where(orderModel => orderModel.id == orderId).FirstOrDefault();
         }
 
         private void RespawnFastfoodVehicle(Vehicle vehicle) {
@@ -166,7 +166,7 @@ namespace XenRP.Jobs {
                             Vehicle vehicle = player.GetData(EntityData.PLAYER_JOB_VEHICLE);
                             playerDeliverColShape.Position = vehicle.GetData(EntityData.VEHICLE_POSITION);
 
-                            int elapsed = Globals.GetTotalSeconds() - player.GetData(EntityData.PLAYER_DELIVER_START);
+                            int elapsed = Scheduler.GetTotalSeconds() - player.GetData(EntityData.PLAYER_DELIVER_START);
                             var extra = (int) Math.Round((player.GetData(EntityData.PLAYER_DELIVER_TIME) - elapsed) /
                                                          2.0f);
                             var amount = GetFastFoodOrderAmount(player) + extra;
@@ -189,7 +189,7 @@ namespace XenRP.Jobs {
                             int money = player.GetSharedData(EntityData.PLAYER_MONEY);
                             int orderId = player.GetData(EntityData.PLAYER_DELIVER_ORDER);
                             var message = string.Format(InfoRes.job_won, won);
-                            Globals.fastFoodOrderList.RemoveAll(order => order.id == orderId);
+                            JobScheduler.FastFoodOrderList.RemoveAll(order => order.id == orderId);
 
                             // Stop the vehicle's speedometer
                             player.TriggerEvent("removeSpeedometer");
@@ -220,14 +220,14 @@ namespace XenRP.Jobs {
 
         [RemoteEvent("takeFastFoodOrder")]
         public void TakeFastFoodOrderEvent(Client player, int orderId) {
-            foreach (var order in Globals.fastFoodOrderList)
+            foreach (var order in JobScheduler.FastFoodOrderList)
                 if (order.id == orderId) {
                     if (order.taken) {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.order_taken);
                     }
                     else {
                         // Get the time to reach the destination
-                        var start = Globals.GetTotalSeconds();
+                        var start = Scheduler.GetTotalSeconds();
                         var time = (int) Math.Round(player.Position.DistanceTo(order.position) / 9.5f);
 
                         // We take the order

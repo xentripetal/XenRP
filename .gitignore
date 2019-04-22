@@ -2,6 +2,6 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
-*/.idea/
-*/bin/
-*/obj/
+*.idea/
+*bin/
+*obj/

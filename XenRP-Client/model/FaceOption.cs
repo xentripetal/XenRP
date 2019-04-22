@@ -1,7 +1,6 @@
 ﻿namespace XenRP.Client.model {
     internal class FaceOption {
-        public FaceOption() {
-        }
+        public FaceOption() { }
 
         public FaceOption(string desc, int minValue, int maxValue) {
             this.desc = desc;

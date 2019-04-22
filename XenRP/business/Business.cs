@@ -112,7 +112,7 @@ namespace XenRP.business {
 
             if (business.type == Constants.BUSINESS_TYPE_AMMUNATION &&
                 businessItem.type == Constants.ITEM_TYPE_WEAPON &&
-                player.GetData(EntityData.PLAYER_WEAPON_LICENSE) < Globals.GetTotalSeconds()) {
+                player.GetData(EntityData.PLAYER_WEAPON_LICENSE) < Scheduler.GetTotalSeconds()) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.weapon_license_expired);
             }
             else {

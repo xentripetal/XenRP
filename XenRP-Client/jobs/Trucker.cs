@@ -24,8 +24,7 @@ namespace XenRP.Client.jobs {
                 // Store the crate into the closest vehicle
                 var truck = StoreCrateIntoVehicle("mule");
 
-                if (truck != null) {
-                }
+                if (truck != null) { }
             }
             else {
                 Player.LocalPlayer.Vehicle.SetDoorOpen(2, false, false);

@@ -71,9 +71,9 @@ namespace XenRP.jobs {
                                         "low_car_bj_loop_female", (int) Constants.AnimationFlags.Loop);
 
                                     // Timer to finish the service
-                                    var sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 120000,
+                                    var sexTimer = new Timer(OnSexServiceTimer, player, 120000,
                                         Timeout.Infinite);
-                                    Hooker.sexTimerList.Add(player.Value, sexTimer);
+                                    sexTimerList.Add(player.Value, sexTimer);
                                 }
                                 else {
                                     player.PlayAnimation("mini@prostitutes@sexlow_veh",
@@ -82,9 +82,9 @@ namespace XenRP.jobs {
                                         "low_car_sex_loop_female", (int) Constants.AnimationFlags.Loop);
 
                                     // Timer to finish the service
-                                    var sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 180000,
+                                    var sexTimer = new Timer(OnSexServiceTimer, player, 180000,
                                         Timeout.Infinite);
-                                    Hooker.sexTimerList.Add(player.Value, sexTimer);
+                                    sexTimerList.Add(player.Value, sexTimer);
                                 }
 
                                 Task.Factory.StartNew(() => {

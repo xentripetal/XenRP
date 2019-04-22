@@ -37,7 +37,7 @@ namespace XenRP.townhall {
                     else {
                         var message = string.Format(InfoRes.player_has_indentification, Constants.PRICE_IDENTIFICATION);
                         player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_IDENTIFICATION);
-                        player.SetData(EntityData.PLAYER_DOCUMENTATION, Globals.GetTotalSeconds());
+                        player.SetData(EntityData.PLAYER_DOCUMENTATION, Scheduler.GetTotalSeconds());
                         player.SendChatMessage(Constants.COLOR_INFO + message);
 
 
@@ -50,7 +50,7 @@ namespace XenRP.townhall {
 
                     break;
                 case Constants.TRAMITATE_MEDICAL_INSURANCE:
-                    if (player.GetData(EntityData.PLAYER_MEDICAL_INSURANCE) > Globals.GetTotalSeconds()) {
+                    if (player.GetData(EntityData.PLAYER_MEDICAL_INSURANCE) > Scheduler.GetTotalSeconds()) {
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_has_medical_insurance);
                     }
                     else if (money < Constants.PRICE_MEDICAL_INSURANCE) {
@@ -62,7 +62,7 @@ namespace XenRP.townhall {
                         var message = string.Format(InfoRes.player_has_medical_insurance,
                             Constants.PRICE_MEDICAL_INSURANCE);
                         player.SetSharedData(EntityData.PLAYER_MONEY, money - Constants.PRICE_MEDICAL_INSURANCE);
-                        player.SetData(EntityData.PLAYER_MEDICAL_INSURANCE, Globals.GetTotalSeconds() + 1209600);
+                        player.SetData(EntityData.PLAYER_MEDICAL_INSURANCE, Scheduler.GetTotalSeconds() + 1209600);
                         player.SendChatMessage(Constants.COLOR_INFO + message);
 
 

@@ -3,6 +3,7 @@ using GTANetworkAPI;
 using XenRP.character;
 using XenRP.globals;
 using XenRP.Jobs;
+using XenRP.Jobs.FastFood;
 using XenRP.messages.error;
 using XenRP.messages.general;
 using XenRP.messages.information;
@@ -216,10 +217,7 @@ namespace XenRP.jobs {
                     return;
                 }
 
-                if (player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_TRUCKER) {
-                    // Get the trucker orders
-                    Trucker.CheckTruckerOrders(player);
-                }
+                if (player.GetData(EntityData.PLAYER_JOB) == Constants.JOB_TRUCKER) Trucker.CheckTruckerOrders(player);
             }
         }
     }

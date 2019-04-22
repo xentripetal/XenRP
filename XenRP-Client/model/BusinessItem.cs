@@ -2,8 +2,7 @@
 
 namespace XenRP.Client.model {
     internal class BusinessItem : Events.Script {
-        public BusinessItem() {
-        }
+        public BusinessItem() { }
 
         public BusinessItem(string description, string hash, int type, int products, float weight, int health, int uses,
             Vector3 position, Vector3 rotation, int business, float alcoholLevel) {

@@ -2,6 +2,7 @@ namespace XenRP.messages.information {
     public static class InfoRes {
         public const string commands_from = "";
         public const string application_passed = "Congratulations! You passed and can now create your character(s)!";
+
         public static string license_vehicle_exit =
             "Get back into the vehicle within {0} seconds or you'll fail the license exam.";
 

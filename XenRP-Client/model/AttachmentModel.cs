@@ -3,8 +3,7 @@ using RAGE.Elements;
 
 namespace XenRP.Client.model {
     public class AttachmentModel {
-        public AttachmentModel() {
-        }
+        public AttachmentModel() { }
 
         public AttachmentModel(int itemId, string hash, string bodyPart, Vector3 offset, Vector3 rotation) {
             this.itemId = itemId;

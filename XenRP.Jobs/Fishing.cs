@@ -172,12 +172,10 @@ namespace XenRP.jobs {
                 var vehicleModel = (VehicleHash) player.Vehicle.Model;
 
                 if (vehicleModel == VehicleHash.Marquis || vehicleModel == VehicleHash.Tug) {
-                    if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FISHERMAN) {
+                    if (player.GetData(EntityData.PLAYER_JOB) != Constants.JOB_FISHERMAN)
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_fisherman);
-                    }
-                    else if (player.GetData(EntityData.PLAYER_FISHABLE) == null) {
+                    else if (player.GetData(EntityData.PLAYER_FISHABLE) == null)
                         player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_zone);
-                    }
                 }
                 else {
                     player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_fishing_boat);

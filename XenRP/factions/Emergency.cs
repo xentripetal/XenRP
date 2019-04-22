@@ -17,7 +17,7 @@ namespace XenRP.factions {
 
         private void CreateEmergencyReport(DeathModel death) {
             // Get the server time
-            var totalSeconds = Globals.GetTotalSeconds();
+            var totalSeconds = Scheduler.GetTotalSeconds();
 
             if (death.killer.Value == Constants.ENVIRONMENT_KILL) {
                 // Check if the player was dead
@@ -269,7 +269,7 @@ namespace XenRP.factions {
         public void DieCommand(Client player) {
             // Check if the player is dead
             if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) != null) {
-                var totalSeconds = Globals.GetTotalSeconds();
+                var totalSeconds = Scheduler.GetTotalSeconds();
 
                 if (player.GetData(EntityData.TIME_HOSPITAL_RESPAWN) <= totalSeconds) {
                     // Move player to the hospital

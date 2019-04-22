@@ -24,7 +24,6 @@ using XenRP.weapons;
 namespace XenRP.globals {
     public class Globals : Script {
         public static int orderGenerationTime;
-        public static List<FastfoodOrderModel> fastFoodOrderList;
         public static List<OrderModel> truckerOrderList;
         public static List<ClothesModel> clothesList;
         public static List<TattooModel> tattooList;
@@ -40,9 +39,6 @@ namespace XenRP.globals {
             return NAPI.Pools.GetAllPlayers().Where(pl => pl.Value == id).FirstOrDefault();
         }
 
-        public static int GetTotalSeconds() {
-            return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-        }
 
         private void UpdatePlayerList(object unused) {
             // Initialize the score list
@@ -67,7 +63,7 @@ namespace XenRP.globals {
             var currentTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
             NAPI.World.SetTime(currentTime.Hours, currentTime.Minutes, currentTime.Seconds);
 
-            var totalSeconds = GetTotalSeconds();
+            var totalSeconds = Scheduler.GetTotalSeconds();
             var onlinePlayers = NAPI.Pools.GetAllPlayers().Where(pl => pl.GetData(EntityData.PLAYER_PLAYING) != null)
                 .ToList();
 
@@ -134,33 +130,6 @@ namespace XenRP.globals {
                 Character.SaveCharacterData(player);
             }
 
-            // Generate new fastfood orders
-            if (orderGenerationTime <= totalSeconds && House.houseList.Count > 0) {
-                var rnd = new Random();
-                var generatedOrders = rnd.Next(7, 20);
-                for (var i = 0; i < generatedOrders; i++) {
-                    var order = new FastfoodOrderModel();
-                    {
-                        order.id = fastFoodId;
-                        order.pizzas = rnd.Next(0, 4);
-                        order.hamburgers = rnd.Next(0, 4);
-                        order.sandwitches = rnd.Next(0, 4);
-                        order.position = GetPlayerFastFoodDeliveryDestination();
-                        order.limit = totalSeconds + 300;
-                        order.taken = false;
-                    }
-
-                    fastFoodOrderList.Add(order);
-                    fastFoodId++;
-                }
-
-                // Update the new timer time
-                orderGenerationTime = totalSeconds + rnd.Next(2, 5) * 60;
-            }
-
-            // Remove old orders
-            fastFoodOrderList.RemoveAll(order => !order.taken && order.limit <= totalSeconds);
-
             // Save all the vehicles
             Vehicles.SaveAllVehicles();
         }
@@ -180,11 +149,12 @@ namespace XenRP.globals {
                         total += faction.salary;
                         break;
                     }
-            else
-                foreach (var job in Constants.JOB_LIST)
-                    if (job.job == playerJob) {
-                        total += job.salary;
-                        break;
+                    else {
+                        foreach (var job in Constants.JOB_LIST)
+                            if (job.job == playerJob) {
+                                total += job.salary;
+                                break;
+                            }
                     }
 
             player.SendChatMessage(Constants.COLOR_HELP + GenRes.salary + total + "$");
@@ -769,7 +739,6 @@ namespace XenRP.globals {
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart() {
             adminTicketList = new List<AdminTicketModel>();
-            fastFoodOrderList = new List<FastfoodOrderModel>();
             truckerOrderList = new List<OrderModel>();
 
             // Area in the lobby to change the character
@@ -814,9 +783,6 @@ namespace XenRP.globals {
                         interior.entrancePosition, 20.0f, 0.75f, 4, new Color(255, 255, 255), false, 0);
             }
 
-            // Fastfood orders
-            var rnd = new Random();
-            orderGenerationTime = GetTotalSeconds() + rnd.Next(0, 1) * 60;
 
             // Permanent timers
             minuteTimer = new Timer(OnMinuteSpent, null, 60000, 60000);
@@ -1076,7 +1042,7 @@ namespace XenRP.globals {
                                     target.SendChatMessage(Constants.COLOR_INFO + warnMessage);
 
                             player.Invincible = true;
-                            player.SetData(EntityData.TIME_HOSPITAL_RESPAWN, GetTotalSeconds() + 240);
+                            player.SetData(EntityData.TIME_HOSPITAL_RESPAWN, Scheduler.GetTotalSeconds() + 240);
                             player.SendChatMessage(Constants.COLOR_INFO + InfoRes.emergency_warn);
                         }
 

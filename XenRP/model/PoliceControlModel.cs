@@ -2,8 +2,7 @@
 
 namespace XenRP.model {
     public class PoliceControlModel {
-        public PoliceControlModel() {
-        }
+        public PoliceControlModel() { }
 
         public PoliceControlModel(int id, string name, int item, Vector3 position, Vector3 rotation) {
             this.id = id;

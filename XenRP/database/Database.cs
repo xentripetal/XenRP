@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using System.Threading;
 using GTANetworkAPI;
 using MySql.Data.MySqlClient;
 using XenRP.admin;
@@ -82,6 +81,10 @@ namespace XenRP.database {
 
             // Special permission loading
             Admin.permissionList = LoadAllPermissions();
+        }
+
+        public static MySqlConnection GetConnection() {
+            return new MySqlConnection(connectionString);
         }
 
         public static AccountModel GetAccount(string socialName) {

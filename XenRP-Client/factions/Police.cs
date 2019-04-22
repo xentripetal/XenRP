@@ -9,9 +9,9 @@ using XenRP.Client.model;
 namespace XenRP.Client.factions {
     internal class Police : Events.Script {
         public static bool handcuffed;
+        private readonly Dictionary<int, Blip> reinforces;
         private string crimesJson;
         private string crimesList;
-        private readonly Dictionary<int, Blip> reinforces;
         private string selectedControl;
 
         public Police() {
