@@ -11,29 +11,11 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="internationalization\**" />
-    <EmbeddedResource Remove="internationalization\**" />
-    <None Remove="internationalization\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.15" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Bootstrapper">
-      <HintPath>C:\RAGEMP\runtime\Bootstrapper.dll</HintPath>
+      <HintPath>..\dlls\Bootstrapper.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="messages\factions\FacRes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FacRes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="messages\factions\FacRes.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>FacRes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

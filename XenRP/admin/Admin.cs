@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using GTANetworkAPI;
-using GTANetworkMethods;
 using XenRP.business;
 using XenRP.character;
 using XenRP.database;

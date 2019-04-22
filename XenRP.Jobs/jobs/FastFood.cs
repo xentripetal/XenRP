@@ -8,7 +8,7 @@ using XenRP.messages.error;
 using XenRP.messages.information;
 using XenRP.model;
 
-namespace XenRP.jobs {
+namespace XenRP.Jobs {
     public class FastFood : Script {
         private static Dictionary<int, Timer> fastFoodTimerList;
 
@@ -17,6 +17,7 @@ namespace XenRP.jobs {
             fastFoodTimerList = new Dictionary<int, Timer>();
         }
 
+        [ServerEvent(Event.PlayerDisconnected)]
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
             if (fastFoodTimerList.TryGetValue(player.Value, out var fastFoodTimer)) {
                 // Destroy the timer

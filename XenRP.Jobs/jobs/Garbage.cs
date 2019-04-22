@@ -18,6 +18,7 @@ namespace XenRP.jobs {
             garbageTimerList = new Dictionary<int, Timer>();
         }
 
+        [ServerEvent(Event.PlayerDisconnected)]
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
             if (garbageTimerList.TryGetValue(player.Value, out var garbageTimer)) {
                 garbageTimer.Dispose();

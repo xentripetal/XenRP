@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenRP.Jobs", "XenRP.Jobs\XenRP.Jobs.csproj", "{A0B627B6-1CE0-4B4A-AE3F-7742B0A88EA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenRP", "XenRP\XenRP.csproj", "{11AEAB9D-AE72-4381-9C29-E79B12D64418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenRP-Client", "XenRP-Client\XenRP-Client.csproj", "{A7AD7271-1A8B-41FA-919D-4B8B0FFA8B29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0B627B6-1CE0-4B4A-AE3F-7742B0A88EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B627B6-1CE0-4B4A-AE3F-7742B0A88EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B627B6-1CE0-4B4A-AE3F-7742B0A88EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B627B6-1CE0-4B4A-AE3F-7742B0A88EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AEAB9D-AE72-4381-9C29-E79B12D64418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AEAB9D-AE72-4381-9C29-E79B12D64418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AEAB9D-AE72-4381-9C29-E79B12D64418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AEAB9D-AE72-4381-9C29-E79B12D64418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7AD7271-1A8B-41FA-919D-4B8B0FFA8B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7AD7271-1A8B-41FA-919D-4B8B0FFA8B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7AD7271-1A8B-41FA-919D-4B8B0FFA8B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7AD7271-1A8B-41FA-919D-4B8B0FFA8B29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

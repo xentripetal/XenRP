@@ -2,6 +2,7 @@
 using GTANetworkAPI;
 using XenRP.character;
 using XenRP.globals;
+using XenRP.Jobs;
 using XenRP.messages.error;
 using XenRP.messages.general;
 using XenRP.messages.information;

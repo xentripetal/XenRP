@@ -11,7 +11,6 @@ using XenRP.database;
 using XenRP.drivingschool;
 using XenRP.factions;
 using XenRP.house;
-using XenRP.jobs;
 using XenRP.messages.administration;
 using XenRP.messages.error;
 using XenRP.messages.general;
@@ -836,11 +835,6 @@ namespace XenRP.globals {
                 // Other classes' disconnect function
                 Chat.OnPlayerDisconnected(player, type, reason);
                 DrivingSchool.OnPlayerDisconnected(player, type, reason);
-                FastFood.OnPlayerDisconnected(player, type, reason);
-                Fishing.OnPlayerDisconnected(player, type, reason);
-                Garbage.OnPlayerDisconnected(player, type, reason);
-                Hooker.OnPlayerDisconnected(player, type, reason);
-                Thief.OnPlayerDisconnected(player);
                 Vehicles.OnPlayerDisconnected(player);
                 Weapons.OnPlayerDisconnected(player);
 
@@ -2161,88 +2155,6 @@ namespace XenRP.globals {
 
                         break;
                     case Commands.ARG_SERVICE:
-
-                        if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) == null) {
-                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.no_service_offered);
-                        }
-                        else if (player.GetData(EntityData.PLAYER_ALREADY_FUCKING) != null) {
-                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.already_fucking);
-                        }
-                        else if (player.VehicleSeat != (int) VehicleSeat.Driver) {
-                            player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_vehicle_driving);
-                        }
-                        else {
-                            if (player.Vehicle.EngineStatus) {
-                                player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.engine_on);
-                            }
-                            else {
-                                Client target = player.GetData(EntityData.PLAYER_JOB_PARTNER);
-                                if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) != null) {
-                                    int amount = player.GetData(EntityData.JOB_OFFER_PRICE);
-                                    int money = player.GetSharedData(EntityData.PLAYER_MONEY);
-
-                                    if (target.GetData(EntityData.PLAYER_PLAYING) != null) {
-                                        if (amount > money) {
-                                            player.SendChatMessage(
-                                                Constants.COLOR_ERROR + ErrRes.player_not_enough_money);
-                                        }
-                                        else {
-                                            int targetMoney = target.GetSharedData(EntityData.PLAYER_MONEY);
-                                            player.SetSharedData(EntityData.PLAYER_MONEY, money - amount);
-                                            target.SetSharedData(EntityData.PLAYER_MONEY, targetMoney + amount);
-
-                                            var playerMessage = string.Format(InfoRes.service_paid, amount);
-                                            var targetMessage = string.Format(InfoRes.service_received, amount);
-                                            player.SendChatMessage(Constants.COLOR_INFO + playerMessage);
-                                            target.SendChatMessage(Constants.COLOR_INFO + targetMessage);
-
-                                            player.SetData(EntityData.PLAYER_ANIMATION, target);
-                                            player.SetData(EntityData.PLAYER_ALREADY_FUCKING, target);
-                                            target.SetData(EntityData.PLAYER_ALREADY_FUCKING, player);
-
-                                            // Reset the entity data
-                                            player.ResetData(EntityData.JOB_OFFER_PRICE);
-                                            player.ResetData(EntityData.PLAYER_JOB_PARTNER);
-
-                                            // Check the type of the service
-                                            if (player.GetData(EntityData.HOOKER_TYPE_SERVICE) ==
-                                                Constants.HOOKER_SERVICE_BASIC) {
-                                                player.PlayAnimation("mini@prostitutes@sexlow_veh",
-                                                    "low_car_bj_loop_player", (int) Constants.AnimationFlags.Loop);
-                                                target.PlayAnimation("mini@prostitutes@sexlow_veh",
-                                                    "low_car_bj_loop_female", (int) Constants.AnimationFlags.Loop);
-
-                                                // Timer to finish the service
-                                                var sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 120000,
-                                                    Timeout.Infinite);
-                                                Hooker.sexTimerList.Add(player.Value, sexTimer);
-                                            }
-                                            else {
-                                                player.PlayAnimation("mini@prostitutes@sexlow_veh",
-                                                    "low_car_sex_loop_player", (int) Constants.AnimationFlags.Loop);
-                                                target.PlayAnimation("mini@prostitutes@sexlow_veh",
-                                                    "low_car_sex_loop_female", (int) Constants.AnimationFlags.Loop);
-
-                                                // Timer to finish the service
-                                                var sexTimer = new Timer(Hooker.OnSexServiceTimer, player, 180000,
-                                                    Timeout.Infinite);
-                                                Hooker.sexTimerList.Add(player.Value, sexTimer);
-                                            }
-
-                                            Task.Factory.StartNew(() => {
-                                                // Save the log into the database
-                                                Database.LogPayment(player.Name, target.Name, GenRes.hooker, amount);
-                                            });
-                                        }
-                                    }
-                                    else {
-                                        player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_not_found);
-                                    }
-                                }
-                            }
-                        }
-
-                        break;
                     case Commands.ARG_INTERVIEW:
                         if (!player.IsInVehicle) {
                             player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.not_in_vehicle);

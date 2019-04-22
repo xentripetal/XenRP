@@ -11,7 +11,7 @@ using XenRP.model;
 using XenRP.vehicles;
 
 namespace XenRP.jobs {
-    internal class Mechanic : Script {
+    public class Mechanic : Script {
         public static List<TunningModel> tunningList;
 
         public static void AddTunningToVehicle(Vehicle vehicle) {

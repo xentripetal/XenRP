@@ -18,6 +18,7 @@ namespace XenRP.jobs {
             fishingTimerList = new Dictionary<int, Timer>();
         }
 
+        [ServerEvent(Event.PlayerDisconnected)]
         public static void OnPlayerDisconnected(Client player, DisconnectionType type, string reason) {
             if (fishingTimerList.TryGetValue(player.Value, out var fishingTimer)) {
                 // Remove the timer

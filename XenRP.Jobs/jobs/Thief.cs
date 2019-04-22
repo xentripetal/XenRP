@@ -30,6 +30,7 @@ namespace XenRP.jobs {
             robberyTimerList = new Dictionary<int, Timer>();
         }
 
+        [ServerEvent(Event.PlayerDisconnected)]
         public static void OnPlayerDisconnected(Client player) {
             if (robberyTimerList.TryGetValue(player.Value, out var robberyTimer)) {
                 robberyTimer.Dispose();
