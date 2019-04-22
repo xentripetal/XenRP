@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading;
 using GTANetworkAPI;
 using XenRP.globals;
-using XenRP.house;
+using XenRP.Jobs.FastFood.Models;
 using XenRP.messages.error;
 using XenRP.messages.information;
-using XenRP.model;
 
 namespace XenRP.Jobs.FastFood {
     public class FastFood : Script {

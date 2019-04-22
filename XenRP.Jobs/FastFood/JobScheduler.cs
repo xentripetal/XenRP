@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GTANetworkAPI;
 using XenRP.globals;
 using XenRP.house;
+using XenRP.Jobs.FastFood.Models;
 using XenRP.model;
 
 namespace XenRP.Jobs.FastFood {

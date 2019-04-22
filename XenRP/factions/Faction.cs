@@ -29,8 +29,8 @@ namespace XenRP.factions {
             int rank = player.GetData(EntityData.PLAYER_RANK);
 
             // Get the player faction
-            var factionModel = Constants.FACTION_RANK_LIST.Where(fact => fact.faction == faction && fact.rank == rank)
-                .FirstOrDefault();
+            var factionModel = Constants.FACTION_RANK_LIST
+                .FirstOrDefault(fact => fact.faction == faction && fact.rank == rank);
 
             return factionModel == null ? string.Empty :
                 player.GetData(EntityData.PLAYER_SEX) == Constants.SEX_MALE ? factionModel.descriptionMale :
@@ -40,8 +40,7 @@ namespace XenRP.factions {
         public static FactionWarningModel GetFactionWarnByTarget(int playerId, int faction) {
             // Get the faction warn for the given faction
             return factionWarningList
-                .Where(factionWarn => factionWarn.playerId == playerId && factionWarn.faction == faction)
-                .FirstOrDefault();
+                .FirstOrDefault(factionWarn => factionWarn.playerId == playerId && factionWarn.faction == faction);
         }
 
         public static bool IsPoliceMember(Client player) {
