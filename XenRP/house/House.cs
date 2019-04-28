@@ -13,8 +13,9 @@ namespace XenRP.house {
     public class House : Script {
         public static List<HouseModel> houseList;
 
+        [ServerEvent(Event.ResourceStart)]
         public static void LoadDatabaseHouses() {
-            houseList = Database.LoadAllHouses();
+            houseList = DBHouseCommands.LoadAllHouses();
             foreach (var houseModel in houseList) {
                 var houseLabelText = GetHouseLabelText(houseModel);
                 houseModel.houseLabel = NAPI.TextLabel.CreateTextLabel(houseLabelText, houseModel.position, 20.0f,
@@ -91,7 +92,7 @@ namespace XenRP.house {
 
             Task.Factory.StartNew(() => {
                 // Update the house
-                Database.UpdateHouse(house);
+                DBHouseCommands.UpdateHouse(house);
             });
         }
 
@@ -162,7 +163,7 @@ namespace XenRP.house {
 
                     Task.Factory.StartNew(() => {
                         // Update the house
-                        Database.UpdateHouse(house);
+                        DBHouseCommands.UpdateHouse(house);
                     });
 
                     // Message sent to the player
@@ -179,7 +180,7 @@ namespace XenRP.house {
                     Task.Factory.StartNew(() => {
                         // Update the house
                         Database.KickTenantsOut(house.id);
-                        Database.UpdateHouse(house);
+                        DBHouseCommands.UpdateHouse(house);
                     });
 
                     // Message sent to the player
@@ -232,7 +233,7 @@ namespace XenRP.house {
 
             Task.Factory.StartNew(() => {
                 // Update house's tenants
-                Database.UpdateHouse(house);
+                DBHouseCommands.UpdateHouse(house);
             });
 
             // Send the message to the player
@@ -264,7 +265,7 @@ namespace XenRP.house {
 
             Task.Factory.StartNew(() => {
                 // Update house's tenants
-                Database.UpdateHouse(house);
+                DBHouseCommands.UpdateHouse(house);
             });
 
             // Send the message to the player

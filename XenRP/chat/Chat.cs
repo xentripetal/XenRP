@@ -109,9 +109,6 @@ namespace XenRP.chat {
             else if (player.GetData(EntityData.PLAYER_KILLED) != 0) {
                 player.SendChatMessage(Constants.COLOR_ERROR + ErrRes.player_is_dead);
             }
-            else if (player.GetData(EntityData.PLAYER_ON_AIR) != null) {
-                WeazelNews.SendNewsMessage(player, message);
-            }
             else if (player.GetData(EntityData.PLAYER_PHONE_TALKING) != null) {
                 // Target player of the message
                 Client target = player.GetData(EntityData.PLAYER_PHONE_TALKING);

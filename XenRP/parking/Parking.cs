@@ -18,7 +18,8 @@ namespace XenRP.parking {
         public static List<ParkingModel> parkingList;
         public static List<ParkedCarModel> parkedCars;
 
-        public static void LoadDatabaseParkings() {
+        [ServerEvent(Event.ResourceStart)]
+        public void LoadDatabaseParkings() {
             parkingList = Database.LoadAllParkings();
             foreach (var parking in parkingList) {
                 var parkingLabelText = GetParkingLabelText(parking.type);

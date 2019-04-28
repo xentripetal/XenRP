@@ -8,11 +8,15 @@ using XenRP.globals;
 using XenRP.messages.error;
 using XenRP.messages.information;
 using XenRP.model;
-using XenRP.vehicles;
 
-namespace XenRP.jobs {
+namespace XenRP.vehicles {
     public class Mechanic : Script {
         public static List<TunningModel> tunningList;
+
+        [ServerEvent(Event.ResourceStart)]
+        public void LoadRuningList() {
+            tunningList = DBMechanicCommands.LoadAllTunning();
+        }
 
         public static void AddTunningToVehicle(Vehicle vehicle) {
             foreach (var tunning in tunningList)
@@ -182,7 +186,7 @@ namespace XenRP.jobs {
                 }
 
                 Task.Factory.StartNew(() => {
-                    tunningModel.id = Database.AddTunning(tunningModel);
+                    tunningModel.id = DBMechanicCommands.AddTunning(tunningModel);
                     tunningList.Add(tunningModel);
 
                     // Remove consumed products

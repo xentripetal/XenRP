@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
+using XenRP.bank;
 using XenRP.database;
 using XenRP.globals;
 using XenRP.messages.error;
@@ -89,7 +90,7 @@ namespace XenRP.jobs {
 
                                 Task.Factory.StartNew(() => {
                                     // Save the log into the database
-                                    Database.LogPayment(player.Name, target.Name, GenRes.hooker, amount);
+                                    DBBankCommands.LogPayment(player.Name, target.Name, GenRes.hooker, amount);
                                 });
                             }
                         }

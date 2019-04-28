@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GTANetworkAPI;
+using XenRP.bank;
 using XenRP.business;
 using XenRP.character;
 using XenRP.chat;
@@ -220,7 +221,7 @@ namespace XenRP.globals {
 
             Task.Factory.StartNew(() => {
                 // Add the payment log
-                Database.LogPayment("Payday", player.Name, "Payday", total);
+                DBBankCommands.LogPayment("Payday", player.Name, "Payday", total);
             });
         }
 
@@ -2008,7 +2009,7 @@ namespace XenRP.globals {
 
                                     Task.Factory.StartNew(() => {
                                         // Save the log into the database
-                                        Database.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAIR, price);
+                                        DBBankCommands.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAIR, price);
                                     });
                                 }
                                 else {
@@ -2104,7 +2105,7 @@ namespace XenRP.globals {
 
                                     Task.Factory.StartNew(() => {
                                         // Save the log into the database
-                                        Database.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAINT, price);
+                                        DBBankCommands.LogPayment(player.Name, mechanic.Name, Commands.COM_REPAINT, price);
                                     });
                                 }
                                 else {
@@ -2164,7 +2165,7 @@ namespace XenRP.globals {
 
                                     Task.Factory.StartNew(() => {
                                         // Save the logs into database
-                                        Database.LogPayment(target.Name, player.Name, GenRes.payment_players, amount);
+                                        DBBankCommands.LogPayment(target.Name, player.Name, GenRes.payment_players, amount);
                                     });
                                 }
                                 else {
@@ -2216,7 +2217,7 @@ namespace XenRP.globals {
 
                                     Task.Factory.StartNew(() => {
                                         // Save the logs into database
-                                        Database.LogPayment(target.Name, player.Name, GenRes.vehicle_sale, amount);
+                                        DBBankCommands.LogPayment(target.Name, player.Name, GenRes.vehicle_sale, amount);
                                     });
                                 }
                                 else {
@@ -2261,10 +2262,10 @@ namespace XenRP.globals {
                                         Task.Factory.StartNew(() => {
                                             // Update the house
                                             Database.KickTenantsOut(house.id);
-                                            Database.UpdateHouse(house);
+                                            DBHouseCommands.UpdateHouse(house);
 
                                             // Log the payment into database
-                                            Database.LogPayment(target.Name, player.Name, GenRes.house_sale, amount);
+                                            DBBankCommands.LogPayment(target.Name, player.Name, GenRes.house_sale, amount);
                                         });
                                     }
                                     else {
@@ -2304,10 +2305,10 @@ namespace XenRP.globals {
                                     Task.Factory.StartNew(() => {
                                         // Update the house
                                         Database.KickTenantsOut(house.id);
-                                        Database.UpdateHouse(house);
+                                        DBHouseCommands.UpdateHouse(house);
 
                                         // Log the payment into the database
-                                        Database.LogPayment(player.Name, GenRes.state, GenRes.house_sale, amount);
+                                        DBBankCommands.LogPayment(player.Name, GenRes.state, GenRes.house_sale, amount);
                                     });
                                 }
                                 else {
@@ -2486,7 +2487,7 @@ namespace XenRP.globals {
 
                         Task.Factory.StartNew(() => {
                             // Update the house
-                            Database.UpdateHouse(house);
+                            DBHouseCommands.UpdateHouse(house);
                         });
 
                         player.SendChatMessage(house.locked
@@ -2509,7 +2510,7 @@ namespace XenRP.globals {
 
                         Task.Factory.StartNew(() => {
                             // Update the business
-                            Database.UpdateBusiness(business);
+                            DBBusinessCommands.UpdateBusiness(business);
                         });
 
                         player.SendChatMessage(business.locked

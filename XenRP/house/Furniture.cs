@@ -11,8 +11,9 @@ namespace XenRP.house {
     public class Furniture : Script {
         private static List<FurnitureModel> furnitureList;
 
+        [ServerEvent(Event.ResourceStart)]
         public static void LoadDatabaseFurniture() {
-            furnitureList = Database.LoadAllFurniture();
+            furnitureList = DBFurnitureCommands.LoadAllFurniture();
             foreach (var furnitureModel in furnitureList)
                 furnitureModel.handle = NAPI.Object.CreateObject(furnitureModel.hash, furnitureModel.position,
                     furnitureModel.rotation, (byte) furnitureModel.house);

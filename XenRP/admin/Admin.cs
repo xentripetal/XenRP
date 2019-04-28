@@ -652,7 +652,7 @@ namespace XenRP.admin {
                                         Task.Factory.StartNew(() => {
                                             NAPI.Task.Run(() => {
                                                 // Get the id from the business
-                                                business.id = Database.AddNewBusiness(business);
+                                                business.id = DBBusinessCommands.AddNewBusiness(business);
                                                 business.businessLabel = NAPI.TextLabel.CreateTextLabel(business.name,
                                                     business.position, 20.0f, 0.75f, 4, new Color(255, 255, 255), false,
                                                     business.dimension);
@@ -701,7 +701,7 @@ namespace XenRP.admin {
 
                                                     Task.Factory.StartNew(() => {
                                                         // Update the business information
-                                                        Database.UpdateBusiness(business);
+                                                        DBBusinessCommands.UpdateBusiness(business);
                                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);
                                                     });
                                                 }
@@ -724,7 +724,7 @@ namespace XenRP.admin {
 
                                                         Task.Factory.StartNew(() => {
                                                             // Update the business information
-                                                            Database.UpdateBusiness(business);
+                                                            DBBusinessCommands.UpdateBusiness(business);
                                                             player.SendChatMessage(
                                                                 Constants.COLOR_ADMIN_INFO + message);
                                                         });
@@ -780,7 +780,7 @@ namespace XenRP.admin {
                                         NAPI.Task.Run(() => {
                                             // Delete the business
                                             business.businessLabel.Delete();
-                                            Database.DeleteBusiness(business.id);
+                                            DBBusinessCommands.DeleteBusiness(business.id);
                                             Business.businessList.Remove(business);
                                         });
                                     });
@@ -926,7 +926,7 @@ namespace XenRP.admin {
                             Task.Factory.StartNew(() => {
                                 NAPI.Task.Run(() => {
                                     // Add a new house
-                                    house.id = Database.AddHouse(house);
+                                    house.id = DBHouseCommands.AddHouse(house);
                                     house.houseLabel = NAPI.TextLabel.CreateTextLabel(House.GetHouseLabelText(house),
                                         house.position, 20.0f, 0.75f, 4, new Color(255, 255, 255));
                                     House.houseList.Add(house);
@@ -954,7 +954,7 @@ namespace XenRP.admin {
 
                                                 Task.Factory.StartNew(() => {
                                                     // Update the house's information
-                                                    Database.UpdateHouse(house);
+                                                    DBHouseCommands.UpdateHouse(house);
 
                                                     // Confirmation message sent to the player
                                                     message = string.Format(AdminRes.house_interior_modified, value);
@@ -979,7 +979,7 @@ namespace XenRP.admin {
 
                                                 Task.Factory.StartNew(() => {
                                                     // Update the house's information
-                                                    Database.UpdateHouse(house);
+                                                    DBHouseCommands.UpdateHouse(house);
 
                                                     // Confirmation message sent to the player
                                                     message = string.Format(AdminRes.house_price_modified, value);
@@ -1000,7 +1000,7 @@ namespace XenRP.admin {
 
                                             Task.Factory.StartNew(() => {
                                                 // Update the house's information
-                                                Database.UpdateHouse(house);
+                                                DBHouseCommands.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
                                                 message = string.Format(AdminRes.house_status_modified, value);
@@ -1020,7 +1020,7 @@ namespace XenRP.admin {
 
                                             Task.Factory.StartNew(() => {
                                                 // Update the house's information
-                                                Database.UpdateHouse(house);
+                                                DBHouseCommands.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
                                                 message = string.Format(AdminRes.house_rental_modified, value);
@@ -1051,7 +1051,7 @@ namespace XenRP.admin {
 
                                             Task.Factory.StartNew(() => {
                                                 // Update the house's information
-                                                Database.UpdateHouse(house);
+                                                DBHouseCommands.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
                                                 message = string.Format(AdminRes.house_owner_modified, house.owner);
@@ -1068,7 +1068,7 @@ namespace XenRP.admin {
 
                                             Task.Factory.StartNew(() => {
                                                 // Update the house's information
-                                                Database.UpdateHouse(house);
+                                                DBHouseCommands.UpdateHouse(house);
 
                                                 // Confirmation message sent to the player
                                                 message = string.Format(AdminRes.house_name_modified, house.name);
@@ -1096,7 +1096,7 @@ namespace XenRP.admin {
                                     NAPI.Task.Run(() => {
                                         // Remove the house
                                         house.houseLabel.Delete();
-                                        Database.DeleteHouse(house.id);
+                                        DBHouseCommands.DeleteHouse(house.id);
                                         House.houseList.Remove(house);
 
                                         player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.house_deleted);
@@ -1498,7 +1498,7 @@ namespace XenRP.admin {
                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + AdminRes.save_start);
 
                 // Saving all business
-                Database.UpdateAllBusiness(Business.businessList);
+                DBBusinessCommands.UpdateAllBusiness(Business.businessList);
 
                 message = string.Format(AdminRes.save_business, Business.businessList.Count);
                 player.SendChatMessage(Constants.COLOR_ADMIN_INFO + message);

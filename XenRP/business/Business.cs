@@ -14,8 +14,9 @@ namespace XenRP.business {
     public class Business : Script {
         public static List<BusinessModel> businessList;
 
+        [ServerEvent(Event.ResourceStart)]
         public static void LoadDatabaseBusiness() {
-            businessList = Database.LoadAllBusiness();
+            businessList = DBBusinessCommands.LoadAllBusiness();
             foreach (var businessModel in businessList) {
                 // We create the entrance TextLabel for each business
                 businessModel.businessLabel = NAPI.TextLabel.CreateTextLabel(businessModel.name, businessModel.position,
@@ -208,7 +209,7 @@ namespace XenRP.business {
                             business.products -= businessItem.products;
 
                             // Update the business
-                            Database.UpdateBusiness(business);
+                            DBBusinessCommands.UpdateBusiness(business);
                         }
 
                         player.SetSharedData(EntityData.PLAYER_MONEY, money - price);
@@ -290,7 +291,7 @@ namespace XenRP.business {
 
                     Task.Factory.StartNew(() => {
                         // Update the business
-                        Database.UpdateBusiness(business);
+                        DBBusinessCommands.UpdateBusiness(business);
                     });
                 }
 
@@ -339,7 +340,7 @@ namespace XenRP.business {
                     if (business.owner != string.Empty) {
                         business.funds += price;
                         business.products -= Constants.PRICE_BARBER_SHOP;
-                        Database.UpdateBusiness(business);
+                        DBBusinessCommands.UpdateBusiness(business);
                     }
 
                     // Delete the browser
@@ -398,7 +399,7 @@ namespace XenRP.business {
                         if (business.owner != string.Empty) {
                             business.funds += price;
                             business.products -= businessTattoo.price;
-                            Database.UpdateBusiness(business);
+                            DBBusinessCommands.UpdateBusiness(business);
                         }
 
                         // Confirmation message sent to the player

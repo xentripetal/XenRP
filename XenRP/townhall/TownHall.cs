@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GTANetworkAPI;
+using XenRP.bank;
 using XenRP.database;
 using XenRP.drivingschool;
 using XenRP.globals;
@@ -43,7 +44,7 @@ namespace XenRP.townhall {
 
                         Task.Factory.StartNew(() => {
                             // Log the payment made
-                            Database.LogPayment(player.Name, GenRes.faction_townhall, GenRes.identification,
+                            DBBankCommands.LogPayment(player.Name, GenRes.faction_townhall, GenRes.identification,
                                 Constants.PRICE_IDENTIFICATION);
                         });
                     }
@@ -68,7 +69,7 @@ namespace XenRP.townhall {
 
                         Task.Factory.StartNew(() => {
                             // Log the payment made
-                            Database.LogPayment(player.Name, GenRes.faction_townhall, GenRes.medical_insurance,
+                            DBBankCommands.LogPayment(player.Name, GenRes.faction_townhall, GenRes.medical_insurance,
                                 Constants.PRICE_MEDICAL_INSURANCE);
                         });
                     }
@@ -91,7 +92,7 @@ namespace XenRP.townhall {
 
                         Task.Factory.StartNew(() => {
                             // Log the payment made
-                            Database.LogPayment(player.Name, GenRes.faction_townhall, GenRes.taxi_license,
+                            DBBankCommands.LogPayment(player.Name, GenRes.faction_townhall, GenRes.taxi_license,
                                 Constants.PRICE_TAXI_LICENSE);
                         });
                     }
@@ -136,7 +137,7 @@ namespace XenRP.townhall {
 
                     // Delete paid fines
                     Database.RemoveFines(removedFines);
-                    Database.LogPayment(player.Name, GenRes.faction_townhall, GenRes.fines_payment, amount);
+                    DBBankCommands.LogPayment(player.Name, GenRes.faction_townhall, GenRes.fines_payment, amount);
 
                     // Check if all fines were paid
                     if (finesProcessed == fineList.Count) player.TriggerEvent("backTownHallIndex");

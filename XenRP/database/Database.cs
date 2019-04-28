@@ -10,7 +10,6 @@ using XenRP.character;
 using XenRP.factions;
 using XenRP.globals;
 using XenRP.house;
-using XenRP.jobs;
 using XenRP.messages.general;
 using XenRP.model;
 using XenRP.parking;
@@ -34,20 +33,6 @@ namespace XenRP.database {
             connectionString = "SERVER=" + host + "; DATABASE=" + db + "; UID=" + user + "; PASSWORD=" + pass +
                                "; SSLMODE=none;";
 
-            // Business loading
-            Business.LoadDatabaseBusiness();
-
-            // House loading
-            House.LoadDatabaseHouses();
-
-            // Furniture loading
-            Furniture.LoadDatabaseFurniture();
-
-            // Tunning loading
-            Mechanic.tunningList = LoadAllTunning();
-
-            // Parkings loading
-            Parking.LoadDatabaseParkings();
 
             // Vehicle loading
             Vehicles.LoadDatabaseVehicles();
@@ -66,9 +51,6 @@ namespace XenRP.database {
 
             // Blood units loading
             Emergency.bloodList = LoadAllBlood();
-
-            // Announcements loading
-            WeazelNews.annoucementList = LoadAllAnnoucements();
 
             // Clothes loading
             Globals.clothesList = LoadAllClothes();
@@ -600,42 +582,6 @@ namespace XenRP.database {
             return found;
         }
 
-        public static List<BankOperationModel> GetBankOperations(string playerName, int start, int count) {
-            var operations = new List<BankOperationModel>();
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText =
-                    "SELECT * FROM money WHERE (source = @playerName OR receiver = @playerName) AND (type = @opTransfer ";
-                command.CommandText +=
-                    "OR type = @opDeposit OR type = @opWithdraw) ORDER BY date DESC, hour DESC LIMIT @start, @count";
-                command.Parameters.AddWithValue("@playerName", playerName);
-                command.Parameters.AddWithValue("@opTransfer", GenRes.bank_op_transfer);
-                command.Parameters.AddWithValue("@opDeposit", GenRes.bank_op_deposit);
-                command.Parameters.AddWithValue("@opWithdraw", GenRes.bank_op_withdraw);
-                command.Parameters.AddWithValue("@start", start);
-                command.Parameters.AddWithValue("@count", count);
-
-                using (var reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        var bankOperation = new BankOperationModel();
-                        {
-                            bankOperation.source = reader.GetString("source");
-                            bankOperation.receiver = reader.GetString("receiver");
-                            bankOperation.type = reader.GetString("type");
-                            bankOperation.amount = reader.GetInt32("amount");
-                            bankOperation.day = reader.GetString("date").Split(' ')[0];
-                            bankOperation.time = reader.GetString("hour");
-                        }
-
-                        operations.Add(bankOperation);
-                    }
-                }
-            }
-
-            return operations;
-        }
 
         public static List<VehicleModel> LoadAllVehicles() {
             var vehicleList = new List<VehicleModel>();
@@ -913,116 +859,7 @@ namespace XenRP.database {
             }
         }
 
-        public static List<TunningModel> LoadAllTunning() {
-            var tunningList = new List<TunningModel>();
 
-            using (var connection = new MySqlConnection(connectionString)) {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM tunning";
-
-                using (var reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        var tunning = new TunningModel();
-                        {
-                            tunning.id = reader.GetInt32("id");
-                            tunning.vehicle = reader.GetInt32("vehicle");
-                            tunning.slot = reader.GetInt32("slot");
-                            tunning.component = reader.GetInt32("component");
-                        }
-
-                        tunningList.Add(tunning);
-                    }
-                }
-            }
-
-            return tunningList;
-        }
-
-        public static int AddTunning(TunningModel tunning) {
-            var tunningId = 0;
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "INSERT INTO tunning (vehicle, slot, component) VALUES (@vehicle, @slot, @component)";
-                    command.Parameters.AddWithValue("@vehicle", tunning.vehicle);
-                    command.Parameters.AddWithValue("@slot", tunning.slot);
-                    command.Parameters.AddWithValue("@component", tunning.component);
-
-                    command.ExecuteNonQuery();
-                    tunningId = (int) command.LastInsertedId;
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddTunning] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddTunning] " + ex.StackTrace);
-                }
-            }
-
-            return tunningId;
-        }
-
-        public static void RemoveTunning(int tunningId) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText = "DELETE FROM tunning WHERE id = @id LIMIT 1";
-                    command.Parameters.AddWithValue("@id", tunningId);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION RemoveTunning] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION RemoveTunning] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static void TransferMoneyToPlayer(string name, int amount) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText = "UPDATE users SET bank = bank + @amount WHERE name = @name LIMIT 1";
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@amount", amount);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION TransferMoneyToPlayer] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION TransferMoneyToPlayer] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static void LogPayment(string source, string receiver, string type, int amount) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "INSERT INTO money VALUES (@source, @receiver, @type, @amount, CURDATE(), CURTIME())";
-                    command.Parameters.AddWithValue("@source", source);
-                    command.Parameters.AddWithValue("@receiver", receiver);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@amount", amount);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION LogPayment] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION LogPayment] " + ex.StackTrace);
-                }
-            }
-        }
 
         public static void LogHotwire(string playerName, int vehicleId, Vector3 position) {
             using (var connection = new MySqlConnection(connectionString)) {
@@ -1156,270 +993,7 @@ namespace XenRP.database {
             }
         }
 
-        public static List<BusinessModel> LoadAllBusiness() {
-            var businessList = new List<BusinessModel>();
 
-            using (var connection = new MySqlConnection(connectionString)) {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM business";
-
-                using (var reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        var business = new BusinessModel();
-                        var posX = reader.GetFloat("posX");
-                        var posY = reader.GetFloat("posY");
-                        var posZ = reader.GetFloat("posZ");
-
-                        business.id = reader.GetInt32("id");
-                        business.type = reader.GetInt32("type");
-                        business.ipl = reader.GetString("ipl");
-                        business.name = reader.GetString("name");
-                        business.position = new Vector3(posX, posY, posZ);
-                        business.dimension = reader.GetUInt32("dimension");
-                        business.owner = reader.GetString("owner");
-                        business.multiplier = reader.GetFloat("multiplier");
-                        business.locked = reader.GetBoolean("locked");
-
-                        businessList.Add(business);
-                    }
-                }
-            }
-
-            return businessList;
-        }
-
-        public static void UpdateBusiness(BusinessModel business) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
-                    command.CommandText +=
-                        "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
-                    command.Parameters.AddWithValue("@type", business.type);
-                    command.Parameters.AddWithValue("@ipl", business.ipl);
-                    command.Parameters.AddWithValue("@posX", business.position.X);
-                    command.Parameters.AddWithValue("@posY", business.position.Y);
-                    command.Parameters.AddWithValue("@posZ", business.position.Z);
-                    command.Parameters.AddWithValue("@dimension", business.dimension);
-                    command.Parameters.AddWithValue("@name", business.name);
-                    command.Parameters.AddWithValue("@owner", business.owner);
-                    command.Parameters.AddWithValue("@funds", business.funds);
-                    command.Parameters.AddWithValue("@products", business.products);
-                    command.Parameters.AddWithValue("@multiplier", business.multiplier);
-                    command.Parameters.AddWithValue("@locked", business.locked);
-                    command.Parameters.AddWithValue("@id", business.id);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateBusiness] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateBusiness] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static void UpdateAllBusiness(List<BusinessModel> businessList) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "UPDATE business SET type = @type, ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, ";
-                    command.CommandText +=
-                        "owner = @owner, funds = @funds, products = @products, multiplier = @multiplier, locked = @locked WHERE id = @id LIMIT 1";
-
-                    foreach (var business in businessList) {
-                        command.Parameters.Clear();
-
-                        command.Parameters.AddWithValue("@type", business.type);
-                        command.Parameters.AddWithValue("@ipl", business.ipl);
-                        command.Parameters.AddWithValue("@posX", business.position.X);
-                        command.Parameters.AddWithValue("@posY", business.position.Y);
-                        command.Parameters.AddWithValue("@posZ", business.position.Z);
-                        command.Parameters.AddWithValue("@dimension", business.dimension);
-                        command.Parameters.AddWithValue("@name", business.name);
-                        command.Parameters.AddWithValue("@owner", business.owner);
-                        command.Parameters.AddWithValue("@funds", business.funds);
-                        command.Parameters.AddWithValue("@products", business.products);
-                        command.Parameters.AddWithValue("@multiplier", business.multiplier);
-                        command.Parameters.AddWithValue("@locked", business.locked);
-                        command.Parameters.AddWithValue("@id", business.id);
-
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateAllBusiness] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateAllBusiness] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static int AddNewBusiness(BusinessModel business) {
-            var businessId = 0;
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "INSERT INTO business (type, ipl, posX, posY, posZ, dimension) VALUES (@type, @ipl, @posX, @posY, @posZ, @dimension)";
-                    command.Parameters.AddWithValue("@type", business.type);
-                    command.Parameters.AddWithValue("@ipl", business.ipl);
-                    command.Parameters.AddWithValue("@posX", business.position.X);
-                    command.Parameters.AddWithValue("@posY", business.position.Y);
-                    command.Parameters.AddWithValue("@posZ", business.position.Z);
-                    command.Parameters.AddWithValue("@dimension", business.dimension);
-
-                    command.ExecuteNonQuery();
-                    businessId = (int) command.LastInsertedId;
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.StackTrace);
-                }
-            }
-
-            return businessId;
-        }
-
-        public static void DeleteBusiness(int businessId) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText = "DELETE FROM business WHERE id = @id LIMIT 1";
-                    command.Parameters.AddWithValue("@id", businessId);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddNewBusiness] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static List<HouseModel> LoadAllHouses() {
-            var houseList = new List<HouseModel>();
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM houses";
-
-                using (var reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        var house = new HouseModel();
-                        var posX = reader.GetFloat("posX");
-                        var posY = reader.GetFloat("posY");
-                        var posZ = reader.GetFloat("posZ");
-
-                        house.id = reader.GetInt32("id");
-                        house.ipl = reader.GetString("ipl");
-                        house.name = reader.GetString("name");
-                        house.position = new Vector3(posX, posY, posZ);
-                        house.dimension = reader.GetUInt32("dimension");
-                        house.price = reader.GetInt32("price");
-                        house.owner = reader.GetString("owner");
-                        house.status = reader.GetInt32("status");
-                        house.tenants = reader.GetInt32("tenants");
-                        house.rental = reader.GetInt32("rental");
-                        house.locked = reader.GetBoolean("locked");
-
-                        houseList.Add(house);
-                    }
-                }
-            }
-
-            return houseList;
-        }
-
-        public static int AddHouse(HouseModel house) {
-            var houseId = 0;
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "INSERT INTO houses (ipl, posX, posY, posZ, dimension) VALUES (@ipl, @posX, @posY, @posZ, @dimension)";
-                    command.Parameters.AddWithValue("@ipl", house.ipl);
-                    command.Parameters.AddWithValue("@posX", house.position.X);
-                    command.Parameters.AddWithValue("@posY", house.position.Y);
-                    command.Parameters.AddWithValue("@posZ", house.position.Z);
-                    command.Parameters.AddWithValue("@dimension", house.dimension);
-
-                    command.ExecuteNonQuery();
-                    houseId = (int) command.LastInsertedId;
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddHouse] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION AddHouse] " + ex.StackTrace);
-                }
-            }
-
-            return houseId;
-        }
-
-        public static void UpdateHouse(HouseModel house) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText =
-                        "UPDATE houses SET ipl = @ipl, posX = @posX, posY = @posY, posZ = @posZ, dimension = @dimension, name = @name, price = @price, ";
-                    command.CommandText +=
-                        "owner = @owner, status = @status, tenants = @tenants, rental = @rental, locked = @locked WHERE id = @id LIMIT 1";
-                    command.Parameters.AddWithValue("@ipl", house.ipl);
-                    command.Parameters.AddWithValue("@posX", house.position.X);
-                    command.Parameters.AddWithValue("@posY", house.position.Y);
-                    command.Parameters.AddWithValue("@posZ", house.position.Z);
-                    command.Parameters.AddWithValue("@dimension", house.dimension);
-                    command.Parameters.AddWithValue("@name", house.name);
-                    command.Parameters.AddWithValue("@price", house.price);
-                    command.Parameters.AddWithValue("@owner", house.owner);
-                    command.Parameters.AddWithValue("@status", house.status);
-                    command.Parameters.AddWithValue("@tenants", house.tenants);
-                    command.Parameters.AddWithValue("@rental", house.rental);
-                    command.Parameters.AddWithValue("@locked", house.locked);
-                    command.Parameters.AddWithValue("@id", house.id);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateHouse] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION UpdateHouse] " + ex.StackTrace);
-                }
-            }
-        }
-
-        public static void DeleteHouse(int houseId) {
-            using (var connection = new MySqlConnection(connectionString)) {
-                try {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-
-                    command.CommandText = "DELETE FROM houses WHERE id = @id LIMIT 1";
-                    command.Parameters.AddWithValue("@id", houseId);
-
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex) {
-                    NAPI.Util.ConsoleOutput("[EXCEPTION DeleteHouse] " + ex.Message);
-                    NAPI.Util.ConsoleOutput("[EXCEPTION DeleteHouse] " + ex.StackTrace);
-                }
-            }
-        }
 
         public static void KickTenantsOut(int houseId) {
             using (var connection = new MySqlConnection(connectionString)) {
@@ -1439,35 +1013,6 @@ namespace XenRP.database {
             }
         }
 
-        public static List<FurnitureModel> LoadAllFurniture() {
-            var furnitureList = new List<FurnitureModel>();
-
-            using (var connection = new MySqlConnection(connectionString)) {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM furniture";
-
-                using (var reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        var furniture = new FurnitureModel();
-                        var posX = reader.GetFloat("posX");
-                        var posY = reader.GetFloat("posY");
-                        var posZ = reader.GetFloat("posZ");
-                        var rot = reader.GetFloat("rotation");
-
-                        furniture.id = reader.GetInt32("id");
-                        furniture.hash = reader.GetUInt32("hash");
-                        furniture.house = reader.GetUInt32("house");
-                        furniture.position = new Vector3(posX, posY, posZ);
-                        furniture.rotation = new Vector3(0.0f, 0.0f, rot);
-
-                        furnitureList.Add(furniture);
-                    }
-                }
-            }
-
-            return furnitureList;
-        }
 
         public static void LoadCrimes() {
             // Initialize the list

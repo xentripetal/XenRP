@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GTANetworkAPI;
 using XenRP.database;
 using XenRP.globals;
@@ -82,7 +83,7 @@ namespace XenRP.bank {
             UpdatePlayerMoney(player, bank, money);
 
             // Log the transaction to the database.
-            Task.Factory.StartNew(() => { Database.LogPayment("ATM", name, GenRes.bank_op_withdraw, amount); });
+            Task.Factory.StartNew(() => { DBBankCommands.LogPayment("ATM", name, GenRes.bank_op_withdraw, amount); });
         }
 
         /// <summary>
@@ -102,7 +103,7 @@ namespace XenRP.bank {
                 UpdatePlayerMoney(player, bank, money);
 
                 // We log the transaction into the database
-                Task.Factory.StartNew(() => { Database.LogPayment(name, "ATM", GenRes.bank_op_deposit, money); });
+                Task.Factory.StartNew(() => { DBBankCommands.LogPayment(name, "ATM", GenRes.bank_op_deposit, money); });
                 return;
             }
 
@@ -112,7 +113,7 @@ namespace XenRP.bank {
             UpdatePlayerMoney(player, bank, money);
 
             // We log the transaction into the database
-            Task.Factory.StartNew(() => { Database.LogPayment("ATM", name, GenRes.bank_op_deposit, amount); });
+            Task.Factory.StartNew(() => { DBBankCommands.LogPayment("ATM", name, GenRes.bank_op_deposit, amount); });
         }
 
         private void TransferFromBank(Client player, int amount, string targetPlayer) {
@@ -146,8 +147,8 @@ namespace XenRP.bank {
                 Task.Factory.StartNew(() => {
                     bank -= amount;
                     UpdatePlayerMoney(player, bank, money);
-                    Database.TransferMoneyToPlayer(targetPlayer, amount);
-                    Database.LogPayment(name, targetPlayer, GenRes.bank_op_transfer, amount);
+                    DBBankCommands.TransferMoneyToPlayer(targetPlayer, amount);
+                    DBBankCommands.LogPayment(name, targetPlayer, GenRes.bank_op_transfer, amount);
                 });
                 return;
             }
@@ -166,7 +167,7 @@ namespace XenRP.bank {
         public void LoadPlayerBankBalanceEvent(Client player) {
             Task.Factory.StartNew(() => {
                 // Show the bank operations for the player
-                var operations = Database.GetBankOperations(player.Name, 1, Constants.MAX_BANK_OPERATIONS);
+                var operations = DBBankCommands.GetBankOperations(player.Name, 1, Constants.MAX_BANK_OPERATIONS);
                 player.TriggerEvent("showPlayerBankBalance", NAPI.Util.ToJson(operations), player.Name);
             });
         }

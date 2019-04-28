@@ -8,7 +8,6 @@ using XenRP.business;
 using XenRP.chat;
 using XenRP.database;
 using XenRP.globals;
-using XenRP.jobs;
 using XenRP.messages.error;
 using XenRP.messages.information;
 using XenRP.messages.success;
